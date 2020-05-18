@@ -1,0 +1,11 @@
+lightshaker.cn/2020/05/18/cmake/
+lightshaker.cn/2020/05/15/hexo-issues/
+lightshaker.cn/2020/05/15/mathjax/
+lightshaker.cn/2020/05/14/kf-extract/
+lightshaker.cn/2020/04/13/hybridprogr-cpppython/
+lightshaker.cn/2020/04/12/cpp-notes/
+lightshaker.cn/2020/04/08/leastsq/
+lightshaker.cn/2020/04/07/ubuntu-notes/
+lightshaker.cn/2020/04/06/hexo-codefont/
+lightshaker.cn/2020/04/06/hexo-illustration/
+lightshaker.cn/2020/03/20/hexo-build/

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>LightHouse</title>
+  
+  <subtitle>Learning Journey</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="lightshaker.cn/"/>
+  <updated>2020-05-18T04:37:04.978Z</updated>
+  <id>lightshaker.cn/</id>
+  
+  <author>
+    <name>Lightshaker</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GCC与CMake入门</title>
+    <link href="lightshaker.cn/2020/05/18/cmake/"/>
+    <id>lightshaker.cn/2020/05/18/cmake/</id>
+    <published>2020-05-18T04:34:46.000Z</published>
+    <updated>2020-05-18T04:37:04.978Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;CMake-amp-GCC-基础&quot;&gt;&lt;a href=&quot;#CMake-amp-GCC-基础&quot; class=&quot;headerlink&quot; title=&quot;CMake &amp;amp; GCC 基础&quot;&gt;&lt;/a&gt;CMake &amp;amp; GCC 基础&lt;/h1&gt;&lt;h2
+        
+      
+    
+    </summary>
+    
+      <category term="其他工具" scheme="lightshaker.cn/categories/%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="CMake" scheme="lightshaker.cn/tags/CMake/"/>
+    
+      <category term="GCC" scheme="lightshaker.cn/tags/GCC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo 错误警告与解决办法</title>
+    <link href="lightshaker.cn/2020/05/15/hexo-issues/"/>
+    <id>lightshaker.cn/2020/05/15/hexo-issues/</id>
+    <published>2020-05-15T10:33:19.000Z</published>
+    <updated>2020-05-18T01:03:32.284Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;本文总结个人使用hexo遇到的warnings与errors及其解决办法，长期更新&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;Errors-amp-Solutions&quot;&gt;&lt;a href=&quot;#Errors-amp-Solutions&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Hexo" scheme="lightshaker.cn/categories/Hexo/"/>
+    
+    
+      <category term="Hexo" scheme="lightshaker.cn/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MathJax与Latex公式简介</title>
+    <link href="lightshaker.cn/2020/05/15/mathjax/"/>
+    <id>lightshaker.cn/2020/05/15/mathjax/</id>
+    <published>2020-05-15T08:04:37.000Z</published>
+    <updated>2020-05-18T04:34:29.930Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;本文全文转载自：&lt;a href=&quot;https://www.cnblogs.com/linxd/p/4955530.html&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="其他工具" scheme="lightshaker.cn/categories/%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="MathJax" scheme="lightshaker.cn/tags/MathJax/"/>
+    
+      <category term="Latex" scheme="lightshaker.cn/tags/Latex/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>卡尔曼滤波 maybeck_ch1 阅读摘录</title>
+    <link href="lightshaker.cn/2020/05/14/kf-extract/"/>
+    <id>lightshaker.cn/2020/05/14/kf-extract/</id>
+    <published>2020-05-14T09:25:15.000Z</published>
+    <updated>2020-05-18T01:03:32.284Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Note-amp-Extract-Kalman-Filter-Concepts&quot;&gt;&lt;a href=&quot;#Note-amp-Extract-Kalman-Filter-Concepts&quot; class=&quot;headerlink&quot; title=&quot;[Note &amp;amp;
+        
+      
+    
+    </summary>
+    
+      <category term="数学|算法" scheme="lightshaker.cn/categories/%E6%95%B0%E5%AD%A6-%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="卡尔曼滤波" scheme="lightshaker.cn/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu CLion C++/Python混合编程</title>
+    <link href="lightshaker.cn/2020/04/13/hybridprogr-cpppython/"/>
+    <id>lightshaker.cn/2020/04/13/hybridprogr-cpppython/</id>
+    <published>2020-04-13T13:45:32.000Z</published>
+    <updated>2020-05-18T01:03:32.272Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;  本文总结了在&lt;strong&gt;CLion的C/C++工程中&lt;/strong&gt;调用Python脚本的配置与使用方法。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;环境配置&quot;&gt;&lt;a href=&quot;#环境配置&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="混合编程" scheme="lightshaker.cn/categories/%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="C++" scheme="lightshaker.cn/tags/C/"/>
+    
+      <category term="混合编程" scheme="lightshaker.cn/tags/%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="Python" scheme="lightshaker.cn/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++ 基础笔记</title>
+    <link href="lightshaker.cn/2020/04/12/cpp-notes/"/>
+    <id>lightshaker.cn/2020/04/12/cpp-notes/</id>
+    <published>2020-04-12T08:17:54.000Z</published>
+    <updated>2020-05-18T01:03:32.268Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;  本文是个人初学C++的部分备忘笔记，内容较基础&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;[toc]&lt;/p&gt;
+&lt;h2 id=&quot;变量&quot;&gt;&lt;a href=&quot;#变量&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="C/C++" scheme="lightshaker.cn/categories/C-C/"/>
+    
+    
+      <category term="C++" scheme="lightshaker.cn/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>最小二乘回归策略</title>
+    <link href="lightshaker.cn/2020/04/08/leastsq/"/>
+    <id>lightshaker.cn/2020/04/08/leastsq/</id>
+    <published>2020-04-08T01:51:42.000Z</published>
+    <updated>2020-05-18T01:03:32.272Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;  本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一元线性回归&quot;&gt;&lt;a href=&quot;#一元线性回归&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="数学|算法" scheme="lightshaker.cn/categories/%E6%95%B0%E5%AD%A6-%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="数学" scheme="lightshaker.cn/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+      <category term="最小二乘法" scheme="lightshaker.cn/tags/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu 备忘笔记</title>
+    <link href="lightshaker.cn/2020/04/07/ubuntu-notes/"/>
+    <id>lightshaker.cn/2020/04/07/ubuntu-notes/</id>
+    <published>2020-04-07T12:05:13.000Z</published>
+    <updated>2020-05-18T01:03:32.272Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;  俗话说，好记性不如烂键盘，本文是自己备忘的一些零散的笔记，自己看的，内容比较随意，有用可自取&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;一些bash命令&quot;&gt;&lt;a href=&quot;#一些bash命令&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Ubuntu" scheme="lightshaker.cn/categories/Ubuntu/"/>
+    
+    
+      <category term="Ubuntu" scheme="lightshaker.cn/tags/Ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo代码段等宽字体的设置方法</title>
+    <link href="lightshaker.cn/2020/04/06/hexo-codefont/"/>
+    <id>lightshaker.cn/2020/04/06/hexo-codefont/</id>
+    <published>2020-04-06T12:01:45.000Z</published>
+    <updated>2020-05-18T01:03:32.276Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;  本文介绍了Hexo代码段字体的修改方式。&lt;/p&gt;
+&lt;p&gt;  ps:
+        
+      
+    
+    </summary>
+    
+      <category term="Hexo" scheme="lightshaker.cn/categories/Hexo/"/>
+    
+    
+      <category term="Hexo" scheme="lightshaker.cn/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo文章插入图片的常用方法和一些问题</title>
+    <link href="lightshaker.cn/2020/04/06/hexo-illustration/"/>
+    <id>lightshaker.cn/2020/04/06/hexo-illustration/</id>
+    <published>2020-04-06T09:30:52.000Z</published>
+    <updated>2020-05-18T01:03:32.280Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;  本文总结了在Hexo文章中插入图片的常用方法以及可能遇到的一些问题的解决方案。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;插入图片的方法：&quot;&gt;&lt;a href=&quot;#插入图片的方法：&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Hexo" scheme="lightshaker.cn/categories/Hexo/"/>
+    
+    
+      <category term="Hexo" scheme="lightshaker.cn/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu下Hexo静态博客搭建流程(干货)</title>
+    <link href="lightshaker.cn/2020/03/20/hexo-build/"/>
+    <id>lightshaker.cn/2020/03/20/hexo-build/</id>
+    <published>2020-03-20T03:55:55.000Z</published>
+    <updated>2020-05-18T01:03:32.272Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;一、安装git、nodejs和npm&quot;&gt;&lt;a href=&quot;#一、安装git、nodejs和npm&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Hexo" scheme="lightshaker.cn/categories/Hexo/"/>
+    
+    
+      <category term="Hexo" scheme="lightshaker.cn/tags/Hexo/"/>
+    
+  </entry>
+  
+</feed>

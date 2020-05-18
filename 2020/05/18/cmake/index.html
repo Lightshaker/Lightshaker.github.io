@@ -1,0 +1,1821 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="GCC与CMake入门, LightHouse">
+    <meta name="baidu-site-verification" content="qEvyYTI5eV">
+    <meta name="google-site-verification" content>
+    <meta name="360-site-verification" content>
+    <meta name="description" content="CMake &amp;amp; GCC 基础Part I GCCGNU Compiler GCC/G++  执行编译工作时分4步：
+
+预处理 (处理#define #include #if #ifdef #pragma等指令)，生成 .i 文件
+将">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>GCC与CMake入门 | LightHouse</title>
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?46e79e71af0709a5b9106bf20cecc493";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.ico" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">LightHouse</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.ico" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">LightHouse</div>
+        <div class="logo-desc">
+            
+            It is our choices that show what we truly are, far more than our abilities.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/lightshaker" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/lightshaker" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        GCC与CMake入门
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/CMake/" target="_blank">
+                            <span class="chip bg-color">CMake</span>
+                        </a>
+                        
+                        <a href="/tags/GCC/" target="_blank">
+                            <span class="chip bg-color">GCC</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/其他工具/" class="post-category" target="_blank">
+                            其他工具
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-05-18
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    Lightshaker
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="CMake-amp-GCC-基础"><a href="#CMake-amp-GCC-基础" class="headerlink" title="CMake &amp; GCC 基础"></a>CMake &amp; GCC 基础</h1><h2 id="Part-I-GCC"><a href="#Part-I-GCC" class="headerlink" title="Part I GCC"></a>Part I GCC</h2><p><strong>GNU Compiler GCC/G++</strong>  执行编译工作时分4步：</p>
+<ol>
+<li>预处理 (处理#define #include #if #ifdef #pragma等指令)，生成 .i 文件</li>
+<li>将预处理后的文件转化为汇编程序，生成 .s 文件 </li>
+<li>将汇编程序转化为目标代码（机器语言），生成 .o 文件</li>
+<li>链接目标代码，生成可执行程序</li>
+</ol>
+<p>分别编译至 <strong>.i</strong>/<strong>.s</strong>/<strong>.o</strong>/<strong>可执行</strong> 文件的命令：</p>
+<pre class="line-numbers language-shell"><code class="language-shell">gcc -E xxx
+gcc -S xxx 
+gcc -c xxx
+gcc xxx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p>gcc命令只能编译c和c++程序，c程序以.c为后缀，c++程序以.C或.cpp为后缀</p>
+</li>
+<li><p>用gcc按上述操作编译c++程序时只能编译至生成<strong>.o</strong>文件，不能生成可执行文件，因为gcc在链接时默认链接到C的标准库。</p>
+</li>
+<li><p>链接c++标准库生成可执行文件的方式有两种：</p>
+</li>
+</ul>
+<pre class="line-numbers language-shell"><code class="language-shell">gcc xxx -lstdc++  # 使用gcc命令时加上 -lstdc++ 编译选项，设定链接到c++标准库
+g++ xxx  # 直接使用g++编译<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>其他参数</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">选项</th>
+<th align="left">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-o</td>
+<td align="left">FILE生成指定的输出文件。用在生成可执行文件时。</td>
+</tr>
+<tr>
+<td align="left">-g</td>
+<td align="left">生成调试信息。GNU 调试器可利用该信息。</td>
+</tr>
+<tr>
+<td align="left">-w</td>
+<td align="left">不生成任何警告信息。</td>
+</tr>
+<tr>
+<td align="left">-Wall</td>
+<td align="left">生成所有警告信息。</td>
+</tr>
+<tr>
+<td align="left">-I(大写i) path</td>
+<td align="left">指定path为第一个寻找头文件的目录，找完了这个目录才去 /usr/include 和 /usr/local/include里找</td>
+</tr>
+<tr>
+<td align="left">-L path</td>
+<td align="left">指定path为第一个寻找库文件的目录，找完了去 /usr/lib 和 /usr/local/lib里找</td>
+</tr>
+<tr>
+<td align="left">-l[n] (小写L)</td>
+<td align="left">首先在path里找库名为[n]的动态库文件，其对应的库文件名为lib[n].so</td>
+</tr>
+<tr>
+<td align="left">-x language filename</td>
+<td align="left">指定文件所使用的语言，可使用的参数有 “c”, “objective-c”, “c-header”, “c++”, “cpp-output”, “assembler”, “assembler-wit-cpp”，当language置空时，gcc会根据文件名后缀判断类型</td>
+</tr>
+<tr>
+<td align="left">-DMACRO=DEFN</td>
+<td align="left">以字符串”DEFN”定义 MACRO 宏。</td>
+</tr>
+<tr>
+<td align="left">-IDIRECTORY</td>
+<td align="left">指定额外的头文件搜索路径DIRECTORY。</td>
+</tr>
+<tr>
+<td align="left">-LDIRECTORY</td>
+<td align="left">指定额外的函数库搜索路径DIRECTORY。</td>
+</tr>
+<tr>
+<td align="left">-lLIBRARY</td>
+<td align="left">连接时搜索指定的函数库LIBRARY。</td>
+</tr>
+<tr>
+<td align="left">-m486</td>
+<td align="left">针对 486 进行代码优化。</td>
+</tr>
+<tr>
+<td align="left">-O0</td>
+<td align="left">不进行优化处理。</td>
+</tr>
+<tr>
+<td align="left">-O 或 -O1</td>
+<td align="left">优化生成代码。</td>
+</tr>
+<tr>
+<td align="left">-O2</td>
+<td align="left">进一步优化。</td>
+</tr>
+<tr>
+<td align="left">-O3</td>
+<td align="left">比 -O2 更进一步优化，包括 inline 函数。</td>
+</tr>
+<tr>
+<td align="left">-shared</td>
+<td align="left">生成共享目标文件。通常用在建立共享库时。</td>
+</tr>
+<tr>
+<td align="left">-static</td>
+<td align="left">禁止使用共享连接。</td>
+</tr>
+<tr>
+<td align="left">-UMACRO</td>
+<td align="left">取消对 MACRO 宏的定义。</td>
+</tr>
+<tr>
+<td align="left">-ansi</td>
+<td align="left">只支持 ANSI 标准的 C 语法。这一选项将禁止 GNU C 的某些特色， 例如 asm 或 typeof 关键词</td>
+</tr>
+<tr>
+<td align="left">-DMACRO</td>
+<td align="left">以字符串”1”定义 MACRO 宏。</td>
+</tr>
+</tbody></table>
+<p><strong>GCC编译示例：</strong></p>
+<p>假设现在我们有三个文件，分别是main.cpp，log.cpp，log.h，其中log.h是log.cpp的声明，而main调用了log.cpp某个函数</p>
+<p><strong>方式一：</strong>将main之外的cpp分别编译成目标代码，再静态链接</p>
+<pre class="line-numbers language-bash"><code class="language-bash">g++ -c log.cpp -o log.o  <span class="token comment" spellcheck="true"># 编译log.cpp成目标代码log.o</span>
+g++ main.cpp log.o -o MAIN  <span class="token comment" spellcheck="true"># 静态链接</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>方式二：</strong>将main之外的cpp分别编译成目标代码，再生成静态链接库(.a)并使用</p>
+<pre class="line-numbers language-bash"><code class="language-bash">g++ -c log.cpp -o log.o
+ar rcs liblog.a log.o  <span class="token comment" spellcheck="true"># 利用目标代码生成静态库</span>
+g++ main.cpp -L./ -llog -o MAIN  <span class="token comment" spellcheck="true"># 使用静态库编译至可执行文件 </span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><strong>方式三：</strong>将main之外的cpp分别编译成动态链接库(.so)并使用链接，其中 <code>-fPIC</code> 设置了机器码不依赖与绝对地址，防止被同时多处调用时产生冲突，实现代码安全共享，不加该编译选项的话编译无法通过。另外环境变量 <code>LD_LIBRARY_PATH</code> 如果不进行设置，那么虽然编译的过程不受影响，但是运行可执行文件时仍然无法链接动态库。</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 设置环境变量中默认动态库的路径 (下面-I和-L设置的是编译器的默认搜索路径，二者最好保持一致)</span>
+<span class="token function">export</span> LD_LIBRARY_PATH<span class="token operator">=</span>./:<span class="token variable">$LD_LIBRARY_PATH</span>  
+<span class="token comment" spellcheck="true"># 编译log.cpp成动态链接库.so文件，文件名一般是lib[name].so</span>
+g++ log.cpp -shared -fPIC -o liblog.so 
+<span class="token comment" spellcheck="true"># -I和-L分别设置默认头文件和动态库的路径(用于lib文件与项目源码不在同一路径下时)，-l指定动态库的库名[name]</span>
+g++ main.cpp -I ./ -L ./ -l log -o MAIN<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果不想每次都设置环境变量，可以直接修改存放于 <code>~/</code> 路径下的 bash 配置文件 <code>.bashrc</code> 内容：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> ~
+<span class="token keyword">echo</span> <span class="token string">"export LD_LIBRARY_PATH=./:<span class="token variable">$LD_LIBRARY_PATH</span>"</span> <span class="token operator">>></span> ./.bashrc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>或者直接打开 <code>.bashrc</code> 文件，在末尾加上这行代码也行；</p>
+<h2 id="Part-II-CMake"><a href="#Part-II-CMake" class="headerlink" title="Part II CMake"></a>Part II CMake</h2><blockquote>
+<p>  注：个人使用CMake的经验也不是很丰富，部分指令我自己暂时还不能理解，日后接触到的话会另起</p>
+</blockquote>
+<h3 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h3><p><strong>CMake : (Cross Platform Make) 一款跨平台的工程构建(编译)工具</strong></p>
+<p><strong>特点/优势：</strong>① 遵守BSD开源协议 ② 跨平台 ③ 编译构建语句简单、易理解 ④ 高效、可扩展</p>
+<p><strong>工作方式：</strong> 通过解析并执行组态档 CMakelists.txt 文件的语句，自动生成Makefile文件</p>
+<p><strong>与其他编译工具的对比：</strong></p>
+<ul>
+<li>GNU GCC：① 用与C/C++, Java等语言开发 ② 适用于简单的项目，项目复杂时只用gcc难以组织编译架构</li>
+<li>Makefile：① 有条理的gcc编译命令的文件 ② 用make工具执行编译指令 ③ 简单项目可手写Makefile，项目复杂时较困难</li>
+<li>GNU autotools ① 与CMake相似，通过源代码架构生成Makefile的编译工具 ② 效率相对较低 ③ 开发与配置步骤繁琐</li>
+<li>CMake：通过组态档 CMakeLists.txt 文件</li>
+</ul>
+<h3 id="CMake语法主题框架"><a href="#CMake语法主题框架" class="headerlink" title="CMake语法主题框架"></a>CMake语法主题框架</h3><ul>
+<li><p>工程配置部分（必需）</p>
+<p>​    设置CMake版本、工程名、编译模式、编译系统语言及语言版本等；</p>
+</li>
+<li><p>依赖执行部分（必需）</p>
+<p>​    引入外部依赖，生成静态(.a)或动态(.so)链接库，或生成可执行文件等；</p>
+</li>
+<li><p>其他辅助部分（非必需）</p>
+<p>​    参数打印、目录遍历、条件判断、函数定义等；</p>
+</li>
+</ul>
+<h3 id="常用预定义变量"><a href="#常用预定义变量" class="headerlink" title="常用预定义变量"></a>常用预定义变量</h3><blockquote>
+<p>  命令行使用CMake设置预定义变量时，需要加上 -D 前缀表示定义</p>
+</blockquote>
+<h4 id="CMake预定义变量"><a href="#CMake预定义变量" class="headerlink" title="CMake预定义变量"></a>CMake预定义变量</h4><ul>
+<li><code>PROJECT_SOURCE_DIR</code>：工程根目录；</li>
+<li><code>PROJECT_BINARY_DIR</code>：运行 CMake 命令的目录。建议定义为 <code>${PROJECT_SOURCE_DIR}/build</code> 下；</li>
+<li><code>CMAKE_INCLUDE_PATH</code>：环境变量，非 CMake 变量；</li>
+<li><code>CMAKE_LIBRARY_PATH</code>：环境变量；</li>
+<li><code>CMAKE_CURRENT_SOURCE_DIR</code>：当前处理的 CMakeLists.txt 文件所在路径；</li>
+<li><code>CMAKE_CURRENT_BINARY_DIR</code>：target 编译目录；<ul>
+<li>使用 <code>add_subdirectory</code> 命令可以更改该变量的值；</li>
+<li><code>set(EXECUTABLE_OUTPUT_PATH )</code> 命令不会对该变量有影响，但改变了最终目标文件的存储路径。</li>
+</ul>
+</li>
+<li><code>CMAKE_CURRENT_LIST_FILE</code>：输出调用该变量的 CMakeLists.txt 的完整路径；</li>
+<li><code>CMAKE_CURRENT_LIST_LINE</code>：输出该变量所在的行；</li>
+<li><code>CMAKE_MODULE_PATH</code>：定义自己的 CMake 模块所在路径；</li>
+<li><code>EXECUTABLE_OUTPUT_PATH</code>：重新定义目标二进制可执行文件的存放位置；</li>
+<li><code>LIBRARY_OUTPUT_PATH</code>：重新定义目标链接库文件的存放位置；</li>
+<li><code>PROJECT_NAME</code>：返回由 <code>project</code> 命令定义的项目名称；</li>
+<li><code>CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS</code>：用来控制 <code>if…else…</code> 语句的书写方式。</li>
+<li><code>CMAKE_BUILD_TYPE</code>：编译类型，可选项Debug/Release</li>
+<li><code>CMAKE_INSTALL_PREFIX</code>：设置可执行文件的存放路径</li>
+</ul>
+<h4 id="系统预定义变量"><a href="#系统预定义变量" class="headerlink" title="系统预定义变量"></a>系统预定义变量</h4><ul>
+<li><p><code>CMAKE_MAJOR_VERSION</code>：CMake 主版本号，如 3.12.0 中的 3；</p>
+</li>
+<li><p><code>CMAKE_MINOR_VERSION</code>：CMake 次版本号，如 3.12.0 中的 12；</p>
+</li>
+<li><p><code>CMAKE_PATCH_VERSION</code>：CMake 补丁等级，如 3.12.0 中的 0；</p>
+</li>
+<li><p><code>CMAKE_SYSTEM</code>：系统名称，例如 Windows-10.0.17134；</p>
+</li>
+<li><p><code>CMAKE_SYSTEM_NAME</code>：不包含版本号的系统名，如 Windows；</p>
+</li>
+<li><p><code>CMAKE_SYSTEM_VERSION</code>：系统版本号，如 10.0.17134；</p>
+</li>
+<li><p><code>CMAKE_SYSTEM_PROCESSOR</code>：处理器架构，如 AMD64；</p>
+</li>
+<li><p><code>UNIX</code>：在所有的类 UNIX 平台为 true，包括 macOS 和 Cygwin；</p>
+</li>
+<li><p><code>WIN32</code>：在所有的 Win32 平台为 true，包括 Cygwin</p>
+</li>
+</ul>
+<h4 id="开关选项"><a href="#开关选项" class="headerlink" title="开关选项"></a>开关选项</h4><ul>
+<li><p><code>BUILD_SHARED_LIBS</code>：控制默认的库编译方式；</p>
+</li>
+<li><p>如果未进行设置，使用 add_library 时又没有指定库类型，默认编译生成的库都是静态库。</p>
+</li>
+<li><p><code>CMAKE_C_FLAGS</code>：设置 C 编译选项；</p>
+</li>
+<li><p><code>CMAKE_CXX_FLAGS</code>：设置 C++ 编译选项。</p>
+</li>
+</ul>
+<h3 id="基本指令"><a href="#基本指令" class="headerlink" title="基本指令"></a>基本指令</h3><blockquote>
+<p>  大小写习惯：指令全小写，预定义变量全大写</p>
+<p>  变量使用 <code>${}</code> 方式取值，但是在 <code>if</code> 控制语句中是直接使用变量名。</p>
+<p>  <strong>注：</strong>由于博主水平有限，加上使用经验不足，部分指令本人目前理解不了，另外，从网上找到的解释千篇一律，都是直接拷贝的cmake官方文档，晦涩难懂，这里只摘录文档中的命令格式以及其他论坛博主的例子，并增加一部分注释(个人理解)，之后有进一步理解会再更新。</p>
+</blockquote>
+<h4 id="常用构建语法："><a href="#常用构建语法：" class="headerlink" title="常用构建语法："></a>常用构建语法：</h4><h5 id="cmake-minimum-required"><a href="#cmake-minimum-required" class="headerlink" title="cmake_minimum_required"></a>cmake_minimum_required</h5><p>​    <strong>功能</strong>：限制使用的cmake最低版本；</p>
+<p>​    <strong>格式</strong>：<code>cmake_minimum_required(VERSION X.x.x);</code></p>
+<p>​    <strong>示例：</strong><code>cmake_minimum_required (4.1.2);</code></p>
+<h5 id="project"><a href="#project" class="headerlink" title="project"></a>project</h5><p>​    <strong>功能</strong>：设定项目名；</p>
+<p>​    <strong>格式</strong>：<code>project(&lt;PROJECT-NAME&gt;);</code></p>
+<p>​    <strong>示例</strong>：<code>project (test)</code></p>
+<h5 id="set"><a href="#set" class="headerlink" title="set"></a>set</h5><p>​    <strong>功能</strong>：创建变量或指定已存在的变量的值；</p>
+<p>​    <strong>格式</strong>：<code>set(&lt;variable&gt; &lt;value&gt;);</code></p>
+<pre class="line-numbers language-cmake"><code class="language-cmake"># 示例
+set (CMAKE_CXX_STANDARD 14)  # 设置编译使用的C++版本为C++14
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")  # 设置显示所有警告
+set (CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})  # 设置生成可执行文件的路径为工程根目录
+set (source_files "${PROJECT_SOURCE_DIR}/*.cpp")  # 设置源文件包<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="add-definitions"><a href="#add-definitions" class="headerlink" title="add_definitions"></a>add_definitions</h5><p>​    <strong>功能</strong>：为源文件的编译整体添加由 <code>-D</code> 引入的宏定义(#define)；</p>
+<p>​    <strong>格式</strong>：<code>add_definitions(-D &lt;def&gt;)</code>；</p>
+<p>​    <strong>示例：</strong><code>add_definitions(-D DEBUG);</code></p>
+<h5 id="find-package"><a href="#find-package" class="headerlink" title="find_package"></a>find_package</h5><p>​    <strong>功能</strong>：查找并引入外部的包；</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">find_package (<PackageName> [version] [EXACT] [QUIET] [MODULE]
+              [REQUIRED] [[COMPONENTS] [components...]]
+              [OPTIONAL_COMPONENTS components...]
+              [NO_POLICY_SCOPE])  # 格式
+
+find_package (OpenCV 4.1.2s)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="add-subdirectory"><a href="#add-subdirectory" class="headerlink" title="add_subdirectory"></a>add_subdirectory</h5><p>​    <strong>功能</strong>：添加一个目录作为子目录用于构建；</p>
+<p>​    <strong>格式</strong>：<code>add_subdirectory(source_dir [binary_dir] [EXCLUDE_FROM_ALL])</code>；</p>
+<p>​                 <code>source_dir</code>：目录路径，使用相对路径时默认当前路径为工程根目录，即 <code>${PROJECT_SOURCE_DIR}</code>；</p>
+<p>​                 <code>binary_dir</code>：中间二进制与目标二进制文件的存放路径；</p>
+<p>​                 <code>EXCLUDE_FROM_ALL</code>： 默认情况下将该目录从编译过程中排除；</p>
+<p>​    <strong>示例：</strong><code>add_subdirectory (./toolkit)</code></p>
+<h5 id="include-directories"><a href="#include-directories" class="headerlink" title="include_directories"></a>include_directories</h5><p>​    <strong>功能</strong>：添加外部库的搜索路径，用空格分割；</p>
+<p>​    <strong>格式</strong>：<code>link_directories(directory1 directory2 …);</code></p>
+<p>​    <strong>示例：</strong><code>link_directories(/home/lightshaker /usr/local/lib);</code></p>
+<h5 id="aux-source-directory"><a href="#aux-source-directory" class="headerlink" title="aux_source_directory"></a>aux_source_directory</h5><p>​    <strong>功能</strong>：查找指定路径下的所有源文件，并将源文件列表存储到指定变量中；</p>
+<p>​    <strong>格式</strong>：<code>aux_source_directory(&lt;dir&gt; &lt;variable&gt;)</code>；</p>
+<p>​    <strong>示例</strong>：<code>aux_source_directory(. SRC_LIST)</code>（需要提前创建变量SRC_LIST）；</p>
+<h5 id="add-library"><a href="#add-library" class="headerlink" title="add_library"></a>add_library</h5><p>​    <strong>功能</strong>：生成动态/静态链接库文件；</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">add_library (<name> [STATIC|SHARED|MODULE]  # 库文件名 库类型(静态|)
+             [EXCLUDE_FROM_ALL]
+             [source1] [source2 …])    <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h5 id="add-custom-command"><a href="#add-custom-command" class="headerlink" title="add_custom_command"></a>add_custom_command</h5><p>​    <strong>功能一</strong>： 创建一个自定义的构建规则来产生一个输出；</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">add_custom_command (OUTPUT output1 [output2 ...]              # output 输出量的存放载体变量
+                    COMMAND command1 [ARGS] [args1...]        # COMMAND 关键字 command 命令语句  
+                    [COMMAND command2 [ARGS] [args2...] ...]  # ARGS 命令可能带有的参数 如cp [f1] [f2]
+                    [MAIN_DEPENDENCY depend]                  
+                    [DEPENDS [depends...]]                    
+                    [IMPLICIT_DEPENDS <lang1> depend1
+                                     [<lang2> depend2] ...]
+                    [WORKING_DIRECTORY dir]
+                    [COMMENT comment] [VERBATIM] [APPEND])<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>​    <strong>功能二</strong>：创建目标并为其添加一个自定义命令，可指定命令的执行时刻，若目标已存在则不执行命令    ；</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">add_custom_command (TARGET <target>                       # target 目标名
+                    PRE_BUILD | PRE_LINK | POST_BUILD     # 构建目标前执行|链接依赖项后执行|构建目标后执行
+                    COMMAND command1 [ARGS] [args1...]    # 命令
+                    [COMMAND command2 [ARGS] [args2...] ...]
+                    [BYPRODUCTS [files...]]
+                    [WORKING_DIRECTORY dir]
+                    [COMMENT comment]
+                    [VERBATIM] [USES_TERMINAL]
+                    [COMMAND_EXPAND_LISTS])<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="add-custom-target"><a href="#add-custom-target" class="headerlink" title="add_custom_target"></a>add_custom_target</h5><p>​    <strong>功能</strong>：增加一个指定名称的目标，并执行指定的命令，但该目标没有输出文件；</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">add_custom_target (Name [ALL] [command1 [args1...]]
+                   [COMMAND command2 [args2...] ...]
+                   [DEPENDS depend depend depend ... ]
+                   [WORKING_DIRECTORY dir]
+                   [COMMENT comment] [VERBATIM]
+                   [SOURCES src1 [src2...]])<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>​    该命令可与add_custom_command配合使用，如：</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">set (TEST_FILE "log.txt")
+add_custom_command (OUTPUT ${TEST_FILE}
+    COMMAND echo "Generating log.txt file..."
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_FILE} ${TEST_FILE}
+    COMMENT  "This is a test")
+
+add_custom_target (Test1 ALL DEPENDS ${TEST_FILE})
+
+add_custom_command (TARGET Test1
+    PRE_BUILD 
+    COMMAND echo "executing a fake command"
+    COMMENT "This command will be executed before building target Test1")<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>​    输出结果：</p>
+<pre class="line-numbers language-txt"><code class="language-txt">[100%] This is a test
+Generating log.txt file...
+This command will be executed before building target Test1
+executing a fake command
+[100%] Built target Test1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="add-executable"><a href="#add-executable" class="headerlink" title="add_executable"></a>add_executable</h5><p><strong>功能</strong>：使用给定的源文件，生成一个可执行文件；</p>
+<p><strong>示例：</strong><code>add_executable(TEST main.cpp log.cpp)</code></p>
+<h5 id="set-target-properties"><a href="#set-target-properties" class="headerlink" title="set_target_properties"></a>set_target_properties</h5><p><strong>功能</strong>：设置目标属性以改变构建方式，格式与例子如下：</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">set_target_properties (target PROPERTIES 
+                       prop1 value1
+                       prop2 value2 ...)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cmake"><code class="language-cmake">set_target_properties(test PROPERTIES
+                                                         ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+                                                         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><strong>target_link_libraries</strong></p>
+<p><strong>功能：</strong>将目标文件链接外部库；</p>
+<p><strong>格式：</strong><code>target_link_libraries(&lt;target&gt; … &lt;item&gt;…)</code>；</p>
+<p><strong>示例：</strong><code>target_link_libraries (project ${OpenCV_LIBS})</code></p>
+<p><strong>target_include_directories</strong></p>
+<p><strong>功能：</strong>指定在编译指定目标时所使用的include目录；</p>
+<p><strong>格式：</strong><code>target_include_directories(&lt;target&gt; [SYSTEM][BEFORE] &lt;INTERFACE|PUBLIC|PRIVATE&gt; [items])</code>；</p>
+<p><strong>说明：</strong>interface表示该库的接口只为别人开放，自己不使用，public表示自己与他人一并使用，private与interface相反；</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">target_include_directories (mylib PUBLIC
+                                                                     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mylib>
+                                                                       $<INSTALL_INTERFACE:include/mylib>) # <prefix>/include/mylib <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h5 id="enable-testing-add-test"><a href="#enable-testing-add-test" class="headerlink" title="enable_testing/add_test"></a>enable_testing/add_test</h5><p><strong>功能：</strong>前者用于控制Makefile是否构建目标，后者配合前者使用，格式如下：</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">add_test (NAME <name> COMMAND <command> [<arg>...]
+          [CONFIGURATIONS <config>...]
+          [WORKING_DIRECTORY <dir>]
+          [COMMAND_EXPAND_LISTS])<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="install"><a href="#install" class="headerlink" title="install"></a>install</h5><p><strong>功能：</strong>用于定义安装规则，安装的内容可包括目标二进制、动态库、静态库以及文件、目录、脚本等；</p>
+<p>示例：将二进制文件myrun、动态库文件mylib、静态库文件mystatic分别安装到build目录下的bin、lin、libstatic文件夹中</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake"># "安装" 其实就是复制粘贴的过程
+install (
+    TARGETS myrun mylib mystatic
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION libstatic)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="基本逻辑控制语句："><a href="#基本逻辑控制语句：" class="headerlink" title="基本逻辑控制语句："></a>基本逻辑控制语句：</h4><h5 id="foreach-endforeach"><a href="#foreach-endforeach" class="headerlink" title="foreach  endforeach"></a>foreach  endforeach</h5><p><strong>功能：</strong>循环操作</p>
+<p><strong>示例：</strong>分别为列表、范围、范围步进语法</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">// 列表语法
+aux_source_directory(. SRC_LIST)
+foreach(F ${SRC_LIST})
+     message(${F})
+endforeach(F)
+
+// 范围语法
+foreach(v RANGE 10)
+    message(${v})
+endforeach(v)
+
+// 范围步进语法
+foreach(a RANGE 5 15 3)
+    message(${a})
+endforeach(a)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="message"><a href="#message" class="headerlink" title="message"></a>message</h5><p><strong>功能：</strong>打印消息</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">message(${PROJECT_SOURCE_DIR})<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="if-elif-else-endif"><a href="#if-elif-else-endif" class="headerlink" title="if  elif  else  endif"></a>if  elif  else  endif</h5><p><strong>功能：</strong>条件语句</p>
+<p><strong>基本用法：</strong></p>
+<ul>
+<li><p><code>if(&lt;expression&gt;)</code>：当<code>expression</code> 不为 <code>0</code>、<code>OFF</code>、<code>NO</code>、<code>FALSE</code>、<code>N</code>、<code>IGNORE</code>、<code>NOTFOUND</code>、空字符串，或者不含后缀 <code>-NOTFOUND</code> 时，为真；</p>
+</li>
+<li><p><code>if(NOT &lt;expression&gt;)</code>：与上一条相反；</p>
+</li>
+<li><p><code>if(&lt;expr1&gt; AND &lt;expr2&gt;)</code> 以及 <code>if(&lt;expr1&gt; OR &lt;expr2&gt;)</code></p>
+</li>
+<li><p><code>if(COMMAND command-name)</code>：如果 <code>command-name</code> 是命令、宏或函数并可调用，为真；</p>
+</li>
+<li><p><code>if(EXISTS path-to-file-or-directory)</code>：如果给定路径的文件或目录存在，为真；</p>
+</li>
+<li><p><code>if(file1 IS_NEWER_THAN file2)</code>：当 file1 比 file2 新，或 file1/file2 中有一个不存在时为真，文件名需使用全路径；</p>
+</li>
+<li><p><code>if(IS_DIRECTORY path-to-directory)</code>：当给定路径是目录时，为真。注意使用全路径；</p>
+</li>
+<li><p><code>if(DEFINED &lt;variable&gt; )</code>：如果变量已被定义，为真；</p>
+</li>
+<li><p><code>if( &lt;variable|string&gt; MATCHES regex)</code>：当给定变量或字符串能匹配正则表达式 regex 时，为真。此处的 <code>variable</code> 直接使用变量名，而非 <code>${variable}</code>。</p>
+</li>
+<li><p><code>if(&lt;var&gt; LESS &lt;number&gt;)</code> or <code>if(&lt;var&gt; GREATER &lt;number&gt;)</code> or <code>if(&lt;var&gt; EQUAL &lt;number&gt;)</code> 数字比较</p>
+</li>
+<li><p><code>if&lt;var1&gt; STRLESS &lt;var2&gt;</code> or <code>if&lt;var1&gt; STRGREATER &lt;var2&gt;</code> or <code>if&lt;var1&gt; STREQUAL &lt;var2&gt;</code> 字母表顺序比较</p>
+</li>
+</ul>
+<pre class="line-numbers language-cmake"><code class="language-cmake">// 示例一
+if(WIN32)
+    message(STATUS "This is windows.")
+else()
+    message(STATUS "This is not windows.")
+endif()
+
+// 示例二
+if(" ${CMAKE_SOURCE_DIR}" STREQUAL " ${CMAKE_BINARY_DIR}")
+  message(FATAL_ERROR "
+FATAL: In-source builds are not allowed.
+       You should create a separate directory for build files.
+")
+endif()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="while-endwhile"><a href="#while-endwhile" class="headerlink" title="while  endwhile"></a>while  endwhile</h5><p><strong>功能：循环操作</strong></p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">while(<condition>)
+  COMMAND1(<ARGS> …)
+  COMMAND2(<ARGS> …)
+  …
+endwhile(<condition>)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="option"><a href="#option" class="headerlink" title="option"></a>option</h5><p><strong>功能：</strong>控制某个变量或宏的定义与否，选项ON/OFF，如果变量在之前没有定义过，则在执行option时定义该变量</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake"># 编译脚本传入宏定义 TEST_DEBUG
+#!/bin/sh
+cmake -DTEST_DEBUG=ON .
+cmake --build .
+
+# CMakeLists接受TEST_DEBUG 并设置默认关闭OFF
+option(TEST_DEBUG "option for debug" OFF)
+if (TEST_DEBUG)
+add_definitions(-DTEST_DEBUG)
+endif()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>参考资料：</p>
+<blockquote>
+<p>  <a href="https://www.bilibili.com/video/BV17J411m7o1" target="_blank" rel="noopener">https://www.bilibili.com/video/BV17J411m7o1</a></p>
+<p>  <a href="https://www.jianshu.com/p/9763cd8325bf" target="_blank" rel="noopener">https://www.jianshu.com/p/9763cd8325bf</a></p>
+<p>  <a href="https://www.jianshu.com/p/035bc18f8f62" target="_blank" rel="noopener">https://www.jianshu.com/p/035bc18f8f62</a></p>
+</blockquote>
+
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯奶茶？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《GCC与CMake入门》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/05/18/cmake/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                Lightshaker
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'b675ce49d330b63cdd81',
+        clientSecret: 'b0604fd563502ca06f2a0f63e353bb07b79c0dfc',
+        repo: 'Lightshaker.github.io',
+        owner: 'Lightshaker',
+        admin: "Lightshaker",
+        id: '2020/05/18/cmake/',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+    <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments input[type=text],
+    #vcomments input[type=email],
+    #vcomments input[type=url],
+    #vcomments textarea {
+        box-sizing: border-box;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #42b983;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div id="vcomments" class="card-content"></div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<!-- <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script> -->
+
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '',
+        appKey: '',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'false' === 'true',
+        avatar: 'wavatar',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: '如果你没有GitHub账号，还可以在这里评论啦！'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2020/05/18/cmake/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="GCC与CMake入门">
+                        
+                        <span class="card-title">GCC与CMake入门</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            CMake &amp; GCC 基础Part I GCCGNU Compiler GCC/G++  执行编译工作时分4步：
+
+预处理 (处理#define #include #if #ifdef #pragma等指令)，生成 .i 文件
+将
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/其他工具/" class="post-category" target="_blank">
+                                    其他工具
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CMake/" target="_blank">
+                        <span class="chip bg-color">CMake</span>
+                    </a>
+                    
+                    <a href="/tags/GCC/" target="_blank">
+                        <span class="chip bg-color">GCC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/05/15/hexo-issues/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Hexo 错误警告与解决办法">
+                        
+                        <span class="card-title">Hexo 错误警告与解决办法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+本文总结个人使用hexo遇到的warnings与errors及其解决办法，长期更新
+
+Errors &amp; SolutionsError: expected end of comment, got end of file
+报错关键句：
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Hexo/" class="post-category" target="_blank">
+                                    Hexo
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Hexo/" target="_blank">
+                        <span class="chip bg-color">Hexo</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('100')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: LightHouse<br />'
+            + '作者: Lightshaker<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2020-  Lightshaker. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">51.3k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/lightshaker" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lightshaker@126.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2020, 01, 23, 00, 00, 00); //北京时间2020-1-23 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    /*siteTime();*/
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "LightHouse", clearTimeout(st)) : (document.title = "LightHouse", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>
