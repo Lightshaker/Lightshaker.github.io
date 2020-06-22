@@ -31,6 +31,7 @@ halt ，poweroff，shutdo">
     <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
     <link rel="stylesheet" type="text/css" href="/css/matery.css">
     <link rel="stylesheet" type="text/css" href="/css/my.css">
+    //<link rel="stylesheet" type="text/css" href="/js/prism/prism.css"> 
     <style type="text/css">
         
     </style>
@@ -317,7 +318,6 @@ halt ，poweroff，shutdo">
 </a>
         
     </nav>
-
 </header>
 
     
@@ -479,14 +479,14 @@ halt ，poweroff，shutdo">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    9 分
                 </div>
                 
                 
@@ -697,6 +697,16 @@ Categories<span class="token operator">=</span>Application<span class="token pun
 <li><p><code>Capture node screenshot</code>    截取手机版网页长图</p>
 </li>
 </ul>
+<h3 id="gnome桌面下gedit首选项消失的解决办法"><a href="#gnome桌面下gedit首选项消失的解决办法" class="headerlink" title="gnome桌面下gedit首选项消失的解决办法"></a>gnome桌面下gedit首选项消失的解决办法</h3><p>最直接的方式，让首选项出现：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">gsettings <span class="token keyword">set</span> org.gnome.settings-daemon.plugins.xsettings overrides <span class="token string">'@a{sv} {"Gtk/ShellShowsAppMenu": &lt;int32 0>}'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>相关设置命令：<code>gsettings ``set</code> <code>org.gnome.gedit.preferences.editor xxx</code>，按tab查看即可。</p>
+<p>这里列举几个:</p>
+<p>设置配色方案：需要下载xml文件至<code>/usr/share/gtksourceview-3.0/style</code>路径下才可使用对应方案名称</p>
+<pre class="line-numbers language-bash"><code class="language-bash">gsettings <span class="token keyword">set</span> org.gnome.gedit.preferences.editor scheme xxx <span class="token comment" spellcheck="true">#xxx为配色方案名称</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>设置显示行号：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">gsettings <span class="token keyword">set</span> org.gnome.gedit.preferences.editor display-line-numbers <span class="token boolean">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>设置当前行号高亮</p>
+<pre class="line-numbers language-bash"><code class="language-bash">gsettings <span class="token keyword">set</span> org.gnome.gedit.preferences.editor highlight-current-line <span class="token boolean">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
             </div>
             <hr />
@@ -1457,7 +1467,7 @@ n个样本
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">51.3k</span>
+            <span class="white-color">51.5k</span>
             
 
             <br>
@@ -1531,6 +1541,7 @@ n个样本
     }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
     /*siteTime();*/
 </script>
+/*<script src="/js/prism/prism.js" async></script>*/
 
 
     <!-- 搜索遮罩框 -->
