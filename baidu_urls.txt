@@ -1,3 +1,4 @@
+lightshaker.cn/2020/06/23/graph-search/
 lightshaker.cn/2020/05/18/cmake/
 lightshaker.cn/2020/05/15/hexo-issues/
 lightshaker.cn/2020/05/15/mathjax/
