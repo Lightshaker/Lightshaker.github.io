@@ -67,7 +67,16 @@
         })();
     </script>
 
-
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7df679a1cc43e25d60e458e238e807d7";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+    
 <link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
@@ -387,28 +396,10 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/0.jpg)');
                 </a>
                 
                 
-                <a href="/categories/Ubuntu/" title="Ubuntu: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">Ubuntu
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/机器人/" title="机器人: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #FEF9E7;">机器人
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/其他工具/" title="其他工具: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F8F9F9;">其他工具
+                            style="background-color: #E8F8F5;">机器人
                         <span class="tag-length">2</span>
                     </span>
                 </a>
@@ -417,8 +408,26 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/0.jpg)');
                 <a href="/categories/Hexo/" title="Hexo: 4">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #82E0AA;">Hexo
+                            style="background-color: #FEF9E7;">Hexo
                         <span class="tag-length">4</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/Ubuntu/" title="Ubuntu: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F8F9F9;">Ubuntu
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/其他工具/" title="其他工具: 2">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #82E0AA;">其他工具
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
@@ -464,7 +473,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/0.jpg)');
                     color: '#3C4858'
                 }
             },
-            indicator: [{"name":"C/C++","max":5},{"name":"数学|算法","max":5},{"name":"混合编程","max":5},{"name":"Ubuntu","max":5},{"name":"机器人","max":5},{"name":"其他工具","max":5},{"name":"Hexo","max":5}],
+            indicator: [{"name":"C/C++","max":5},{"name":"数学|算法","max":5},{"name":"混合编程","max":5},{"name":"机器人","max":5},{"name":"Hexo","max":5},{"name":"Ubuntu","max":5},{"name":"其他工具","max":5}],
             nameGap: 5,
             center: ['50%','55%'],
             radius: '66%'
@@ -475,7 +484,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/0.jpg)');
             itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data : [
                 {
-                    value : [1,2,1,1,2,2,4],
+                    value : [1,2,1,2,4,1,2],
                     name : '文章分类数量'
                 }
             ]
