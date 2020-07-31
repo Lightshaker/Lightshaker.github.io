@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.lightshaker.cn/mathjax.html</loc>
+    <lastmod>2020-07-31</lastmod>
+  </url>
+  <url>
     <loc>https://www.lightshaker.cn/cmake.html</loc>
     <lastmod>2020-07-28</lastmod>
   </url>
@@ -19,10 +23,6 @@
   <url>
     <loc>https://www.lightshaker.cn/ubuntu-notes.html</loc>
     <lastmod>2020-06-23</lastmod>
-  </url>
-  <url>
-    <loc>https://www.lightshaker.cn/mathjax.html</loc>
-    <lastmod>2020-05-20</lastmod>
   </url>
   <url>
     <loc>https://www.lightshaker.cn/hexo-issues.html</loc>
@@ -45,11 +45,11 @@
     <lastmod>2020-05-18</lastmod>
   </url>
   <url>
-    <loc>https://www.lightshaker.cn/hexo-build.html</loc>
+    <loc>https://www.lightshaker.cn/leastsq.html</loc>
     <lastmod>2020-05-18</lastmod>
   </url>
   <url>
-    <loc>https://www.lightshaker.cn/leastsq.html</loc>
+    <loc>https://www.lightshaker.cn/hexo-build.html</loc>
     <lastmod>2020-05-18</lastmod>
   </url>
 </urlset> 
