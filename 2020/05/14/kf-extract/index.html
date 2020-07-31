@@ -1,0 +1,1534 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="卡尔曼滤波 maybeck_ch1 阅读摘录, LightHouse">
+    <meta name="baidu-site-verification" content="qEvyYTI5eV">
+    <meta name="google-site-verification" content>
+    <meta name="360-site-verification" content>
+    <meta name="description" content="[Note &amp;amp; Extract] Kalman Filter Concepts
+Note Taker：Lightshaker, 2020/3/4
+Source：https://web.archive.org/web/20060420">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>卡尔曼滤波 maybeck_ch1 阅读摘录 | LightHouse</title>
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?46e79e71af0709a5b9106bf20cecc493";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7df679a1cc43e25d60e458e238e807d7";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+    
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.ico" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">LightHouse</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.ico" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">LightHouse</div>
+        <div class="logo-desc">
+            
+            It is our choices that show what we truly are, far more than our abilities.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/lightshaker" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/lightshaker" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        卡尔曼滤波 maybeck_ch1 阅读摘录
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/卡尔曼滤波/" target="_blank">
+                            <span class="chip bg-color">卡尔曼滤波</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/数学-算法/" class="post-category" target="_blank">
+                            数学|算法
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-05-14
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    Lightshaker
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="Note-amp-Extract-Kalman-Filter-Concepts"><a href="#Note-amp-Extract-Kalman-Filter-Concepts" class="headerlink" title="[Note &amp; Extract] Kalman Filter Concepts"></a>[Note &amp; Extract] Kalman Filter Concepts</h2><blockquote>
+<p><strong>Note Taker：Lightshaker, 2020/3/4</strong></p>
+<p><strong>Source：</strong><a href="https://web.archive.org/web/20060420154727/http://www.cs.unc.edu/~welch/media/pdf/maybeck_ch1.pdf" target="_blank" rel="noopener">https://web.archive.org/web/20060420154727/http://www.cs.unc.edu/~welch/media/pdf/maybeck_ch1.pdf</a></p>
+<p><strong>Article：Stochastic models, estimation, and control, chapter 1, by Peter Maybeck</strong></p>
+</blockquote>
+<h3 id="1-1-Why-stochastic-models-estimation-and-control"><a href="#1-1-Why-stochastic-models-estimation-and-control" class="headerlink" title="1.1 Why stochastic models, estimation, and control ?"></a>1.1 Why stochastic models, estimation, and control ?</h3><p><strong>Q：</strong>Why <strong>deterministic system</strong> and <strong>control theories</strong> do not provide a totally sufficient means of performing system analysis and controller design？</p>
+<p><strong>Answer：</strong></p>
+<ul>
+<li><p>Mathematical models depicts only those characteristics of direct interest to the engineer’s purpose.</p>
+</li>
+<li><p>Various parameters within a deterministic structure are not determined absolutedly.</p>
+</li>
+<li><p>Sensors do not provide perfect and complete data about a system.</p>
+</li>
+</ul>
+<p><strong>Conclusion：</strong>To assume perfect knowledge of all quantities necessary to describe a system completely and/or to assume perfect control over the system is <strong>naive</strong>, and often <strong>inadequate, approach.</strong></p>
+<p>Thus <strong>four questions</strong> are come up with：</p>
+<blockquote>
+<ol>
+<li>How do you develop system models that account for these <strong>uncertainties</strong> in a direct and proper, yet practical, fashion?</li>
+<li>Equipped with such models and incomplete, noise-corrupted data from available sensors, how do you <strong>optimally estimate</strong> the quantities of interest to you?</li>
+<li>In the face of uncertain system descriptions, incomplete and noise-corrupted data, and disturbances beyond your control, how do you <strong>optimally control</strong> a system to perform in a desirable manner?</li>
+<li>How do you <strong>evaluate the performance capabilities</strong> of such estimation and control systems, both before and after they are actually built? </li>
+</ol>
+</blockquote>
+<h3 id="1-2-Overview-of-the-text"><a href="#1-2-Overview-of-the-text" class="headerlink" title="1.2 Overview of the text"></a>1.2 Overview of the text</h3><p><strong>Chapter 1-2：</strong>Review the pertinent aspects of <strong>deterministic system models</strong>.</p>
+<p><strong>3：</strong>Develop both the general concepts and the natural result of <strong>static</strong> system models.</p>
+<p><strong>4：</strong>Investigate stochastic process, concluding with practical <strong>linear dynamic system</strong>.</p>
+<p><strong>5：</strong>Explore <strong>optimal filtering</strong> for cases in which linear system model adequately describes the problem dynamics.</p>
+<p><strong>6：</strong>Describe the design and performance analysis of <strong>pratical online Kalman filter</strong>.</p>
+<p><strong>7：</strong>Introduce the <strong>Square root filters</strong>.</p>
+<h3 id="1-3-The-Kalman-filter：An-introduction-to-concepts"><a href="#1-3-The-Kalman-filter：An-introduction-to-concepts" class="headerlink" title="1.3 The Kalman filter：An introduction to concepts"></a>1.3 The Kalman filter：An introduction to concepts</h3><p><strong>Q：</strong>What is Kalman Filter?</p>
+<p><strong>A：</strong>An <strong>optimal recursive data processing algorithm</strong>, which processes all available measurements, regardless of their precision, to estimate the current value of the variables of interest.</p>
+<p><strong>Condition：</strong>A Kalman filter performs this conditional probability density propagation for problems in which the system can be described through a <strong>linear model</strong> and in which system and measurement noises are <strong>white</strong> and <strong>Gaussian</strong>.</p>
+<p><strong>Practicalities</strong>：Do not require all previous data to be kept in storage and reprocessed every time a new measurement is taken.</p>
+<p><strong>Case：</strong>Often Variables of interest, some finite number of quantities to describe the “state” of the system, cannot be measured directly, and some means of inferring these values from the available data must be generated.</p>
+<p><strong>Need：</strong></p>
+<ol>
+<li>Knowledge of the system and measurement device dynamic.</li>
+<li>The statistical description of the system noises, measurement error, and uncertainty in the dynamics models.</li>
+<li>Any available information about initial conditions of the variables of interest.</li>
+</ol>
+<p><strong>Plot of Conditional Probability Density：</strong></p>
+<ol>
+<li>Its shape conveys the <strong>amount of certainty</strong> you have in the knowledge of the value of x. </li>
+<li>If the density plot is a <strong>narrow peak</strong>, then most of the probability “weight” is <strong>concentrated</strong> in a narrow band of x values.</li>
+<li>If the plot has a <strong>gradual shape</strong>, the probability “weight” is spread over a <strong>wider range</strong> of x, indicating that you are less sure of its value.</li>
+</ol>
+<p><strong>With the CPD,  we can define the “optimal” estimate in these choices (3 assumptions)：</strong></p>
+<ol>
+<li>the mean  – the “center of probability mass” estimate. </li>
+<li>the mode – the value of x that has the highest probability, locating the peak of the density.</li>
+<li>the median  – the value of x such that half of the probability weight lies to the left and half to the right of it.</li>
+</ol>
+<h3 id="1-4-Basic-assumptions"><a href="#1-4-Basic-assumptions" class="headerlink" title="1.4 Basic assumptions"></a>1.4 Basic assumptions</h3><p><strong>BandPass：</strong>a frequency range of inputs to which a physical system can respond, above which the input either has no effect, or the system so severely attenuates the effect that it essentially does not exist.</p>
+<img src="//www.lightshaker.cn/2020/05/14/kf-extract/bandpass.png" style="zoom:80%">
+
+<p><strong>Why White Noise?：</strong></p>
+<p>“Whiteness” implies that the noise value is not correlated in time, also claims that the noise has equal power at all frequencies. Since this results in a noise with infinite power, a white noise obviously connot really exist.</p>
+<p>Typically a system will be driven by wideband noise, which differs from white noise just in the limited bandwidth.</p>
+<p>By replacing the real wideband noise with a white noise, the mathematics involved in the filter can be vastly simplified which, and from the system’s “point of view”, they are identical.</p>
+<p><strong>What if the noise is not power-constant or time-correlated?</strong></p>
+<p>A white noise put through a small linear system can duplicate virtually any form of time-correlated noise. This small system is call a “shaping filter”, added to the original system to achieve an overall linear system driven by white noise.</p>
+<p><strong>Why Gaussian densities?：</strong></p>
+<p>Wheraes whiteness pertains to time or frequency relationships of a noise, Gaussianness has to do with its amplitude.Thus at any single point in time, the probability density of a Gaussian noise amplitude takes on the shape of a normal bell-shape curve.</p>
+<p>It can be shown mathematically that when a number of independent random variables are added together, the summed effect can be described very closely by a Gaussian probability density, regardless of the shape of the individual densitities.</p>
+<p>An engineer will know, at best, the first and second order statictics of a noise process, but in the absence of higher order statistics, there is no better form to assume than the Gaussian density, because Gaussian density can be completely determined by the first and second order statistics, while most of others require an endless number of that to specify their shape entirely.</p>
+<p>Gaussian densities is virtually the best approximation, and it makes mathematics tractable.</p>
+<h3 id="1-5-A-simple-example"><a href="#1-5-A-simple-example" class="headerlink" title="1.5 A simple example"></a>1.5 A simple example</h3><blockquote>
+<p>According from the probability theories, the <strong>larger</strong> $\sigma $ is , the <strong>broader</strong> the probability peak is. For a Gaussian density, <strong>68.3%</strong> of the probability “weight” is contained with the band $\sigma$ units to each side of the mean.</p>
+</blockquote>
+<h4 id="Part-I"><a href="#Part-I" class="headerlink" title="Part I"></a>Part I</h4><p><strong>Scene：</strong>Suppose being lost at sea during the night and have no idea at all of your location. You can only establish your position by taking a star sighting.</p>
+<p><strong>Measurement：</strong>Your establishment of the conditional probability of $x(t_1)$, conditioned on the observed value of measurement being $z_1$, with standard deviation $\sigma_{z_1}$ or variance $\sigma_{z_1}^2$.</p>
+<p>Thus the conditional density of your position at time $t_1$, based only on $z_1$ is：</p>
+<img src="//www.lightshaker.cn/2020/05/14/kf-extract/measurement_1.png" style="zoom:80%">
+
+<p>Based on conditional probability density, the <strong>best estimate</strong> of your position is<br>$$<br>\hat x(t_1) = z_1 \tag{1}<br>$$<br>and the variance of the error in the estimate is<br>$$<br>\sigma^2(t_1) = \sigma^2_{z_1} \tag{2}<br>$$<br>Note that $\hat x$ is both the <strong>mode</strong> and the <strong>median</strong>, as well as the <strong>mean</strong>.</p>
+<h4 id="Part-II："><a href="#Part-II：" class="headerlink" title="Part II："></a>Part II：</h4><p><strong>Scene：</strong>After the prediction, a trained navigator friend takes an independent fix at time $t_2 \approx t_1$.</p>
+<p><strong>Measurement：</strong> He obtains a measurement $z_2$ with  standard deviation $\sigma_{z_2}$ or variance $\sigma_{z_2}^2$.</p>
+<p>Because he has higher skill, assume the variance in his measurement to be somewhat smaller that in yours.<br>$$<br>\sigma_{z_2} &lt; \sigma_{z_1}<br>$$<br>Thus the conditional density of your position at time $t_1$, based only on $z_2$ is：</p>
+<img src="//www.lightshaker.cn/2020/05/14/kf-extract/measurement_2.png" style="zoom:70%">
+
+<h4 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h4><p><strong>Q：</strong>Now you have two measurements available for estimating your position, how do you combine these data?</p>
+<p><strong>A：</strong>Based on the assumptions made, the conditional density of your position at time $t_2 \approx t_1 $, $x(t_2)$, given both $z_1$ and $z_2$, is <strong>Gaussian density</strong> with mean $\mu$ and variance $\sigma^2$ with<br>$$<br>\begin{align}<br>\<br>    &amp;\mu = [\sigma_{z_2}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_1 + [\sigma_{z_1}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_2 \tag{3}<br>\\\\\<br>    &amp;1/\sigma^2 = (1 + \sigma_{z_1}^2) + (1 + \sigma_{z_2}^2) \tag{4}<br>\end{align}<br>$$<br>The conditinal density curve is：</p>
+<img src="//www.lightshaker.cn/2020/05/14/kf-extract/combine.png" style="zoom:70%;">
+
+<p>Note that $\sigma$ is <strong>less</strong> than either $\sigma_{z_1}$ or $\sigma_{z_2}$, which is to say that the <strong>uncertainty</strong> in your estimate of position <strong>has been decreased</strong> by comb</p>
+<p>ining the two pieces of information.</p>
+<p>Given this density, the <strong>best estimate</strong> is<br>$$<br>\hat x(t_2) = \mu \tag{5}<br>$$<br>Furthermore, it is also the <strong>maximum likelihood estimate</strong>, the <strong>weighted least squares estimate</strong>, and the <strong>linear estimate</strong> whose variance is <strong>less than</strong> that of <strong>any other</strong> linear unbiased estimate. In other words, it is the “best” you can do according to just about any reasonable criterion.</p>
+<h4 id="Deeper-Thoughts："><a href="#Deeper-Thoughts：" class="headerlink" title="Deeper Thoughts："></a>Deeper Thoughts：</h4><p>The $\mu$ we got means  $\sigma_{z_1}$ were <strong>equal</strong> to $\sigma_{z_2}$, indicating that the two measurements are of equal precision. Actually $\sigma_{z_1}$ is <strong>greater</strong> than $\sigma_{z_2}$, thus the “weight” of $z_2$ is surely <strong>bigger</strong> than that of $z_1$, then finally the variance of the estimate is <strong>less</strong> than $\sigma_{z_1}$ regardless of how large $\sigma_{z_2}$ is.</p>
+<p>Therefore $\hat x(t_2)$ can be rewritten as<br>$$<br>\begin{align}<br>\mu &amp;=<br>[\sigma_{z_2}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_1 + [\sigma_{z_1}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_2 \\\\\<br>&amp;=<br>z_1 + [\sigma_{z_1}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)][z_2-z_1] \tag{6}<br>\end{align}<br>$$<br>let $z_1$ be replaced by $\hat x(t_1)$, we can get the <strong>final form</strong> actually used in <strong>Kalman filter</strong> implementations<br>$$<br>\hat x(t_2) = x_(t_1) + K(t_2)[z_2 - \hat x(t_1)] \tag{7}<br>$$<br>where the <strong>Kalman gain</strong> is<br>$$<br>K(t_2) = \sigma_{z_1}^2/(\sigma_{z_1}^2+\sigma_{z_2}^2) \tag{8}<br>$$<br>then <strong>Eq.(2)</strong> can be rewritten as<br>$$<br>\sigma_x^2(t_2) = \sigma_x^2(t_1) - K(t_2)\sigma_x^2(t_1) \tag{9}<br>$$<br>some explanation：</p>
+<p>​    $\hat x (t_1)$：the best <strong>prediction</strong> of the optimal estimate at time $t_2$, before $z_2 $ is taken.</p>
+<p>​    $\hat x(t_2)$：the <strong>optimal estimate</strong> at time $t_2$, after $z_2$ is taken.</p>
+<p>​    $K(t_2)$：a correction term of an <strong>optimal weighting value times</strong> the difference between $z_2$ and $\hat  x(t_1)$</p>
+<h4 id="Introduce-dynamics-factor："><a href="#Introduce-dynamics-factor：" class="headerlink" title="Introduce dynamics factor："></a>Introduce dynamics factor：</h4><p><strong>Scene：</strong>Suppose that you <strong>travel for some time</strong> before taking another measurement.</p>
+<p><strong>Form： <em><em> $dx/dt = u+w$, including，$u$：a nominal </em></em>velocity</strong>，</p>
+<p>​    $w$：a <strong>noise term</strong> used to represent the uncertainty in your knowledge of the actual velocity due to disturbances, off-nominal conditians, effects not accounted for in the simple first order equation, and the like, modeled as a white <strong>Gaussian noise</strong> with a <strong>mean</strong> of zero and <strong>variance</strong> of $\sigma_w^2$.</p>
+<p>As time progresses, the probability density starts at the best estimate, moves according to the nominal model of dynamics, and spreads out in time because you become <strong>less sure</strong> of your exact position due to <strong>constant addition</strong> of uncertainty over time.</p>
+<img src="//www.lightshaker.cn/2020/05/14/kf-extract/dynamics.png" style="zoom:70%">
+
+<p>The density of  <strong>prediction</strong> can be expressed mathematically as a Gaussian density with mean and variance given by<br>$$<br>\begin{align}<br>\hat x(t_3^-) &amp;= \hat x(t_2) + u[t_3-t_2] \tag{11}<br>\\\\\<br>\sigma_x^2(t_3^-) &amp;= \sigma_x^2(t_2) + \sigma_w^2[t_3-t_2]\tag{12}<br>\end{align}<br>$$<br>Now a <strong>measurement</strong> is taken, and its mean turns out to be $z_3$, with a variance to be $\sigma_{z_3}^2$, as before, there are <strong>two Gaussian densities</strong> available that contain information about position, one encompassing all the information available <strong>before</strong> the measurement, and the other being the information <strong>provided by</strong> the measurement itself.</p>
+<p>The density with mean $\hat x(t_3^-)$ and variance $\sigma_x^2(t_3^-) $ is combined with the density with mean $z_3$ and variance $\sigma^2_{z_3} $ to yield a Gaussian density with mean<br>$$<br>\hat x(t_3) = \hat x(t_3^-) + K(t_3)[z_3 - \hat x(t_3^-)] \tag{13}<br>$$<br>and variance<br>$$<br>\sigma_x^2(t_3) = \sigma_x^2(t_3^-) - K(t_3)\sigma_x^2(t_3^-) \tag{14}<br>$$<br>where the gain $K(t_3)$ is given by<br>$$<br>K(t_3) = \sigma_x^2(t_3^-) / [\sigma_x^2(t_3^-) + \sigma_{z_3}^2 ] \tag{15}<br>$$</p>
+<h4 id="Analysis-about-K-t-3"><a href="#Analysis-about-K-t-3" class="headerlink" title="Analysis about $K(t_3)$"></a>Analysis about $K(t_3)$</h4><p>Observe the form of the equation for $K(t_3)$.</p>
+<p>If $\sigma_{z_3}$, the <strong>measurement noise</strong> variance, is <strong>large</strong>, then $K(t_3)$ is <strong>small</strong>, which mean you put <strong>little</strong> confidence in a very noisy measurement and so would weight it <strong>lightly</strong>.</p>
+<p>In the limit as $\sigma_{z_3}^2 \rightarrow \infty$, $K(t_3)$ will become <strong>zero</strong>, and $\hat x(t_3)$ <strong>equals</strong> $\hat x(t_3^-)$, which means an infinitely noisy measurement is totally ignored.</p>
+<p>If the <strong>dynamic system noise</strong> variance $\sigma_w^2$ is large, then $\sigma_x^2(t_3^-)$ will be large and so will $K(t_3)$. In this case, you are not very certain of the output of the system model within the filter structure and therefore would weight the measurement heavily.</p>
+<p>In the limit as $\sigma_w^2 \rightarrow \infty$,  $\sigma_x^2(t_3^-) \rightarrow \infty$,  $K(t_3)\rightarrow 1$,  therefore  $\hat x(t_3)$ equals $z_3$. It means you have no confidence in the system model output, to use the new measurement as the optimal estimate.</p>
+<p>Finally, if $\sigma_x^2(t_3^-)$ should ever become zero, then so does $K(t_3)$. This is sensible since if $\sigma_x^2(t_3^-) = 0$, you have absolutely sure of your estimate before $z_3$ becomes available and therefore can disregard the measurement. </p>
+<h4 id="A-preview"><a href="#A-preview" class="headerlink" title="A preview"></a>A preview</h4><p><strong>To yield a general Kalman filter algorithm：</strong></p>
+<ol>
+<li><p>Extend <strong>Eqs.(11)</strong> and <strong>(12)</strong> to the vector case.</p>
+</li>
+<li><p>Allow time varying parameters in the system and noise descriptions.</p>
+</li>
+</ol>
+<p><strong>What can the KF algorithm do?</strong></p>
+<p>It can be used for propagating the conditional density and optimal estimate from one measurement sample time to the next.</p>
+<p><strong>Similarily</strong>, the Kalman filter update at a measurement time is just the extension of <strong>Eqs.(13) -(15)</strong> , <strong>further logical extensions tould include：</strong></p>
+<ol>
+<li>Estimation with data <strong>beyond the time</strong> when variables are to be estimated.</li>
+<li>Estimation with <strong>nonlinear system</strong> models rather than linear.</li>
+<li>Control of systems described through <strong>stochastic models</strong>.</li>
+<li>Both estimation and control when the noise and system parameters are <strong>not known</strong> with absolute certainty.</li>
+</ol>
+
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯奶茶？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《卡尔曼滤波 maybeck_ch1 阅读摘录》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/05/14/kf-extract/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                Lightshaker
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'b675ce49d330b63cdd81',
+        clientSecret: 'b0604fd563502ca06f2a0f63e353bb07b79c0dfc',
+        repo: 'Lightshaker.github.io',
+        owner: 'Lightshaker',
+        admin: "Lightshaker",
+        id: '2020/05/14/kf-extract/',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+    <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments input[type=text],
+    #vcomments input[type=email],
+    #vcomments input[type=url],
+    #vcomments textarea {
+        box-sizing: border-box;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #42b983;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div id="vcomments" class="card-content"></div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<!-- <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script> -->
+
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '',
+        appKey: '',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'false' === 'true',
+        avatar: 'wavatar',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: '如果你没有GitHub账号，还可以在这里评论啦！'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/05/15/mathjax/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="MathJax与Latex公式简介">
+                        
+                        <span class="card-title">MathJax与Latex公式简介</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+本文全文转载自：https://www.cnblogs.com/linxd/p/4955530.html
+
+MathJax与Latex公式简介本文从math.stackexchange.com上名为MathJax basic tutori
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-15
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/其他工具/" class="post-category" target="_blank">
+                                    其他工具
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MathJax/" target="_blank">
+                        <span class="chip bg-color">MathJax</span>
+                    </a>
+                    
+                    <a href="/tags/Latex/" target="_blank">
+                        <span class="chip bg-color">Latex</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/04/13/hybridprogr-cpppython/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Ubuntu CLion C++/Python混合编程">
+                        
+                        <span class="card-title">Ubuntu CLion C++/Python混合编程</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+  本文总结了在CLion的C/C++工程中调用Python脚本的配置与使用方法。
+
+环境配置配置CMakeLists
+include_directories(/usr/include/python3.6)
+link_directorie
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-04-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/混合编程/" class="post-category" target="_blank">
+                                    混合编程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
+                    </a>
+                    
+                    <a href="/tags/混合编程/" target="_blank">
+                        <span class="chip bg-color">混合编程</span>
+                    </a>
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('100')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: LightHouse<br />'
+            + '作者: Lightshaker<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2020-  Lightshaker. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">63.3k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/lightshaker" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lightshaker@126.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2020, 01, 23, 00, 00, 00); //北京时间2020-1-23 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    /*siteTime();*/
+</script>
+/*<script src="/js/prism/prism.js" async></script>*/
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "LightHouse", clearTimeout(st)) : (document.title = "LightHouse", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>

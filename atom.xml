@@ -18,8 +18,8 @@
   
   <entry>
     <title>从xacro模型文件建立机械臂仿真环境</title>
-    <link href="https://www.lightshaker.cn/anno-simulation.html"/>
-    <id>https://www.lightshaker.cn/anno-simulation.html</id>
+    <link href="https://www.lightshaker.cn/2020/07/28/anno-simulation/"/>
+    <id>https://www.lightshaker.cn/2020/07/28/anno-simulation/</id>
     <published>2020-07-28T01:18:39.000Z</published>
     <updated>2020-07-28T01:26:09.315Z</updated>
     
@@ -46,8 +46,8 @@
   
   <entry>
     <title>ROS入门笔记(一)</title>
-    <link href="https://www.lightshaker.cn/ros-basic.html"/>
-    <id>https://www.lightshaker.cn/ros-basic.html</id>
+    <link href="https://www.lightshaker.cn/2020/07/27/ros-basic/"/>
+    <id>https://www.lightshaker.cn/2020/07/27/ros-basic/</id>
     <published>2020-07-27T13:07:13.000Z</published>
     <updated>2020-07-28T01:26:50.296Z</updated>
     
@@ -73,8 +73,8 @@
   
   <entry>
     <title>GCC与CMake入门</title>
-    <link href="https://www.lightshaker.cn/cmake.html"/>
-    <id>https://www.lightshaker.cn/cmake.html</id>
+    <link href="https://www.lightshaker.cn/2020/05/18/cmake/"/>
+    <id>https://www.lightshaker.cn/2020/05/18/cmake/</id>
     <published>2020-05-18T04:34:46.000Z</published>
     <updated>2020-07-28T01:31:58.187Z</updated>
     
@@ -101,8 +101,8 @@
   
   <entry>
     <title>Hexo 错误警告与解决办法</title>
-    <link href="https://www.lightshaker.cn/hexo-issues.html"/>
-    <id>https://www.lightshaker.cn/hexo-issues.html</id>
+    <link href="https://www.lightshaker.cn/2020/05/15/hexo-issues/"/>
+    <id>https://www.lightshaker.cn/2020/05/15/hexo-issues/</id>
     <published>2020-05-15T10:33:19.000Z</published>
     <updated>2020-05-18T01:03:32.284Z</updated>
     
@@ -130,8 +130,8 @@
   
   <entry>
     <title>MathJax与Latex公式简介</title>
-    <link href="https://www.lightshaker.cn/mathjax.html"/>
-    <id>https://www.lightshaker.cn/mathjax.html</id>
+    <link href="https://www.lightshaker.cn/2020/05/15/mathjax/"/>
+    <id>https://www.lightshaker.cn/2020/05/15/mathjax/</id>
     <published>2020-05-15T08:04:37.000Z</published>
     <updated>2020-07-31T14:03:01.320Z</updated>
     
@@ -159,8 +159,8 @@
   
   <entry>
     <title>卡尔曼滤波 maybeck_ch1 阅读摘录</title>
-    <link href="https://www.lightshaker.cn/kf-extract.html"/>
-    <id>https://www.lightshaker.cn/kf-extract.html</id>
+    <link href="https://www.lightshaker.cn/2020/05/14/kf-extract/"/>
+    <id>https://www.lightshaker.cn/2020/05/14/kf-extract/</id>
     <published>2020-05-14T09:25:15.000Z</published>
     <updated>2020-05-18T01:03:32.284Z</updated>
     
@@ -185,8 +185,8 @@
   
   <entry>
     <title>Ubuntu CLion C++/Python混合编程</title>
-    <link href="https://www.lightshaker.cn/hybridprogr-cpppython.html"/>
-    <id>https://www.lightshaker.cn/hybridprogr-cpppython.html</id>
+    <link href="https://www.lightshaker.cn/2020/04/13/hybridprogr-cpppython/"/>
+    <id>https://www.lightshaker.cn/2020/04/13/hybridprogr-cpppython/</id>
     <published>2020-04-13T13:45:32.000Z</published>
     <updated>2020-05-18T01:03:32.272Z</updated>
     
@@ -218,8 +218,8 @@
   
   <entry>
     <title>C++ 基础笔记</title>
-    <link href="https://www.lightshaker.cn/cpp-notes.html"/>
-    <id>https://www.lightshaker.cn/cpp-notes.html</id>
+    <link href="https://www.lightshaker.cn/2020/04/12/cpp-notes/"/>
+    <id>https://www.lightshaker.cn/2020/04/12/cpp-notes/</id>
     <published>2020-04-12T08:17:54.000Z</published>
     <updated>2020-06-23T13:24:27.831Z</updated>
     
@@ -248,8 +248,8 @@
   
   <entry>
     <title>最小二乘回归策略</title>
-    <link href="https://www.lightshaker.cn/leastsq.html"/>
-    <id>https://www.lightshaker.cn/leastsq.html</id>
+    <link href="https://www.lightshaker.cn/2020/04/08/leastsq/"/>
+    <id>https://www.lightshaker.cn/2020/04/08/leastsq/</id>
     <published>2020-04-08T01:51:42.000Z</published>
     <updated>2020-05-18T01:03:32.272Z</updated>
     
@@ -279,8 +279,8 @@
   
   <entry>
     <title>Ubuntu 备忘笔记</title>
-    <link href="https://www.lightshaker.cn/ubuntu-notes.html"/>
-    <id>https://www.lightshaker.cn/ubuntu-notes.html</id>
+    <link href="https://www.lightshaker.cn/2020/04/07/ubuntu-notes/"/>
+    <id>https://www.lightshaker.cn/2020/04/07/ubuntu-notes/</id>
     <published>2020-04-07T12:05:13.000Z</published>
     <updated>2020-06-23T13:23:31.880Z</updated>
     
@@ -308,8 +308,8 @@
   
   <entry>
     <title>Hexo代码段等宽字体的设置方法</title>
-    <link href="https://www.lightshaker.cn/hexo-codefont.html"/>
-    <id>https://www.lightshaker.cn/hexo-codefont.html</id>
+    <link href="https://www.lightshaker.cn/2020/04/06/hexo-codefont/"/>
+    <id>https://www.lightshaker.cn/2020/04/06/hexo-codefont/</id>
     <published>2020-04-06T12:01:45.000Z</published>
     <updated>2020-05-18T01:03:32.276Z</updated>
     
@@ -336,8 +336,8 @@
   
   <entry>
     <title>Hexo文章插入图片的常用方法和一些问题</title>
-    <link href="https://www.lightshaker.cn/hexo-illustration.html"/>
-    <id>https://www.lightshaker.cn/hexo-illustration.html</id>
+    <link href="https://www.lightshaker.cn/2020/04/06/hexo-illustration/"/>
+    <id>https://www.lightshaker.cn/2020/04/06/hexo-illustration/</id>
     <published>2020-04-06T09:30:52.000Z</published>
     <updated>2020-05-18T01:03:32.280Z</updated>
     
@@ -365,8 +365,8 @@
   
   <entry>
     <title>Ubuntu下Hexo静态博客搭建流程(干货)</title>
-    <link href="https://www.lightshaker.cn/hexo-build.html"/>
-    <id>https://www.lightshaker.cn/hexo-build.html</id>
+    <link href="https://www.lightshaker.cn/2020/03/20/hexo-build/"/>
+    <id>https://www.lightshaker.cn/2020/03/20/hexo-build/</id>
     <published>2020-03-20T03:55:55.000Z</published>
     <updated>2020-05-18T01:03:32.272Z</updated>
     

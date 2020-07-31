@@ -1,0 +1,2489 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="ROS入门笔记(一), LightHouse">
+    <meta name="baidu-site-verification" content="qEvyYTI5eV">
+    <meta name="google-site-verification" content>
+    <meta name="360-site-verification" content>
+    <meta name="description" content="
+学习内容来源：古月居ROS入门21讲
+
+核心概念通信机制：松耦合分布式软件框架
+Node 节点
+ROS Master 控制中心/节点管理器
+Topic 话题 – 发布/订阅式的单向异步通信   &amp;amp;&amp;amp;  Message 话题">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>ROS入门笔记(一) | LightHouse</title>
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?46e79e71af0709a5b9106bf20cecc493";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7df679a1cc43e25d60e458e238e807d7";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+    
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.ico" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">LightHouse</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.ico" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">LightHouse</div>
+        <div class="logo-desc">
+            
+            It is our choices that show what we truly are, far more than our abilities.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/lightshaker" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/lightshaker" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        ROS入门笔记(一)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/ROS机器人操作系统/" target="_blank">
+                            <span class="chip bg-color">ROS机器人操作系统</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/机器人/" class="post-category" target="_blank">
+                            机器人
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-07-27
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    Lightshaker
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    29 分
+                </div>
+                
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p>学习内容来源：<a href="https://www.bilibili.com/video/BV1zt411G7Vn?from=search&seid=968343469818181771" target="_blank" rel="noopener">古月居ROS入门21讲</a></p>
+</blockquote>
+<h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><p><strong>通信机制：</strong>松耦合分布式软件框架</p>
+<p><strong>Node</strong> 节点</p>
+<p><strong>ROS Master</strong> 控制中心/节点管理器</p>
+<p><strong>Topic</strong> 话题 – 发布/订阅式的单向异步通信   &amp;&amp;  <strong>Message</strong> 话题内数据 .msg   话题通信适用于数据传输</p>
+<p><strong>Service</strong> 服务 – 请求/应答式的双向同步通信 .srv  服务通信适用于逻辑处理</p>
+<p><strong>Parameter</strong> 参数 – 全局共享字典服务器，节点使用它来存储和检索运行时的参数，适合存储静态、非二进制的配置参数</p>
+<p><strong>文件系统：</strong></p>
+<ul>
+<li><p><strong>Package</strong> 功能包</p>
+<p>ROS软件中的基本单元，包含节点源码、配置文件、数据定义等，完成某个特定的功能如人脸识别等。</p>
+</li>
+<li><p><strong>Package manifest</strong> 功能包清单</p>
+<p>记录功能包的基本信息，包括作者信息、许可信息、依赖选项、编译标志等</p>
+</li>
+<li><p><strong>Meta Package</strong> 元功能包</p>
+<p>组织多个用于同一目的的功能包</p>
+</li>
+</ul>
+<h3 id="ROS命令行工具"><a href="#ROS命令行工具" class="headerlink" title="ROS命令行工具"></a>ROS命令行工具</h3><p><strong>常用命令</strong></p>
+<p><code>roscore</code>：启动ROS Master</p>
+<p><code>rosrun &lt;package&gt; &lt;bin&gt;</code>：启动某个功能包的某个节点，<code>package</code>表示功能包名，<code>bin</code>表示该功能包下的<code>.cpp</code>文件编译生成的可执行文件或赋予可执行权限的<code>.py</code>文件，其中C++程序编译生成的可执行文件一般在<code>Project/devel/lib/packageName</code>路径下。</p>
+<p><code>rostopic</code>：话题相关</p>
+<ul>
+<li><code>rostopic list</code>：查看系统中存在的所有话题名</li>
+<li><code>rostopic type topicName</code>：查看指定话题的消息类型</li>
+<li><code>rostopic echo topicName</code>：输出指定话题在程序运行过程中传输的消息</li>
+</ul>
+<p><code>rosmsg</code>：消息相关</p>
+<ul>
+<li><p><code>rosmsg list</code>：查看系统中存在的所有消息名</p>
+</li>
+<li><p><code>rosmsg show msgName</code>：查看指定消息msg的数据结构</p>
+</li>
+</ul>
+<p><code>rosservice</code>：服务相关</p>
+<ul>
+<li><code>rosservice list</code>：查询系统中存在的服务</li>
+<li>``rosservice type serviceName`：查看指定服务的srv类型</li>
+</ul>
+<p><code>rossrv</code>：服务内容相关</p>
+<ul>
+<li><code>rossrv list</code>：查看系统中存在的服务内容</li>
+<li><code>rossrv type srvName</code>：查看指定服务内容srv的具体数据结构</li>
+</ul>
+<p><code>rosnode</code>：查询节点相关信息</p>
+<ul>
+<li><code>rosenode list</code>：查看所有节点名</li>
+<li><code>rosenode info nodename</code>：查看节点nodename的信息，包括其发布、订阅的话题，服务通信的内容以及pid和底层通信信息</li>
+</ul>
+<p><strong>实用工具</strong></p>
+<p><code>rosrun rqt_graph rqt_graph</code>：总览整个工程的节点、话题关系</p>
+<p><code>ros_bag</code>：记录所有话题数据</p>
+<ul>
+<li>话题记录：<code>rosbag record -a -O cmd_record</code>，<code>-a</code>表示all， <code>-O</code>设置保存下来的压缩包名字为 “cmd_record”，默认存<code>/home</code>下</li>
+<li>话题复现：<code>rosbag play cmd_record.bag</code></li>
+</ul>
+<p><strong>小海龟例子</strong></p>
+<p>终端一启动ROS Master：<code>roscore</code></p>
+<p>终端二启动小海龟仿真器：<code>rosrun turtlesim turtlesim_node</code></p>
+<p>终端三启动小海龟键盘控制节点：<code>rosrun turtlesim turtle_teleop_key</code></p>
+<p>利用命令行控制海龟移动：</p>
+<ul>
+<li>查看话题名：<code>rostopic list</code></li>
+<li>设置运动速度：<code>rostopic pub /turtle1/cmd_vel geometry_msgs/Twist &quot;：</code>，修改线速度<code>linear</code>和角速度<code>angular</code> 回车即可</li>
+<li>坐标轴方向为x朝前，z朝上（小海龟视角），线速度单位是 米/秒， 角速度单位是 弧度/秒</li>
+<li>增加一个发送频率使海龟持续移动：<code>pub -r 10</code> 每秒发送10次命令</li>
+</ul>
+<p>生成第二只海龟：</p>
+<ul>
+<li>查看生成海龟的服务：<code>rosservice list</code>，其中 <code>/spawn</code> 就是生成海龟的服务</li>
+<li>发布服务请求：<code>rosservice call /spawn</code>，设置新海龟的坐标x, y, z以及名字name，回车即可</li>
+</ul>
+<p>记录与复现</p>
+<ul>
+<li>记录所有信息：<code>rosbad record -a -O cmd_record</code>，在<code>/home</code>下就会出现一个名为<code>cmd_record.bag</code>的文件</li>
+<li>复现：先关闭之前的进程，重新启动ROS Master和仿真器，再运行 <code>rosbag play cmd_record.bag</code> 即可</li>
+</ul>
+<h3 id="基本指令"><a href="#基本指令" class="headerlink" title="基本指令"></a>基本指令</h3><h4 id="创建工作空间与功能包"><a href="#创建工作空间与功能包" class="headerlink" title="创建工作空间与功能包"></a>创建工作空间与功能包</h4><p><strong>关键指令含义：</strong></p>
+<ul>
+<li><code>catkin_init_workspace</code>：初始化工作空间，在<code>src</code>中生成 <code>CMakeLists.txt</code> 文件</li>
+<li><code>catkin_make install</code>：编译<code>src</code>路径下所有功能包的源码，生成三个文件夹：<code>devel</code>，<code>build</code>，<code>install</code></li>
+<li><code>catkin_create_pkg</code>：创建功能包<code>test_pkg</code>，依赖于<code>std_msgs</code>、<code>rospy</code>、<code>roscpp</code>，功能包必须在<code>src</code>中创建</li>
+</ul>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">mkdir</span> -p catkin_ws/src
+<span class="token function">cd</span> catkin_ws/src
+catkin_init_workspace
+<span class="token function">cd</span> <span class="token punctuation">..</span>
+catkin_make <span class="token function">install</span>
+<span class="token function">cd</span> src/
+catkin_create_pkg test_pkg std_msgs rospy roscpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>生成的各个文件夹的含义：</p>
+<ul>
+<li><p><code>catkin_ws</code>：工作空间根目录</p>
+</li>
+<li><p><code>build</code>：编译空间，存放编译过程中生成的中间文件</p>
+</li>
+<li><p><code>devel</code>：开发空间，存放开发过程中生成的可执行文件、头文件和库</p>
+</li>
+<li><p><code>install</code>：安装空间，存放开发完成后最终编译生成的可执行文件</p>
+</li>
+<li><p><code>src</code>：存放所有功能包的源码</p>
+</li>
+<li><p><code>test_pkg</code>：功能包，在该路径下生成子文件夹<code>src</code>与<code>include</code>，以及配置文件<code>CMakeLists.txt</code>和<code>package.xml</code></p>
+<ul>
+<li><code>CMakeLists.txt</code>：设置编译规则</li>
+<li><code>package.xml</code>：提供关于功能包的信息，如名称、版本、描述、作者邮箱、开源协议以及依赖信息等</li>
+</ul>
+</li>
+</ul>
+<p>创建完功能包后回到工作空间根目录重新<code>catkin_make</code>：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> <span class="token punctuation">..</span>
+catkin_make <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>将功能包路径添加到系统环境变量中：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">source</span> devel/setup.bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>查看是否成功添加环境变量：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token keyword">echo</span> <span class="token variable">$ROS_PACKAGE_PATH</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="Publisher-发布者编程实现"><a href="#Publisher-发布者编程实现" class="headerlink" title="Publisher 发布者编程实现"></a>Publisher 发布者编程实现</h3><p><strong>小海龟示例的通讯例子：</strong></p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/example_publisher.png" alt="话题模型（发布/订阅）">
+
+<p><strong>建立新的工作空间，创建包：</strong></p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">mkdir</span> -p catkin_ws/src
+<span class="token function">cd</span> catkin_ws/src
+catkin_init_workspace
+catkin_create_pkg learning_topic roscpp rospy std_msgs geometry_msgs turtlesim
+vim learning_topic/velocity_publisher.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>Publisher 实现过程（沿用上面的工作空间）：</strong></p>
+<ul>
+<li>初始化ROS节点</li>
+<li>向ROS Master注册节点信息，包括发布的话题名以及话题中的消息类型</li>
+<li>创建消息数据</li>
+<li>按照一定的频率循环发布消息</li>
+</ul>
+<p><strong>cpp版本：</strong></p>
+<p>velocity_publisher.cpp</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+ * 该例程发布turtle1/cmd_vel话题，消息类型为geometry_msgs::Twist
+ */</span>
+
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;geometry_msgs/Twist.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> argv<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 初始化ROS节点并创建节点句柄</span>
+    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"velocity_publisher"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 注册节点，创建Publisher，发布名为"/turtle1/cmd_vel"的话题，消息类型为Twist，队列长度10</span>
+    ros<span class="token operator">::</span>Publisher turtle_vel_pub <span class="token operator">=</span> n<span class="token punctuation">.</span>advertise<span class="token operator">&lt;</span>geometry_msgs<span class="token operator">::</span>Twist<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"turtle1/cmd_vel"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 设置循环频率</span>
+    ros<span class="token operator">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span><span class="token punctuation">(</span>ros<span class="token operator">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 初始化geometry_msgs::Twist类型的消息</span>
+        geometry_msgs<span class="token operator">::</span>Twist vel_msg<span class="token punctuation">;</span>
+        vel_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">0.5</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 线速度</span>
+        vel_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z <span class="token operator">=</span> <span class="token number">0.2</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 角速度</span>
+
+        <span class="token comment" spellcheck="true">// 发布消息</span>
+        turtle_vel_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>vel_msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Publish turtle velocity command[%0.2f m/s, %0.2f rad/s]"</span><span class="token punctuation">,</span> vel_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x<span class="token punctuation">,</span> vel_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 按照循环频率延时</span>
+        loop_rate<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>本例程中部分内容的解释</strong></p>
+<p>​    <strong>队列：</strong>“队列”的意思就是buffer缓冲区。由于ROS发布和接收并不是同步的，如果发布的速度非常快，例如10ms就能发送一条信息，但接受方并不能做到10ms接受一条信息，为了解决这个问题，要在发送方和接受方之间加一个缓冲区，发送方将数据按照发送顺序写入缓冲区，接受方就从缓冲区里读。队列的长度就是缓冲区的容量，在发送与接受的速度相差不大且队列长度足够时，接受方慢慢读一定是能读完每一条信息的，但如果发送速度远大于接受速度，当队列溢出时，最早写入缓冲区的数据就会被弹出，整个过程类似于双端队列<code>queue</code>。</p>
+<p>​    <strong>ros::Rate loop_rate(10)：</strong>用于控制发布速率，数值10表示将发布速度限制在<code>10hz</code>，这里只是设置了发布的速度，需要配合<code>loop_rate.sleep()</code>进行休眠，才能达到休眠/限速的目的。</p>
+<p>​    <strong>ros::ok()：</strong>roscpp默认生成一个SIGNT句柄，它负责处理Ctrl+C键盘操作—使ros::ok()返回false，意味着当前的节点失效。ros::ok()返回false的情况有以下四种：</p>
+<ul>
+<li>SIGNT被触发，即键盘按下Ctrl+C</li>
+<li>被另一个同名节点踢出ROS网络</li>
+<li>ros::shutdown()被程序的另一部分调用</li>
+<li>节点中的所有ros::NodeHandles都已经被销毁</li>
+</ul>
+<p>​    <strong>turtle1/cmd_vel：</strong>ROS自带的小海龟例程中的一个话题名，在用<code>rosrun turtlesim turtlesim_node</code>启动小海龟节点后，可用<code>rostopic list</code>查找到该话题，如图1所示。在明确知道话题名时，可用<code>rostopic type /turtle1/cmd_vel</code>查看该话题的消息类型，如图1所示，消息类型为<code>geometry_msgs/Twist</code>，在程序中标注消息类型时需要引入同名头文件<code>#include &lt;geometry_msgs/Twist.h&gt;</code>，使用该消息类型时，要用命名空间的形式，如<code>geometry_msgs::Twist</code>。 </p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/pub_rostopic.png" alt="图1 小海龟rostopic">
+
+<p>​    另外，也可以用<code>rosmsg list</code>查找到该消息名称，如图2所示。要知道如何在程序中设置消息内容，可以使用<code>rosmsg show geometry/Twist</code>查看该消息在程序中可用的数据类型，如图3所示，该消息包含了线速度<code>linear</code>和角速度<code>angular</code>两个结构体，其中又分别包含了<code>x</code>,<code>y</code>,<code>z</code>三个分量，在程序中可以访问类public成员的方式设置和使用这些数据，例如<code>vel_msg.linear.x</code>或<code>vel_msg.angular.z</code>。</p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/pub_rosmsg_list.png" alt="图2 小海龟rosmsg list">
+
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/pub_rosmsg_show.png" alt="图3 geometry_msgs/Twist的具体数据结构">
+
+<p><strong>CMakeLists.txt</strong></p>
+<pre class="line-numbers language-cmake"><code class="language-cmake"># 添加待编译文件与链接库
+add_executable(velocity_publisher src/velocity_publisher.cpp)
+target_link_libraries(velocity_publisher ${catkin_LIBRARIES})<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>编译运行</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 终端一</span>
+<span class="token function">cd</span> ~/catkin_ws
+catkin_make
+rescore
+<span class="token comment" spellcheck="true"># 终端二</span>
+rosrun turtlesim turtlesim_node 
+<span class="token comment" spellcheck="true"># 终端三</span>
+<span class="token function">source</span> devel/setup.bash
+rosrun learning_ropic velocity_publisher <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>需要注意的是，<code>source</code> 执行的命令只对当前的终端有效，而终端三才用到我们自己写的<code>velocity_publisher</code>，因此需要在启动终端三时再执行一次 <code>source</code>，否则 <code>rosrun</code> 无法找到 <code>learning_topic</code> 功能包。</p>
+<p><strong>python版本：</strong></p>
+<p>为了将cpp和py文件区分开，在<code>learning_topic</code>路径下新建一个文件夹<code>scripts</code>用于存放py源码</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> ~/catkin_ws/src/learning_topic
+<span class="token function">mkdir</span> scripts <span class="token operator">&amp;&amp;</span> <span class="token function">cd</span> scripts
+vim velocity_publisher.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>velocity_publisher.py</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#! /usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+<span class="token comment" spellcheck="true"># 该例程发布turtle1/cmd_vel话题，消息类型geometry_msgs::Twist</span>
+
+<span class="token keyword">import</span> rospy
+<span class="token keyword">from</span> geometry_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Twist
+
+<span class="token keyword">def</span> <span class="token function">velocity_publisher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># 初始化</span>
+    rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">"velocity_publisher"</span><span class="token punctuation">,</span> anonymous<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 注册节点，创建Publisher，发布名为"/turtle1/cmd_vel"的话题，消息类型为Twist，队列长度10</span>
+    turtle_vel_pub <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Publisher<span class="token punctuation">(</span><span class="token string">'/turtle1/cmd_vel'</span><span class="token punctuation">,</span> Twist<span class="token punctuation">,</span> queue_size<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 设置循环频率</span>
+    rate <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Rate<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">while</span> <span class="token operator">not</span> rospy<span class="token punctuation">.</span>is_shutdown<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true"># 初始化geometry_msgs::Twist类型的消息</span>
+        vel_msg <span class="token operator">=</span> Twist<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        vel_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">0.5</span>
+        vel_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z <span class="token operator">=</span> <span class="token number">0.2</span>
+
+        <span class="token comment" spellcheck="true"># 发布消息</span>
+        turtle_vel_pub<span class="token punctuation">.</span>publish<span class="token punctuation">(</span>vel_msg<span class="token punctuation">)</span>
+        rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Publish turtle velocity command[%0.2f ms, %0.2f rad/s]"</span><span class="token punctuation">,</span> vel_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x<span class="token punctuation">,</span> vel_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># 按照循环频率延时</span>
+        rate<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        velocity_publisher<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">except</span> rospy<span class="token punctuation">.</span>ROSInterruptException<span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>由于python是解释性语言，因此需要给py文件加上可执行权限：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">chmod</span> +x velocity_publisher.py<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>运行时仅终端三的命令与cpp不同：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">source</span> ~/catkin/devel/setup.bash
+rosrun learning_topic velocity_publisher.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="Subscriber-订阅者编程实现"><a href="#Subscriber-订阅者编程实现" class="headerlink" title="Subscriber 订阅者编程实现"></a>Subscriber 订阅者编程实现</h3><p><strong>小海龟通讯机制</strong></p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/example_subscriber.png" alt="话题模型（发布/订阅）">
+
+<p>此处沿用 Publisher 的工作空间，不做改动，只添加 Subscriber：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> ~/catkin_ws/src/learning_topic/src
+vim pose_subscriber.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>Subscriber的实现过程：</strong></p>
+<ul>
+<li><p>初始化ROS节点</p>
+</li>
+<li><p>向ROS Master注册节点信息，包括订阅的话题名以及话题中的消息类型</p>
+</li>
+<li><p>循环等待话题消息，接收到消息后进入回调函数，在回调函数中处理消息</p>
+</li>
+<li><p>继续循环等待话题消息</p>
+</li>
+</ul>
+<p><strong>cpp版本：</strong></p>
+<p>pose_subscriber.cpp</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+ * 该例程订阅/turtle1/pose话题，消息类型为turtlesim::Pose
+ */</span>
+
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Pose.h"</span></span>
+
+<span class="token comment" spellcheck="true">// 回调函数，在接收到订阅消息后进入</span>
+<span class="token keyword">void</span> <span class="token function">poseCallback</span><span class="token punctuation">(</span><span class="token keyword">const</span> turtlesim<span class="token operator">::</span>Pose<span class="token operator">::</span>ConstPtr<span class="token operator">&amp;</span> msg<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 打印订阅的消息</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Turtle pose: x:%0.6f, y:%0.6f"</span><span class="token punctuation">,</span> msg<span class="token operator">-</span><span class="token operator">></span>x<span class="token punctuation">,</span> msg<span class="token operator">-</span><span class="token operator">></span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> argv<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 初始化</span>
+    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"pose_subscriber"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 注册订阅者，并订阅名为"/turtle1/pose"的话题，同时注册回调函数</span>
+    ros<span class="token operator">::</span>Subscriber pose_sub <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"/turtle1/pose"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> poseCallback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment" spellcheck="true">// 循环查询topic缓冲区队列</span>
+    ros<span class="token operator">::</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>例程中部分内容的解释</strong></p>
+<p>​    <strong>poseCallback：</strong>n.subscribe()订阅名为``/turtle1/pose<code>的话题，接收器每一次接受到消息时都会调用)名为</code>poseCallback<code>的函数，称为回调函数，在回调函数中处理接受到的信息。回调函数的参数</code>const turtlesim::Pose::ConstPtr&amp; msg<code>是指向具体消息类型的指针，指针形式</code>constPtr&amp;<code>是固定的，区别只在于前面的消息类型</code>turtlesim::Pose<code>。使用该指针的方式为</code>msg-&gt;data<code>，data为指定消息的具体数据结构，在本例中</code>turtlesim::Pose<code>的数据结构中包含了</code>float32 x<code>，因此可以用</code>msg-&gt;x`直接读取该数据。另外需要注意的是，ROS中的回调函数返回值只能为空。</p>
+<p>​    <strong>ros::spinOnce()：</strong>运行至该语句时，程序同样会到相应的topic订阅缓冲区查看是否存在消息，如果存在就将消息传入回调函数，如果不存在就继续执行程序接下来的语句。</p>
+<p>​    <strong>ros::spin()：</strong>运行至该语句时，程序同样会到相应的topic订阅缓冲区查看是否存在消息，如果存在就将消息传入回调函数，但是如果消息不存在就会一直重复上面的查询操作。总的来说，<code>spin</code>相当于处于<code>while(1)</code>死循环内的<code>spinOnce()</code>，<code>spinOnce</code>只查询一次，有消息就传参给回调函数，没有就继续执行程序，而<code>spin</code>会一直循环查询和传参，终止<code>spin</code>的方式与终止<code>ros::ok()</code>相同。</p>
+<p>CMakeLists.txt</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake"># 添加待编译文件与链接库
+add_executable(pose_subscriber src/pose_subscriber.cpp)
+target_link_libraries(velocity_publisher ${catkin_LIBRARIES})<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>编译运行</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 终端一</span>
+<span class="token function">cd</span> ~/catkin_ws
+catkin_make
+rescore
+<span class="token comment" spellcheck="true"># 终端二</span>
+rosrun turtlesim turtlesim_node 
+<span class="token comment" spellcheck="true"># 终端三</span>
+<span class="token function">source</span> devel/setup.bash
+rosrun learning_ropic velocity_publisher<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过键盘控制或利用刚刚写的Publisher让海龟动起来就能看到终端三中的数据变化</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">source</span> devel/setup.bash
+<span class="token comment" spellcheck="true"># 键盘控制</span>
+rosrun turtlesim turtle_teleop_key
+<span class="token comment" spellcheck="true"># 运行Publisher</span>
+rosrun learning_topic velocity_publisher<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>python版本：</strong></p>
+<p>同理在<code>sciprts</code>文件夹中添加 <code>pose_subscriber.py</code> 文件</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> ~/catkin_ws/src/learning_topic/scripts
+vim pose_subscriber.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>pose_subscriber.py</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#! /usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+<span class="token comment" spellcheck="true"># 该例程订阅 turtle1/Pose 话题，消息类型turtlesim::Pose</span>
+
+<span class="token keyword">import</span> rospy
+<span class="token keyword">from</span> turtlesim<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Pose
+
+<span class="token keyword">def</span> <span class="token function">poseCallback</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Turtle pose: x:%0.6f, y:%0.6f"</span><span class="token punctuation">,</span> msg<span class="token punctuation">.</span>x<span class="token punctuation">,</span> msg<span class="token punctuation">.</span>y<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">pose_subscriber</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">"pose_subscriber"</span><span class="token punctuation">,</span> anonymous<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+    rospy<span class="token punctuation">.</span>Subscriber<span class="token punctuation">(</span><span class="token string">"/turtle1/pose"</span><span class="token punctuation">,</span> Pose<span class="token punctuation">,</span> poseCallback<span class="token punctuation">)</span>
+    rospy<span class="token punctuation">.</span>spin<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    pose_subscriber<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>加上可执行权限</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">chmod</span> +x pose_subscriber.py<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>运行 pose_subscriber.py：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">source</span> devel/setup.bash
+rosrun learning_topic pose_subscriber.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="话题消息自定义与使用"><a href="#话题消息自定义与使用" class="headerlink" title="话题消息自定义与使用"></a>话题消息自定义与使用</h3><img src="//www.lightshaker.cn/2020/07/27/ros-basic/自定义msg.png" alt="Person话题消息自定义">
+
+<p><strong>自定义话题消息数据类型的方式：</strong></p>
+<ul>
+<li>创建msg文件</li>
+<li>在<code>package.xml</code>文件中添加功能包依赖</li>
+</ul>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build_depend</span><span class="token punctuation">></span></span>message_generation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build_depend</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>exec_depend</span><span class="token punctuation">></span></span>message_runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>exec_depend</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ul>
+<li>在<code>CMakeLists.txt</code>中添加编译选项</li>
+</ul>
+<pre class="line-numbers language-cmake"><code class="language-cmake">find_package(... message_generation)
+add_message_files(FILES Person.msg)
+generation_messages(DEPENDENCIES std_msgs)
+catkin_package(... message_runtime)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>编译生成与自定义数据相关的头文件</li>
+</ul>
+<p><strong>cpp版本</strong></p>
+<ul>
+<li>沿用<code>learning_topic</code>功能包，在功能包路径下创建<code>msg</code>文件夹，在文件夹中创建<code>Person.msg</code>数据文件，内容如下：</li>
+</ul>
+<pre class="line-numbers language-txt"><code class="language-txt">string name
+uint8 sex
+uint8 age
+
+uint8 unknown = 0
+uint8 male = 1
+uint8 female = 2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>设置<code>package.xml</code>和<code>CMakeLists.txt</code></li>
+</ul>
+<pre class="line-numbers language-xml"><code class="language-xml">...
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build_depend</span><span class="token punctuation">></span></span>message_generation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build_depend</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>exec_depend</span><span class="token punctuation">></span></span>message_runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>exec_depend</span><span class="token punctuation">></span></span>
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cmake"><code class="language-cmake">cmake_minimum_required(VERSION 2.8.3)
+project(learning_topic)
+
+find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
+  roscpp
+  rospy
+  std_msgs
+  turtlesim
+  message_generation
+)
+
+add_message_files(
+  FILES
+  Person.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
+catkin_package(
+ CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs turtlesim message_runtime
+)
+
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>执行<code>catkin_make</code>编译工程后，在<code>devel/include/learning_topic/</code>工程路径内会生成一个<code>Person.h</code>头文件，对应刚刚创建的<code>Person.msg</code></li>
+<li>在<code>learning_topic/src</code>路径下创建<code>person_publisher.cpp</code>和<code>person_subscriber.cpp</code>源文件</li>
+</ul>
+<p><strong>person_publisher.cpp</strong></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+ * 该例程将发布/person_info话题，自定义消息类型learning_topic::Person
+ */</span>
+
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span>...</span>
+<span class="token operator">&lt;</span>build_depend<span class="token operator">></span>message_generation<span class="token operator">&lt;</span><span class="token operator">/</span>build_depend<span class="token operator">></span>
+<span class="token operator">&lt;</span>exec_depend<span class="token operator">></span>message_runtime<span class="token operator">&lt;</span><span class="token operator">/</span>exec_depend<span class="token operator">></span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"learning_topic/Person.h"</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
+    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"person_publisher"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
+    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建一个Publisher，发布名为/person_info的topic，消息类型为learning_topic::Person，队列长度10</span>
+    ros<span class="token operator">::</span>Publisher person_info_pub <span class="token operator">=</span> n<span class="token punctuation">.</span>advertise<span class="token operator">&lt;</span>learning_topic<span class="token operator">::</span>Person<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"/person_info"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 设置循环的频率</span>
+    ros<span class="token operator">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>ros<span class="token operator">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 初始化learning_topic::Person类型的消息</span>
+        learning_topic<span class="token operator">::</span>Person person_msg<span class="token punctuation">;</span>
+        person_msg<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"Tom"</span><span class="token punctuation">;</span>
+        person_msg<span class="token punctuation">.</span>age  <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">;</span>
+        person_msg<span class="token punctuation">.</span>sex  <span class="token operator">=</span> learning_topic<span class="token operator">::</span>Person<span class="token operator">::</span>male<span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 发布消息</span>
+        person_info_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>person_msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+           <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Publish Person Info: name:%s  age:%d  sex:%d"</span><span class="token punctuation">,</span> 
+                  person_msg<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> person_msg<span class="token punctuation">.</span>age<span class="token punctuation">,</span> person_msg<span class="token punctuation">.</span>sex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 按照循环频率延时</span>
+        loop_rate<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>person_subscriber.cpp</strong></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+ * 该例程将订阅/person_info话题，自定义消息类型learning_topic::Person
+ */</span>
+
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"learning_topic/Person.h"</span></span>
+
+<span class="token comment" spellcheck="true">// 接收到订阅的消息后，会进入消息回调函数</span>
+<span class="token keyword">void</span> <span class="token function">personInfoCallback</span><span class="token punctuation">(</span><span class="token keyword">const</span> learning_topic<span class="token operator">::</span>Person<span class="token operator">::</span>ConstPtr<span class="token operator">&amp;</span> msg<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 将接收到的消息打印出来</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Subcribe Person Info: name:%s  age:%d  sex:%d"</span><span class="token punctuation">,</span> 
+             msg<span class="token operator">-</span><span class="token operator">></span>name<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> msg<span class="token operator">-</span><span class="token operator">></span>age<span class="token punctuation">,</span> msg<span class="token operator">-</span><span class="token operator">></span>sex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 初始化ROS节点</span>
+    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"person_subscriber"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
+    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建一个Subscriber，订阅名为/person_info的topic，注册回调函数personInfoCallback</span>
+    ros<span class="token operator">::</span>Subscriber person_info_sub <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"/person_info"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> personInfoCallback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 循环等待回调函数</span>
+    ros<span class="token operator">::</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>CMakeLists.txt</strong></p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">add_executable(person_publisher src/person_publisher.cpp)
+target_link_libraries(person_publisher ${catkin_LIBRARIES})
+add_dependencies(person_publisher ${PROJECT_NAME}_generate_messages_cpp)
+# 注：add_dependencies将可执行文件与之前编译生成的Person头文件相关联
+add_executable(person_subscriber src/person_subscriber.cpp)
+target_link_libraries(person_subscriber ${catkin_LIBRARIES})
+add_dependencies(person_subscriber ${PROJECT_NAME}_generate_messages_cpp)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>编译运行</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> ~/catkin_ws
+catkin_make
+<span class="token comment" spellcheck="true"># 终端一</span>
+roscore
+<span class="token comment" spellcheck="true"># 终端二</span>
+<span class="token function">source</span> devel/setup.bash
+rosrun learning_topic person_publisher
+<span class="token comment" spellcheck="true"># 终端三</span>
+<span class="token function">source</span> devel/setup.bash
+rosrun learning_topic person_subscriber<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>运行结果如图所示</p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/person_msg运行结果.png" alt="自定义话题消息运行结果">
+
+<p><strong>python版本</strong></p>
+<ul>
+<li>在<code>/learning_topic/scripts</code>路径下创建<code>person_publisher.py</code>和<code>person_subscriber.py</code>文件</li>
+</ul>
+<p><strong>person_publisher.py</strong></p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+<span class="token comment" spellcheck="true"># 该例程将发布/person_info话题，自定义消息类型learning_topic::Person</span>
+
+<span class="token keyword">import</span> rospy
+<span class="token keyword">from</span> learning_topic<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Person
+
+<span class="token keyword">def</span> <span class="token function">velocity_publisher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># ROS节点初始化</span>
+    rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">'person_publisher'</span><span class="token punctuation">,</span> anonymous<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 创建一个Publisher，发布名为/person_info的topic，消息类型为learning_topic::Person，队列长度10</span>
+    person_info_pub <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Publisher<span class="token punctuation">(</span><span class="token string">'/person_info'</span><span class="token punctuation">,</span> Person<span class="token punctuation">,</span> queue_size<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true">#设置循环的频率</span>
+    rate <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Rate<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> 
+
+    <span class="token keyword">while</span> <span class="token operator">not</span> rospy<span class="token punctuation">.</span>is_shutdown<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true"># 初始化learning_topic::Person类型的消息</span>
+        person_msg <span class="token operator">=</span> Person<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        person_msg<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"Tom"</span><span class="token punctuation">;</span>
+        person_msg<span class="token punctuation">.</span>age  <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">;</span>
+        person_msg<span class="token punctuation">.</span>sex  <span class="token operator">=</span> Person<span class="token punctuation">.</span>male<span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true"># 发布消息</span>
+        person_info_pub<span class="token punctuation">.</span>publish<span class="token punctuation">(</span>person_msg<span class="token punctuation">)</span>
+        rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Publsh person message[%s, %d, %d]"</span><span class="token punctuation">,</span> 
+                person_msg<span class="token punctuation">.</span>name<span class="token punctuation">,</span> person_msg<span class="token punctuation">.</span>age<span class="token punctuation">,</span> person_msg<span class="token punctuation">.</span>sex<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># 按照循环频率延时</span>
+        rate<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        velocity_publisher<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> rospy<span class="token punctuation">.</span>ROSInterruptException<span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>person_subscriber.py</strong></p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+<span class="token comment" spellcheck="true"># 该例程将订阅/person_info话题，自定义消息类型learning_topic::Person</span>
+
+<span class="token keyword">import</span> rospy
+<span class="token keyword">from</span> learning_topic<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Person
+
+<span class="token keyword">def</span> <span class="token function">personInfoCallback</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Subcribe Person Info: name:%s  age:%d  sex:%d"</span><span class="token punctuation">,</span> 
+             msg<span class="token punctuation">.</span>name<span class="token punctuation">,</span> msg<span class="token punctuation">.</span>age<span class="token punctuation">,</span> msg<span class="token punctuation">.</span>sex<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">person_subscriber</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># ROS节点初始化</span>
+    rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">'person_subscriber'</span><span class="token punctuation">,</span> anonymous<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 创建一个Subscriber，订阅名为/person_info的topic，注册回调函数personInfoCallback</span>
+    rospy<span class="token punctuation">.</span>Subscriber<span class="token punctuation">(</span><span class="token string">"/person_info"</span><span class="token punctuation">,</span> Person<span class="token punctuation">,</span> personInfoCallback<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 循环等待回调函数</span>
+    rospy<span class="token punctuation">.</span>spin<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    person_subscriber<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>设置可执行权限，运行</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">chmod</span> +x person_publisher.py person_subscriber.py
+roscore
+rosrun learning_topic person_publisher.py
+rosrun learning_topic person_subscriber.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Client-服务器客户端编程实现"><a href="#Client-服务器客户端编程实现" class="headerlink" title="Client 服务器客户端编程实现"></a>Client 服务器客户端编程实现</h3><p>Client客户端发布<code>/spawn</code>服务请求，服务端turtlesim接收到后回复，生成新的小海龟</p>
+<p>服务的数据类型为：<code>turtlesim::Spawn</code></p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/example_client.png" alt="小海龟客户端例程">
+
+<p>创建功能包 </p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> catkin_ws/src
+catkin_create_pkg learning_service roscpp rospy std_msgs geometry_msgs turtlesim<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>Client的实现过程：</strong></p>
+<ul>
+<li>初始化ROS节点</li>
+<li>创建一个Client实例</li>
+<li>发布服务请求数据</li>
+<li>等待Server处理之后的应答结果</li>
+</ul>
+<p><strong>cpp版本：</strong></p>
+<p>turtle_spawn.cpp</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+ * 该例程将请求/spawn服务，服务数据类型turtlesim::Spawn
+ */</span>
+
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;turtlesim/Spawn.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> argv<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ros<span class="token operator">::</span>NodeHandle node<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 发现/spawn服务唤醒后，创建一个服务客户端，连接名为/spawn的service</span>
+    ros<span class="token operator">::</span>service<span class="token operator">::</span><span class="token function">waitForService</span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ros<span class="token operator">::</span>ServiceClient add_turtle <span class="token operator">=</span> node<span class="token punctuation">.</span>serviceClient<span class="token operator">&lt;</span>turtlesim<span class="token operator">::</span>Spawn<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 初始化turtlesim::Spawn的请求数据</span>
+    turtlesim<span class="token operator">::</span>Spawn srv<span class="token punctuation">;</span>
+    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">2.0</span><span class="token punctuation">;</span>
+    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">2.0</span><span class="token punctuation">;</span>
+    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"turtle2"</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 请求服务调用</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Call service to spawn turtle[x:%0.6f, y:%0.6f, name:%s]"</span><span class="token punctuation">,</span>
+        srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>x<span class="token punctuation">,</span> srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>y<span class="token punctuation">,</span> srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    add_turtle<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>srv<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 显示服务调用结果</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Spawn turtle successfully [name:%s]"</span><span class="token punctuation">,</span> srv<span class="token punctuation">.</span>response<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>CMakeLists.txt</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">add_executable(turtle_spawn src/turtle_spawn.cpp)
+target_link_libraries(turtle_spawn ${catkin_LIBRARIES})<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>编译运行</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 终端一</span>
+<span class="token function">cd</span> ~/catkin_ws
+catkin_make
+rescore
+<span class="token comment" spellcheck="true"># 终端二</span>
+rosrun turtlesim turtlesim_node 
+<span class="token comment" spellcheck="true"># 终端三</span>
+<span class="token function">source</span> devel/setup.bash
+rosrun learning_service turtle_spawn<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>python版本：</strong></p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">mkdir</span> ~/catkin_ws/src/learning_service/scripts
+<span class="token function">cd</span> ~/catkin_ws/src/learning_service/scripts
+<span class="token function">touch</span> turtle_spawn.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>turtle_spawn.py</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#! /usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># # -*- coding: utf -8 -*-</span>
+<span class="token comment" spellcheck="true"># 该例程将请求/spawn服务，服务数据类型为turtlesim::Spawn</span>
+
+<span class="token keyword">import</span> sys
+<span class="token keyword">import</span> rospy
+<span class="token keyword">from</span> turtlesim<span class="token punctuation">.</span>srv <span class="token keyword">import</span> Spawn
+
+<span class="token keyword">def</span> <span class="token function">turtle_spawn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># ROS节点初始化</span>
+    rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">'turtle_spawn'</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 等待/spawn服务被唤醒后，创建服务客户端，连接名为/spawn的service</span>
+    rospy<span class="token punctuation">.</span>wait_for_service<span class="token punctuation">(</span><span class="token string">'/spawn'</span><span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        add_turtle <span class="token operator">=</span> rospy<span class="token punctuation">.</span>ServiceProxy<span class="token punctuation">(</span><span class="token string">'/spawn'</span><span class="token punctuation">,</span> Spawn<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># 调用service，类型为Spawn，参数为x,y,z,name</span>
+        response <span class="token operator">=</span> add_turtle<span class="token punctuation">(</span><span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token string">"turtle2"</span><span class="token punctuation">)</span> 
+        <span class="token keyword">return</span> response<span class="token punctuation">.</span>name
+    <span class="token keyword">except</span> rospy<span class="token punctuation">.</span>ServiceException<span class="token punctuation">,</span> e<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Service call failed: %s"</span> <span class="token operator">%</span>e<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true">#调用服务并显示调用结果</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Spawn turtle successfully [name:%s]"</span> <span class="token operator">%</span><span class="token punctuation">(</span>turtle_spawn<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>加上可执行权限</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">chmod</span> +x turtle_spawn.py<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>运行 pose_subscriber.py：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">source</span> devel/setup.bash
+rosrun learning_service turtle_spawn.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="Server-服务器服务端编程实现"><a href="#Server-服务器服务端编程实现" class="headerlink" title="Server 服务器服务端编程实现"></a>Server 服务器服务端编程实现</h3><p>服务端通过查询回调函数队列，接收客户端发出的服务请求，回调函数参数std_srvs::Trigger作为类触发器，包含了<code>Trigger::Request</code>和<code>Trigger::Response</code>两种数据类型，查询到服务请求时就触发，进入回调函数，做出回应。</p>
+<p>服务的数据类型为<code>std_srvs::Trigger</code></p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/example_server.png" alt="小海龟服务端例程">
+
+<p><strong>Server的实现流程</strong></p>
+<ul>
+<li>初始化ROS节点</li>
+<li>创建服务端Server实例</li>
+<li>循环等待服务请求，进入回调函数</li>
+<li>在回调函数中完成服务功能的处理，并反馈应答数据</li>
+</ul>
+<p><strong>cpp版本</strong></p>
+<p>沿用客户端的功能包，在<code>src</code>路径下创建新文件<code>turtle_command_server.cpp</code></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+ * 该例程将执行/turtle_command服务，服务数据类型std_srvs/Trigger
+ */</span>
+
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;geometry_msgs/Twist.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;std_srvs/Trigger.h></span></span>
+
+<span class="token comment" spellcheck="true">//服务端反馈时发布指令</span>
+ros<span class="token operator">::</span>Publisher turtle_vel_pub<span class="token punctuation">;</span>  
+<span class="token keyword">bool</span> pubCommand <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Service回调函数，输入参数req，输出参数res</span>
+<span class="token keyword">bool</span> <span class="token function">commandCallback</span><span class="token punctuation">(</span>std_srvs<span class="token operator">::</span>Trigger<span class="token operator">::</span>Request <span class="token operator">&amp;</span>req<span class="token punctuation">,</span>
+                    std_srvs<span class="token operator">::</span>Trigger<span class="token operator">::</span>Response <span class="token operator">&amp;</span>res<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    pubCommand <span class="token operator">=</span> <span class="token operator">!</span>pubCommand<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 显示请求数据</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Publish turtle velocity command [%s]"</span><span class="token punctuation">,</span> pubCommand<span class="token operator">==</span><span class="token boolean">true</span><span class="token operator">?</span><span class="token string">"Yes"</span><span class="token operator">:</span><span class="token string">"No"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 设置反馈数据</span>
+    res<span class="token punctuation">.</span>success <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    res<span class="token punctuation">.</span>message <span class="token operator">=</span> <span class="token string">"Change turtle command state!"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> argv<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 节点初始化</span>
+    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_command_server"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
+    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建一个名为 "/turtle_command"的服务端，注册回调函数为commandCallback</span>
+    ros<span class="token operator">::</span>ServiceServer comand_server <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">advertiseService</span><span class="token punctuation">(</span><span class="token string">"/turtle_command"</span><span class="token punctuation">,</span> commandCallback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建发布器，发布名为 "/turtle1/cmd_vel"的话题，消息类型为 geometry::Twist，队列长度为10</span>
+    turtle_vel_pub <span class="token operator">=</span> n<span class="token punctuation">.</span>advertise<span class="token operator">&lt;</span>geometry_msgs<span class="token operator">::</span>Twist<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"/turtle1/cmd_vel"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 循环等待回调函数，循环频率为10</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Ready to receive turtle command."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ros<span class="token operator">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+
+    <span class="token keyword">while</span><span class="token punctuation">(</span>ros<span class="token operator">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 查看一次回调函数队列</span>
+        ros<span class="token operator">::</span><span class="token function">spinOnce</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 队列中有消息时回调函数被调用，条件成立，发布速度指令</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>pubCommand<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            geometry_msgs<span class="token operator">::</span>Twist vel_msgs<span class="token punctuation">;</span>
+            vel_msgs<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+            vel_msgs<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z <span class="token operator">=</span> <span class="token number">0.2</span><span class="token punctuation">;</span>
+            turtle_vel_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>vel_msgs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 按照循环频率延时</span>
+        loop_rate<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>本例程中部分内容的解释</strong></p>
+<p>​    利用<code>rossrv show std_srvs/Trigger</code>查看服务的具体数据类型，如图所示，三短横<code>---</code>分割了Request和Response的内容，由于Request的数据需要由客户端决定，因此这里只能看到Response的默认数据结构为<code>bool success</code>和<code>string message</code>，分别表示服务请求是否收到，以及发送回客户端的提示信息。</p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/Trigger.png" alt="服务std_srv/Trigger数据结构">
+
+<p>CMakeLists.txt</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">add_executable(turtle_command_server src/turtle_command_server.cpp)
+target_link_libraries(turtle_command_server ${catkin_LIBRARIES})<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>编译运行</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake"># 终端一
+cd ~/catkin_ws
+catkin_make
+rescore
+# 终端二
+rosrun turtlesim turtlesim_node 
+# 终端三
+source devel/setup.bash
+rosrun learning_ropic turtle_command_server
+# 终端四，手动发送一个服务请求
+rosservice call /turtle_command "{}"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>运行效果如图所示，在执行<code>turtle_command_server</code>后，使用<code>rosservice list</code>就可以查找到我们在cpp程序中创建的名为<code>/turtle_command</code>的服务。</p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/turtle_command_server1.png">
+
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/turtle_command_server2.png">
+
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/turtle_command_server3.png" alt="turtle_command_server运行效果">
+
+<p><strong>python版本</strong></p>
+<p>turtle_command_server.py</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#! /usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+<span class="token comment" spellcheck="true"># 该例程将执行/turtle_command服务，服务数据类型为std_srvs/Trigger</span>
+
+<span class="token keyword">import</span> rospy
+<span class="token keyword">import</span> thread
+<span class="token keyword">import</span> time
+<span class="token keyword">from</span> geometry_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Twist
+<span class="token keyword">from</span> std_srvs<span class="token punctuation">.</span>srv <span class="token keyword">import</span> Trigger<span class="token punctuation">,</span> TriggerResponse
+
+pubCommand <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">;</span>
+turtle_vel_pub <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Publisher<span class="token punctuation">(</span><span class="token string">'/turtle1/cmd_vel'</span><span class="token punctuation">,</span> Twist<span class="token punctuation">,</span> queue_size<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">command_thread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> pubCommand<span class="token punctuation">:</span>
+            vel_msg <span class="token operator">=</span> Twist<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            vel_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">0.5</span>
+            vel_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z <span class="token operator">=</span> <span class="token number">0.2</span>
+            turtle_vel_pub<span class="token punctuation">.</span>publish<span class="token punctuation">(</span>vel_msg<span class="token punctuation">)</span>
+
+        time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">commandCallback</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">global</span> pubCommand
+    pubCommand <span class="token operator">=</span> bool<span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">-</span> pubCommand<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 显示请求数据</span>
+    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Publish turtle velocity command![%d]"</span><span class="token punctuation">,</span> pubCommand<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 反馈数据（success和message）</span>
+    <span class="token keyword">return</span> TriggerResponse<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"Change turtle command state!"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">turtle_command_server</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># ROS节点初始化</span>
+    rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">'turtle_command_server'</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 创建一个名为/turtle_command的server，注册回到函数commandCallback</span>
+    s <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Service<span class="token punctuation">(</span><span class="token string">'/turtle_command'</span><span class="token punctuation">,</span> Trigger<span class="token punctuation">,</span> commandCallback<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 循环等待回调函数</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Ready to receive turtle command"</span><span class="token punctuation">)</span>
+
+    thread<span class="token punctuation">.</span>start_new_thread<span class="token punctuation">(</span>command_thread<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    rospy<span class="token punctuation">.</span>spin<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    turtle_command_server<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>添加可执行权限，运行</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">chmod</span> +x turtle_command_server.py
+rosrun learning_service turtle_command_server.py
+rosservice call /turtle_command <span class="token string">"{}"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="服务数据自定义与使用"><a href="#服务数据自定义与使用" class="headerlink" title="服务数据自定义与使用"></a>服务数据自定义与使用</h3><img src="//www.lightshaker.cn/2020/07/27/ros-basic/自定义srv.png" alt="自定义服务数据">
+
+<p><strong>自定义服务数据类型的方式：</strong></p>
+<ul>
+<li><p>创建srv文件，用<code>---</code>分割Request数据和Response数据</p>
+</li>
+<li><p>在<code>package.xml</code>文件中添加功能包依赖</p>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build_depend</span><span class="token punctuation">></span></span>message_generation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build_depend</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>exec_depend</span><span class="token punctuation">></span></span>message_runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>exec_depend</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>在<code>CMakeLists.txt</code>中添加编译选项</p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">find_package(... message_generation)
+add_service_files(FILES Person.srv)
+generation_messages(DEPENDENCIES std_msgs)
+catkin_package(... message_runtime)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>编译生成与自定义数据相关的头文件</p>
+</li>
+</ul>
+<p><strong>cpp版本</strong></p>
+<ul>
+<li><p>沿用learning_service功能包，在该功能包路径下创建名为<code>srv</code>的文件夹，在文件夹内创建<code>Person.srv</code>数据文件，文件内容如下：</p>
+<pre class="line-numbers language-txt"><code class="language-txt">string name
+uint8 age
+uint8 sex
+
+uint8 unknown = 0
+uint8 male = 1
+uint8 female = 2
+---
+string result<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>设置<code>package.xml</code>和<code>CMakeLists.txt</code></p>
+<pre class="line-numbers language-xml"><code class="language-xml">...
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build_depend</span><span class="token punctuation">></span></span>message_generation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build_depend</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>exec_depend</span><span class="token punctuation">></span></span>message_runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>exec_depend</span><span class="token punctuation">></span></span>
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cmake"><code class="language-cmake">cmake_minimum_required(VERSION 2.8.3)
+project(learning_service)
+
+find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
+  roscpp
+  rospy
+  std_msgs
+  turtlesim
+  message_generation
+)
+
+add_service_files(FILES Person.srv)
+generate_messages(DEPENDENCIES std_msgs)
+
+catkin_package(
+  CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs turtlesim message_runtime
+)
+
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+)
+
+add_executable(turtle_spawn src/turtle_spawn.cpp)
+target_link_libraries(turtle_spawn ${catkin_LIBRARIES})
+
+add_executable(turtle_command_server src/turtle_command_server.cpp)
+target_link_libraries(turtle_command_server ${catkin_LIBRARIES})<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>执行<code>catkin_make</code>编译整个工程，在<code>devel/include/learning_service</code>路径下会生成三个<code>.h</code>头文件，分别为<code>Person.h</code>、<code>PersonRequest.h</code>和<code>PersonResponse.h</code>，如图所示，    因为<code>Person.h</code>内包含了另外两个头文件，因此使用时只包含<code>Person.h</code>就行。</p>
+</li>
+</ul>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/srv_header_files.png" alt="srv编译生成的头文件">
+
+<ul>
+<li>在<code>learning_service/src</code>路径下创建<code>person_client.cpp</code>和<code>person_server.cpp</code></li>
+</ul>
+<p><strong>person_client.cpp</strong></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+ * 该例程将请求/show_person服务，服务数据类型learning_service::Person
+ */</span>
+
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"learning_service/Person.h"</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> argv<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 初始化ROS节点</span>
+    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"person_client"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
+    ros<span class="token operator">:</span>NodeHandle node<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 检测到系统中存在/spawn服务后，创建客户端连接该服务</span>
+    ros<span class="token operator">::</span>service<span class="token operator">::</span><span class="token function">waitForService</span><span class="token punctuation">(</span><span class="token string">"/show_person"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ros<span class="token operator">::</span>ServiceClient person_client <span class="token operator">=</span> node<span class="token punctuation">.</span>serviceClient<span class="token operator">&lt;</span>learning_service<span class="token operator">::</span>Person<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"/show_person"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 初始化learning_service::Person的服务请求数据</span>
+    learning_service<span class="token operator">::</span>Person srv<span class="token punctuation">;</span>
+    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"Tom"</span><span class="token punctuation">;</span>
+    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>sex <span class="token operator">=</span> learning_service<span class="token operator">::</span>Person<span class="token operator">::</span>Request<span class="token operator">::</span>male<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 请求服务调用</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Call service to show person[name:%s, age:%d, sex:%d]"</span><span class="token punctuation">,</span> 
+        srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>age<span class="token punctuation">,</span> srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>sex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    person_client<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>srv<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 显示服务调用结果</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Show person result: %s"</span><span class="token punctuation">,</span> srv<span class="token punctuation">.</span>response<span class="token punctuation">.</span>result<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>person_server.cpp</strong></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+ * 该例程将执行/show_person服务，服务数据类型learning_service::Person
+ */</span>
+
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"learning_service/Person.h"</span></span>
+
+<span class="token comment" spellcheck="true">// service回调函数，输入参数req，输出参数res</span>
+<span class="token keyword">bool</span> <span class="token function">personCallback</span><span class="token punctuation">(</span>learning_service<span class="token operator">::</span>Person<span class="token operator">::</span>Request  <span class="token operator">&amp;</span>req<span class="token punctuation">,</span>
+                    learning_service<span class="token operator">::</span>Person<span class="token operator">::</span>Response <span class="token operator">&amp;</span>res<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 显示请求数据</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Person: name:%s  age:%d  sex:%d"</span><span class="token punctuation">,</span> req<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> req<span class="token punctuation">.</span>age<span class="token punctuation">,</span> req<span class="token punctuation">.</span>sex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 设置反馈数据</span>
+    res<span class="token punctuation">.</span>result <span class="token operator">=</span> <span class="token string">"OK"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> argv<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
+    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"person_server"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
+    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 创建一个名为/show_person的server，注册回调函数personCallback</span>
+    ros<span class="token operator">::</span>ServiceServer person_service <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">advertiseService</span><span class="token punctuation">(</span><span class="token string">"/show_person"</span><span class="token punctuation">,</span> personCallback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 循环等待回调函数</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Ready to show person information."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ros<span class="token operator">:</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>CMakeLists.txt</strong></p>
+<pre class="line-numbers language-cmake"><code class="language-cmake">add_executable(person_server src/person_server.cpp)
+target_link_libraries(person_server ${catkin_LIBRARIES})
+add_dependencies(person_server ${PROJECT_NAME}_gencpp)
+# 注：add_dependencies将可执行文件与之前编译生成的Person头文件相关联
+add_executable(person_client src/person_client.cpp)
+target_link_libraries(person_client ${catkin_LIBRARIES})
+add_dependencies(person_client ${PROJECT_NAME}_gencpp)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>编译运行</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> ~/catkin_ws
+catkin_make
+<span class="token comment" spellcheck="true"># 终端一</span>
+roscore
+<span class="token comment" spellcheck="true"># 终端二</span>
+<span class="token function">source</span> devel/setup.bash
+rosrun learning_service person_server
+<span class="token comment" spellcheck="true"># 终端三</span>
+<span class="token function">source</span> devel/setup.bash
+rosrun learning_service person_client<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>运行效果如图所示</p>
+<img src="//www.lightshaker.cn/2020/07/27/ros-basic/person运行结果.png" alt="show person运行结果">
+
+<p>通常情况下是先运行服务端<code>person_server</code>再运行客户端<code>person_client</code>，在本例中如果先运行客户端的话，由于<code>waitForService</code>的存在，程序也不会中断，会一直等到服务端启动，<code>/show_person</code>服务被创建之后执行<code>call</code>命令、</p>
+<p><strong>python版本</strong></p>
+<ul>
+<li>在<code>/learning_service/script</code>路径下创建<code>person_client.py</code>和<code>person_server.py</code></li>
+</ul>
+<p><strong>person_client.py</strong></p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#! /usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+<span class="token comment" spellcheck="true">#　该例程将请求/show_person服务，服务数据类型learning_service::Person</span>
+
+<span class="token keyword">import</span> sys
+<span class="token keyword">import</span> rospy
+<span class="token keyword">from</span> learning_service<span class="token punctuation">.</span>srv <span class="token keyword">import</span> Person<span class="token punctuation">,</span> PersonRequest
+
+<span class="token keyword">def</span> <span class="token function">person_client</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># ROS节点初始化</span>
+    rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">'person_client'</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 检测到系统中存在/spawn服务后，创建客户端连接该服务</span>
+    rospy<span class="token punctuation">.</span>wait_for_service<span class="token punctuation">(</span><span class="token string">'/show_person'</span><span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        person_client <span class="token operator">=</span> rospy<span class="token punctuation">.</span>ServiceProxy<span class="token punctuation">(</span><span class="token string">'/show_person'</span><span class="token punctuation">,</span> Person<span class="token punctuation">)</span>
+
+        <span class="token comment" spellcheck="true"># 请求服务调用，输入请求数据</span>
+        response <span class="token operator">=</span> person_client<span class="token punctuation">(</span><span class="token string">"Tom"</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> PersonRequest<span class="token punctuation">.</span>male<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> response<span class="token punctuation">.</span>result
+    <span class="token keyword">except</span> rospy<span class="token punctuation">.</span>ServiceException <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Service cal failed:%s"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># 服务调用并显示调用结果</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Show person result: %s"</span> <span class="token operator">%</span><span class="token punctuation">(</span>person_client<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>person_server.py</strong></p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#! /usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+<span class="token comment" spellcheck="true"># 该例程将执行/show_person服务，服务数据类型learning_service::Person</span>
+
+<span class="token keyword">import</span> rospy
+<span class="token keyword">from</span> learning_service<span class="token punctuation">.</span>srv <span class="token keyword">import</span> Person<span class="token punctuation">,</span> PersonResponse
+
+<span class="token keyword">def</span> <span class="token function">personCallback</span><span class="token punctuation">(</span>req<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># 显示请求数据</span>
+    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Person: name:%s  age:%d  sex:%d"</span><span class="token punctuation">,</span> req<span class="token punctuation">.</span>name<span class="token punctuation">,</span> req<span class="token punctuation">.</span>age<span class="token punctuation">,</span> req<span class="token punctuation">.</span>sex<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 反馈数据</span>
+    <span class="token keyword">return</span> PersonResponse<span class="token punctuation">(</span><span class="token string">"OK"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">person_server</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># ROS节点初始化</span>
+    rospy<span class="token punctuation">.</span>init_node<span class="token punctuation">(</span><span class="token string">'person_server'</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 创建一个名为/show_person的server，注册回调函数personCallback</span>
+    s <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Service<span class="token punctuation">(</span><span class="token string">'/show_person'</span><span class="token punctuation">,</span> Person<span class="token punctuation">,</span> personCallback<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 循环等待回调函数</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Ready to show person information."</span><span class="token punctuation">)</span>
+    rospy<span class="token punctuation">.</span>spin<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    person_server<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>设置可执行权限，运行</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">chmod</span> +x person_client.py person_server.py
+roscore
+rosrun learning_service person_client.py
+rosrun learning_service person_server.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯奶茶？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《ROS入门笔记(一)》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/07/27/ros-basic/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                Lightshaker
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'b675ce49d330b63cdd81',
+        clientSecret: 'b0604fd563502ca06f2a0f63e353bb07b79c0dfc',
+        repo: 'Lightshaker.github.io',
+        owner: 'Lightshaker',
+        admin: "Lightshaker",
+        id: '2020/07/27/ros-basic/',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+    <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments input[type=text],
+    #vcomments input[type=email],
+    #vcomments input[type=url],
+    #vcomments textarea {
+        box-sizing: border-box;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #42b983;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div id="vcomments" class="card-content"></div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<!-- <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script> -->
+
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '',
+        appKey: '',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'false' === 'true',
+        avatar: 'wavatar',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: '如果你没有GitHub账号，还可以在这里评论啦！'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/07/28/anno-simulation/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="从xacro模型文件建立机械臂仿真环境">
+                        
+                        <span class="card-title">从xacro模型文件建立机械臂仿真环境</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+本文的核心内容为使用机械手xacro模型文件配置gazebo+moveit仿真环境
+学习资料来源：古月居 https://www.guyuehome.com/
+
+从xacro模型文件搭建Moveit!+Gazebo仿真系统使用Moveit
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-07-28
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/机器人/" class="post-category" target="_blank">
+                                    机器人
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/机械臂仿真/" target="_blank">
+                        <span class="chip bg-color">机械臂仿真</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/05/18/cmake/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="GCC与CMake入门">
+                        
+                        <span class="card-title">GCC与CMake入门</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            CMake &amp; GCC 基础Part I GCCGNU Compiler GCC/G++  执行编译工作时分4步：
+
+预处理 ，即处理 #define #include #if #ifdef #pragma 等指令，生成 .i 文件
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/其他工具/" class="post-category" target="_blank">
+                                    其他工具
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CMake/" target="_blank">
+                        <span class="chip bg-color">CMake</span>
+                    </a>
+                    
+                    <a href="/tags/GCC/" target="_blank">
+                        <span class="chip bg-color">GCC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('100')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: LightHouse<br />'
+            + '作者: Lightshaker<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2020-  Lightshaker. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">63.3k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/lightshaker" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lightshaker@126.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2020, 01, 23, 00, 00, 00); //北京时间2020-1-23 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    /*siteTime();*/
+</script>
+/*<script src="/js/prism/prism.js" async></script>*/
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "LightHouse", clearTimeout(st)) : (document.title = "LightHouse", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>
