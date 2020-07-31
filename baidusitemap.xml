@@ -1,43 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>lightshaker.cn/2020/05/18/cmake/</loc>
+    <loc>https://www.lightshaker.cn/cmake.html</loc>
     <lastmod>2020-07-28</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/07/27/ros-basic/</loc>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/ros-basic.html</loc>
     <lastmod>2020-07-28</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/07/28/anno-ji-jie-bi-fang-zhen-huan-jing-da-jian/</loc>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/anno-simulation.html</loc>
     <lastmod>2020-07-28</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/04/12/cpp-notes/</loc>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/cpp-notes.html</loc>
     <lastmod>2020-06-23</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/04/07/ubuntu-notes/</loc>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/ubuntu-notes.html</loc>
     <lastmod>2020-06-23</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/05/15/mathjax/</loc>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/mathjax.html</loc>
     <lastmod>2020-05-20</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/05/15/hexo-issues/</loc>
-    <lastmod>2020-05-18</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/05/14/kf-extract/</loc>
-    <lastmod>2020-05-18</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/04/06/hexo-illustration/</loc>
-    <lastmod>2020-05-18</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/04/06/hexo-codefont/</loc>
-    <lastmod>2020-05-18</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/04/13/hybridprogr-cpppython/</loc>
-    <lastmod>2020-05-18</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/04/08/leastsq/</loc>
-    <lastmod>2020-05-18</lastmod>
-  </url>  <url>
-    <loc>lightshaker.cn/2020/03/20/hexo-build/</loc>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/hexo-issues.html</loc>
     <lastmod>2020-05-18</lastmod>
   </url>
-</urlset>
+  <url>
+    <loc>https://www.lightshaker.cn/kf-extract.html</loc>
+    <lastmod>2020-05-18</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/hexo-illustration.html</loc>
+    <lastmod>2020-05-18</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/hexo-codefont.html</loc>
+    <lastmod>2020-05-18</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/hybridprogr-cpppython.html</loc>
+    <lastmod>2020-05-18</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/leastsq.html</loc>
+    <lastmod>2020-05-18</lastmod>
+  </url>
+  <url>
+    <loc>https://www.lightshaker.cn/hexo-build.html</loc>
+    <lastmod>2020-05-18</lastmod>
+  </url>
+</urlset> 
