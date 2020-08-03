@@ -332,7 +332,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -2379,38 +2379,43 @@ Array<span class="token operator">&lt;</span>T<span class="token operator">></sp
 <ul>
 <li><strong>CMakeLists：</strong><code>set (CMAKE_CXX_FLAGS &quot;${CMAKE_CXX_FLAGS} -pthread&quot;)</code></li>
 </ul>
-<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;thread></span></span>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span> </span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;thread></span> </span>
 
-<span class="token keyword">static</span> <span class="token keyword">bool</span> s_Finished <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token keyword">static</span> <span class="token keyword">bool</span> s_Finished <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> 
 
-<span class="token keyword">void</span> <span class="token function">DoWork</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Started thread id = "</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>this_thread<span class="token operator">::</span><span class="token function">get_id</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
-    <span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token operator">::</span>literals<span class="token operator">::</span>chrono_literals<span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s_Finished<span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Working..."</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
-        std<span class="token operator">::</span>this_thread<span class="token operator">::</span><span class="token function">sleep_for</span><span class="token punctuation">(</span>1s<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 延时1s</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
+<span class="token keyword">void</span> <span class="token function">DoWork</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token punctuation">{</span> 
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"子线程id = "</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>this_thread<span class="token operator">::</span><span class="token function">get_id</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span> 
+    <span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token operator">::</span>literals<span class="token operator">::</span>chrono_literals<span class="token punctuation">;</span> 
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s_Finished<span class="token punctuation">)</span> 
+    <span class="token punctuation">{</span> 
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Working..."</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span> 
+        <span class="token comment" spellcheck="true">// 延时1s </span>
+        std<span class="token operator">::</span>this_thread<span class="token operator">::</span><span class="token function">sleep_for</span><span class="token punctuation">(</span>1s<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span> 
+<span class="token punctuation">}</span> 
 
 <span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 父线程</span>
-    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Started thread id = "</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>this_thread<span class="token operator">::</span><span class="token function">get_id</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+<span class="token punctuation">{</span> 
+    <span class="token comment" spellcheck="true">// 父线程 </span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"父线程id = "</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>this_thread<span class="token operator">::</span><span class="token function">get_id</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span> 
 
-    <span class="token comment" spellcheck="true">// 子线程</span>
+    <span class="token comment" spellcheck="true">// 子线程，创建时立刻与父线程同步运行</span>
     std<span class="token operator">::</span>thread <span class="token function">worker</span><span class="token punctuation">(</span>DoWork<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    std<span class="token operator">::</span>cin<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//线程worker运行时可执行的语句</span>
-    s_Finished <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//线程worker运行时可执行的语句</span>
-    worker<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 上面两行属于父线程正常执行，但在执行本行时锁住父线程，不再往下执行，直到子线程结束</span>
 
-    <span class="token comment" spellcheck="true">// 回到父线程</span>
-    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Started thread id = "</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>this_thread<span class="token operator">::</span><span class="token function">get_id</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
-    std<span class="token operator">::</span>cin<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    <span class="token comment" spellcheck="true">// 双线程同步运行时属于父线程的两行</span>
+    <span class="token comment" spellcheck="true">// 等待按键是为了不让s_Finished立刻变成true导致子线程一下就执行完了，便于更加直观查看运行结果</span>
+    std<span class="token operator">::</span>cin<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    s_Finished <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span> 
+
+    <span class="token comment" spellcheck="true">// 执行本行时锁住父线程，不再往下执行，直到子线程结束 </span>
+    worker<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 回到父线程 </span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"父线程id = "</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>this_thread<span class="token operator">::</span><span class="token function">get_id</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span> 
+    std<span class="token operator">::</span>cin<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="计时器"><a href="#计时器" class="headerlink" title="计时器"></a>计时器</h2><p><strong>ctime库</strong>：<code>clock()</code> 获取当前时刻的CLOCK数，使用区间CLOCK数除以<code>CLOCKS_PER_SEC</code> 可得持续时长。用clock封装一个计时器如下：</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;ctime></span></span>
 <span class="token keyword">struct</span> Timer1
@@ -3322,7 +3327,7 @@ std<span class="token operator">::</span><span class="token function">tie</span>
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Ubuntu CLion C++/Python混合编程">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Ubuntu CLion C++/Python混合编程">
                         
                         <span class="card-title">Ubuntu CLion C++/Python混合编程</span>
                     </div>
@@ -3357,12 +3362,12 @@ link_directorie
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
                     <a href="/tags/混合编程/" target="_blank">
                         <span class="chip bg-color">混合编程</span>
+                    </a>
+                    
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                     <a href="/tags/Python/" target="_blank">
@@ -3384,7 +3389,7 @@ link_directorie
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="最小二乘回归策略">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="最小二乘回归策略">
                         
                         <span class="card-title">最小二乘回归策略</span>
                     </div>
@@ -3601,7 +3606,7 @@ n个样本
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">63.3k</span>
+            <span class="white-color">63.4k</span>
             
 
             <br>
