@@ -14,10 +14,8 @@
 Chapter1 绪论数据结构四个概念：
 
 数据元素：数据的基本单位，通常作为一个整体进行考虑和处理。
-
 数据项：构成数据元素的不可分割的最小单位。
-
-数据结构：相互之间存在一种或多种特定关">
+数据结构：相互之间存在一种或多种特定关系的">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -514,14 +512,10 @@ Chapter1 绪论数据结构四个概念：
 </blockquote>
 <h2 id="Chapter1-绪论"><a href="#Chapter1-绪论" class="headerlink" title="Chapter1 绪论"></a>Chapter1 绪论</h2><h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p><strong>四个概念：</strong></p>
 <ul>
-<li><p>数据元素：数据的基本单位，通常作为一个整体进行考虑和处理。</p>
-</li>
-<li><p>数据项：构成数据元素的不可分割的最小单位。</p>
-</li>
-<li><p>数据结构：相互之间存在一种或多种特定关系的数据元素的集合。</p>
-</li>
-<li><p>数据对象：具有相同性质的数据元素的集合，是数据的一个子集。</p>
-</li>
+<li>数据元素：数据的基本单位，通常作为一个整体进行考虑和处理。</li>
+<li>数据项：构成数据元素的不可分割的最小单位。</li>
+<li>数据结构：相互之间存在一种或多种特定关系的数据元素的集合。</li>
+<li>数据对象：具有相同性质的数据元素的集合，是数据的一个子集。</li>
 </ul>
 <p><strong>数据结构三要素：</strong></p>
 <ul>
@@ -712,10 +706,10 @@ bool <span class="token function">empty</span><span class="token punctuation">(<
 <p>带头结点的代码对每个带数据的结点具有一致性，不带头结点的代码需要将第一个带数据的结点从循环中剥离出来（因为第一个结点无需也无法执行头插尾插之类的操作）；</p>
 </blockquote>
 <p>带头结点，p指向不应被修改</p>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/2.1.png">
+<img src="/25/wangdao-dsa/2.1.png">
 
 <p>不带头结点，p指向可被修改</p>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/2.2.png">
+<img src="/25/wangdao-dsa/2.2.png">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> Node<span class="token punctuation">{</span>
     <span class="token keyword">int</span> data<span class="token punctuation">;</span>
@@ -884,10 +878,10 @@ bool <span class="token function">SpecificDelete</span><span class="token punctu
     <span class="token keyword">return</span> true<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="双链表"><a href="#双链表" class="headerlink" title="双链表"></a>双链表</h3><p>带头结点</p>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/2.3.png">
+<img src="/25/wangdao-dsa/2.3.png">
 
 <p>不带头结点</p>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/2.4.png">
+<img src="/25/wangdao-dsa/2.4.png">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> DNode<span class="token punctuation">{</span>
     <span class="token keyword">int</span> data<span class="token punctuation">;</span>
@@ -1940,7 +1934,7 @@ string<span class="token punctuation">.</span>length <span class="token operator
 <li>中序遍历：左子树-&gt;根-&gt;右子树</li>
 <li>后序遍历：左子树-&gt;右子树-&gt;根</li>
 </ul>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/5.1.png" style="zoom:80%">
+<img src="/25/wangdao-dsa/5.1.png" style="zoom:80%">
 
 <p><strong>递归实现</strong></p>
 <p>时间复杂度均为 $O(n)$</p>
@@ -2349,7 +2343,7 @@ bool <span class="token function">insert</span><span class="token punctuation">(
 </ul>
 </li>
 </ul>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/5.2.png" style="zoom:80%">
+<img src="/25/wangdao-dsa/5.2.png" style="zoom:80%">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 假设原本指向A的结点名为N</span>
 A<span class="token operator">-></span>lchild <span class="token operator">=</span> B<span class="token operator">-></span>rchild<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 转移</span>
@@ -2361,7 +2355,7 @@ N<span class="token operator">-></span>lchild<span class="token operator">/</spa
 </ul>
 </li>
 </ul>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/5.3.png" style="zoom:80%">
+<img src="/25/wangdao-dsa/5.3.png" style="zoom:80%">
 
 <pre class="line-numbers language-c"><code class="language-c">B<span class="token operator">-></span>rchild <span class="token operator">=</span> A<span class="token operator">-></span>lchild<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 转移</span>
 A<span class="token operator">-></span>lchild <span class="token operator">=</span> B<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 左旋</span>
@@ -2372,7 +2366,7 @@ N<span class="token operator">-></span>lchild<span class="token operator">/</spa
 </ul>
 </li>
 </ul>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/5.4.png" style="zoom:80%">
+<img src="/25/wangdao-dsa/5.4.png" style="zoom:80%">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 左旋</span>
 B<span class="token operator">-></span>rchild <span class="token operator">=</span> C<span class="token operator">-></span>lchild<span class="token punctuation">;</span>
@@ -2388,7 +2382,7 @@ N<span class="token operator">-></span>lchild<span class="token operator">/</spa
 </ul>
 </li>
 </ul>
-<p><img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/5.5.png" style="zoom:80%">`</p>
+<p><img src="/25/wangdao-dsa/5.5.png" style="zoom:80%">`</p>
 <pre class="line-numbers language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 右旋</span>
 B<span class="token operator">-></span>lchild <span class="token operator">=</span> C<span class="token operator">-></span>rchild<span class="token punctuation">;</span>
 C<span class="token operator">-></span>rchild <span class="token operator">=</span> B<span class="token punctuation">;</span>
@@ -2438,8 +2432,8 @@ N<span class="token operator">-></span>lchild<span class="token operator">/</spa
 <h2 id="Chapter6-图"><a href="#Chapter6-图" class="headerlink" title="Chapter6 图"></a>Chapter6 图</h2><h3 id="图的定义"><a href="#图的定义" class="headerlink" title="图的定义"></a>图的定义</h3><blockquote>
 <p>G:Graph, V:Vertex, E:edge</p>
 </blockquote>
-<p><strong>定义：</strong>图 $G$ 是由顶点集 $V$ 和边集 $E$ 组成，记为 $G=(V,E)$，其中 $V(G)$ 表示图 $G$ 中顶点的有限非空集，$E(G)$ 表示图 $G$ 中顶点之间的关系（边）的集合。若 </p>
-<p>$V=\{v_1,v_2,\dots,v_n\}$，则用 $|V|$ 表示图 $G$ 中顶点的个数，也称图 $G$ 的阶，$E=\{\{(u,v)\mid u\in V,v\in V\}\}$，用 $|E|$ 表示图 $G$ 中边的条数；</p>
+<p><strong>定义：</strong>图 $G$ 是由顶点集 $V$ 和边集 $E$ 组成，记为 $G=(V,E)$，其中 $V(G)$ 表示图 $G$ 中顶点的有限非空集，$E(G)$ 表示图 $G$ 中顶点之间的关系（边）的集合。</p>
+<p>若 $V=v_1,v_2,\dots,v_n$，则用 $|V|$ 表示图 $G$ 中顶点的个数，也称图 $G$ 的阶，$E=(u,v),u\in V,v\in V$，用 $|E|$ 表示图 $G$ 中边的条数；</p>
 <p><strong>特点：</strong>图的顶点集一定是非空集，但边集可以是空集，总的来说图不可为空；</p>
 <p><strong>无向图：</strong>$E$ 是无向边（也称为<strong>边</strong>）的有限集合，边是顶点的<strong>无序</strong>对，记为 $(v,w)$ 或 $(w,v)$，二者等价。$v$ 和 $w$ 称为邻接点，边 $(v,w)$ 依附于这两个顶点（或与俩顶点相关联）；</p>
 <p><strong>有向图：</strong>$E$ 是有向边（也称为<strong>弧</strong>）的有限集合，边是顶点的<strong>有序</strong>对，记为 $&lt;v,w&gt;$，顶点 $v$ 称为<strong>弧尾</strong>，$w$ 称为<strong>弧头</strong>，总体称为从顶点 $v$ <strong>到</strong>顶点 $w$ 的弧，也称 $v$ 邻接<strong>到</strong> $w$ 或 $w$ 邻接<strong>自</strong> $v$，注意 $&lt;v,w&gt;\ne&lt;w,v&gt;$；</p>
@@ -2586,8 +2580,8 @@ typdefe <span class="token keyword">struct</span><span class="token punctuation"
 </thead>
 <tbody><tr>
 <td>空间复杂度</td>
-<td>无向图 $O(</td>
-<td>V</td>
+<td>无向图 O(|V|+2|E|)​；有向图 ​O(|V|+|E|)​</td>
+<td>O(|V|^2)​</td>
 </tr>
 <tr>
 <td>适用对象</td>
@@ -3105,7 +3099,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 </ul>
 <p><strong>效率分析：</strong>对于普通查找表的顺序查找，成功与查找失败的ASL都是 $O(n)$，但有特殊情况：</p>
 <p>以在<strong>有序查找表</strong>中进行顺序查找为例，$n$个元素的查找表具有$n$个成功结点与$n+1$个失败结点，每个失败结点的占比都为 $\cfrac{1}{n+1}$，因此查找失败的ASL就等于：<br>$$<br>ASL_{fail}=\cfrac{1+2+3+\dots+n+n}{n+1}=\cfrac{n}{2}+\cfrac{n}{n+1}<br>$$<br>分子的两个$n$代表成功结点<code>43</code>的两个孩子失败结点的查找次数；</p>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/7.1.jpg" style="zoom:50%">
+<img src="/25/wangdao-dsa/7.1.jpg" style="zoom:50%">
 
 <h3 id="折半查找（二分查找）"><a href="#折半查找（二分查找）" class="headerlink" title="折半查找（二分查找）"></a>折半查找（二分查找）</h3><p><strong>适用范围：</strong>仅适用于<strong>有序</strong>的<strong>顺序表</strong>；</p>
 <p><strong>折半查找判定树构造：</strong></p>
@@ -3126,7 +3120,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 </li>
 <li><strong>效率：</strong>不论查找成功还是失败，都有 $ASL \le h$，因此时间复杂度为 $O(\log_2n) $</li>
 </ul>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/7.2.png" style="zoom:60%">
+<img src="/25/wangdao-dsa/7.2.png" style="zoom:60%">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">binarySearch</span><span class="token punctuation">(</span><span class="token keyword">int</span> data<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">{</span>
     <span class="token keyword">int</span> low <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> high <span class="token operator">=</span> n<span class="token number">-1</span><span class="token punctuation">,</span> mid<span class="token punctuation">;</span>
@@ -3142,7 +3136,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
     <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="分块查找"><a href="#分块查找" class="headerlink" title="分块查找"></a>分块查找</h3><p>分块查找，又称索引顺序查找，数据分块存储，块内无序、块间有序；</p>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/7.3.png" style="zoom:60%">
+<img src="/25/wangdao-dsa/7.3.png" style="zoom:60%">
 
 <p><strong>算法思想：</strong></p>
 <ul>
@@ -3163,7 +3157,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 <li>只有当<code>low</code>超出了索引表的范围时才判定为查找失败；</li>
 </ul>
 <h3 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h3><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><p>B树，又称<strong>多路平衡查找树</strong>（balance），B树中所有结点的孩子个数的最大值（最大分叉数）称为B树的阶，通常用 $m$ 表示。</p>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/7.4.png" style="zoom:60%">
+<img src="/25/wangdao-dsa/7.4.png" style="zoom:60%">
 
 <p>$m$阶B树的<strong>核心特性</strong>：（分叉数 = 子树个数）</p>
 <ul>
@@ -3209,7 +3203,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 </li>
 </ul>
 <h3 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h3><p>类似于分块查找思想构建的多级多阶树；</p>
-<img src="//www.lightshaker.cn/2020/12/25/wangdao-dsa/7.5.png" style="zoom:60%">
+<img src="/25/wangdao-dsa/7.5.png" style="zoom:60%">
 
 <p>一棵$m$阶B+树的特性：</p>
 <ul>
@@ -3269,7 +3263,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 <p>冲突：通过散列函数映射到的存储位置上已有元素存放；</p>
 <p>同义词：通过散列函数映射到同一个存储位置的关键字；</p>
 <p>装填因子：$\alpha$ = 散列表中记录的个数 / 表长；</p>
-<h4 id="常见散列函数"><a href="#常见散列函数" class="headerlink" title="常见散列函数"></a>常见散列函数</h4><p>除留余数法：$H(key)=key \space  \% \space p$，其中$p$是不大于表长但最接近或等于表长的<strong>质数</strong>；</p>
+<h4 id="常见散列函数"><a href="#常见散列函数" class="headerlink" title="常见散列函数"></a>常见散列函数</h4><p>除留余数法：$H(key)=key \space  % \space p$，其中$p$是不大于表长但最接近或等于表长的<strong>质数</strong>；</p>
 <ul>
 <li>用质数取模，分布更均匀，冲突更少；</li>
 </ul>
@@ -3289,7 +3283,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 <li>查找失败的ASL等于装填因子；</li>
 <li>优化方法：让链表中的元素以升序或降序方式排列，可提高在链表中执行顺序查找的效率；</li>
 </ul>
-<p>开放定址法：$H_i=(H(key)+d_i)\space \% \space m$，其中$d_i$称为增量序列，有三种常见方法确定其取值</p>
+<p>开放定址法：$H_i=(H(key)+d_i)\space % \space m$，其中$d_i$称为增量序列，有三种常见方法确定其取值</p>
 <ul>
 <li>线性探测法：$d_i=0,1,2,3,\dots,m-1$；<ul>
 <li>由于该方法判断查找失败的依据是查找到空位置，因此删除某个元素时需要用一个变量表明是删除了不是空了；</li>
@@ -3558,7 +3552,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 <p>一个结点，每下坠一层，最多只需要对比关键字2次，第一次是左右孩子的对比，第二次是左右孩子中较大者与根的对比；</p>
 <p>若树高为 $h$，某结点在第 $i$ 层，则这个结点最多可能下坠 $h-i$ 层，因此关键字对比次数最多为 $2(h-i)$；</p>
 <p>$n$ 个结点的完全二叉树高度为 $h=\lfloor\log_2n\rfloor+1$，第 $ i$ 层最多有 $2^{i-1}$ 个结点，只有第 $1$ 到第 $h-1$ 层的结点才可能下坠；</p>
-<p>因此，所有结点的对比次数之和不会超过：<br>$$<br>2^0\cdot 2(h-1)+2^1\cdot2(h-2)+\dots+2^{h-1}\cdot2(h-(h-1))\\=\sum_{i=1}^{h-1}[2^{i-1}\cdot2(h-i)] \\= \sum_{i=1}^{h-1}2^i(h-i)<br>$$<br>令 $j=h-i$ 换元，并代入 $h=\lfloor\log_2n\rfloor+1$，化简并使用错位相减法可求得：<br>$$<br>\sum_{i=1}^{h-1}2^i(h-i) =\sum_{j=1}^{h-1}2^{h-j}j = \sum_{j=1}^{h-1}2^{\lfloor\log_2n\rfloor}\cdot 2 \cdot 2^{-j}\cdot j \\<br>\le 2n\sum_{j=1}^{h-1} 2^{-j}\cdot j \le 4n<br>$$<br>由此可知建立大根堆的时间复杂度为 $O(n)$；</p>
+<p>因此，所有结点的对比次数之和不会超过：<br>$$<br>2^0\cdot 2(h-1)+2^1\cdot2(h-2)+\dots+2^{h-1}\cdot2(h-(h-1))\=\sum_{i=1}^{h-1}[2^{i-1}\cdot2(h-i)] \= \sum_{i=1}^{h-1}2^i(h-i)<br>$$<br>令 $j=h-i$ 换元，并代入 $h=\lfloor\log_2n\rfloor+1$，化简并使用错位相减法可求得：<br>$$<br>\sum_{i=1}^{h-1}2^i(h-i) =\sum_{j=1}^{h-1}2^{h-j}j = \sum_{j=1}^{h-1}2^{\lfloor\log_2n\rfloor}\cdot 2 \cdot 2^{-j}\cdot j \<br>\le 2n\sum_{j=1}^{h-1} 2^{-j}\cdot j \le 4n<br>$$<br>由此可知建立大根堆的时间复杂度为 $O(n)$；</p>
 <p><strong>排序过程的时间复杂度：</strong></p>
 <p>$n$ 个结点，总共需要 $n-1$ 趟排序，每趟排序都需要</p>
 <ul>
@@ -4249,10 +4243,8 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 Chapter1 绪论数据结构四个概念：
 
 数据元素：数据的基本单位，通常作为一个整体进行考虑和处理。
-
 数据项：构成数据元素的不可分割的最小单位。
-
-数据结构：相互之间存在一种或多种特定关
+数据结构：相互之间存在一种或多种特定关系的
                         
                     </div>
                     <div class="publish-info">
@@ -4631,8 +4623,6 @@ $(function () {
 
 
 
-    
-    <script src="/libs/others/clicklove.js"></script>
     
 
     

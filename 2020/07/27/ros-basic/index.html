@@ -626,7 +626,7 @@ catkin_make <span aria-hidden="true" class="line-numbers-rows"><span></span><spa
 <p>查看是否成功添加环境变量：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token keyword">echo</span> <span class="token variable">$ROS_PACKAGE_PATH</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h3 id="Publisher-发布者编程实现"><a href="#Publisher-发布者编程实现" class="headerlink" title="Publisher 发布者编程实现"></a>Publisher 发布者编程实现</h3><p><strong>小海龟示例的通讯例子：</strong></p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/example_publisher.png" alt="话题模型（发布/订阅）">
+<img src="/27/ros-basic/example_publisher.png" alt="话题模型（发布/订阅）">
 
 <p><strong>建立新的工作空间，创建包：</strong></p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">mkdir</span> -p catkin_ws/src
@@ -690,12 +690,12 @@ vim learning_topic/velocity_publisher.cpp<span aria-hidden="true" class="line-nu
 <li>节点中的所有ros::NodeHandles都已经被销毁</li>
 </ul>
 <p>​    <strong>turtle1/cmd_vel：</strong>ROS自带的小海龟例程中的一个话题名，在用<code>rosrun turtlesim turtlesim_node</code>启动小海龟节点后，可用<code>rostopic list</code>查找到该话题，如图1所示。在明确知道话题名时，可用<code>rostopic type /turtle1/cmd_vel</code>查看该话题的消息类型，如图1所示，消息类型为<code>geometry_msgs/Twist</code>，在程序中标注消息类型时需要引入同名头文件<code>#include &lt;geometry_msgs/Twist.h&gt;</code>，使用该消息类型时，要用命名空间的形式，如<code>geometry_msgs::Twist</code>。 </p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/pub_rostopic.png" alt="图1 小海龟rostopic">
+<img src="/27/ros-basic/pub_rostopic.png" alt="图1 小海龟rostopic">
 
 <p>​    另外，也可以用<code>rosmsg list</code>查找到该消息名称，如图2所示。要知道如何在程序中设置消息内容，可以使用<code>rosmsg show geometry/Twist</code>查看该消息在程序中可用的数据类型，如图3所示，该消息包含了线速度<code>linear</code>和角速度<code>angular</code>两个结构体，其中又分别包含了<code>x</code>,<code>y</code>,<code>z</code>三个分量，在程序中可以访问类public成员的方式设置和使用这些数据，例如<code>vel_msg.linear.x</code>或<code>vel_msg.angular.z</code>。</p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/pub_rosmsg_list.png" alt="图2 小海龟rosmsg list">
+<img src="/27/ros-basic/pub_rosmsg_list.png" alt="图2 小海龟rosmsg list">
 
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/pub_rosmsg_show.png" alt="图3 geometry_msgs/Twist的具体数据结构">
+<img src="/27/ros-basic/pub_rosmsg_show.png" alt="图3 geometry_msgs/Twist的具体数据结构">
 
 <p><strong>CMakeLists.txt</strong></p>
 <pre class="line-numbers language-cmake"><code class="language-cmake"># 添加待编译文件与链接库
@@ -760,7 +760,7 @@ vim velocity_publisher.py<span aria-hidden="true" class="line-numbers-rows"><spa
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">source</span> ~/catkin/devel/setup.bash
 rosrun learning_topic velocity_publisher.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h3 id="Subscriber-订阅者编程实现"><a href="#Subscriber-订阅者编程实现" class="headerlink" title="Subscriber 订阅者编程实现"></a>Subscriber 订阅者编程实现</h3><p><strong>小海龟通讯机制</strong></p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/example_subscriber.png" alt="话题模型（发布/订阅）">
+<img src="/27/ros-basic/example_subscriber.png" alt="话题模型（发布/订阅）">
 
 <p>此处沿用 Publisher 的工作空间，不做改动，只添加 Subscriber：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> ~/catkin_ws/src/learning_topic/src
@@ -855,7 +855,7 @@ vim pose_subscriber.py<span aria-hidden="true" class="line-numbers-rows"><span><
 <p>运行 pose_subscriber.py：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">source</span> devel/setup.bash
 rosrun learning_topic pose_subscriber.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h3 id="话题消息自定义与使用"><a href="#话题消息自定义与使用" class="headerlink" title="话题消息自定义与使用"></a>话题消息自定义与使用</h3><img src="//www.lightshaker.cn/2020/07/27/ros-basic/自定义msg.png" alt="Person话题消息自定义">
+<h3 id="话题消息自定义与使用"><a href="#话题消息自定义与使用" class="headerlink" title="话题消息自定义与使用"></a>话题消息自定义与使用</h3><img src="/27/ros-basic/自定义msg.png" alt="Person话题消息自定义">
 
 <p><strong>自定义话题消息数据类型的方式：</strong></p>
 <ul>
@@ -1023,7 +1023,7 @@ rosrun learning_topic person_publisher
 <span class="token function">source</span> devel/setup.bash
 rosrun learning_topic person_subscriber<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>运行结果如图所示</p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/person_msg运行结果.png" alt="自定义话题消息运行结果">
+<img src="/27/ros-basic/person_msg运行结果.png" alt="自定义话题消息运行结果">
 
 <p><strong>python版本</strong></p>
 <ul>
@@ -1100,7 +1100,7 @@ rosrun learning_topic person_publisher.py
 rosrun learning_topic person_subscriber.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="Client-服务器客户端编程实现"><a href="#Client-服务器客户端编程实现" class="headerlink" title="Client 服务器客户端编程实现"></a>Client 服务器客户端编程实现</h3><p>Client客户端发布<code>/spawn</code>服务请求，服务端turtlesim接收到后回复，生成新的小海龟</p>
 <p>服务的数据类型为：<code>turtlesim::Spawn</code></p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/example_client.png" alt="小海龟客户端例程">
+<img src="/27/ros-basic/example_client.png" alt="小海龟客户端例程">
 
 <p>创建功能包 </p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> catkin_ws/src
@@ -1199,7 +1199,7 @@ rosrun learning_service turtle_spawn<span aria-hidden="true" class="line-numbers
 rosrun learning_service turtle_spawn.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h3 id="Server-服务器服务端编程实现"><a href="#Server-服务器服务端编程实现" class="headerlink" title="Server 服务器服务端编程实现"></a>Server 服务器服务端编程实现</h3><p>服务端通过查询回调函数队列，接收客户端发出的服务请求，回调函数参数std_srvs::Trigger作为类触发器，包含了<code>Trigger::Request</code>和<code>Trigger::Response</code>两种数据类型，查询到服务请求时就触发，进入回调函数，做出回应。</p>
 <p>服务的数据类型为<code>std_srvs::Trigger</code></p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/example_server.png" alt="小海龟服务端例程">
+<img src="/27/ros-basic/example_server.png" alt="小海龟服务端例程">
 
 <p><strong>Server的实现流程</strong></p>
 <ul>
@@ -1276,7 +1276,7 @@ ros<span class="token operator">::</span>Publisher turtle_vel_pub<span class="to
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><strong>本例程中部分内容的解释</strong></p>
 <p>​    利用<code>rossrv show std_srvs/Trigger</code>查看服务的具体数据类型，如图所示，三短横<code>---</code>分割了Request和Response的内容，由于Request的数据需要由客户端决定，因此这里只能看到Response的默认数据结构为<code>bool success</code>和<code>string message</code>，分别表示服务请求是否收到，以及发送回客户端的提示信息。</p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/Trigger.png" alt="服务std_srv/Trigger数据结构">
+<img src="/27/ros-basic/Trigger.png" alt="服务std_srv/Trigger数据结构">
 
 <p>CMakeLists.txt</p>
 <pre class="line-numbers language-cmake"><code class="language-cmake">add_executable(turtle_command_server src/turtle_command_server.cpp)
@@ -1294,11 +1294,11 @@ rosrun learning_ropic turtle_command_server
 # 终端四，手动发送一个服务请求
 rosservice call /turtle_command "{}"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>运行效果如图所示，在执行<code>turtle_command_server</code>后，使用<code>rosservice list</code>就可以查找到我们在cpp程序中创建的名为<code>/turtle_command</code>的服务。</p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/turtle_command_server1.png">
+<img src="/27/ros-basic/turtle_command_server1.png">
 
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/turtle_command_server2.png">
+<img src="/27/ros-basic/turtle_command_server2.png">
 
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/turtle_command_server3.png" alt="turtle_command_server运行效果">
+<img src="/27/ros-basic/turtle_command_server3.png" alt="turtle_command_server运行效果">
 
 <p><strong>python版本</strong></p>
 <p>turtle_command_server.py</p>
@@ -1355,7 +1355,7 @@ turtle_vel_pub <span class="token operator">=</span> rospy<span class="token pun
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">chmod</span> +x turtle_command_server.py
 rosrun learning_service turtle_command_server.py
 rosservice call /turtle_command <span class="token string">"{}"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h3 id="服务数据自定义与使用"><a href="#服务数据自定义与使用" class="headerlink" title="服务数据自定义与使用"></a>服务数据自定义与使用</h3><img src="//www.lightshaker.cn/2020/07/27/ros-basic/自定义srv.png" alt="自定义服务数据">
+<h3 id="服务数据自定义与使用"><a href="#服务数据自定义与使用" class="headerlink" title="服务数据自定义与使用"></a>服务数据自定义与使用</h3><img src="/27/ros-basic/自定义srv.png" alt="自定义服务数据">
 
 <p><strong>自定义服务数据类型的方式：</strong></p>
 <ul>
@@ -1424,7 +1424,7 @@ target_link_libraries(turtle_command_server ${catkin_LIBRARIES})<span aria-hidde
 <li><p>执行<code>catkin_make</code>编译整个工程，在<code>devel/include/learning_service</code>路径下会生成三个<code>.h</code>头文件，分别为<code>Person.h</code>、<code>PersonRequest.h</code>和<code>PersonResponse.h</code>，如图所示，    因为<code>Person.h</code>内包含了另外两个头文件，因此使用时只包含<code>Person.h</code>就行。</p>
 </li>
 </ul>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/srv_header_files.png" alt="srv编译生成的头文件">
+<img src="/27/ros-basic/srv_header_files.png" alt="srv编译生成的头文件">
 
 <ul>
 <li>在<code>learning_service/src</code>路径下创建<code>person_client.cpp</code>和<code>person_server.cpp</code></li>
@@ -1524,7 +1524,7 @@ rosrun learning_service person_server
 <span class="token function">source</span> devel/setup.bash
 rosrun learning_service person_client<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>运行效果如图所示</p>
-<img src="//www.lightshaker.cn/2020/07/27/ros-basic/person运行结果.png" alt="show person运行结果">
+<img src="/27/ros-basic/person运行结果.png" alt="show person运行结果">
 
 <p>通常情况下是先运行服务端<code>person_server</code>再运行客户端<code>person_client</code>，在本例中如果先运行客户端的话，由于<code>waitForService</code>的存在，程序也不会中断，会一直等到服务端启动，<code>/show_person</code>服务被创建之后执行<code>call</code>命令、</p>
 <p><strong>python版本</strong></p>
@@ -2475,8 +2475,6 @@ $(function () {
 
 
 
-    
-    <script src="/libs/others/clicklove.js"></script>
     
 
     

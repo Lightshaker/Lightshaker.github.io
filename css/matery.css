@@ -17,13 +17,13 @@
 @media only screen and (min-width: 993px) {
     .container {
         width: 85%;
-        max-width: 1125px;
+        max-width: 1440px;
     }
 
     .post-container {
         width: 90%;
         margin: 0 auto;
-        max-width: 1250px;
+        max-width: 1600px;
     }
 }
 
@@ -173,7 +173,7 @@ pre::after {
 
 code {
     padding: 1px 5px;
-    font-family: "Courier";
+    font-family: "WenQuanYi Micro Hei Mono";
     font-size: 1.0rem;
     color: #e96900;
     background-color: #f8f8f8;

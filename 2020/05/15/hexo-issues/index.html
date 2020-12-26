@@ -510,17 +510,17 @@ Errors &amp;amp; SolutionsError: expected end of comment, got end of file
 <h2 id="Errors-amp-Solutions"><a href="#Errors-amp-Solutions" class="headerlink" title="Errors &amp; Solutions"></a>Errors &amp; Solutions</h2><h3 id="Error-expected-end-of-comment-got-end-of-file"><a href="#Error-expected-end-of-comment-got-end-of-file" class="headerlink" title="Error: expected end of comment, got end of file"></a>Error: expected end of comment, got end of file</h3><ul>
 <li><p><strong>报错关键句：</strong>expected end of comment, got end of file</p>
 </li>
-<li><p><strong>报错场景：</strong>笔者在搬运<a href="https://www.lightshaker.cn/2020/05/15/mathjax/">MathJax与Latex简介</a>这篇文章时，某一次尝试 <code>hexo g</code> 发生了本错误</p>
+<li><p><strong>报错场景：</strong>笔者在搬运<a href="https://www.lightshaker.cn/2020/05/15/mathjax/" target="_blank" rel="noopener">MathJax与Latex简介</a>这篇文章时，某一次尝试 <code>hexo g</code> 发生了本错误</p>
 </li>
 <li><p><strong>报错具体内容：</strong>见下图</p>
 </li>
 </ul>
-<img src="//www.lightshaker.cn/2020/05/15/hexo-issues/error1.png" style="zoom:80%">
+<img src="/15/hexo-issues/error1.png" style="zoom:80%">
 
 <ul>
 <li><strong>错误原因：</strong>在hexo中， <code>{#</code> 与其对称符号之间的内容属于注释字段（这里没打出对称符号是因为打出来就全被注释成空白了Orz），而在搬运的文章中恰好有这么一段Latex公式：</li>
 </ul>
-<img src="//www.lightshaker.cn/2020/05/15/hexo-issues/reason1.png">
+<img src="/15/hexo-issues/reason1.png">
 
 <p>里面使用了很多 <code>{#</code> 这样的组合，造成了歧义</p>
 <ul>
@@ -1413,8 +1413,6 @@ $(function () {
 
 
 
-    
-    <script src="/libs/others/clicklove.js"></script>
     
 
     

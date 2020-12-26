@@ -8,14 +8,14 @@ code[class*="language-"],
 pre[class*="language-"] {
 	color: #ccc;
 	background: none;
-	font-family: "Courier";
-	font-size: 1.05rem;
+	font-family: 'WenQuanYi Micro Hei Mono', monospace;
+	font-size: 1.05em;
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
 	word-break: normal;
 	word-wrap: normal;
-	line-height: 1.75;
+	line-height: 1.55;
 
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
