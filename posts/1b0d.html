@@ -1,0 +1,1716 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="最小二乘回归策略, LightHouse">
+    <meta name="baidu-site-verification" content="qEvyYTI5eV">
+    <meta name="google-site-verification" content>
+    <meta name="360-site-verification" content>
+    <meta name="description" content="
+  本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。
+
+一元线性回归
+a = 0，单变量x，单个未知数 b，求解一元一次方程
+
+模型： $y = ax + b$
+目标函数：$y = c$
+n个样本">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>最小二乘回归策略 | LightHouse</title>
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?46e79e71af0709a5b9106bf20cecc493";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7df679a1cc43e25d60e458e238e807d7";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+    
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.ico" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">LightHouse</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/friends" class="waves-effect waves-light">
+            
+            <i class="fa fa-address-book"></i>
+            
+            <span>友情链接</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.ico" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">LightHouse</div>
+        <div class="logo-desc">
+            
+            It is our choices that show what we truly are, far more than our abilities.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/friends" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-address-book"></i>
+                
+                友情链接
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/lightshaker" class="waves-effect waves-light" target="_blank">
+                <i class="fa fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/lightshaker" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        最小二乘回归策略
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/数学/" target="_blank">
+                            <span class="chip bg-color">数学</span>
+                        </a>
+                        
+                        <a href="/tags/最小二乘法/" target="_blank">
+                            <span class="chip bg-color">最小二乘法</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/数学-算法/" class="post-category" target="_blank">
+                            数学|算法
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-04-08
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    Lightshaker
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    22 分
+                </div>
+                
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p>  本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。</p>
+</blockquote>
+<h3 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h3><blockquote>
+<p><strong>a = 0，单变量x，单个未知数 b，求解一元一次方程</strong></p>
+</blockquote>
+<p><strong>模型</strong>： $y = ax + b$</p>
+<p><strong>目标函数：</strong>$y = c$</p>
+<p><strong>n个样本点：</strong>$\begin{align} (x_i, y_i), i=1,2,3,…,n \end{align}$</p>
+<p><strong>偏差平方和：</strong>$\begin{align} e = \sum_{i=1}^{n}{(c - y_i)^2} \end{align}$</p>
+<p><strong>求解过程：</strong></p>
+<p>​    偏差平方和函数：<br>$$<br>e = \sum_{i=1}^{n}{(c - y_i)^2}<br>$$<br>​    对c求导，令导数为0：<br>$$<br>\frac{de}{dc} = \sum_{i=1}^{n}2(c - y_i) = 0<br>$$<br>​    解关于c的一元一次方程可得：<br>$$<br>c = \frac{\begin{align}\sum_{i=1}^{n} y_i\end{align}}{n} = \overline y<br>$$<br>​    由此可知，拟合一条与x轴平行的直线的最佳参数，就是样本点y值的<strong>均值</strong></p>
+<blockquote>
+<p><strong>a $\not=$ 0，单变量x，两个未知数 a和b，解二元一次方程</strong></p>
+</blockquote>
+<p><strong>模型</strong>： $y = ax + b$</p>
+<p><strong>目标函数：</strong>$y = ax+b$</p>
+<p><strong>n个样本点：</strong>$\begin{align} (x_i, y_i), i=1,2,3,…,n \end{align}$</p>
+<p><strong>偏差平方和：</strong>$\begin{align} e = \sum_{i=1}^{n}{((ax_i+b)) - y_i)^2} \end{align}$</p>
+<p><strong>求解过程：</strong></p>
+<p>偏差平方和函数：<br>$$<br>e = \sum_{i=1}^{n}{((ax_i+b)) - y_i)^2}<br>$$<br>对a、b的偏导数：<br>$$<br>\begin{align}<br>    &amp; \frac{\partial e}{\partial a} = \sum_{i=1}^{n}2x_i(ax_i +b-y_i) \\<br>    &amp; \frac{\partial e}{\partial b} = \sum_{i=1}^{n}2(ax_i + b-y_i) \\<br>\end{align}<br>$$</p>
+<p>同时令e对a和b的偏导等于0：<br>$$<br>\begin{cases}<br>\begin{align}<br>&amp;\sum_{i=1}^{n} x_i(ax_i+b-y_i) = 0\\<br>&amp;\sum_{i=1}^{n} (ax_i+b-y_i) = 0<br>\end{align}<br>\end{cases}<br>$$<br>解关于a、b的二元一次方程组得：<br>$$<br>\begin{cases}<br>\begin{align}<br>&amp; a = \frac{n\sum x_iy_i - \sum x_i \sum y_i}{n\sum x_i^2 - (\sum x_i)^2} \\\<br>&amp;b = \frac{\sum y_i - a\sum x_i  }{n}<br>\end{align}<br>\end{cases}<br>$$</p>
+<h3 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h3><blockquote>
+<p><strong>多项式函数：n个变量x，(n+1)个未知数a，解多元线性方程组</strong></p>
+</blockquote>
+<p><strong>模型</strong>：$y =a_0 + a_1x_1 + a_2x_2 + … + a_nx_n$</p>
+<p><strong>目标函数：</strong> $y =a_0 + a_1x_1 + a_2x_2 + … + a_nx_n$</p>
+<p><strong>m组样本点：</strong>$\begin{align} (x_{1i},x_{2i},\dots,x_{ni}, y_i)\end{align},i=1,2,…,m$</p>
+<p><strong>偏差平方和：</strong>$\begin{align} e = \sum_{i=1}^{m}{(a_0 + a_1x_{1i} + a_2x_{2i} + … + a_nx_{n i}- y_i)^2} \end{align}$</p>
+<p><strong>求解过程：</strong> </p>
+<p>偏差平方和函数：<br>$$<br>\begin{align} e = \sum_{i=1}^{m}{(a_0 + a_1x_{1i} + a_2x_{2i} + … + a_nx_{n i}- y_i)^2} \end{align}<br>$$<br>令e对 $a_0$ ~ $a_n$ 的各个偏导为0，稍微变化形式可得到关于未知数的<strong>正规方程组</strong>（n+1个方程，n+1个未知数）：<br>$$<br>\begin{cases}<br>\begin{align}<br>\sum_{i=1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i}) = \sum_{i=1}^{m}y_i \\<br>\sum_{i=1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i})x_{1i} = \sum_{i=1}^{m}x_{1i}y_i \\<br>&amp;\vdots \\<br>\sum_{i=1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i})x_{ni} = \sum_{i=1}^{m}x_{ni}y_i<br>\end{align}<br>\end{cases}<br>$$<br>用矩阵的形式表示为：<br>$$<br>\begin{aligned}<br>\left[<br>\begin{matrix}<br>n &amp;\sum x_{1i} &amp;\sum x_{2i} &amp;\dots &amp;\sum x_{ni} \\<br>\sum x_{1i} &amp;\sum x_{1i}^2 &amp; \sum x_{1i}x_{2i} &amp;\dots &amp;\sum x_{1i}x_{ni} \\<br>\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\<br>\sum x_{ni} &amp;\sum x_{1i}x_{ni} &amp;\sum  x_{2i}x_{ni} &amp;\sum \dots &amp;\sum x_{ni}^2<br>\end{matrix}<br>\right]<br>\left[<br>\begin{matrix}<br>a_0 \ a_1 \ a_2 \ \vdots \ a_n<br>\end{matrix}<br>\right]<br>=<br>\left[<br>\begin{matrix}<br>1 &amp;1 &amp;1 &amp;\cdots &amp;1 \\<br>x_{11} &amp;x_{12} &amp; x_{13} &amp;\dots &amp;x_{1m} \\<br>\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\<br>x_{n1} &amp;x_{n2} &amp; x_{n3} &amp;\dots &amp;x_{nm}<br>\end{matrix}<br>\right]<br>\left[<br>\begin{matrix}<br>y_1 \ y_2 \ y_3 \ \vdots \y_m<br>\end{matrix}<br>\right]<br>\end{aligned}<br>$$<br>令样本矩阵以及参数矩阵如下：<br>$$<br>\begin{align}<br>X =<br>\left[<br>\begin{matrix}<br>&amp;1 &amp;x_{11} &amp;x_{21} &amp;\dots &amp;x_{n1} \\<br>&amp;1 &amp;x_{12} &amp; x_{22} &amp;\dots &amp;x_{n2} \\<br>&amp;\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\<br>&amp;1 &amp;x_{1m} &amp; x_{2m} &amp;\dots &amp;x_{nm}<br>\end{matrix}<br>\right]，<br>Y =<br>\left[<br>\begin{matrix}<br>y_1 \ y_2 \ y_3 \ \vdots \ y_m<br>\end{matrix}<br>\right]，<br>A=<br>\left[<br>\begin{matrix}<br>a_0 \ a_1 \ a_2 \ \vdots \ a_n<br>\end{matrix}<br>\right]<br>\end{align}<br>$$<br>则上面的矩阵方程可以表示为：<br>$$<br>\begin{align}<br>(X^TX)A = XY<br>\end{align}<br>$$<br>由于 $X^TX$ 为满秩矩阵 ，即非奇异、可逆，因此将上式等号两侧同时左乘 $(X^TX)^{-1}$，可得最优参数矩阵：<br>$$<br>\begin{align}<br>A = (X^TX)^{-1}XY<br>\end{align}<br>$$</p>
+<h3 id="多元非线性回归"><a href="#多元非线性回归" class="headerlink" title="多元非线性回归"></a>多元非线性回归</h3><blockquote>
+<p><strong>一元非线性回归可通过换元法转化为一元线性回归</strong></p>
+<p><strong>四参数正弦函数：四个未知数，解多元非线性方程组</strong></p>
+<p><strong>解法：视为整体，在初始值处一阶泰勒展开，结合牛顿-拉弗森迭代法每次构造一个线性方程组，用高斯消元法求解，再代回去迭代直至符合误差预期</strong></p>
+</blockquote>
+<p><strong>模型</strong>：$y = Asin(wt+\theta)+c$</p>
+<p><strong>目标函数：</strong>$y = Asin(wt+\theta)+c$</p>
+<p><strong>样本点：</strong>$\begin{align} (t_i, y_i), i=1,2,3…n \end{align}$</p>
+<p><strong>偏差平方和：</strong>$\begin{align}e = \sum_{i=1}^{n}{[(Asin(wt_i + \theta)+c) - y_i]^2} \end{align}$</p>
+<p><strong>求解过程：</strong> </p>
+<p>偏差平方和函数：<br>$$<br>\begin{align}<br>    &amp; e = \sum_{i=1}^{n}{[(Asin(wt_i + \theta)+c) - y_i]^2} \\<br>\end{align}<br>$$<br>对各个待求参数求偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial e}{\partial A} = \sum_{i=1}^{n}2[Asin(wt_i +\theta) +c - y_i]sin(wt_i + \theta) \\<br>&amp;\frac{\partial e}{\partial w} = \sum_{i=1}^{n}2[Asin(wt_i +\theta) +c - y_i]At_icos(wt_i+\theta) \\<br>&amp;\frac{\partial e}{\partial \theta} = \sum_{i=1}^{n}2[Asin(wt_i +\theta) +c - y_i]Acos(wt_i+\theta) \\<br>&amp;\frac{\partial e}{\partial c} = \sum_{i=1}^{n}2[Asin(wt_i +\theta) +c - y_i]<br>\end{align}<br>$$<br>令各个偏导数为0，等价于求解<strong>非线性方程组</strong>（注意和上式有差异，约掉了常系数）：<br>$$<br>\begin{cases}<br>\begin{align}<br>&amp;f_1(X) = \sum_{i=1}^{n}[Asin(wt_i +\theta) +c - y_i]sin(wt_i + \theta) = 0\\<br>&amp;f_2(X) = \sum_{i=1}^{n}[Asin(wt_i +\theta) +c - y_i]t_icos(wt_i+\theta) = 0\\<br>&amp;f_3(X) = \sum_{i=1}^{n}[Asin(wt_i +\theta) +c - y_i]cos(wt_i+\theta) = 0\\<br>&amp;f_4(X) = \sum_{i=1}^{n}[Asin(wt_i +\theta) +c - y_i] = 0<br>\end{align}<br>\end{cases}<br>$$<br>这里采用<strong>牛顿-拉弗森</strong>迭代法的思想，线性化迭代求解该方程组的4个未知量 $A、w、\theta,、c$</p>
+<p>用矩阵形式表示参数集以及偏导数集，并假设初值为 $X_0$<br>$$<br>X=<br>\left[<br>\begin{matrix}<br>A\ w\ \theta \ c<br>\end{matrix}<br>\right]，<br>F(X) =<br>\left[<br>\begin{matrix}<br>f_1(X) \ f_2(X) \ f_3(X) \ f_4(X)<br>\end{matrix}<br>\right]<br>$$<br>构建 $F(X)$ 在 $X_0$ 处的雅克比矩阵：<br>$$<br>\begin{align}<br>J_F(X)=<br>\large<br>\left[<br>\begin{matrix}<br>\frac{\partial f_1(X_0)}{\partial A} &amp; \frac{\partial f_1(X_0)}{\partial w} &amp; \frac{\partial f_1(X_0)}{\partial \theta} &amp; \frac{\partial f_1(X_0)}{\partial c} \\<br>\frac{\partial f_2(X_0)}{\partial A} &amp; \frac{\partial f_2(X_0)}{\partial w} &amp; \frac{\partial f_2(X_0)}{\partial \theta} &amp; \frac{\partial f_2(X_0)}{\partial c} \\<br>\frac{\partial f_3(X_0)}{\partial A} &amp; \frac{\partial f_3(X_0)}{\partial w} &amp; \frac{\partial f_3(X_0)}{\partial \theta} &amp; \frac{\partial f_3(X_0)}{\partial c} \\<br>\frac{\partial f_4(X_0)}{\partial A} &amp; \frac{\partial f_4(X_0)}{\partial w} &amp; \frac{\partial f_4(X_0)}{\partial \theta} &amp; \frac{\partial f_4(X_0)}{\partial c}<br>\end{matrix}<br>\right]<br>\end{align}<br>$$</p>
+<p>其中f1对各个参数的偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial f_1}{\partial A} = \sum_{i=1}^{n} sin^2(wt_i+\theta)\\<br>&amp;\frac{\partial f_1}{\partial w} = \sum_{i=1}^{n} [At_isin2(wt_i+\theta)] + \sum_{i=1}^{n} [(c-y_i)t_icos(wt_i+\theta)]\\<br>&amp;\frac{\partial f_1}{\partial \theta} = \sum_{i=1}^{n} [Asin2(wt_i+\theta)] + \sum_{i=1}^{n} [(c-y_i)cos(wt_i+\theta)]\\<br>&amp;\frac{\partial f_1}{\partial c} = \sum_{i=1}^{n} sin(wt_i+\theta)<br>\end{align}<br>$$</p>
+<p>f2对各个参数的偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial f_2}{\partial A} = \frac{1}{2}\sum_{i=1}^{n} t_isin2(wt_i+\theta)\\<br>&amp;\frac{\partial f_2}{\partial w} = \sum_{i=1}^{n} [At_i^2cos2(wt_i+\theta)] - \sum_{i=1}^{n} [(c-y_i)t_i^2sin(wt_i+\theta)]\\<br>&amp;\frac{\partial f_2}{\partial \theta} = \sum_{i=1}^{n} [At_icos2(wt_i+\theta)] - \sum_{i=1}^{n} [(c-y_i)t_isin(wt_i+\theta)]\\<br>&amp;\frac{\partial f_2}{\partial c} = \sum_{i=1}^{n} t_icos(wt_i+\theta)<br>\end{align}<br>$$</p>
+<p>f3对各个参数的偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial f_3}{\partial A} = \frac{1}{2}\sum_{i=1}^{n} sin2(wt_i+\theta) \\<br>&amp;\frac{\partial f_3}{\partial w} = \sum_{i=1}^{n} [At_icos2(wt_i+\theta)] - \sum_{i=1}^{n} [(c-y_i)t_isin(wt_i+\theta)]\\<br>&amp;\frac{\partial f_3}{\partial \theta} = \sum_{i=1}^{n} [Acos2(wt_i+\theta)] - \sum_{i=1}^{n} [(c-y_i)sin(wt_i+\theta)]\\<br>&amp;\frac{\partial f_3}{\partial c} = \sum_{i=1}^{n} cos(wt_i+\theta)<br>\end{align}<br>$$</p>
+<p>f4对各个参数的偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial f_4}{\partial A} = \sum_{i=1}^{n} sin(wt_i+\theta)\\<br>&amp;\frac{\partial f_4}{\partial w} = \sum_{i=1}^{n} [At_icos(wt_i+\theta)]\\<br>&amp;\frac{\partial f_4}{\partial \theta} = \sum_{i=1}^{n} [Acos(wt_i+\theta)]\\<br>&amp;\frac{\partial f_4}{\partial c} = n<br>\end{align}<br>$$</p>
+<p>$F(X)$ 在初值 $X_0$ 处的一阶泰勒展开：<br>$$<br>\begin{align}    F(X) \approx F(X_0) \space +\space J_F(X_0)(X-X_0)\end{align}<br>$$<br>可知：令 等式右侧为0 求解出的 $X$ 会比 $X_0$ 更加趋近于 $F(X)=0$ 的真实解，只要初值在这个真实解的收敛域内，经过不断的迭代求得的近似解会越来越趋近于真实解，我们令 $\Delta X = X - X_0$ 可得：<br>$$<br>\begin{align}<br>    &amp; F(X_0) \space +\space J_F(X_0)\Delta X = 0<br>\end{align}<br>$$<br>转化一下形式：<br>$$<br>\begin{align}<br>    J_F(X_0)\Delta X = -F(X_0)<br>\end{align}<br>$$<br>这样我们便将非线性方程的求解问题转化成了线性方程的求解问题，上述式子就等价于：<br>$$<br>\begin{align}    \    \large             \left[             \begin{matrix}                   \frac{\partial f_1(X_0)}{\partial A} &amp; \frac{\partial f_1(X_0)}{\partial w} &amp;     \frac{\partial f_1(X_0)}{\partial \theta} &amp; \frac{\partial f_1(X_0)}{\partial c} \         \frac{\partial f_2(X_0)}{\partial A} &amp; \frac{\partial f_2(X_0)}{\partial w} &amp;     \frac{\partial f_2(X_0)}{\partial \theta} &amp; \frac{\partial f_2(X_0)}{\partial c} \         \frac{\partial f_3(X_0)}{\partial A} &amp; \frac{\partial f_3(X_0)}{\partial w} &amp;     \frac{\partial f_3(X_0)}{\partial \theta} &amp; \frac{\partial f_3(X_0)}{\partial c} \         \frac{\partial f_4(X_0)}{\partial A} &amp; \frac{\partial f_4(X_0)}{\partial w} &amp;     \frac{\partial f_4(X_0)}{\partial \theta} &amp; \frac{\partial f_4(X_0)}{\partial c}    \end{matrix}         \right]                    \small    \left[    \begin{matrix}        \Delta A \           \Delta w \           \Delta \theta \           \Delta c    \end{matrix}    \right]                =        \left[    \begin{matrix}        - f_1(X_0) \        - f_2(X_0) \        - f_3(X_0) \        - f_4(X_0) \    \end{matrix}    \right]        \\        \end{align}<br>$$<br>用高斯消元法或奇异值分解法解这个线性方程，可以求出 $\Delta A， \Delta w, \Delta \theta, \Delta c$，进而本次迭代的结果就是 $(X_0 + \Delta X)$，然后我们将$(X_0 + \Delta X)$ 作为新的 $X_0$ ，代入上面的线性方程，不断迭代求解，$\Delta X$ 就会越来越小，可以获得越来越趋近于真实解的 $X$。</p>
+<h3 id="Python-API-–-Leastsq功能测试"><a href="#Python-API-–-Leastsq功能测试" class="headerlink" title="Python API – Leastsq功能测试"></a>Python API – Leastsq功能测试</h3><p>需要预先安装scipy库： <code>sudo pip install scipy</code></p>
+<p>这个程序是我在学最小二乘的时候写的一个测试程序，测试的目标是scipy库里<code>leastsq</code>这个以最小二乘法为基本原理的回归函数，目标函数可以是线性的也可以是非线性的。为了两个都测试，我选择了常量函数<code>y=C</code>作为线性模型，四参数正弦函数<code>y=Asin(wt+Θ)+C</code>作为非线性模型。其余各个函数的意义如下：</p>
+<p><code>leastsq</code>：API，输入参数依次为：误差函数、拟合初值、样本点集、迭代次数上限</p>
+<p><code>func_sin</code>：求正弦函数值。输入自变量x的值与四个参数组成的列表p，返回由p组成的正弦函数在x处的值。</p>
+<p><code>error_sin</code>：求拟合值与样本值的偏差量。输入拟合出来的参数列表p0与样本因变量y，返回二者的偏差量。</p>
+<p><code>fit_sin</code>：调用<code>Leastsq</code>函数进行拟合，获取拟合结果并求积分，返回拟合结果或积分值。</p>
+<p><code>func_c</code>/<code>error_c</code>/<code>fit_c</code>：模型换成<code>y=C</code>，与上面几个对照</p>
+<p><code>read</code>：纯粹是为了个人debug方便写的一个读取语句和捕获输入异常的功能函数，建议根据个人需求改写main函数。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+<span class="token keyword">from</span> scipy<span class="token punctuation">.</span>optimize <span class="token keyword">import</span> leastsq
+
+
+<span class="token keyword">def</span> <span class="token function">func_sin</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> p<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    a<span class="token punctuation">,</span> f<span class="token punctuation">,</span> theta<span class="token punctuation">,</span> c <span class="token operator">=</span> p
+    <span class="token keyword">return</span> a <span class="token operator">*</span> np<span class="token punctuation">.</span>sin<span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> np<span class="token punctuation">.</span>pi <span class="token operator">*</span> f <span class="token operator">*</span> x <span class="token operator">+</span> theta<span class="token punctuation">)</span> <span class="token operator">+</span> c
+
+
+<span class="token keyword">def</span> <span class="token function">error_sin</span><span class="token punctuation">(</span>p0<span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> y <span class="token operator">-</span> func_sin<span class="token punctuation">(</span>x<span class="token punctuation">,</span> p0<span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">fit_sin</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> p<span class="token punctuation">,</span> t<span class="token punctuation">,</span> flag<span class="token punctuation">,</span> max_fev<span class="token operator">=</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x_sample <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+    y_sample <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+    x_max <span class="token operator">=</span> max<span class="token punctuation">(</span>x_sample<span class="token punctuation">)</span>
+
+    p0 <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+    para <span class="token operator">=</span> leastsq<span class="token punctuation">(</span>error_sin<span class="token punctuation">,</span> p0<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>x_sample<span class="token punctuation">,</span> y_sample<span class="token punctuation">)</span><span class="token punctuation">,</span> maxfev<span class="token operator">=</span>max_fev<span class="token punctuation">)</span>
+
+    a1<span class="token punctuation">,</span> a2<span class="token punctuation">,</span> a3<span class="token punctuation">,</span> a4 <span class="token operator">=</span> para<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    a1 <span class="token operator">=</span> round<span class="token punctuation">(</span>float<span class="token punctuation">(</span>a1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    a2 <span class="token operator">=</span> round<span class="token punctuation">(</span>float<span class="token punctuation">(</span>a2<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    a3 <span class="token operator">=</span> round<span class="token punctuation">(</span>float<span class="token punctuation">(</span>a3<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    a4 <span class="token operator">=</span> round<span class="token punctuation">(</span>float<span class="token punctuation">(</span>a4<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># result_api = round(integrate(expr, (x_t, x_max, x_max+t)), 3)  # 积分api,速度奇慢</span>
+    tmp <span class="token operator">=</span> a1 <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">*</span>np<span class="token punctuation">.</span>pi<span class="token operator">*</span>a2<span class="token punctuation">)</span>
+    temp_x <span class="token operator">=</span> x_max <span class="token operator">+</span> t
+    lower <span class="token operator">=</span> <span class="token operator">-</span> tmp <span class="token operator">-</span> tmp<span class="token operator">*</span>np<span class="token punctuation">.</span>cos<span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">*</span>np<span class="token punctuation">.</span>pi<span class="token operator">*</span>a2<span class="token operator">*</span>x_max <span class="token operator">+</span> a3<span class="token punctuation">)</span> <span class="token operator">+</span> a4<span class="token operator">*</span>x_max
+    upper <span class="token operator">=</span> <span class="token operator">-</span> tmp <span class="token operator">-</span> tmp<span class="token operator">*</span>np<span class="token punctuation">.</span>cos<span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">*</span>np<span class="token punctuation">.</span>pi<span class="token operator">*</span>a2<span class="token operator">*</span>temp_x <span class="token operator">+</span> a3<span class="token punctuation">)</span> <span class="token operator">+</span> a4<span class="token operator">*</span>temp_x
+    result <span class="token operator">=</span> round<span class="token punctuation">(</span><span class="token punctuation">(</span>upper<span class="token operator">-</span>lower<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print("\nresult_api = {}, result_straight = {}".format(result_api, result))</span>
+
+    <span class="token keyword">if</span> flag<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span>a1<span class="token punctuation">,</span> a2<span class="token punctuation">,</span> a3<span class="token punctuation">,</span> a4<span class="token punctuation">]</span><span class="token punctuation">,</span> result
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> result
+
+
+<span class="token keyword">def</span> <span class="token function">func_c</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> c <span class="token operator">*</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span>x<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">error_c</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> y <span class="token operator">-</span> func_c<span class="token punctuation">(</span>x<span class="token punctuation">,</span> p<span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">fit_c</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> p<span class="token punctuation">,</span> t<span class="token punctuation">,</span> flag<span class="token punctuation">,</span> max_fev<span class="token operator">=</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x_sample <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+    y_sample <span class="token operator">=</span>np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+    para <span class="token operator">=</span> leastsq<span class="token punctuation">(</span>error_c<span class="token punctuation">,</span> p<span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span>x_sample<span class="token punctuation">,</span> y_sample<span class="token punctuation">)</span><span class="token punctuation">,</span> maxfev<span class="token operator">=</span>max_fev<span class="token punctuation">)</span>
+    a <span class="token operator">=</span> round<span class="token punctuation">(</span>float<span class="token punctuation">(</span>para<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> round<span class="token punctuation">(</span>t<span class="token operator">*</span>a<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> flag<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> a<span class="token punctuation">,</span> result
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"拟合结果: y_c ="</span><span class="token punctuation">,</span> a<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> result
+
+
+<span class="token comment" spellcheck="true"># (独立测试使用) 按规模读取键盘数字输入, 捕获异常</span>
+<span class="token keyword">def</span> <span class="token function">read</span><span class="token punctuation">(</span>sentence<span class="token punctuation">,</span> quantity<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">assert</span> quantity <span class="token operator">></span> <span class="token number">0</span>
+    sentence_error <span class="token operator">=</span> <span class="token string">"格式错误, 请按照要求重新输入: "</span>
+    inf <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        inf <span class="token operator">=</span> list<span class="token punctuation">(</span>map<span class="token punctuation">(</span>float<span class="token punctuation">,</span> input<span class="token punctuation">(</span>sentence<span class="token punctuation">)</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">while</span> len<span class="token punctuation">(</span>inf<span class="token punctuation">)</span> <span class="token operator">!=</span> quantity<span class="token punctuation">:</span>
+            inf <span class="token operator">=</span> list<span class="token punctuation">(</span>map<span class="token punctuation">(</span>float<span class="token punctuation">,</span> input<span class="token punctuation">(</span>sentence_error<span class="token punctuation">)</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> ValueError<span class="token punctuation">:</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            <span class="token keyword">try</span><span class="token punctuation">:</span>
+                inf <span class="token operator">=</span> list<span class="token punctuation">(</span>map<span class="token punctuation">(</span>float<span class="token punctuation">,</span> input<span class="token punctuation">(</span>sentence_error<span class="token punctuation">)</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">while</span> len<span class="token punctuation">(</span>inf<span class="token punctuation">)</span> <span class="token operator">!=</span> quantity<span class="token punctuation">:</span>
+                    inf <span class="token operator">=</span> list<span class="token punctuation">(</span>map<span class="token punctuation">(</span>float<span class="token punctuation">,</span> input<span class="token punctuation">(</span>sentence_error<span class="token punctuation">)</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">break</span>
+            <span class="token keyword">except</span> ValueError<span class="token punctuation">:</span>
+                <span class="token keyword">continue</span>
+
+    <span class="token keyword">if</span> quantity <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> inf<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> inf
+
+
+<span class="token comment" spellcheck="true"># 作为独立程序测试</span>
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+
+    <span class="token comment" spellcheck="true"># 样本点要求: 跨度小 或者 跨度大密度大, 这里的跨度指的是样本横坐标跨越的周期个数</span>
+
+    <span class="token keyword">from</span> sympy <span class="token keyword">import</span> <span class="token operator">*</span>
+    <span class="token keyword">from</span> matplotlib <span class="token keyword">import</span> pyplot <span class="token keyword">as</span> plt
+    <span class="token keyword">import</span> time
+
+    sentence_1 <span class="token operator">=</span> <span class="token string">"请用空格分割, 按顺序输入希望的测试点 数目 &amp; 横坐标最小值 &amp; 横坐标最大值 &amp; 横坐标分度值(如:15 -3.14 0 0.1): "</span>
+    sentence_2 <span class="token operator">=</span> <span class="token string">"输入w测试正弦模型, e测试直线模型, 其它键取消测试: "</span>
+    sentence_3 <span class="token operator">=</span> <span class="token string">"请用空格分割, 请按顺序输入正弦模型y = Asin(2πf*t+Θ)+c的四个参数A,f,Θ,c的真实值: "</span>
+    sentence_4 <span class="token operator">=</span> <span class="token string">"请用空格分割, 输入参数A,f,Θ,c的拟合初值: "</span>
+    sentence_5 <span class="token operator">=</span> <span class="token string">"请输入直线模型y = c中参数c的真实值: "</span>
+    sentence_6 <span class="token operator">=</span> <span class="token string">"请输入参数c的拟合初值: "</span>
+    sentence_7 <span class="token operator">=</span> <span class="token string">"请输入预测时长(单位:s): "</span>
+    sentence_8 <span class="token operator">=</span> <span class="token string">"分度值不可为0, 请重新输入: "</span>
+    sentence_9 <span class="token operator">=</span> <span class="token string">"请输入拟合次数上限: "</span>
+
+    x_samples<span class="token punctuation">,</span> y_samples<span class="token punctuation">,</span> x_fit<span class="token punctuation">,</span> y_fit <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+    info <span class="token operator">=</span> read<span class="token punctuation">(</span>sentence_1<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> info<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        info <span class="token operator">=</span> read<span class="token punctuation">(</span>sentence_8<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+    amount<span class="token punctuation">,</span> x_min<span class="token punctuation">,</span> x_max<span class="token punctuation">,</span> x_division <span class="token operator">=</span> int<span class="token punctuation">(</span>info<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> info<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> info<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> info<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span>
+
+    key <span class="token operator">=</span> input<span class="token punctuation">(</span>sentence_2<span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> key <span class="token operator">==</span> <span class="token string">'w'</span><span class="token punctuation">:</span>
+        a<span class="token punctuation">,</span> f<span class="token punctuation">,</span> theta<span class="token punctuation">,</span> c <span class="token operator">=</span> read<span class="token punctuation">(</span>sentence_3<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 真实值</span>
+        p0 <span class="token operator">=</span> read<span class="token punctuation">(</span>sentence_4<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 拟合初值</span>
+        x_samples <span class="token operator">=</span> np<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span>x_min<span class="token punctuation">,</span> x_max<span class="token punctuation">,</span> amount<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 样本x</span>
+        y_origin <span class="token operator">=</span> func_sin<span class="token punctuation">(</span>x_samples<span class="token punctuation">,</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span> f<span class="token punctuation">,</span> theta<span class="token punctuation">,</span> c<span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 样本y(无噪声)</span>
+        y_samples <span class="token operator">=</span> y_origin <span class="token operator">+</span> <span class="token number">0.8</span> <span class="token operator">*</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randn<span class="token punctuation">(</span>amount<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 样本y(带噪声)</span>
+        t <span class="token operator">=</span> read<span class="token punctuation">(</span>sentence_7<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 预测时长</span>
+        max_fev <span class="token operator">=</span> int<span class="token punctuation">(</span>read<span class="token punctuation">(</span>sentence_9<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 拟合次数上限</span>
+
+        time_1 <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        paras<span class="token punctuation">,</span> result <span class="token operator">=</span> fit_sin<span class="token punctuation">(</span>x_samples<span class="token punctuation">,</span> y_samples<span class="token punctuation">,</span> p0<span class="token punctuation">,</span> t<span class="token punctuation">,</span> true<span class="token punctuation">,</span> max_fev<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 拟合</span>
+        time_2 <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        x_t <span class="token operator">=</span> symbols<span class="token punctuation">(</span><span class="token string">"x"</span><span class="token punctuation">)</span>
+        expr <span class="token operator">=</span> paras<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> sin<span class="token punctuation">(</span>round<span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> np<span class="token punctuation">.</span>pi <span class="token operator">*</span> paras<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">*</span> x_t <span class="token operator">+</span> paras<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> paras<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span>
+
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n模型: y = Asin(2πf*t+Θ)+c"</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"样本点:\nx={}\ny(无噪声)={}\ny(含噪声)={}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>x_samples<span class="token punctuation">,</span> y_origin<span class="token punctuation">,</span> y_samples<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"函数原型参数: "</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span> f<span class="token punctuation">,</span> theta<span class="token punctuation">,</span> c<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"拟合初值: "</span><span class="token punctuation">,</span> p0<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"拟合结果: "</span><span class="token punctuation">,</span> paras<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"拟合表达式: y ="</span><span class="token punctuation">,</span> expr<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"拟合耗时: {} ms"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>round<span class="token punctuation">(</span><span class="token punctuation">(</span>time_2<span class="token operator">-</span>time_1<span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">1000</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"积分区间: [{}, {}]"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>x_max<span class="token punctuation">,</span> x_max<span class="token operator">+</span>t<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"积分值: "</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span>
+
+        <span class="token keyword">if</span> x_max <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">:</span>
+            x_fit <span class="token operator">=</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>x_min<span class="token punctuation">,</span> <span class="token number">2</span><span class="token operator">*</span><span class="token punctuation">(</span>x_max<span class="token operator">+</span>t<span class="token punctuation">)</span><span class="token punctuation">,</span> x_division<span class="token punctuation">)</span>
+            x_bound <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>x_min<span class="token punctuation">,</span> <span class="token number">2</span><span class="token operator">*</span><span class="token punctuation">(</span>x_max<span class="token operator">+</span>t<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            x_fit <span class="token operator">=</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>x_min<span class="token punctuation">,</span> abs<span class="token punctuation">(</span><span class="token operator">-</span>x_max<span class="token operator">+</span><span class="token number">2</span><span class="token operator">*</span>t<span class="token punctuation">)</span><span class="token punctuation">,</span> x_division<span class="token punctuation">)</span>
+            x_bound <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>x_min<span class="token punctuation">,</span> abs<span class="token punctuation">(</span><span class="token operator">-</span>x_max<span class="token operator">+</span><span class="token number">2</span><span class="token operator">*</span>t<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+        y_fit <span class="token operator">=</span> func_sin<span class="token punctuation">(</span>x_fit<span class="token punctuation">,</span> paras<span class="token punctuation">)</span>
+        y_bound <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>c<span class="token punctuation">,</span> c<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+        plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span>figsize<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>scatter<span class="token punctuation">(</span>x_samples<span class="token punctuation">,</span> y_samples<span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'red'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">'Sample Points'</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 带噪声的样本点图</span>
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x_samples<span class="token punctuation">,</span> y_samples<span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'gray'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"Sample Lines"</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 带噪声的样本曲线图</span>
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x_fit<span class="token punctuation">,</span> y_fit<span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'orange'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"Fitting Line"</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 拟合的曲线图</span>
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x_bound<span class="token punctuation">,</span> y_bound<span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'gray'</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> linestyle<span class="token operator">=</span><span class="token string">'--'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 对称轴</span>
+        plt<span class="token punctuation">.</span>xlabel<span class="token punctuation">(</span><span class="token string">"Time"</span><span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>ylabel<span class="token punctuation">(</span><span class="token string">"Velocity"</span><span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x_max<span class="token punctuation">,</span> func_sin<span class="token punctuation">(</span>x_max<span class="token punctuation">,</span> paras<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"ob"</span><span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'blue'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"current"</span><span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x_max<span class="token operator">+</span>t<span class="token punctuation">,</span> func_sin<span class="token punctuation">(</span>x_max<span class="token operator">+</span>t<span class="token punctuation">,</span> paras<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"ob"</span><span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'purple'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">'Prediction'</span><span class="token punctuation">)</span>
+
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span><span class="token punctuation">[</span>x_max<span class="token punctuation">,</span> x_max<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>func_sin<span class="token punctuation">(</span>x_max<span class="token punctuation">,</span> paras<span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">]</span><span class="token punctuation">,</span>
+                 color<span class="token operator">=</span><span class="token string">'blue'</span><span class="token punctuation">,</span> linestyle<span class="token operator">=</span><span class="token string">'--'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 作最新点到对称轴的垂直虚线</span>
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span><span class="token punctuation">[</span>x_max<span class="token operator">+</span>t<span class="token punctuation">,</span> x_max<span class="token operator">+</span>t<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>func_sin<span class="token punctuation">(</span>x_max<span class="token operator">+</span>t<span class="token punctuation">,</span> paras<span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">]</span><span class="token punctuation">,</span>
+                 color<span class="token operator">=</span><span class="token string">'purple'</span><span class="token punctuation">,</span> linestyle<span class="token operator">=</span><span class="token string">'--'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 作预测点到对称轴的垂直虚线</span>
+        x_series <span class="token operator">=</span> np<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span>x_max<span class="token punctuation">,</span> x_max<span class="token operator">+</span>t<span class="token punctuation">,</span> amount<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 积分区域</span>
+        y_1 <span class="token operator">=</span> c
+        y_2 <span class="token operator">=</span> func_sin<span class="token punctuation">(</span>x_series<span class="token punctuation">,</span> paras<span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>fill_between<span class="token punctuation">(</span>x_series<span class="token punctuation">,</span> y_1<span class="token punctuation">,</span> y_2<span class="token punctuation">,</span> facecolor<span class="token operator">=</span><span class="token string">'white'</span><span class="token punctuation">,</span> hatch<span class="token operator">=</span><span class="token string">'/'</span><span class="token punctuation">,</span> interpolate<span class="token operator">=</span>true<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 填充阴影</span>
+
+        plt<span class="token punctuation">.</span>legend<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        exit<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">elif</span> key <span class="token operator">==</span> <span class="token string">'e'</span><span class="token punctuation">:</span>
+        c <span class="token operator">=</span> read<span class="token punctuation">(</span>sentence_5<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        p0 <span class="token operator">=</span> read<span class="token punctuation">(</span>sentence_6<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        x_samples <span class="token operator">=</span> np<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span>x_min<span class="token punctuation">,</span> x_max<span class="token punctuation">,</span> amount<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 样本x</span>
+        y_origin <span class="token operator">=</span> func_c<span class="token punctuation">(</span>x_samples<span class="token punctuation">,</span> c<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 样本y(无噪声)</span>
+        y_samples <span class="token operator">=</span> y_origin <span class="token operator">+</span> <span class="token number">0.8</span> <span class="token operator">*</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randn<span class="token punctuation">(</span>amount<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 样本y(带噪声)</span>
+        t <span class="token operator">=</span> read<span class="token punctuation">(</span>sentence_7<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 预测时长</span>
+        max_fev <span class="token operator">=</span> int<span class="token punctuation">(</span>read<span class="token punctuation">(</span>sentence_9<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 拟合次数上限</span>
+
+        time_1 <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        para<span class="token punctuation">,</span> result <span class="token operator">=</span> fit_c<span class="token punctuation">(</span>x_samples<span class="token punctuation">,</span> y_samples<span class="token punctuation">,</span> p0<span class="token punctuation">,</span> t<span class="token punctuation">,</span> true<span class="token punctuation">,</span> max_fev<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 拟合</span>
+        time_2 <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n模型: y = c"</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"样本点:\nx={}\ny={}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>x_samples<span class="token punctuation">,</span> y_samples<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"函数原型参数: "</span><span class="token punctuation">,</span> c<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"拟合初值: "</span><span class="token punctuation">,</span> p0<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"拟合结果: "</span><span class="token punctuation">,</span> para<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"拟合表达式: y ="</span><span class="token punctuation">,</span> para<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"拟合耗时: {} ms"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token punctuation">(</span>time_2<span class="token operator">-</span>time_1<span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"积分区间: [{}, {}]"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>x_max<span class="token punctuation">,</span> x_max<span class="token operator">+</span>t<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"积分值: "</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span>
+
+        <span class="token keyword">if</span> x_max <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">:</span>
+            x_fit <span class="token operator">=</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>x_min<span class="token punctuation">,</span> <span class="token number">2</span><span class="token operator">*</span><span class="token punctuation">(</span>x_max<span class="token operator">+</span>t<span class="token punctuation">)</span><span class="token punctuation">,</span> x_division<span class="token punctuation">)</span>
+            x_bound <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>x_min<span class="token punctuation">,</span> <span class="token number">2.5</span><span class="token operator">*</span><span class="token punctuation">(</span>x_max<span class="token operator">+</span>t<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            x_fit <span class="token operator">=</span> np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>x_min<span class="token punctuation">,</span> abs<span class="token punctuation">(</span><span class="token operator">-</span>x_max<span class="token operator">+</span><span class="token number">2</span><span class="token operator">*</span>t<span class="token punctuation">)</span><span class="token punctuation">,</span> x_division<span class="token punctuation">)</span>
+            x_bound <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>x_min<span class="token punctuation">,</span> <span class="token number">1.25</span> <span class="token operator">*</span> abs<span class="token punctuation">(</span><span class="token operator">-</span>x_max<span class="token operator">+</span><span class="token number">2</span><span class="token operator">*</span>t<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+        y_fit <span class="token operator">=</span> func_c<span class="token punctuation">(</span>x_fit<span class="token punctuation">,</span> para<span class="token punctuation">)</span>
+        y_bound <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>c<span class="token punctuation">,</span> c<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+        fig <span class="token operator">=</span> plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span>figsize<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        ax <span class="token operator">=</span> fig<span class="token punctuation">.</span>add_subplot<span class="token punctuation">(</span><span class="token number">111</span><span class="token punctuation">)</span>
+        ax<span class="token punctuation">.</span>spines<span class="token punctuation">[</span><span class="token string">'right'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>set_color<span class="token punctuation">(</span><span class="token string">'none'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 去掉右方的y轴</span>
+        ax<span class="token punctuation">.</span>spines<span class="token punctuation">[</span><span class="token string">'top'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>set_color<span class="token punctuation">(</span><span class="token string">'none'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 去掉上方的x轴</span>
+        ax<span class="token punctuation">.</span>spines<span class="token punctuation">[</span><span class="token string">'left'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>set_position<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">'data'</span><span class="token punctuation">,</span> x_min<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 将y轴移动至x最小值处</span>
+        ax<span class="token punctuation">.</span>spines<span class="token punctuation">[</span><span class="token string">'bottom'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>set_position<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">'data'</span><span class="token punctuation">,</span> min<span class="token punctuation">(</span>y_samples<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 将x轴移动至y样本最小值处</span>
+        ax<span class="token punctuation">.</span>set_xticks<span class="token punctuation">(</span>np<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>min<span class="token punctuation">(</span>x_samples<span class="token punctuation">)</span><span class="token punctuation">,</span> x_max<span class="token operator">+</span><span class="token number">2</span><span class="token operator">*</span>t<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 设置x刻度</span>
+        ax<span class="token punctuation">.</span>scatter<span class="token punctuation">(</span>x_samples<span class="token punctuation">,</span> y_samples<span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'red'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">'Original Points'</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 有噪声的样本点图</span>
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x_bound<span class="token punctuation">,</span> y_bound<span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'green'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">'Real Value'</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 实际</span>
+        ax<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x_fit<span class="token punctuation">,</span> y_fit<span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'orange'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"Fitting Line"</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 有噪声样本拟合的曲线图</span>
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x_max<span class="token punctuation">,</span> func_c<span class="token punctuation">(</span>np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>x_max<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> para<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"ob"</span><span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'blue'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"current"</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 最新点</span>
+        plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x_max<span class="token operator">+</span>t<span class="token punctuation">,</span> func_c<span class="token punctuation">(</span>np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>x_max<span class="token operator">+</span>t<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> para<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"ob"</span><span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'purple'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">'Prediction'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 预测点</span>
+        ax<span class="token punctuation">.</span>plot<span class="token punctuation">(</span><span class="token punctuation">[</span>x_max<span class="token punctuation">,</span> x_max<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>func_c<span class="token punctuation">(</span>np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>x_max<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> para<span class="token punctuation">)</span><span class="token punctuation">,</span> min<span class="token punctuation">(</span>y_samples<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                color<span class="token operator">=</span><span class="token string">'blue'</span><span class="token punctuation">,</span> linestyle<span class="token operator">=</span><span class="token string">'--'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 作最新点到x轴的垂直虚线</span>
+        ax<span class="token punctuation">.</span>plot<span class="token punctuation">(</span><span class="token punctuation">[</span>x_max<span class="token operator">+</span>t<span class="token punctuation">,</span> x_max<span class="token operator">+</span>t<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>func_c<span class="token punctuation">(</span>np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>x_max<span class="token operator">+</span>t<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> para<span class="token punctuation">)</span><span class="token punctuation">,</span> min<span class="token punctuation">(</span>y_samples<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                color<span class="token operator">=</span><span class="token string">'purple'</span><span class="token punctuation">,</span> linestyle<span class="token operator">=</span><span class="token string">'--'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 作预测点到x轴的垂直虚线</span>
+        x_series <span class="token operator">=</span> np<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span>x_max<span class="token punctuation">,</span> x_max<span class="token operator">+</span>t<span class="token punctuation">,</span> amount<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 积分区域</span>
+        y_1 <span class="token operator">=</span> min<span class="token punctuation">(</span>y_samples<span class="token punctuation">)</span> <span class="token operator">*</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span>x_series<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
+        y_2 <span class="token operator">=</span> func_c<span class="token punctuation">(</span>x_series<span class="token punctuation">,</span> para<span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>fill_between<span class="token punctuation">(</span>x_series<span class="token punctuation">,</span> y_1<span class="token punctuation">,</span> y_2<span class="token punctuation">,</span> where<span class="token operator">=</span>y_1<span class="token operator">&lt;</span>y_2<span class="token punctuation">,</span> facecolor<span class="token operator">=</span><span class="token string">'white'</span><span class="token punctuation">,</span> hatch<span class="token operator">=</span><span class="token string">'/'</span><span class="token punctuation">,</span> interpolate<span class="token operator">=</span>true<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 填充阴影</span>
+        plt<span class="token punctuation">.</span>xlabel<span class="token punctuation">(</span><span class="token string">"Time/s"</span><span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>ylabel<span class="token punctuation">(</span><span class="token string">"Velocity"</span><span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>legend<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        exit<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"已取消测试"</span><span class="token punctuation">)</span>
+        exit<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>运行结果如下：</strong></p>
+<p>输入参数依次为：[15, -3.14, 0, 0.1],  ‘w’,  [8, 0.34, 0.52, 0], [7, 0.2, 0.2, 0], 0.7, 1000， 结果如下：</p>
+<img src="/l/image.png" alt="图像结果" style="zoom:80%">
+
+<p>由于个人需要求了个积分，因此输入的参数中的”0.7”表示积分区间的长度，积分区间为 [样本横坐标最大值， 样本横坐标最大值+0.7]，由阴影部分表示。其余点/线的意义如下：</p>
+<ul>
+<li>红色点：由输入参数的正弦函数生成的带高斯噪声的样本点</li>
+<li>蓝色点：横坐标最大的样本点</li>
+<li>紫色点：积分点</li>
+<li>灰色折线：样本点依次连线</li>
+<li>黄色曲线：拟合结果</li>
+</ul>
+<p>输出的数据结果如下，其中带噪声的样本点是由无噪声样本点的基础上加上符合标准正态分布的噪声产生的:</p>
+<img src="/l/result.png" alt="数据结果" style="zoom:80%">
+
+<p>程序可改进的地方：因为选择了<code>y=C</code>这样一个与自变量不相关的线性模型，所以最佳拟合值就是样本均值，不需要再调用api了！</p>
+
+            </div>
+            <hr />
+
+            
+            <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.88rem;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-large waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fa fa-close"></i></a>
+            <h4 class="reward-title">写作不易，客官能否打赏一杯奶茶？</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《最小二乘回归策略》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/posts/1b0d.html" property="cc:attributionName"
+               rel="cc:attributionURL">
+                Lightshaker
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'b675ce49d330b63cdd81',
+        clientSecret: 'b0604fd563502ca06f2a0f63e353bb07b79c0dfc',
+        repo: 'Lightshaker.github.io',
+        owner: 'Lightshaker',
+        admin: "Lightshaker",
+        id: 'posts/1b0d.html',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+    <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments input[type=text],
+    #vcomments input[type=email],
+    #vcomments input[type=url],
+    #vcomments textarea {
+        box-sizing: border-box;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #42b983;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div id="vcomments" class="card-content"></div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<!-- <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script> -->
+
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '',
+        appKey: '',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'false' === 'true',
+        avatar: 'wavatar',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: '如果你没有GitHub账号，还可以在这里评论啦！'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/posts/11d9.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++ 基础笔记">
+                        
+                        <span class="card-title">C++ 基础笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+  本文是个人初学C++的部分备忘笔记，内容较基础
+
+[toc]
+变量常见整数类型：char，short，int，long，long long(long int)，对应大小：1, 2, 4, 4, 8（byte）
+定义float类型变量时
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-04-12
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C-C/" class="post-category" target="_blank">
+                                    C/C++
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/posts/d69a.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Ubuntu 备忘笔记">
+                        
+                        <span class="card-title">Ubuntu 备忘笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+  俗话说，好记性不如烂键盘，本文是自己备忘的一些零散的笔记，自己看的，内容比较随意，有用可自取
+
+一些bash命令系统命令who 查看当前在线的用户
+netstat -a 查看当前系统联网状态
+halt ，poweroff，shutdo
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-04-07
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Ubuntu/" class="post-category" target="_blank">
+                                    Ubuntu
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Ubuntu/" target="_blank">
+                        <span class="chip bg-color">Ubuntu</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('100')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: LightHouse<br />'
+            + '作者: Lightshaker<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2020-  Lightshaker. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">97.7k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/lightshaker" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:lightshaker@126.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2020, 01, 23, 00, 00, 00); //北京时间2020-1-23 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    /*siteTime();*/
+</script>
+/*<script src="/js/prism/prism.js" async></script>*/
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "LightHouse", clearTimeout(st)) : (document.title = "LightHouse", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+</body>
+
+</html>

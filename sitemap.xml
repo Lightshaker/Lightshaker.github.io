@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>www.lightshaker.cn/2020/12/25/wangdao-dsa/</loc>
+    <loc>www.lightshaker.cn/posts/4493.html</loc>
     
     <lastmod>2020-12-26</lastmod>
     
@@ -16,56 +16,56 @@
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/04/13/hybridprogr-cpppython/</loc>
+    <loc>www.lightshaker.cn/posts/2334.html</loc>
     
     <lastmod>2020-12-25</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/05/15/hexo-issues/</loc>
+    <loc>www.lightshaker.cn/posts/6276.html</loc>
     
     <lastmod>2020-12-25</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/04/12/cpp-notes/</loc>
+    <loc>www.lightshaker.cn/posts/11d9.html</loc>
     
     <lastmod>2020-08-03</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/07/27/ros-basic/</loc>
+    <loc>www.lightshaker.cn/posts/2af2.html</loc>
     
     <lastmod>2020-07-31</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/05/15/mathjax/</loc>
+    <loc>www.lightshaker.cn/posts/7b6b.html</loc>
     
     <lastmod>2020-07-31</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/05/18/cmake/</loc>
+    <loc>www.lightshaker.cn/posts/1806.html</loc>
     
     <lastmod>2020-07-28</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/07/28/anno-simulation/</loc>
+    <loc>www.lightshaker.cn/posts/aff9.html</loc>
     
     <lastmod>2020-07-28</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/04/07/ubuntu-notes/</loc>
+    <loc>www.lightshaker.cn/posts/d69a.html</loc>
     
     <lastmod>2020-06-23</lastmod>
     
@@ -93,13 +93,6 @@
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/friends/index.html</loc>
-    
-    <lastmod>2020-05-18</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>www.lightshaker.cn/tags/index.html</loc>
     
     <lastmod>2020-05-18</lastmod>
@@ -107,35 +100,42 @@
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/05/14/kf-extract/</loc>
+    <loc>www.lightshaker.cn/friends/index.html</loc>
     
     <lastmod>2020-05-18</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/04/06/hexo-illustration/</loc>
+    <loc>www.lightshaker.cn/posts/962.html</loc>
     
     <lastmod>2020-05-18</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/04/06/hexo-codefont/</loc>
+    <loc>www.lightshaker.cn/posts/eb4f.html</loc>
     
     <lastmod>2020-05-18</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/04/08/leastsq/</loc>
+    <loc>www.lightshaker.cn/posts/3c71.html</loc>
     
     <lastmod>2020-05-18</lastmod>
     
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/2020/03/20/hexo-build/</loc>
+    <loc>www.lightshaker.cn/posts/1b0d.html</loc>
+    
+    <lastmod>2020-05-18</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>www.lightshaker.cn/posts/96fb.html</loc>
     
     <lastmod>2020-05-18</lastmod>
     
@@ -186,13 +186,6 @@
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/tags/ROS%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2020-12-26</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>www.lightshaker.cn/tags/%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2020-12-26</lastmod>
     <changefreq>daily</changefreq>
@@ -201,6 +194,13 @@
   
   <url>
     <loc>www.lightshaker.cn/tags/Python/</loc>
+    <lastmod>2020-12-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>www.lightshaker.cn/tags/ROS%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2020-12-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -279,14 +279,14 @@
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA/</loc>
+    <loc>www.lightshaker.cn/categories/%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2020-12-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>www.lightshaker.cn/categories/%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/</loc>
+    <loc>www.lightshaker.cn/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA/</loc>
     <lastmod>2020-12-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
