@@ -510,10 +510,10 @@
 <h3 id="插入图片的方法："><a href="#插入图片的方法：" class="headerlink" title="插入图片的方法："></a>插入图片的方法：</h3><h4 id="使用Markdown语法"><a href="#使用Markdown语法" class="headerlink" title="使用Markdown语法"></a>使用Markdown语法</h4><p>指令格式：<code>![Description](Path)</code></p>
 <p>其中Description为图片描述，就是贴图后在图片下方写的标注，Path为要使用的图片路径</p>
 <p>举个栗子：<code>![我来自Markdown](img.png)</code>，效果如下：</p>
-<p><img src="/06/hexo-illustration/img.png" alt="我来自Markdown"></p>
+<p><img src="/2020/04/06/hexo-illustration/img.png" alt="我来自Markdown"></p>
 <h4 id="使用HTML语法"><a href="#使用HTML语法" class="headerlink" title="使用HTML语法"></a>使用HTML语法</h4><p>Html插图的指令格式：<code>&lt;img src=&quot;Path&quot; [alt=&quot;Description&quot;]&gt;</code></p>
 <p>举个栗子：<code>&lt;img src=&quot;img.png&quot; alt=&quot;我来自Html&quot;&gt;</code>，效果如下：</p>
-<img src="/06/hexo-illustration/img.png" alt="我来自Html">
+<img src="/2020/04/06/hexo-illustration/img.png" alt="我来自Html">
 
 <h4 id="使用Hexo3的插件-hexo-asset-image"><a href="#使用Hexo3的插件-hexo-asset-image" class="headerlink" title="使用Hexo3的插件 hexo-asset-image"></a>使用Hexo3的插件 hexo-asset-image</h4><blockquote>
 <p>  先 hexo -v 确保所装的hexo是3.0以上的版本</p>
@@ -585,7 +585,7 @@ hexo<span class="token punctuation">.</span>extend<span class="token punctuation
 <p><strong>ps:</strong> 我试图用markdown的行内代码来表示这个指令格式，但是居然被它无视了，为了避免显示两次图还没显示格式，我只好用代码段来锁住这个妖怪了！    </p>
 <pre class="line-numbers language-txt"><code class="language-txt">{% asset_img Path [Description] %}  # 格式
 {% asset_img img.png 我来自Hexo3 %}  # 栗子<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<img src="/06/hexo-illustration/04/06/hexo-illustration/img.png" title="我来自Hexo3">
+<img src="/2020/04/06/hexo-illustration/img.png" title="我来自Hexo3">
 
 <h3 id="一些可能会碰到的问题"><a href="#一些可能会碰到的问题" class="headerlink" title="一些可能会碰到的问题"></a>一些可能会碰到的问题</h3><h4 id="图片路径问题"><a href="#图片路径问题" class="headerlink" title="图片路径问题"></a>图片路径问题</h4><p>有时候本地写md插入图片显示挺正常的，一进行 <code>hexo g</code> 生成文章后，不论是用 <code>hexo s</code> 在本地服务器查看，或者是 <code>hexo d</code>部署后到网站查看，图片都是裂的或者干脆就没有。这时候打开 <code>~hexo/public</code> 目录查看文章的 <code>index.html</code> ，我们会发现每个img的路径不对，错误的方式一般有两种：文件夹名称乱码 或者 永久链接路径错误。</p>
 <h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>先到根目录下的 <code>_config.yml</code> 把永久链接设置好，默认的格式一般是 <code>permalink: :year/:month/:day/:title/</code>，可以额外设置两个可选项，完整格式如下：</p>
@@ -596,13 +596,13 @@ permalink_defaults:
 <p>按照上面的方法安装 <strong>hexo-asset-image</strong> 插件并修改bug。</p>
 <p>设置根目录下的 <code>_config.yml</code> 内容：<code>post_asset_folder: true</code>，其功能是在 <code>hexo new post</code> 创建新文章时，会在相同路径下生成一个与文章同名的文件夹，把文章需要用到的图片都存放到这个文件夹里，在md中使用时可以使用上面三种方法的任意一种，因为这个插件自动设置了相对路径，所以直接使用图片名作为Path即可( 上面三个图就是示例)。</p>
 <p>需要注意的是，完成了这些步骤之后，按照直接用图片名作为路径的方式插入图片，可能不会显示出来，我写这篇帖子的时候就遇到了这种情况：</p>
-<img src="/06/hexo-illustration/local.png" alt="本地显示找不到图" style="zoom:80%">
+<img src="/2020/04/06/hexo-illustration/local.png" alt="本地显示找不到图" style="zoom:80%">
 
 <p>但是不慌，我们打开生成的index的路径 <code>~hexo/public/2020/01/04/index.html/hexo-issue-img/index.html</code> 查看在html文件中的图片路径是否为 <code>permalink</code> 的格式：</p>
-<img src="/06/hexo-illustration/path.png" alt="html中的图片路径" style="zoom:80%">
+<img src="/2020/04/06/hexo-illustration/path.png" alt="html中的图片路径" style="zoom:80%">
 
 <p>可以看到，图片路径的格式为 <code>:year/:month/:day/:title</code>，与<code>permalink</code>的格式一样，说明图片在博客生成之后是可以正常显示的，我们现在用 <code>hexo s</code> 打开本地服务器，看看图片在博客中的显示情况：</p>
-<img src="/06/hexo-illustration/remote.png" alt="图片在blog中的显示情况" style="zoom:67%">
+<img src="/2020/04/06/hexo-illustration/remote.png" alt="图片在blog中的显示情况" style="zoom:67%">
 
 <p>一切正常，现在可以放心地 <code>hexo d</code> 了！</p>
 <h4 id="图片的缩放"><a href="#图片的缩放" class="headerlink" title="图片的缩放"></a>图片的缩放</h4><p>我似乎没有找到markdown的图片缩放属性，每次对图片进行缩放就自动变成html的语法了，那我在这里就只介绍html和asset的缩放方式吧，不过其实也就是加个属性而已，大家一看就能懂，这里就不多做解释了。</p>

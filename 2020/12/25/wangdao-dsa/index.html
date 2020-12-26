@@ -706,10 +706,10 @@ bool <span class="token function">empty</span><span class="token punctuation">(<
 <p>带头结点的代码对每个带数据的结点具有一致性，不带头结点的代码需要将第一个带数据的结点从循环中剥离出来（因为第一个结点无需也无法执行头插尾插之类的操作）；</p>
 </blockquote>
 <p>带头结点，p指向不应被修改</p>
-<img src="/25/wangdao-dsa/2.1.png">
+<img src="/2020/12/25/wangdao-dsa/2.1.png">
 
 <p>不带头结点，p指向可被修改</p>
-<img src="/25/wangdao-dsa/2.2.png">
+<img src="/2020/12/25/wangdao-dsa/2.2.png">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> Node<span class="token punctuation">{</span>
     <span class="token keyword">int</span> data<span class="token punctuation">;</span>
@@ -878,10 +878,10 @@ bool <span class="token function">SpecificDelete</span><span class="token punctu
     <span class="token keyword">return</span> true<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="双链表"><a href="#双链表" class="headerlink" title="双链表"></a>双链表</h3><p>带头结点</p>
-<img src="/25/wangdao-dsa/2.3.png">
+<img src="/2020/12/25/wangdao-dsa/2.3.png">
 
 <p>不带头结点</p>
-<img src="/25/wangdao-dsa/2.4.png">
+<img src="/2020/12/25/wangdao-dsa/2.4.png">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> DNode<span class="token punctuation">{</span>
     <span class="token keyword">int</span> data<span class="token punctuation">;</span>
@@ -1934,7 +1934,7 @@ string<span class="token punctuation">.</span>length <span class="token operator
 <li>中序遍历：左子树-&gt;根-&gt;右子树</li>
 <li>后序遍历：左子树-&gt;右子树-&gt;根</li>
 </ul>
-<img src="/25/wangdao-dsa/5.1.png" style="zoom:80%">
+<img src="/2020/12/25/wangdao-dsa/5.1.png" style="zoom:80%">
 
 <p><strong>递归实现</strong></p>
 <p>时间复杂度均为 $O(n)$</p>
@@ -2343,7 +2343,7 @@ bool <span class="token function">insert</span><span class="token punctuation">(
 </ul>
 </li>
 </ul>
-<img src="/25/wangdao-dsa/5.2.png" style="zoom:80%">
+<img src="/2020/12/25/wangdao-dsa/5.2.png" style="zoom:80%">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 假设原本指向A的结点名为N</span>
 A<span class="token operator">-></span>lchild <span class="token operator">=</span> B<span class="token operator">-></span>rchild<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 转移</span>
@@ -2355,7 +2355,7 @@ N<span class="token operator">-></span>lchild<span class="token operator">/</spa
 </ul>
 </li>
 </ul>
-<img src="/25/wangdao-dsa/5.3.png" style="zoom:80%">
+<img src="/2020/12/25/wangdao-dsa/5.3.png" style="zoom:80%">
 
 <pre class="line-numbers language-c"><code class="language-c">B<span class="token operator">-></span>rchild <span class="token operator">=</span> A<span class="token operator">-></span>lchild<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 转移</span>
 A<span class="token operator">-></span>lchild <span class="token operator">=</span> B<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 左旋</span>
@@ -2366,7 +2366,7 @@ N<span class="token operator">-></span>lchild<span class="token operator">/</spa
 </ul>
 </li>
 </ul>
-<img src="/25/wangdao-dsa/5.4.png" style="zoom:80%">
+<img src="/2020/12/25/wangdao-dsa/5.4.png" style="zoom:80%">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 左旋</span>
 B<span class="token operator">-></span>rchild <span class="token operator">=</span> C<span class="token operator">-></span>lchild<span class="token punctuation">;</span>
@@ -2382,7 +2382,7 @@ N<span class="token operator">-></span>lchild<span class="token operator">/</spa
 </ul>
 </li>
 </ul>
-<p><img src="/25/wangdao-dsa/5.5.png" style="zoom:80%">`</p>
+<p><img src="/2020/12/25/wangdao-dsa/5.5.png" style="zoom:80%">`</p>
 <pre class="line-numbers language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 右旋</span>
 B<span class="token operator">-></span>lchild <span class="token operator">=</span> C<span class="token operator">-></span>rchild<span class="token punctuation">;</span>
 C<span class="token operator">-></span>rchild <span class="token operator">=</span> B<span class="token punctuation">;</span>
@@ -3099,7 +3099,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 </ul>
 <p><strong>效率分析：</strong>对于普通查找表的顺序查找，成功与查找失败的ASL都是 $O(n)$，但有特殊情况：</p>
 <p>以在<strong>有序查找表</strong>中进行顺序查找为例，$n$个元素的查找表具有$n$个成功结点与$n+1$个失败结点，每个失败结点的占比都为 $\cfrac{1}{n+1}$，因此查找失败的ASL就等于：<br>$$<br>ASL_{fail}=\cfrac{1+2+3+\dots+n+n}{n+1}=\cfrac{n}{2}+\cfrac{n}{n+1}<br>$$<br>分子的两个$n$代表成功结点<code>43</code>的两个孩子失败结点的查找次数；</p>
-<img src="/25/wangdao-dsa/7.1.jpg" style="zoom:50%">
+<img src="/2020/12/25/wangdao-dsa/7.1.jpg" style="zoom:50%">
 
 <h3 id="折半查找（二分查找）"><a href="#折半查找（二分查找）" class="headerlink" title="折半查找（二分查找）"></a>折半查找（二分查找）</h3><p><strong>适用范围：</strong>仅适用于<strong>有序</strong>的<strong>顺序表</strong>；</p>
 <p><strong>折半查找判定树构造：</strong></p>
@@ -3120,7 +3120,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 </li>
 <li><strong>效率：</strong>不论查找成功还是失败，都有 $ASL \le h$，因此时间复杂度为 $O(\log_2n) $</li>
 </ul>
-<img src="/25/wangdao-dsa/7.2.png" style="zoom:60%">
+<img src="/2020/12/25/wangdao-dsa/7.2.png" style="zoom:60%">
 
 <pre class="line-numbers language-c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">binarySearch</span><span class="token punctuation">(</span><span class="token keyword">int</span> data<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">{</span>
     <span class="token keyword">int</span> low <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> high <span class="token operator">=</span> n<span class="token number">-1</span><span class="token punctuation">,</span> mid<span class="token punctuation">;</span>
@@ -3136,7 +3136,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
     <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="分块查找"><a href="#分块查找" class="headerlink" title="分块查找"></a>分块查找</h3><p>分块查找，又称索引顺序查找，数据分块存储，块内无序、块间有序；</p>
-<img src="/25/wangdao-dsa/7.3.png" style="zoom:60%">
+<img src="/2020/12/25/wangdao-dsa/7.3.png" style="zoom:60%">
 
 <p><strong>算法思想：</strong></p>
 <ul>
@@ -3157,7 +3157,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 <li>只有当<code>low</code>超出了索引表的范围时才判定为查找失败；</li>
 </ul>
 <h3 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h3><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><p>B树，又称<strong>多路平衡查找树</strong>（balance），B树中所有结点的孩子个数的最大值（最大分叉数）称为B树的阶，通常用 $m$ 表示。</p>
-<img src="/25/wangdao-dsa/7.4.png" style="zoom:60%">
+<img src="/2020/12/25/wangdao-dsa/7.4.png" style="zoom:60%">
 
 <p>$m$阶B树的<strong>核心特性</strong>：（分叉数 = 子树个数）</p>
 <ul>
@@ -3203,7 +3203,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 </li>
 </ul>
 <h3 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h3><p>类似于分块查找思想构建的多级多阶树；</p>
-<img src="/25/wangdao-dsa/7.5.png" style="zoom:60%">
+<img src="/2020/12/25/wangdao-dsa/7.5.png" style="zoom:60%">
 
 <p>一棵$m$阶B+树的特性：</p>
 <ul>
@@ -3263,7 +3263,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 <p>冲突：通过散列函数映射到的存储位置上已有元素存放；</p>
 <p>同义词：通过散列函数映射到同一个存储位置的关键字；</p>
 <p>装填因子：$\alpha$ = 散列表中记录的个数 / 表长；</p>
-<h4 id="常见散列函数"><a href="#常见散列函数" class="headerlink" title="常见散列函数"></a>常见散列函数</h4><p>除留余数法：$H(key)=key \space  % \space p$，其中$p$是不大于表长但最接近或等于表长的<strong>质数</strong>；</p>
+<h4 id="常见散列函数"><a href="#常见散列函数" class="headerlink" title="常见散列函数"></a>常见散列函数</h4><p>除留余数法：$H(key)=key \space  \% \space p$，其中$p$是不大于表长但最接近或等于表长的<strong>质数</strong>；</p>
 <ul>
 <li>用质数取模，分布更均匀，冲突更少；</li>
 </ul>
@@ -3283,7 +3283,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 <li>查找失败的ASL等于装填因子；</li>
 <li>优化方法：让链表中的元素以升序或降序方式排列，可提高在链表中执行顺序查找的效率；</li>
 </ul>
-<p>开放定址法：$H_i=(H(key)+d_i)\space % \space m$，其中$d_i$称为增量序列，有三种常见方法确定其取值</p>
+<p>开放定址法：$H_i=(H(key)+d_i)\space \% \space m$，其中$d_i$称为增量序列，有三种常见方法确定其取值</p>
 <ul>
 <li>线性探测法：$d_i=0,1,2,3,\dots,m-1$；<ul>
 <li>由于该方法判断查找失败的依据是查找到空位置，因此删除某个元素时需要用一个变量表明是删除了不是空了；</li>
@@ -3552,7 +3552,7 @@ bool <span class="token function">TopologicalSort</span><span class="token punct
 <p>一个结点，每下坠一层，最多只需要对比关键字2次，第一次是左右孩子的对比，第二次是左右孩子中较大者与根的对比；</p>
 <p>若树高为 $h$，某结点在第 $i$ 层，则这个结点最多可能下坠 $h-i$ 层，因此关键字对比次数最多为 $2(h-i)$；</p>
 <p>$n$ 个结点的完全二叉树高度为 $h=\lfloor\log_2n\rfloor+1$，第 $ i$ 层最多有 $2^{i-1}$ 个结点，只有第 $1$ 到第 $h-1$ 层的结点才可能下坠；</p>
-<p>因此，所有结点的对比次数之和不会超过：<br>$$<br>2^0\cdot 2(h-1)+2^1\cdot2(h-2)+\dots+2^{h-1}\cdot2(h-(h-1))\=\sum_{i=1}^{h-1}[2^{i-1}\cdot2(h-i)] \= \sum_{i=1}^{h-1}2^i(h-i)<br>$$<br>令 $j=h-i$ 换元，并代入 $h=\lfloor\log_2n\rfloor+1$，化简并使用错位相减法可求得：<br>$$<br>\sum_{i=1}^{h-1}2^i(h-i) =\sum_{j=1}^{h-1}2^{h-j}j = \sum_{j=1}^{h-1}2^{\lfloor\log_2n\rfloor}\cdot 2 \cdot 2^{-j}\cdot j \<br>\le 2n\sum_{j=1}^{h-1} 2^{-j}\cdot j \le 4n<br>$$<br>由此可知建立大根堆的时间复杂度为 $O(n)$；</p>
+<p>因此，所有结点的对比次数之和不会超过：<br>$$<br>2^0\cdot 2(h-1)+2^1\cdot2(h-2)+\dots+2^{h-1}\cdot2(h-(h-1))\\=\sum_{i=1}^{h-1}[2^{i-1}\cdot2(h-i)] \\= \sum_{i=1}^{h-1}2^i(h-i)<br>$$<br>令 $j=h-i$ 换元，并代入 $h=\lfloor\log_2n\rfloor+1$，化简并使用错位相减法可求得：<br>$$<br>\sum_{i=1}^{h-1}2^i(h-i) =\sum_{j=1}^{h-1}2^{h-j}j = \sum_{j=1}^{h-1}2^{\lfloor\log_2n\rfloor}\cdot 2 \cdot 2^{-j}\cdot j \\<br>\le 2n\sum_{j=1}^{h-1} 2^{-j}\cdot j \le 4n<br>$$<br>由此可知建立大根堆的时间复杂度为 $O(n)$；</p>
 <p><strong>排序过程的时间复杂度：</strong></p>
 <p>$n$ 个结点，总共需要 $n-1$ 趟排序，每趟排序都需要</p>
 <ul>

@@ -515,12 +515,12 @@ Errors &amp;amp; SolutionsError: expected end of comment, got end of file
 <li><p><strong>报错具体内容：</strong>见下图</p>
 </li>
 </ul>
-<img src="/15/hexo-issues/error1.png" style="zoom:80%">
+<img src="/2020/05/15/hexo-issues/error1.png" style="zoom:80%">
 
 <ul>
 <li><strong>错误原因：</strong>在hexo中， <code>{#</code> 与其对称符号之间的内容属于注释字段（这里没打出对称符号是因为打出来就全被注释成空白了Orz），而在搬运的文章中恰好有这么一段Latex公式：</li>
 </ul>
-<img src="/15/hexo-issues/reason1.png">
+<img src="/2020/05/15/hexo-issues/reason1.png">
 
 <p>里面使用了很多 <code>{#</code> 这样的组合，造成了歧义</p>
 <ul>

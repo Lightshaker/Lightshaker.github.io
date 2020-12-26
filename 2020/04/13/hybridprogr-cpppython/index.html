@@ -521,9 +521,9 @@ link_directorie">
 link_directories(/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu)
 target_link_libraries(casual_test libpython3.6.so)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><strong>配置CLion环境：</strong>点击CLion右上方的<code>Edit Configurations</code>，点击 <code>Environment variables</code> 右侧按钮添加环境变量，其中 <code>Name</code> 填入<code>PYTHONPATH</code>，<code>Value</code> 填入 <code>.:$PYTHONPATH</code></p>
-<img src="/13/hybridprogr-cpppython/configure.png">
+<img src="/2020/04/13/hybridprogr-cpppython/configure.png">
 
-<img src="/13/hybridprogr-cpppython/path.png" alt="配置CLion的Python环境">
+<img src="/2020/04/13/hybridprogr-cpppython/path.png" alt="配置CLion的Python环境">
 
 <p><strong>创建py脚本：</strong>在<code>cmake-build-debug</code>文件夹内创建py文件，载入脚本时脚本路径直接使用脚本名即可。</p>
 <p><strong>ps：</strong>如果不在<code>cmake-build-debug</code>内创建脚本，需要明确相对路径的关系，这里的“相对”指的是脚本与工程二进制文件的相对路径，在一般情况下，CMake的工程二进制文件自动生成于<code>cmake-build-debug</code>路径下，意味着脚本与二进制文件同路径，可以直接使用脚本名。但是如果在CMakeLists中指定了二进制文件的生成路径<code>${EXECUTABLE_OUTPUT_PATH}</code>，需要根据实际情况确定相对路径，否则脚本读取不到。</p>
@@ -875,7 +875,7 @@ target_link_libraries(casual_test libpython3.6.so)<span aria-hidden="true" class
     cout <span class="token operator">&lt;&lt;</span> <span class="token string">"结束Py环境耗时: "</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span>t12 <span class="token operator">-</span> t11<span class="token punctuation">)</span><span class="token operator">/</span>CLOCKS_PER_SEC <span class="token operator">*</span><span class="token number">1000</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"ms"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><strong>输出结果如下：</strong></p>
-<img src="/13/hybridprogr-cpppython/result.png" alt="Leastsq运行结果" style="zoom:80%">
+<img src="/2020/04/13/hybridprogr-cpppython/result.png" alt="Leastsq运行结果" style="zoom:80%">
 
 <p><strong>ps：</strong>照理说Finalize是一个回收空间的机制，但是使用过程中发现Py_Finalize()消耗很大，看了一些经验贴后感觉似乎不使用这个api也没事，在嵌入式中loop也不会崩溃掉，暂时搞不太懂，先挖个坑以后再填。</p>
 
