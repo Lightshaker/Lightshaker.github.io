@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.lightshaker.cn/about/index.html</loc>
+    
+    <lastmod>2020-12-26T06:16:08.716Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.lightshaker.cn/2020/12/25/wangdao-dsa/</loc>
     
     <lastmod>2020-12-26T05:51:42.047Z</lastmod>
@@ -65,20 +72,6 @@
   </url>
   
   <url>
-    <loc>https://www.lightshaker.cn/about/index.html</loc>
-    
-    <lastmod>2020-05-18T01:03:32.288Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.lightshaker.cn/categories/index.html</loc>
-    
-    <lastmod>2020-05-18T01:03:32.288Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://www.lightshaker.cn/archives/index.html</loc>
     
     <lastmod>2020-05-18T01:03:32.288Z</lastmod>
@@ -87,6 +80,13 @@
   
   <url>
     <loc>https://www.lightshaker.cn/contact/index.html</loc>
+    
+    <lastmod>2020-05-18T01:03:32.288Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.lightshaker.cn/categories/index.html</loc>
     
     <lastmod>2020-05-18T01:03:32.288Z</lastmod>
     
