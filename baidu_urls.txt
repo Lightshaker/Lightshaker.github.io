@@ -1,12 +1,12 @@
 lightshaker.cn/2020/12/25/wangdao-dsa/
 lightshaker.cn/2020/07/28/anno-simulation/
-lightshaker.cn/2020/07/27/ros-basic/
-lightshaker.cn/2020/05/18/cmake/
+lightshaker.cn/2020/07/27/ros-basis/
+lightshaker.cn/2020/05/18/gcc-cmake/
 lightshaker.cn/2020/05/15/hexo-issues/
 lightshaker.cn/2020/05/15/mathjax/
 lightshaker.cn/2020/05/14/kf-extract/
-lightshaker.cn/2020/04/13/hybridprogr-cpppython/
-lightshaker.cn/2020/04/12/cpp-notes/
+lightshaker.cn/2020/04/13/hybrid-cpython/
+lightshaker.cn/2020/04/12/cpp-basis/
 lightshaker.cn/2020/04/08/leastsq/
 lightshaker.cn/2020/04/07/ubuntu-notes/
 lightshaker.cn/2020/04/06/hexo-codefont/

@@ -47,7 +47,7 @@
     <link href="lightshaker.cn/2020/07/28/anno-simulation/"/>
     <id>lightshaker.cn/2020/07/28/anno-simulation/</id>
     <published>2020-07-28T01:18:39.000Z</published>
-    <updated>2020-12-26T13:13:51.912Z</updated>
+    <updated>2020-12-28T02:28:57.079Z</updated>
     
     <summary type="html">
     
@@ -63,19 +63,21 @@
     
     </summary>
     
-      <category term="机器人" scheme="lightshaker.cn/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+      <category term="robotics" scheme="lightshaker.cn/categories/robotics/"/>
     
     
-      <category term="机械臂仿真" scheme="lightshaker.cn/tags/%E6%9C%BA%E6%A2%B0%E8%87%82%E4%BB%BF%E7%9C%9F/"/>
+      <category term="机械臂" scheme="lightshaker.cn/tags/%E6%9C%BA%E6%A2%B0%E8%87%82/"/>
+    
+      <category term="仿真" scheme="lightshaker.cn/tags/%E4%BB%BF%E7%9C%9F/"/>
     
   </entry>
   
   <entry>
-    <title>ROS入门笔记(一)</title>
-    <link href="lightshaker.cn/2020/07/27/ros-basic/"/>
-    <id>lightshaker.cn/2020/07/27/ros-basic/</id>
+    <title>ROS入门</title>
+    <link href="lightshaker.cn/2020/07/27/ros-basis/"/>
+    <id>lightshaker.cn/2020/07/27/ros-basis/</id>
     <published>2020-07-27T13:07:13.000Z</published>
-    <updated>2020-12-26T13:13:51.912Z</updated>
+    <updated>2020-12-28T02:30:38.659Z</updated>
     
     <summary type="html">
     
@@ -90,17 +92,17 @@
     
     </summary>
     
-      <category term="机器人" scheme="lightshaker.cn/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+      <category term="robotics" scheme="lightshaker.cn/categories/robotics/"/>
     
     
-      <category term="ROS机器人操作系统" scheme="lightshaker.cn/tags/ROS%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <category term="ROS" scheme="lightshaker.cn/tags/ROS/"/>
     
   </entry>
   
   <entry>
     <title>GCC与CMake入门</title>
-    <link href="lightshaker.cn/2020/05/18/cmake/"/>
-    <id>lightshaker.cn/2020/05/18/cmake/</id>
+    <link href="lightshaker.cn/2020/05/18/gcc-cmake/"/>
+    <id>lightshaker.cn/2020/05/18/gcc-cmake/</id>
     <published>2020-05-18T04:34:46.000Z</published>
     <updated>2020-12-26T13:13:51.912Z</updated>
     
@@ -211,8 +213,8 @@
   
   <entry>
     <title>Ubuntu C++/Python混合编程</title>
-    <link href="lightshaker.cn/2020/04/13/hybridprogr-cpppython/"/>
-    <id>lightshaker.cn/2020/04/13/hybridprogr-cpppython/</id>
+    <link href="lightshaker.cn/2020/04/13/hybrid-cpython/"/>
+    <id>lightshaker.cn/2020/04/13/hybrid-cpython/</id>
     <published>2020-04-13T13:45:32.000Z</published>
     <updated>2020-12-26T13:13:51.908Z</updated>
     
@@ -244,8 +246,8 @@
   
   <entry>
     <title>C++ 基础笔记</title>
-    <link href="lightshaker.cn/2020/04/12/cpp-notes/"/>
-    <id>lightshaker.cn/2020/04/12/cpp-notes/</id>
+    <link href="lightshaker.cn/2020/04/12/cpp-basis/"/>
+    <id>lightshaker.cn/2020/04/12/cpp-basis/</id>
     <published>2020-04-12T08:17:54.000Z</published>
     <updated>2020-12-26T13:13:51.920Z</updated>
     
@@ -308,7 +310,7 @@
     <link href="lightshaker.cn/2020/04/07/ubuntu-notes/"/>
     <id>lightshaker.cn/2020/04/07/ubuntu-notes/</id>
     <published>2020-04-07T12:05:13.000Z</published>
-    <updated>2020-12-26T13:13:51.912Z</updated>
+    <updated>2020-12-28T02:38:33.603Z</updated>
     
     <summary type="html">
     
@@ -390,11 +392,11 @@
   </entry>
   
   <entry>
-    <title>Ubuntu下Hexo静态博客搭建流程(干货)</title>
+    <title>Ubuntu下Hexo静态博客搭建流程</title>
     <link href="lightshaker.cn/2020/03/20/hexo-build/"/>
     <id>lightshaker.cn/2020/03/20/hexo-build/</id>
     <published>2020-03-20T03:55:55.000Z</published>
-    <updated>2020-12-26T13:13:51.912Z</updated>
+    <updated>2020-12-28T02:27:37.735Z</updated>
     
     <summary type="html">
     

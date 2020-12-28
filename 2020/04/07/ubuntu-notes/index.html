@@ -332,7 +332,7 @@ halt ，poweroff，shutdo">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -487,14 +487,14 @@ halt ，poweroff，shutdo">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.1k
+                    2.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    10 分
                 </div>
                 
                 
@@ -715,6 +715,29 @@ Categories<span class="token operator">=</span>Application<span class="token pun
 <pre class="line-numbers language-bash"><code class="language-bash">gsettings <span class="token keyword">set</span> org.gnome.gedit.preferences.editor display-line-numbers <span class="token boolean">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>设置当前行号高亮</p>
 <pre class="line-numbers language-bash"><code class="language-bash">gsettings <span class="token keyword">set</span> org.gnome.gedit.preferences.editor highlight-current-line <span class="token boolean">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="解压缩Windows下创建的zip包乱码问题"><a href="#解压缩Windows下创建的zip包乱码问题" class="headerlink" title="解压缩Windows下创建的zip包乱码问题"></a>解压缩Windows下创建的zip包乱码问题</h3><p>使系统支持中文字符集</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> gedit /var/lib/locales/supported.d/local
+<span class="token comment" spellcheck="true"># 添加中文字符集：</span>
+zh_CN.GB18030 GB18030
+zh_CN.GBK GBK
+zh_CN.UTF-8 UTF-8
+zh_CN.GB2312 GB2312
+<span class="token comment" spellcheck="true"># 更新</span>
+<span class="token function">sudo</span> locale-gen<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用7-zip解压，convmv文件名转码</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> convmv p7zip-full
+<span class="token comment" spellcheck="true"># 解压方式</span>
+LANG<span class="token operator">=</span>C 7z x 你的zip文件名
+<span class="token comment" spellcheck="true"># 转码</span>
+convmv -f gbk -t utf8 -r --notest *<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面只解决了文件名乱码，这里解决vim/gedit打开文件内容乱码的问题</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 打开vim配置文件，添加内容，保存退出</span>
+<span class="token function">sudo</span> gedit /etc/vim/vimrc
+<span class="token keyword">set</span> fileencodings<span class="token operator">=</span>utf-8,gb2312,gbk,gb18030
+<span class="token keyword">set</span> termencoding<span class="token operator">=</span>utf-8
+<span class="token keyword">set</span> encoding<span class="token operator">=</span>prc
+<span class="token comment" spellcheck="true"># 解决gedit中文乱码</span>
+gsettings <span class="token keyword">set</span> org.gnome.gedit.preferences.encodings candidate-encodings <span class="token string">"['UTF-8','CURRENT','GB18030','ISO-8859-15','UTF-16']"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
             </div>
             <hr />
@@ -1207,7 +1230,7 @@ Categories<span class="token operator">=</span>Application<span class="token pun
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.png" class="responsive-img" alt="最小二乘回归策略">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="最小二乘回归策略">
                         
                         <span class="card-title">最小二乘回归策略</span>
                     </div>
@@ -1268,7 +1291,7 @@ n个样本
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Hexo代码段等宽字体的设置方法">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Hexo代码段等宽字体的设置方法">
                         
                         <span class="card-title">Hexo代码段等宽字体的设置方法</span>
                     </div>
@@ -1475,7 +1498,7 @@ n个样本
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">97.7k</span>
+            <span class="white-color">97.9k</span>
             
 
             <br>
