@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="lightshaker.cn/"/>
-  <updated>2020-12-27T02:15:48.024Z</updated>
+  <updated>2020-12-28T03:31:34.439Z</updated>
   <id>lightshaker.cn/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Win10下使用VMware搭建Hadoop集群</title>
+    <link href="lightshaker.cn/2020/12/28/hadoop-build-win/"/>
+    <id>lightshaker.cn/2020/12/28/hadoop-build-win/</id>
+    <published>2020-12-28T03:18:33.000Z</published>
+    <updated>2020-12-28T03:31:34.439Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;实践背景&quot;&gt;&lt;a href=&quot;#实践背景&quot; class=&quot;headerlink&quot; title=&quot;实践背景&quot;&gt;&lt;/a&gt;实践背景&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;大数据简介&lt;/p&gt;
+&lt;p&gt;大数据（Big
+        
+      
+    
+    </summary>
+    
+      <category term="大数据" scheme="lightshaker.cn/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="Hadoop" scheme="lightshaker.cn/tags/Hadoop/"/>
+    
+  </entry>
   
   <entry>
     <title>数据结构基础</title>
@@ -310,7 +338,7 @@
     <link href="lightshaker.cn/2020/04/07/ubuntu-notes/"/>
     <id>lightshaker.cn/2020/04/07/ubuntu-notes/</id>
     <published>2020-04-07T12:05:13.000Z</published>
-    <updated>2020-12-28T02:38:33.603Z</updated>
+    <updated>2020-12-28T02:39:59.911Z</updated>
     
     <summary type="html">
     
@@ -319,7 +347,7 @@
         
         
           &lt;blockquote&gt;
-&lt;p&gt;  俗话说，好记性不如烂键盘，本文是自己备忘的一些零散的笔记，自己看的，内容比较随意，有用可自取&lt;/p&gt;
+&lt;p&gt;  俗话说，好记性不如烂键盘，本文是自己备忘的一些零散的笔记，内容比较随意&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h3 id=&quot;一些bash命令&quot;&gt;&lt;a href=&quot;#一些bash命令&quot; class=&quot;headerlink&quot;
         
