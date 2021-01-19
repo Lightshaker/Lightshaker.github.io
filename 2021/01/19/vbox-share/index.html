@@ -4,13 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Win10下使用VMware搭建Hadoop集群, LightHouse">
+    <meta name="keywords" content="主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享, LightHouse">
     <meta name="baidu-site-verification" content="qEvyYTI5eV">
     <meta name="google-site-verification" content>
     <meta name="360-site-verification" content>
-    <meta name="description" content="实践背景
-大数据简介
-大数据（Big Data），指无法在一定时间范围内用常规软件工具进行捕捉、管理和处理的数据集合，是需要新处理模式才能具有更强的决策力、洞察发现力和流程优化能力的海量、高增长率和多样化的信息资产。一种规模大到在获取、存储">
+    <meta name="description" content="安装虚拟机增强功能载入增强镜像文件VBox菜单栏点击 设备 -&amp;gt; 安装增强功能，等待查找到匹配的镜像文件，一般名称为VBoxGuestAdditions_5.2.42.iso，查找到之后点击下载；
+下载完毕镜像文件默认会保存到 ~/.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Win10下使用VMware搭建Hadoop集群 | LightHouse</title>
+    <title>主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享 | LightHouse</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -329,13 +328,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Win10下使用VMware搭建Hadoop集群
+                        主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享
                     </div>
                 </div>
             </div>
@@ -446,8 +445,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/Hadoop/" target="_blank">
-                            <span class="chip bg-color">Hadoop</span>
+                        <a href="/tags/Ubuntu/" target="_blank">
+                            <span class="chip bg-color">Ubuntu</span>
                         </a>
                         
                     </div>
@@ -458,8 +457,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/大数据/" class="post-category" target="_blank">
-                            大数据
+                        <a href="/categories/Ubuntu/" class="post-category" target="_blank">
+                            Ubuntu
                         </a>
                         
                     </div>
@@ -470,7 +469,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-12-28
+                    2021-01-19
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -484,14 +483,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    549
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    2 分
                 </div>
                 
                 
@@ -502,285 +501,36 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="实践背景"><a href="#实践背景" class="headerlink" title="实践背景"></a>实践背景</h2><ul>
-<li><p>大数据简介</p>
-<p>大数据（Big Data），指无法在一定时间范围内用常规软件工具进行捕捉、管理和处理的数据集合，是需要新处理模式才能具有更强的决策力、洞察发现力和流程优化能力的海量、高增长率和多样化的信息资产。一种规模大到在获取、存储、管理、分析方面大大超出了传统数据库工具能力范围的数据集合，具有海量数据规模、快速数据流转、多样数据类型和价值密度低四大特征。</p>
-</li>
-<li><p>Hadoop简介</p>
-<p>Hadoop是一套开源的用于大规模数据集的分布式存储和处理的工具平台。它最早由Yahoo的技术<br>团队根据Google所发布的公开论文思想用JAVA语言开发。以分布式文件系统HDFS（Hadoop distributed file system）和Map Reduce分布式计算框架为核心，具有高容错性、高伸缩性等优点，允许用户将Hadoop部署在廉价的硬件上，构建分布式文件存储系统。</p>
-</li>
-</ul>
-<h2 id="实践目的"><a href="#实践目的" class="headerlink" title="实践目的"></a>实践目的</h2><ul>
-<li>对大数据与Hadoop架构有一个最基本的了解。</li>
-<li>掌握利用虚拟机搭建简易Hadoop框架的方法。</li>
-</ul>
-<h2 id="实践过程"><a href="#实践过程" class="headerlink" title="实践过程"></a>实践过程</h2><p>本次实践使用的环境、平台与工具：</p>
-<ul>
-<li>Windows10</li>
-<li>VMware Workstation 16</li>
-<li>XShell6</li>
-<li>WinSCP（Win10下的SSH开源图形化SFTP客户端）</li>
-</ul>
-<h3 id="集群规划"><a href="#集群规划" class="headerlink" title="集群规划"></a>集群规划</h3><table>
-<thead>
-<tr>
-<th align="center">主机名</th>
-<th align="center">功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">node1</td>
-<td align="center">NameNode</td>
-</tr>
-<tr>
-<td align="center">node2</td>
-<td align="center">datanode, ResourceManager</td>
-</tr>
-<tr>
-<td align="center">node3</td>
-<td align="center">datanode</td>
-</tr>
-</tbody></table>
-<h3 id="虚拟机环境配置"><a href="#虚拟机环境配置" class="headerlink" title="虚拟机环境配置"></a>虚拟机环境配置</h3><ul>
-<li>安装虚拟机环境 VMware Workstation 16。</li>
-<li>下载Ubuntu18.04.5-Server的iso镜像文件。</li>
-<li>打开VMware，使用上面的镜像文件创建一个Ubuntu-Server虚拟机系统，并复制三份出来作为实践的对象，原件就作为虚拟机在原始状态下的一个备份。</li>
-</ul>
-<img src="/2020/12/28/hadoop-build-win/3.png" style="zoom:80%">
+                <h3 id="安装虚拟机增强功能"><a href="#安装虚拟机增强功能" class="headerlink" title="安装虚拟机增强功能"></a>安装虚拟机增强功能</h3><h4 id="载入增强镜像文件"><a href="#载入增强镜像文件" class="headerlink" title="载入增强镜像文件"></a>载入增强镜像文件</h4><p>VBox菜单栏点击 <code>设备</code> -&gt; <code>安装增强功能</code>，等待查找到匹配的镜像文件，一般名称为<code>VBoxGuestAdditions_5.2.42.iso</code>，查找到之后点击下载；</p>
+<p>下载完毕镜像文件默认会保存到 <code>~/.config/VirtualBox/</code>路径下，如果下载完成时提示是否分配光驱，点是即可，如果忽略了这一步，可以在 <code>设备</code> -&gt; <code>分配光驱</code> -&gt; <code>选择虚拟盘</code> 中手动分配；</p>
+<p>分配成功时，可在 <code>分配光驱</code> 中看到勾选的增强镜像盘，也可在VBox对应虚拟机的管理界面-存储栏目中查到，另外，虚拟机系统中的 <code>/dev</code> 路径下会出现子目录 <code>cdrom</code>，内容即为增强镜像文件的内容：</p>
+<img src="/2021/01/19/vbox-share/1.png">
 
-<img src="/2020/12/28/hadoop-build-win/4.png" style="zoom:89%">
+<h4 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h4><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> apt <span class="token function">install</span> gcc <span class="token function">make</span> perl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="安装增强功能"><a href="#安装增强功能" class="headerlink" title="安装增强功能"></a>安装增强功能</h4><p>挂载增强镜像文件到 <code>/mnt/cdrom</code> 路径下，该子文件夹需要手动创建</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /mnt
+<span class="token function">sudo</span> <span class="token function">mkdir</span> cdrom
+<span class="token function">sudo</span> <span class="token function">mount</span> /dev/cdrom /mnt/cdrom
+<span class="token function">ls</span> ./cdrom<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<img src="/2021/01/19/vbox-share/2.png">
 
-<ul>
-<li>将VMware的外部连接模式由默认的<strong>自动桥接模式</strong>更改为<strong>NAT模式</strong>，并记录NAT设置中默认分配的网关，由图可知为<code>192.168.235.2</code>。</li>
-</ul>
-<img src="/2020/12/28/hadoop-build-win/1.png" style="zoom:80%">
+<p>以root权限执行 <code>VBoxLinuxAdditions.run</code></p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> ./VBoxLinuxAdditions.run<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<img src="/2021/01/19/vbox-share/3.png" style="zoom:80%">
 
-<ul>
-<li>设置本地网络适配器，将VMnet8的IPV4协议中的网关与VMware中的网关手动匹配，IP地址可任意选择，只要不与之后虚拟机静态分配的ip重了就行。子网掩码默认为<code>255.255.255.0</code>，DNS服务器选择Google的<code>8.8.8.8</code>。另外，由于虚拟机是复制的，还需要进入每台虚拟机的设置界面中，手动生成一个MAC物理地址，避免地址冲突造成无法联网。</li>
-</ul>
-<img src="/2020/12/28/hadoop-build-win/2.png" style="zoom:80%">
+<h3 id="配置双向共享"><a href="#配置双向共享" class="headerlink" title="配置双向共享"></a>配置双向共享</h3><h4 id="创建主机端共享文件夹"><a href="#创建主机端共享文件夹" class="headerlink" title="创建主机端共享文件夹"></a>创建主机端共享文件夹</h4><p>主机中用于存放共享文件的路径，按个人意愿设定即可，我这里设定为 <code>~/VMshare</code></p>
+<p>在VBox菜单栏点击 <code>设备</code> -&gt; <code>共享文件夹</code>，在固定分配一栏添加主机文件夹路径并设置自动挂载</p>
+<img src="/2021/01/19/vbox-share/4.png" style="zoom:80%">
 
-<ul>
-<li>分别启动三台虚拟机，设置用户名与密码，并使用<code>sudo passwd root</code>命令修改root密码</li>
-<li>修改<code>/etc/netplan</code>中的配置文件<code>01-network-manager-all.yaml</code>，将自动分配ip地址选项<code>dhcp</code>设置为false，并在下方添加三个选项<ul>
-<li><code>addresses</code>选项，值为<code>[ip/24]</code>，表示本子主机的静态ip地址，24表示网段有效位。</li>
-<li><code>gateway4</code>选项，值为<code>192.168.235.2</code>，表示VMnet8虚拟机网关。</li>
-<li><code>nameservers</code>选项，子选项为<code>addresses</code>，值为<code>[8.8.8.8]</code>，表示DNS服务器。</li>
-</ul>
-</li>
-<li>修改<code>/etc/hostname</code>中的主机名，并修改<code>/etc/hosts</code>，将三台虚拟机的主机名与ip地址写进配置里。可使用<code>ifconfig</code>命令查看所在虚拟机的以太网ip地址。配置完成后，使用<code>ping www.baidu.com</code>验证虚拟机是否可联网。</li>
-</ul>
-<img src="/2020/12/28/hadoop-build-win/7.png" style="zoom:80%"> 
-<img src="/2020/12/28/hadoop-build-win/8.png" style="zoom:80%">
+<h4 id="创建虚拟机端共享文件夹"><a href="#创建虚拟机端共享文件夹" class="headerlink" title="创建虚拟机端共享文件夹"></a>创建虚拟机端共享文件夹</h4><p>个人选择创建为 <code>/mnt/share</code></p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> -p /mnt/share<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="挂载主机文件夹到虚拟机中"><a href="#挂载主机文件夹到虚拟机中" class="headerlink" title="挂载主机文件夹到虚拟机中"></a>挂载主机文件夹到虚拟机中</h4><p>通过VBox中介将主机中的共享文件夹挂载到虚拟机中的共享位置，<code>-t</code> 指定文件类型为 <code>vboxsf</code></p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mount</span> -t vboxsf VMshare /mnt/share<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>完成后在主机端往 <code>~/VMshare</code> 路径中随便存一个文件，在虚拟机端的 <code>/mnt/share</code> 路径下就能读写该文件；</p>
+<h3 id="碰到的问题与解决方案"><a href="#碰到的问题与解决方案" class="headerlink" title="碰到的问题与解决方案"></a>碰到的问题与解决方案</h3><h4 id="执行mount命令时警告read-only"><a href="#执行mount命令时警告read-only" class="headerlink" title="执行mount命令时警告read-only"></a>执行mount命令时警告read-only</h4><p>具体警告：<code>mount: /mnt/cdrom: WARNING: device write-protected, mounted read-only</code></p>
+<p>解决方案：由于只需要读取并运行<code>.run</code>文件，因此写操作被保护也无所谓，无视即可；</p>
+<h4 id="移除挂载的方式"><a href="#移除挂载的方式" class="headerlink" title="移除挂载的方式"></a>移除挂载的方式</h4><p><code>sudo umount -f /mnt/share</code></p>
 
-<ul>
-<li><p>为三台虚拟机分别安装ssh：<code>sudo apt install openssh-server</code>，启动ssh并设置为开机自启动<code>systemctl enable ssh</code>，<code>systemctl start ssh</code></p>
-</li>
-<li><p>在虚拟机<code>node1</code>上使用<code>ssh-keygen -t rsa</code>命令生成ssh密钥</p>
-<ul>
-<li>使用<code>ssh-copy-id node1</code>命令发送密钥到本机</li>
-<li>编写Shell分发脚本，将<code>.ssh</code>文件分发到另外两台虚拟机中，脚本dispense内容如下，使用方式为<code>dispense dir</code>或<code>dispense file</code></li>
-</ul>
-</li>
-<li><p>如右图所示，表示分发成功</p>
-<img src="/2020/12/28/hadoop-build-win/26.png" style="zoom:80%">
-<img src="/2020/12/28/hadoop-build-win/9.png" style="zoom:80%">
-
-</li>
-</ul>
-<h3 id="安装JDK与Hadoop"><a href="#安装JDK与Hadoop" class="headerlink" title="安装JDK与Hadoop"></a>安装JDK与Hadoop</h3><ul>
-<li>在XShell中使用ssh分别登录三台虚拟机</li>
-</ul>
-<img src="/2020/12/28/hadoop-build-win/10.png" style="zoom:80%">
-
-<ul>
-<li>下载JDK的<code>.deb</code>安装包以及Hadoop的压缩包，通过WinSCP传输到虚拟机<code>node1</code>的内部，并使用dispense分发脚本将它们分别分发到另外两个虚拟机<code>node2</code>和<code>node3</code>内。</li>
-</ul>
-<img src="/2020/12/28/hadoop-build-win/11.png" style="zoom:80%"> 
-<img src="/2020/12/28/hadoop-build-win/12.png" style="zoom:80%">
-
-
-<ul>
-<li><p>在XShell中打开查看-撰写-撰写栏，设置为“所有会话”，这样就可以在撰写栏中同时操作三台虚拟机。以下命令均在XShell撰写栏中完成。</p>
-</li>
-<li><p>使用<code>sudo dpkg -i jdk-15.0.1_linux-x64_bin.deb</code>命令安装JDK。</p>
-</li>
-<li><p>在<code>/usr/local</code>路径下创建hadoop文件夹，并使用<code>sudo mv pathA pathB</code>命令将hadoop压缩包移动至该路径下，并解压。</p>
-</li>
-<li><p>编辑<code>/etc/profile</code>文件，在文件末尾添加JAVA与Hadoop的环境变量，如下所示</p>
-</li>
-</ul>
-<pre class="line-numbers language-sh"><code class="language-sh">export JAVA_HOME=/usr/lib/jvm/jdk-15.0.1
-export HADOOP_HOME=/usr/local/hadoop
-export PATH=$PATH:${JAVA_HOME}/bin:${HADOOP_HOME}/sbin:${HADOOP_HOME}/bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>执行<code>source /etc/profile</code>加载配置</li>
-<li>执行<code>java -version</code>与<code>hadoop version</code>命令查看二者安装是否成功</li>
-</ul>
-<img src="/2020/12/28/hadoop-build-win/17.png" style="zoom:80%">
-
-<h3 id="安装Hadoop集群"><a href="#安装Hadoop集群" class="headerlink" title="安装Hadoop集群"></a>安装Hadoop集群</h3><ul>
-<li><p>在<code>node1</code>中切换至<code>/usr/local/hadoop/etc/hadoop</code>路径下，并按如下方式配置hadoop</p>
-</li>
-<li><p>编辑<code>Core-site.xml</code>文件</p>
-</li>
-</ul>
-<pre class="line-numbers language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- 指定HDFS中NameNode的地址 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>fs.defaultFS<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>hdfs://node1:9000<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
-
-<span class="token comment" spellcheck="true">&lt;!-- 指定Hadoop运行时产生文件的存储目录 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hadoop.tmp.dir<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>/opt/module/hadoop-3.3.0/data/tmp<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>编辑<code>hdfs-site.xml</code></li>
-</ul>
-<pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>dfs.replication<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
-<span class="token comment" spellcheck="true">&lt;!-- 指定Hadoop辅助名称节点主机配置 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>dfs.namenode.secondary.http-address<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>node3:50090<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>编辑<code>yarn-site.xml</code></li>
-</ul>
-<pre class="line-numbers language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- Site specific YARN configuration properties --></span>
-<span class="token comment" spellcheck="true">&lt;!-- Reducer获取数据的方式 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>yarn.nodemanager.aux-services<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>mapreduce_shuffle<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
-
-<span class="token comment" spellcheck="true">&lt;!-- 指定YARN的ResourceManager的地址 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>yarn.resourcemanager.hostname<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>node2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
-<span class="token comment" spellcheck="true">&lt;!-- 日志聚集功能使能 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>yarn.log-aggregation-enable<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
-<span class="token comment" spellcheck="true">&lt;!-- 日志保留时间设置7天 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>yarn.log-aggregation.retain-seconds<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>604800<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>编辑<code>mapred-site.xml</code></li>
-</ul>
-<pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>mapreduce.framework.name<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>yarn<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
-<span class="token comment" spellcheck="true">&lt;!-- 历史服务器端地址 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>mapreduce.jobhistory.address<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>node3:10020<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
-<span class="token comment" spellcheck="true">&lt;!-- 历史服务器web端地址 --></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>mapreduce.jobhistory.webapp.address<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>node3:19888<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>配置<code>worker</code></li>
-</ul>
-<pre class="line-numbers language-txt"><code class="language-txt">node1
-node2
-node3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>在<code>node1</code>中使用dispense分发脚本将<code>/usr/local/hadoop/etc</code>整个目录分发给<code>node2</code>和<code>node3</code></li>
-</ul>
-<h3 id="测试Hadoop"><a href="#测试Hadoop" class="headerlink" title="测试Hadoop"></a>测试Hadoop</h3><ul>
-<li>在<code>node1</code>中执行命令格式化namenode</li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">hdfs namenode -format<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<ul>
-<li>在<code>node1</code>中启动hadoop分布式文件系统<strong>hdfs</strong></li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">start-dfs.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<img src="/2020/12/28/hadoop-build-win/20.png" style="zoom:80%">
-
-<ul>
-<li>在配置了Resourcemanager的子主机<code>node2</code>中启动yarn</li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">start-yarn.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<img src="/2020/12/28/hadoop-build-win/21.png" style="zoom:95%">
-
-<ul>
-<li>在任意一台虚拟机中，创建一个文件或者目录，并使用hadoop命令将文件或目录拷贝至hdfs中。</li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">vim main.cpp
-hadoop fs -put ./main.cpp /<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<ul>
-<li>在另一台虚拟机中，从hdfs内拷贝文件到本地</li>
-</ul>
-<pre class="line-numbers language-bash"><code class="language-bash">hadoop fs -get /main.cpp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<img src="/2020/12/28/hadoop-build-win/22.png" style="zoom:80%">
-
-<ul>
-<li>打开浏览器，通过ip地址访问hadoop集群<ul>
-<li><strong>hdfs集群：192.168.235.130:9870</strong><ul>
-<li>NameNode：负责管理文件系统名称空间和控制外部客户机访问的主机</li>
-<li>本例中NameNode是<code>node1</code>，默认端口为9870，可在<code>hdfs-default.xml</code>文件中编辑<code>dfs.namenode</code>修改端口。</li>
-</ul>
-</li>
-<li><strong>yarn集群：192.168.235.131:8088</strong><ul>
-<li>ResourceManager：yarn集群的主控节点，负责协调和管理整个集群（NodeManager）的资源。</li>
-<li>本例中RecourceManager是<code>node2</code>，默认端口为8088</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><img src="/2020/12/28/hadoop-build-win/23.png" style="zoom:80%"> &ensp;<br><img src="/2020/12/28/hadoop-build-win/24.png" style="zoom:80%"></p>
-<h2 id="实践过程中遇到的问题以及解决办法"><a href="#实践过程中遇到的问题以及解决办法" class="headerlink" title="实践过程中遇到的问题以及解决办法"></a>实践过程中遇到的问题以及解决办法</h2><ul>
-<li><p><strong>问题1：</strong>两台或三台虚拟机的ip地址相同，且均无法联网</p>
-<ul>
-<li><strong>原因分析：</strong><ul>
-<li>在配置文件中关闭了自动分配ip地址的选项<code>dhcp</code>，但分配静态ip时填写的格式或内容不正确，例如未填写<code>nameservers</code>一项中的DNS服务器。</li>
-<li>复制完虚拟机之后忘记修改副本的MAC地址。</li>
-</ul>
-</li>
-<li><strong>解决方案：</strong>完整且正确填写<code>/etc/netplan</code>路径下的配置文件，确保ip互异且有效；复制虚拟机后优先配置MAC；</li>
-</ul>
-</li>
-<li><p><strong>问题2：</strong>分发ssh密钥时出现<code>permission denied</code>的错误信息，以及使用dispense脚本分发<code>.ssh</code>目录时失败</p>
-<ul>
-<li><strong>原因分析：</strong><ul>
-<li>Ubuntu默认不支持使用root用于ssh连接系统，经常会抛出请求被拒绝的错误；</li>
-<li>所操作的文件属于系统文件，使用非root权限的用户ssh连接系统会导致无法编辑的错误；</li>
-</ul>
-</li>
-<li><strong>解决方案：</strong>修改<code>/etc/ssh/sshd_config</code>文件，替换如下几行，就可以使用root登录了；或者使用<code>sudo chown user dir</code>命令将文件的完全权限交付给用户user，达到使用非root账户编辑系统文件的目的。</li>
-</ul>
-<pre class="line-numbers language-txt"><code class="language-txt"># Authentication:
-LoginGraceTime 120
-#PermitRootLogin without-password
-PermitRootLogin yes
-StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
-<h2 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h2><p>由于个人不擅长使用vim或nano等Ubuntu自带的编辑器，在修改配置文件时极其不便，在室友的分享下学到了使用VSCode连接虚拟机并直接访问和编辑虚拟机内部文件的方式，在此分享出来。</p>
-<ul>
-<li>安装VSCode插件<code>remote-ssh</code></li>
-<li>在VSCode资源栏目中点开connection一项，编辑默认的ssh配置文件</li>
-</ul>
-<pre class="line-numbers language-txt"><code class="language-txt">Host 任意填写
-        HostName 要连接的虚拟机主机ip地址
-        user 虚拟机主机账户名，例如node1或root<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>点击连接，在上栏输入登录密码即可登录，在root用户下可直接编辑虚拟机内部所有的文件</li>
-</ul>
-<img src="/2020/12/28/hadoop-build-win/19.png" style="zoom:80%">
             </div>
             <hr />
 
@@ -938,9 +688,9 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Win10下使用VMware搭建Hadoop集群》
+                    《主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/12/28/hadoop-build-win/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2021/01/19/vbox-share/" property="cc:attributionName"
                rel="cc:attributionURL">
                 Lightshaker
             </a> 采用
@@ -981,7 +731,7 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
         repo: 'Lightshaker.github.io',
         owner: 'Lightshaker',
         admin: "Lightshaker",
-        id: '2020/12/28/hadoop-build-win/',
+        id: '2021/01/19/vbox-share/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -1264,9 +1014,10 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2021/01/19/vbox-share/">
                     <div class="card-image">
@@ -1285,9 +1036,9 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-19
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-19
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -1300,6 +1051,7 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1318,38 +1070,33 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/12/25/wangdao-dsa/">
+                <a href="/2020/12/28/hadoop-build-win/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="数据结构基础">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Win10下使用VMware搭建Hadoop集群">
                         
-                        <span class="card-title">数据结构基础</span>
+                        <span class="card-title">Win10下使用VMware搭建Hadoop集群</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            王道DSA笔记
-内容来源：王道2021数据结构
-
-Chapter1 绪论数据结构四个概念：
-
-数据元素：数据的基本单位，通常作为一个整体进行考虑和处理。
-数据项：构成数据元素的不可分割的最小单位。
-数据结构：相互之间存在一种或多种特定关系的
+                            实践背景
+大数据简介
+大数据（Big Data），指无法在一定时间范围内用常规软件工具进行捕捉、管理和处理的数据集合，是需要新处理模式才能具有更强的决策力、洞察发现力和流程优化能力的海量、高增长率和多样化的信息资产。一种规模大到在获取、存储
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-12-25
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-12-28
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/数学-算法/" class="post-category" target="_blank">
-                                    数学|算法
+                            <a href="/categories/大数据/" class="post-category" target="_blank">
+                                    大数据
                                 </a>
                             
                             
@@ -1359,8 +1106,8 @@ Chapter1 绪论数据结构四个概念：
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/算法/" target="_blank">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/Hadoop/" target="_blank">
+                        <span class="chip bg-color">Hadoop</span>
                     </a>
                     
                 </div>
@@ -1506,25 +1253,6 @@ Chapter1 绪论数据结构四个概念：
     
 
 </main>
-
-
-<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-    MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
-    });
-</script>
-
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-<!-- 代码语言 -->
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-<!-- 代码块复制 -->
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
-<!-- 代码块收缩 -->
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
-<!-- 代码块折行 -->
-<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
 
 
     <footer class="page-footer bg-color">
