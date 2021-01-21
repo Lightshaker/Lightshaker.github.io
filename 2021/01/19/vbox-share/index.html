@@ -4,7 +4,7 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享, LightHouse">
+    <meta name="keywords" content="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享, LightHouse">
     <meta name="baidu-site-verification" content="qEvyYTI5eV">
     <meta name="google-site-verification" content>
     <meta name="360-site-verification" content>
@@ -17,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享 | LightHouse</title>
+    <title>主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享 | LightHouse</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -328,13 +328,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享
+                        主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享
                     </div>
                 </div>
             </div>
@@ -483,7 +483,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    549
+                    635
                 </div>
                 
 
@@ -519,7 +519,8 @@
 <img src="/2021/01/19/vbox-share/3.png" style="zoom:80%">
 
 <h3 id="配置双向共享"><a href="#配置双向共享" class="headerlink" title="配置双向共享"></a>配置双向共享</h3><h4 id="创建主机端共享文件夹"><a href="#创建主机端共享文件夹" class="headerlink" title="创建主机端共享文件夹"></a>创建主机端共享文件夹</h4><p>主机中用于存放共享文件的路径，按个人意愿设定即可，我这里设定为 <code>~/VMshare</code></p>
-<p>在VBox菜单栏点击 <code>设备</code> -&gt; <code>共享文件夹</code>，在固定分配一栏添加主机文件夹路径并设置自动挂载</p>
+<p>在VBox菜单栏点击 <code>设备</code> -&gt; <code>共享文件夹</code>，在固定分配一栏添加主机文件夹路径</p>
+<p>注意这里不能点 <code>自动挂载</code>，否则会导致重启后无法挂载成功</p>
 <img src="/2021/01/19/vbox-share/4.png" style="zoom:80%">
 
 <h4 id="创建虚拟机端共享文件夹"><a href="#创建虚拟机端共享文件夹" class="headerlink" title="创建虚拟机端共享文件夹"></a>创建虚拟机端共享文件夹</h4><p>个人选择创建为 <code>/mnt/share</code></p>
@@ -527,7 +528,9 @@
 <h4 id="挂载主机文件夹到虚拟机中"><a href="#挂载主机文件夹到虚拟机中" class="headerlink" title="挂载主机文件夹到虚拟机中"></a>挂载主机文件夹到虚拟机中</h4><p>通过VBox中介将主机中的共享文件夹挂载到虚拟机中的共享位置，<code>-t</code> 指定文件类型为 <code>vboxsf</code></p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mount</span> -t vboxsf VMshare /mnt/share<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>完成后在主机端往 <code>~/VMshare</code> 路径中随便存一个文件，在虚拟机端的 <code>/mnt/share</code> 路径下就能读写该文件；</p>
-<h3 id="碰到的问题与解决方案"><a href="#碰到的问题与解决方案" class="headerlink" title="碰到的问题与解决方案"></a>碰到的问题与解决方案</h3><h4 id="执行mount命令时警告read-only"><a href="#执行mount命令时警告read-only" class="headerlink" title="执行mount命令时警告read-only"></a>执行mount命令时警告read-only</h4><p>具体警告：<code>mount: /mnt/cdrom: WARNING: device write-protected, mounted read-only</code></p>
+<h4 id="配置自动挂载"><a href="#配置自动挂载" class="headerlink" title="配置自动挂载"></a>配置自动挂载</h4><p>在确保手动挂载成功后，<code>sudo vim /etc/fstab</code> 添加内容，格式为 <code>&lt;共享名称&gt; &lt; Ubuntu共享目录&gt; vboxsf defaults 0 0</code></p>
+<p>以下是我个人的例子，编辑完保存退出即可</p>
+<pre><code>VMshare /mnt/share vboxsf defaults 0 0</code></pre><h3 id="碰到的问题与解决方案"><a href="#碰到的问题与解决方案" class="headerlink" title="碰到的问题与解决方案"></a>碰到的问题与解决方案</h3><h4 id="执行mount命令时警告read-only"><a href="#执行mount命令时警告read-only" class="headerlink" title="执行mount命令时警告read-only"></a>执行mount命令时警告read-only</h4><p>具体警告：<code>mount: /mnt/cdrom: WARNING: device write-protected, mounted read-only</code></p>
 <p>解决方案：由于只需要读取并运行<code>.run</code>文件，因此写操作被保护也无所谓，无视即可；</p>
 <h4 id="移除挂载的方式"><a href="#移除挂载的方式" class="headerlink" title="移除挂载的方式"></a>移除挂载的方式</h4><p><code>sudo umount -f /mnt/share</code></p>
 
@@ -688,7 +691,7 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享》
+                    《主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享》
                 </span> 由
             <a xmlns:cc="http://creativecommons.org/ns#" href="/2021/01/19/vbox-share/" property="cc:attributionName"
                rel="cc:attributionURL">
@@ -1023,9 +1026,9 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
                         
-                        <span class="card-title">主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享</span>
+                        <span class="card-title">主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1074,7 +1077,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Win10下使用VMware搭建Hadoop集群">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Win10下使用VMware搭建Hadoop集群">
                         
                         <span class="card-title">Win10下使用VMware搭建Hadoop集群</span>
                     </div>
@@ -1262,7 +1265,7 @@
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">100.7k</span>
+            <span class="white-color">101.1k</span>
             
 
             <br>

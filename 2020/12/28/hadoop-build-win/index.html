@@ -329,7 +329,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -769,16 +769,16 @@ PermitRootLogin yes
 StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 </ul>
-<h2 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h2><p>由于个人不擅长使用vim或nano等Ubuntu自带的编辑器，在修改配置文件时极其不便，在室友的分享下学到了使用VSCode连接虚拟机并直接访问和编辑虚拟机内部文件的方式，在此分享出来。</p>
+<h2 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h2><p>在服务器端直接编辑文件较麻烦，可以通过主机端ssh连接服务器端，使用主机端的GUI编辑器修改虚拟机内的文件，也可以直接用VScode的Remote-SSH插件一键连接</p>
 <ul>
 <li>安装VSCode插件<code>remote-ssh</code></li>
-<li>在VSCode资源栏目中点开connection一项，编辑默认的ssh配置文件</li>
+<li>按下 <code>F1</code>，输入ssh，在可选项中选择 <code>open configuration file..</code>，编辑配置文件，可以是全局文件<code>/etc/ssh/ssh_config</code>，也可以是用户文件 <code>/home/user/.ssh/config</code></li>
 </ul>
 <pre class="line-numbers language-txt"><code class="language-txt">Host 任意填写
         HostName 要连接的虚拟机主机ip地址
-        user 虚拟机主机账户名，例如node1或root<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+        user 虚拟机用户名，例如node1或root<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <ul>
-<li>点击连接，在上栏输入登录密码即可登录，在root用户下可直接编辑虚拟机内部所有的文件</li>
+<li>通过 <code>F1</code> 选择 <code>Connect Current Window to Host..</code> 选择刚刚修改配置文件，输入密码即可登录，若过程中有报错，请查看<a href="https://www.lightshaker.cn/2020/04/07/ubuntu-notes/" target="_blank" rel="noopener">笔记</a>中关于ssh登录失败的描述</li>
 </ul>
 <img src="/2020/12/28/hadoop-build-win/19.png" style="zoom:80%">
             </div>
@@ -1272,9 +1272,9 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
                         
-                        <span class="card-title">主机ubuntu与Vbox虚拟机ubuntus-server实现文件共享</span>
+                        <span class="card-title">主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1322,7 +1322,7 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="数据结构基础">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="数据结构基础">
                         
                         <span class="card-title">数据结构基础</span>
                     </div>
@@ -1534,7 +1534,7 @@ Chapter1 绪论数据结构四个概念：
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">100.7k</span>
+            <span class="white-color">101.1k</span>
             
 
             <br>
