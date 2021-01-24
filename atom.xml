@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="lightshaker.cn/"/>
-  <updated>2021-01-21T10:00:17.106Z</updated>
+  <updated>2021-01-23T07:20:20.129Z</updated>
   <id>lightshaker.cn/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0</title>
+    <link href="lightshaker.cn/2021/01/23/spark-build-ubuntu/"/>
+    <id>lightshaker.cn/2021/01/23/spark-build-ubuntu/</id>
+    <published>2021-01-23T06:07:40.000Z</published>
+    <updated>2021-01-23T07:20:20.129Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;本文Spark配置基于通过&lt;strong&gt;VirtualBox&lt;/strong&gt;搭建的Hadoop集群（3台Ubuntu18.04-Server服务器）环境；&lt;/p&gt;
+&lt;h2 id=&quot;使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="大数据" scheme="lightshaker.cn/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="Hadoop" scheme="lightshaker.cn/tags/Hadoop/"/>
+    
+      <category term="Spark" scheme="lightshaker.cn/tags/Spark/"/>
+    
+  </entry>
   
   <entry>
     <title>主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享</title>
@@ -47,7 +76,7 @@
     <link href="lightshaker.cn/2020/12/28/hadoop-build-win/"/>
     <id>lightshaker.cn/2020/12/28/hadoop-build-win/</id>
     <published>2020-12-28T03:18:33.000Z</published>
-    <updated>2021-01-21T05:55:18.139Z</updated>
+    <updated>2021-01-23T06:27:53.773Z</updated>
     
     <summary type="html">
     

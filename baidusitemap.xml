@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>lightshaker.cn/2021/01/19/vbox-share/</loc>
-    <lastmod>2021-01-21</lastmod>
+    <loc>lightshaker.cn/2021/01/23/spark-build-ubuntu/</loc>
+    <lastmod>2021-01-23</lastmod>
   </url>  <url>
     <loc>lightshaker.cn/2020/12/28/hadoop-build-win/</loc>
+    <lastmod>2021-01-23</lastmod>
+  </url>  <url>
+    <loc>lightshaker.cn/2021/01/19/vbox-share/</loc>
     <lastmod>2021-01-21</lastmod>
   </url>  <url>
     <loc>lightshaker.cn/2020/04/07/ubuntu-notes/</loc>

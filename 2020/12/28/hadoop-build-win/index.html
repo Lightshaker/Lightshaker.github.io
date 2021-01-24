@@ -329,7 +329,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -484,7 +484,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    2.4k
                 </div>
                 
 
@@ -512,7 +512,7 @@
 </ul>
 <h2 id="实践目的"><a href="#实践目的" class="headerlink" title="实践目的"></a>实践目的</h2><ul>
 <li>对大数据与Hadoop架构有一个最基本的了解。</li>
-<li>掌握利用虚拟机搭建简易Hadoop框架的方法。</li>
+<li>掌握利用虚拟机搭建简易Hadoop伪分布式集群的方法。</li>
 </ul>
 <h2 id="实践过程"><a href="#实践过程" class="headerlink" title="实践过程"></a>实践过程</h2><p>本次实践使用的环境、平台与工具：</p>
 <ul>
@@ -538,7 +538,7 @@
 </tr>
 <tr>
 <td align="center">node3</td>
-<td align="center">datanode</td>
+<td align="center">datanode,subNameNode,mapreduce.jobHistory</td>
 </tr>
 </tbody></table>
 <h3 id="虚拟机环境配置"><a href="#虚拟机环境配置" class="headerlink" title="虚拟机环境配置"></a>虚拟机环境配置</h3><ul>
@@ -582,12 +582,42 @@
 <li>编写Shell分发脚本，将<code>.ssh</code>文件分发到另外两台虚拟机中，脚本dispense内容如下，使用方式为<code>dispense dir</code>或<code>dispense file</code></li>
 </ul>
 </li>
-<li><p>如右图所示，表示分发成功</p>
-<img src="/2020/12/28/hadoop-build-win/26.png" style="zoom:80%">
-<img src="/2020/12/28/hadoop-build-win/9.png" style="zoom:80%">
-
+<li><p>如下图所示，表示分发成功</p>
 </li>
 </ul>
+<pre class="line-numbers language-shell"><code class="language-shell">#!/bin/bash
+#1. 判断参数个数
+if [ $# -lt 1 ]
+then
+    echo Not Enough Arguement!
+    exit;
+fi
+#2. 遍历集群所有机器
+for host in hadoop-node1 hadoop-node2 hadoop-node3
+do
+    echo ====================    $host    ====================
+    #3. 遍历所有目录，挨个发送
+    for file in $@
+    do
+        #4 判断文件是否存在
+        if [ -e $file ]
+        then
+            #5. 获取父目录
+            pdir=$(cd -P $(dirname $file); pwd)
+
+            #6. 获取当前文件的名称
+            fname=$(basename $file)
+
+            ssh $host "mkdir -p $pdir"
+            rsync -av $pdir/$fname $USER@$host:$pdir
+
+        else
+            echo $file does not exists!
+        fi
+    done
+done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+ <img src="/2020/12/28/hadoop-build-win/9.png" style="zoom:80%">
+
 <h3 id="安装JDK与Hadoop"><a href="#安装JDK与Hadoop" class="headerlink" title="安装JDK与Hadoop"></a>安装JDK与Hadoop</h3><ul>
 <li>在XShell中使用ssh分别登录三台虚拟机</li>
 </ul>
@@ -729,13 +759,13 @@ hadoop fs -put ./main.cpp /<span aria-hidden="true" class="line-numbers-rows"><s
 <ul>
 <li>打开浏览器，通过ip地址访问hadoop集群<ul>
 <li><strong>hdfs集群：192.168.235.130:9870</strong><ul>
-<li>NameNode：负责管理文件系统名称空间和控制外部客户机访问的主机</li>
-<li>本例中NameNode是<code>node1</code>，默认端口为9870，可在<code>hdfs-default.xml</code>文件中编辑<code>dfs.namenode</code>修改端口。</li>
+<li>NameNode：负责管理文件系统名称空间和控制外部客户机访问的主机；</li>
+<li>本例中NameNode是<code>node1</code>，Hadoop3版本默认端口为9870；</li>
 </ul>
 </li>
 <li><strong>yarn集群：192.168.235.131:8088</strong><ul>
-<li>ResourceManager：yarn集群的主控节点，负责协调和管理整个集群（NodeManager）的资源。</li>
-<li>本例中RecourceManager是<code>node2</code>，默认端口为8088</li>
+<li>ResourceManager：yarn集群的主控节点，负责协调和管理整个集群（NodeManager）的资源；</li>
+<li>本例中RecourceManager是<code>node2</code>，Hadoop3默认端口为8088；</li>
 </ul>
 </li>
 </ul>
@@ -1272,7 +1302,7 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
+                        <img src="/medias/featureimages/14.png" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
                         
                         <span class="card-title">主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享</span>
                     </div>
@@ -1322,7 +1352,7 @@ StrictModes yes<span aria-hidden="true" class="line-numbers-rows"><span></span><
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="数据结构基础">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="数据结构基础">
                         
                         <span class="card-title">数据结构基础</span>
                     </div>
@@ -1534,7 +1564,7 @@ Chapter1 绪论数据结构四个概念：
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">101.1k</span>
+            <span class="white-color">105k</span>
             
 
             <br>
