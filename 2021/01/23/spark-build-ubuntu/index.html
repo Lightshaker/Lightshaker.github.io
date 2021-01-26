@@ -594,13 +594,17 @@ hadoop version<span aria-hidden="true" class="line-numbers-rows"><span></span><s
 
 <h4 id="配置Hadoop"><a href="#配置Hadoop" class="headerlink" title="配置Hadoop"></a>配置Hadoop</h4><p>由于直接在虚拟机里编辑文件内容较麻烦，可以采取两种方案让编辑文件更方便：</p>
 <ul>
-<li>方案一：通过虚拟机与主机的共享文件夹将待编辑文件传输到主机中，编辑完毕再传回去；</li>
-<li>方案二：使用VScode或Sublime插件，通过ssh连接到服务器，直接编辑文件（推荐）；</li>
+<li><p>方案一：通过虚拟机与主机的共享文件夹将待编辑文件传输到主机中，编辑完毕再传回去；</p>
+</li>
+<li><p>方案二：使用VScode或Sublime插件，通过ssh连接到服务器，直接编辑文件（推荐）；</p>
+</li>
 </ul>
 <p>本文采用的是方案二，通过VScode插件Remote-SSH连接虚拟机，可以通过共享文件夹将主机端生成的授权公钥复制到虚拟机端 <code>/root/.ssh/authorized_keys</code>，实现免密；</p>
 <ul>
-<li>注意VScode需要登录虚拟机服务器端的root账户才能编辑 <code>/usr/local</code> 路径下的文件，因此需要将授权公钥存在 <code>/root</code> root用户路径下；</li>
-<li>配置过程与报错解决方案见文末 “问题与解决方案” 问题三；</li>
+<li><p>注意VScode需要登录虚拟机服务器端的root账户才能编辑 <code>/usr/local</code> 路径下的文件，因此需要将授权公钥存在 <code>/root</code> root用户路径下；</p>
+</li>
+<li><p>配置过程与报错解决方案见文末 “问题与解决方案” 问题三；</p>
+</li>
 </ul>
 <img src="/2021/01/23/spark-build-ubuntu/8.png" style="zoom:100%">
 

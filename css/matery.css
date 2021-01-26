@@ -175,6 +175,7 @@ code {
     padding: 1px 8px;
     font-family: "WenQuanYi Micro Hei Mono";
     font-size: 1.10rem;
+	line-height: 2.10rem;
     color: #e96900;
     background-color: #f8f8f8;
     border-radius: 2px;
@@ -1851,7 +1852,7 @@ footer .copy-right {
 }
 
 .img-margin {
-    margin: 25px auto 10px auto;
+    margin: 25px auto 25px auto;
 }
 
 .caption {
