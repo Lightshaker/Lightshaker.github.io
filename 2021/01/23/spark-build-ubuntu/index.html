@@ -336,7 +336,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -495,14 +495,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.7k
+                    4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    15 分
+                    16 分
                 </div>
                 
                 
@@ -751,16 +751,23 @@ start-dfs.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
 <p>使用 <code>ls -ll | grep spark</code> 命令，确保spark文件夹的拥有者是node用户；</p>
 <img src="/2021/01/23/spark-build-ubuntu/10.png" style="zoom:100%">
 
-<h3 id="配置spark-env-sh文件"><a href="#配置spark-env-sh文件" class="headerlink" title="配置spark-env.sh文件"></a>配置spark-env.sh文件</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /usr/local/spark-3.0.1
-<span class="token function">sudo</span> <span class="token function">cp</span> ./conf/spark-env.sh.template ./conf/spark-env.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p><code>sudo vim ./conf/spark-env.sh</code>，文末添加</p>
-<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> SPARK_DIST_CLASSPATH<span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span>/usr/local/hadoop-3.3.0/bin/hadoop classpath<span class="token variable">)</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="配置spark-env-sh文件"><a href="#配置spark-env-sh文件" class="headerlink" title="配置spark-env.sh文件"></a>配置spark-env.sh文件</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /usr/local/spark-3.0.1/conf
+<span class="token function">sudo</span> <span class="token function">cp</span> ./spark-env.sh.template ./spark-env.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><code>sudo vim ./spark-env.sh</code>，文末添加</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> JAVA_HOME<span class="token operator">=</span>/usr/local/java/jdk1.8
+<span class="token function">export</span> SPARK_MASTER_HOST<span class="token operator">=</span>master
+<span class="token function">export</span> SPARK_MASTER_PORT<span class="token operator">=</span>12345 <span class="token comment" spellcheck="true"># 指定Spark中Master的内部访问端口，外部端口(Web)默认是8080</span>
+<span class="token function">export</span> SPARK_DIST_CLASSPATH<span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span>/usr/local/hadoop-3.3.0/bin/hadoop classpath<span class="token variable">)</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>其中的路径取决于你指定的hadoop可执行文件安装路径；</p>
-<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p><code>sudo vim /etc/profile</code>，将Spark路径下的 <code>bin</code> 和 <code>sbin</code> 路径添加到 <code>PATH</code> 变量中；</p>
+<h3 id="配置slaves文件"><a href="#配置slaves文件" class="headerlink" title="配置slaves文件"></a>配置slaves文件</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /usr/local/spark-3.0.1/conf
+<span class="token function">sudo</span> <span class="token function">cp</span> ./slaves.template ./slaves<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><code>sudo vim ./slaves</code>，将文末默认存在的localhost注释掉，写入两个slave主机名，作为worker</p>
+<pre><code>slave1
+slave2</code></pre><h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p><code>sudo vim /etc/profile</code>，将Spark路径下的 <code>bin</code> 和 <code>sbin</code> 路径添加到 <code>PATH</code> 变量中；</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> SPARK_HOME<span class="token operator">=</span>/usr/local/spark-3.0.1
 <span class="token function">export</span> PATH<span class="token operator">=</span><span class="token variable">${PATH}</span><span class="token keyword">:</span><span class="token variable">${SPARK_HOME}</span>/bin:<span class="token variable">${SPARK_HOME}</span>/sbin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>重启电脑或直接 <code>source /etc/profile</code>，反正登录虚拟机也只用这一个shell；</p>
-<h3 id="验证安装"><a href="#验证安装" class="headerlink" title="验证安装"></a>验证安装</h3><pre class="line-numbers language-bash"><code class="language-bash">run-example SparkPi 2<span class="token operator">></span><span class="token operator">&amp;</span>1 <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"Pi is"</span> <span class="token comment" spellcheck="true"># 2>&amp;1 将日志信息都输出到stdout中，而不是输出到终端（输出日志的特殊性）</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="验证本地Spark"><a href="#验证本地Spark" class="headerlink" title="验证本地Spark"></a>验证本地Spark</h3><pre class="line-numbers language-bash"><code class="language-bash">run-example SparkPi 2<span class="token operator">></span><span class="token operator">&amp;</span>1 <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"Pi is"</span> <span class="token comment" spellcheck="true"># 2>&amp;1 将日志信息都输出到stdout中，而不是输出到终端（输出日志的特殊性）</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <img src="/2021/01/23/spark-build-ubuntu/11.png" style="zoom:100%">
 
 <h3 id="使用Spark-Shell"><a href="#使用Spark-Shell" class="headerlink" title="使用Spark Shell"></a>使用Spark Shell</h3><p>打开spark-shell，自动加载scala交互式命令行，自动创建名为 <code>sc</code> 的 <code>spark context</code> 对象，和名为 <code>sqlContext</code> 的 <code>sql context</code> 对象；</p>
@@ -770,6 +777,27 @@ start-dfs.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
 <pre class="line-numbers language-scala"><code class="language-scala"><span class="token keyword">val</span> textFile <span class="token operator">=</span> sc<span class="token punctuation">.</span>textFile（<span class="token string">"file:///usr/local/spark-3.0.1/README.md"</span>） <span class="token operator">/</span><span class="token operator">/</span> 载入文件内容
 textFile<span class="token punctuation">.</span>first <span class="token comment" spellcheck="true">// 输出文件内容的第一行</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <img src="/2021/01/23/spark-build-ubuntu/12.png" style="zoom:100%">
+
+<p>tips：交互式scala环境中清屏的方式为 <code>ctrl+l</code></p>
+<h3 id="验证分布式Spark"><a href="#验证分布式Spark" class="headerlink" title="验证分布式Spark"></a>验证分布式Spark</h3><p>确认三台虚拟机均为启动状态，在任意一台中执行</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /usr/local/spark-3.0.1
+spark-submit --class org.apache.examples.SparkPi --master spark://master:12345 ./examples/jars/spark-examples_2.12-3.0.1.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>该命令的作用是提交一个应用到Spark集群主机端执行，其中</p>
+<ul>
+<li><p><code>--class</code> 表示待执行应用的主类</p>
+</li>
+<li><p><code>--master spark://master:12345</code> 指定”standalone”独立部署模式连接到Spark集群</p>
+</li>
+<li><p><code>spark-examples_2.12-3.0.1.jar</code> 指定应用的运行类所在的jar包路径</p>
+</li>
+<li><p><code>10</code> 是程序的入口参数，用于设定当前应用的任务数量</p>
+</li>
+</ul>
+<p>如图所示，配置完成</p>
+<img src="/2021/01/23/spark-build-ubuntu/23.png" style="zoom:100%">
+
+<p>打开浏览器，通过Spark默认的Master外部端口 <code>master:8080</code>，访问Spark集群</p>
+<img src="/2021/01/23/spark-build-ubuntu/24.png" style="zoom:100%">
 
 <h2 id="遇到的问题与解决方案"><a href="#遇到的问题与解决方案" class="headerlink" title="遇到的问题与解决方案"></a>遇到的问题与解决方案</h2><p><strong>注意点一：</strong>hadoop要求主机名<strong>不带</strong>下划线<code>_</code>；</p>
 <p><strong>注意点二：</strong>每台运行hadoop的主机的<strong>用户名</strong>需要相同；</p>
@@ -838,6 +866,7 @@ textFile<span class="token punctuation">.</span>first <span class="token comment
 </ul>
 <p><strong>问题四：</strong>如何在Ubuntu下同时控制多台ssh连接的服务器</p>
 <p>XShell在linux下无法使用，我们可以使用开源软件<a href="https://github.com/asbru-cm/asbru-cm" target="_blank" rel="noopener">asbru-cm</a>达到相似的效果。</p>
+<p>asbru-c官方文档：<a href="https://docs.asbru-cm.net/" target="_blank" rel="noopener">https://docs.asbru-cm.net/</a></p>
 <p>安装asbru-cm</p>
 <pre class="line-numbers language-bash"><code class="language-bash">curl -1sLf <span class="token string">'https://dl.cloudsmith.io/public/asbru-cm/release/cfg/setup/bash.deb.sh'</span> <span class="token operator">|</span> <span class="token function">sudo</span> -E <span class="token function">bash</span>
 <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> asbru-cm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
@@ -1345,7 +1374,7 @@ textFile<span class="token punctuation">.</span>first <span class="token comment
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0">
                         
                         <span class="card-title">Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0</span>
                     </div>
@@ -1408,7 +1437,7 @@ textFile<span class="token punctuation">.</span>first <span class="token comment
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.png" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
+                        <img src="/medias/featureimages/18.png" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
                         
                         <span class="card-title">主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享</span>
                     </div>
@@ -1614,7 +1643,7 @@ textFile<span class="token punctuation">.</span>first <span class="token comment
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">105k</span>
+            <span class="white-color">105.2k</span>
             
 
             <br>
