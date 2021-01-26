@@ -495,14 +495,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4k
+                    4.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    16 分
+                    18 分
                 </div>
                 
                 
@@ -812,6 +812,43 @@ spark-submit --class org.apache.examples.SparkPi --master spark://master:12345 .
 
 <p>打开浏览器，通过Spark默认的Master外部端口 <code>master:8080</code>，访问Spark集群</p>
 <img src="/2021/01/23/spark-build-ubuntu/24.png" style="zoom:100%">
+
+<h3 id="配置Spark历史服务"><a href="#配置Spark历史服务" class="headerlink" title="配置Spark历史服务"></a>配置Spark历史服务</h3><p>因为spark端口 <code>master:4040</code> 只有在spark-shell运行时才开放访问，为了在shell关闭时也能查看历史任务，需要配置历史服务器记录任务的运行情况；</p>
+<p>为了避免一些报错，先在master中关闭hadoop和spark集群</p>
+<pre class="line-numbers language-bash"><code class="language-bash">/usr/local/hadoop-3.3.0/sbin/stop-all.sh
+/usr/local/spark-3.0.1/sbin/stop-all.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>在master端<strong>启动hdfs</strong>，新建文件夹，命名为 <code>logs</code></p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># Master端</span>
+start-dfs.sh
+hdfs dfs -mkdir /logs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>通过asbru-cm等工具连接三台虚拟机，同时进行以下配置操作（或配置好一台后通过共享文件夹或ssh文件分发的方式传给另外两台）</p>
+<p>进入spark路径下的 <code>conf</code> 文件夹，修改 <code>spark-defaults.conf</code> 文件</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /usr/local/spark-3.0.1/conf
+<span class="token function">sudo</span> <span class="token function">cp</span> ./spark-defaults.conf.template ./spark-defaults.conf
+<span class="token function">sudo</span> vim ./spark-defaults.conf<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>写入以下内容，注意9000为配置hadoop时在 <code>core-site.xml</code> 内指定的 NN RPC 端口，如果没设置，hadoop3默认端口为8020；（必须启动hadoop集群，且确保dir目录存在）</p>
+<pre><code>spark.eventLog.enabled             true
+spark.eventLog.dir                 hdfs://master:9000/logs</code></pre><p>修改 <code>conf/spark-env.sh</code> 文件，添加内容</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span>  SPARK_HISTORY_OPTS<span class="token operator">=</span><span class="token string">"
+-Dspark.history.ui.port=18080 # 历史服务器 Web UI 端口
+-Dspark.history.fs.logDirectory=hdfs://master:9000/logs # 日志存放位置
+-Dspark.history.retainedApplications=30"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中最后一项数字 <code>30</code> 表示保存 Application 历史记录的个数，超过该数量时旧的将被覆盖。这个是内存中的应用数，不是Web页面上显示的应用数。</p>
+<p>配置完成后重启spark集群和历史服务器</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /usr/local/spark-3.0.1
+sbin/start-all.sh
+sbin/start-history-server.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>提交SparkPi测试应用</p>
+<pre class="line-numbers language-bash"><code class="language-bash">spark-submit --class org.apache.examples.SparkPi --master spark://master:12345 ./examples/jars/spark-examples_2.12-3.0.1.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<img src="/2021/01/23/spark-build-ubuntu/25.png" style="zoom:100%">
+
+<img src="/2021/01/23/spark-build-ubuntu/26.png" style="zoom:100%">
+
+<p>此时在 <code>hdfs://master:9000/logs</code> 路径下会生成一个日志文件</p>
+<img src="/2021/01/23/spark-build-ubuntu/27.png" style="zoom:100%"> 
+
+<p>可通过浏览器访问 <code>master:18080</code>，查看历史任务记录</p>
+<img src="/2021/01/23/spark-build-ubuntu/28.png" style="zoom:100%"> 
 
 <h2 id="遇到的问题与解决方案"><a href="#遇到的问题与解决方案" class="headerlink" title="遇到的问题与解决方案"></a>遇到的问题与解决方案</h2><p><strong>注意点一：</strong>hadoop要求主机名<strong>不带</strong>下划线<code>_</code>；</p>
 <p><strong>注意点二：</strong>每台运行hadoop的主机的<strong>用户名</strong>需要相同；</p>
@@ -1657,7 +1694,7 @@ spark-submit --class org.apache.examples.SparkPi --master spark://master:12345 .
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">105.2k</span>
+            <span class="white-color">105.7k</span>
             
 
             <br>
