@@ -693,9 +693,18 @@ slave2</code></pre><h5 id="修改hosts文件"><a href="#修改hosts文件" class
 <p>如果需要配置Spark的话，最好在Master上配置完Spark再回到这里创建副本，否则之后每台机子都得配置一次，很麻烦</p>
 </blockquote>
 <ul>
-<li>打开VBox管理器，右键虚拟机 <code>Master.Hadoop</code>，选择复制，副本命名为 <code>Slave1.Hadoop</code>，勾选 <code>完全复制并初始化所有网卡mac</code>，下一步选择 <code>完全复制</code>；</li>
-<li>登录 <code>Slave1.Hadoop</code>, 编辑主机名 <code>sudo vim /ect/hostname</code>，更改为 <code>slave1</code>，编辑网络配置文件 <code>vim /etc/netplan/00-installer-config.yaml</code>，将 <code>address</code> 一项的 ip 地址修改为 <code>192.168.56.105/24</code>；</li>
-<li>以同样的方式复制出 <code>Slave2.Hadoop</code>，修改主机名为 <code>slave2</code>，修改ip为 <code>192.168.56.106/24</code>；</li>
+<li><p>打开VBox管理器，右键虚拟机 <code>Master.Hadoop</code>，选择复制，副本命名为 <code>Slave1.Hadoop</code></p>
+</li>
+<li><p>勾选 <code>完全复制并初始化所有网卡mac</code>，下一步选择 <code>完全复制</code>；</p>
+</li>
+<li><p>启动并登录 <code>Slave1.Hadoop</code>, 编辑主机名 <code>sudo vim /ect/hostname</code>，更改为 <code>slave1</code></p>
+</li>
+<li><p>编辑网络配置文件 <code>vim /etc/netplan/00-installer-config.yaml</code></p>
+</li>
+<li><p>将 <code>address</code> 一项的 ip 地址修改为 <code>192.168.56.105/24</code>；</p>
+</li>
+<li><p>以同样的复制 <code>Slave2.Hadoop</code>，修改主机名为 <code>slave2</code>，ip为 <code>192.168.56.106/24</code>；</p>
+</li>
 </ul>
 <h3 id="启动与关闭Hadoop"><a href="#启动与关闭Hadoop" class="headerlink" title="启动与关闭Hadoop"></a>启动与关闭Hadoop</h3><h4 id="启动Hadoop"><a href="#启动Hadoop" class="headerlink" title="启动Hadoop"></a>启动Hadoop</h4><p>启动三台虚拟机 <code>Master.Hadoop</code>，<code>Slave1.Hadoop</code>，<code>Slave2.Hadoop</code></p>
 <ul>

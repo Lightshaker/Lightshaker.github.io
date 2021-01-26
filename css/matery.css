@@ -48,14 +48,14 @@ h2 {
 }
 
 h3 {
-    margin: 38px 0 15px -4px;
+    margin: 38px 0 25px -4px;
     font-size: 1.6rem;
     font-weight: bold;
     line-height: 1.7rem;
 }
 
 h4 {
-    margin: 32px 0 12px -4px;
+    margin: 25px 0 25px -4px;
     font-size: 1.45rem;
     font-weight: bold;
     line-height: 1.45rem;
@@ -172,9 +172,9 @@ pre::after {
 
 
 code {
-    padding: 1px 5px;
+    padding: 1px 8px;
     font-family: "WenQuanYi Micro Hei Mono";
-    font-size: 1.0rem;
+    font-size: 1.10rem;
     color: #e96900;
     background-color: #f8f8f8;
     border-radius: 2px;
@@ -1062,8 +1062,8 @@ article .article-tags .chip {
 
 #articleContent p {
     margin: 2px 2px 10px;
-    font-size: 1.05rem;
-    line-height: 1.85rem;
+    font-size: 1.20rem;
+    line-height: 2.10rem;
 }
 
 #articleContent blockquote p {
@@ -1105,8 +1105,8 @@ article .article-tags .chip {
 #articleContent ul li,
 #articleContent ol li {
     display: list-item;
-    line-height: 1.8rem;
-    font-size: 1rem;
+    line-height: 2.10rem;
+    font-size: 1.20rem;
 }
 
 #articleContent ul li {
