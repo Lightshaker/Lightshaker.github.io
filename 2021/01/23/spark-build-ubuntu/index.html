@@ -332,7 +332,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -491,7 +491,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.5k
+                    5.6k
                 </div>
                 
 
@@ -751,8 +751,11 @@ start-dfs.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
 <li><strong>slave1</strong></li>
 </ul>
 <pre class="line-numbers language-bash"><code class="language-bash">mapred --daemon stop historyserver<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="配置Spark3-0环境"><a href="#配置Spark3-0环境" class="headerlink" title="配置Spark3.0环境"></a>配置Spark3.0环境</h2><blockquote>
 <p><a href="https://blog.csdn.net/qq_31454379/article/details/105439752" target="_blank" rel="noopener">Hadoop2.x与3.x端口变化</a></p>
-<h2 id="配置Spark3-0环境"><a href="#配置Spark3-0环境" class="headerlink" title="配置Spark3.0环境"></a>配置Spark3.0环境</h2><h3 id="下载Spark压缩包"><a href="#下载Spark压缩包" class="headerlink" title="下载Spark压缩包"></a>下载Spark压缩包</h3><p>本地主机端进入<a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">Spark官网</a>，下载对应Hadoop版本的Spark3压缩包。由于上文配置的Hadoop版本为3.3.0，因此 <code>package</code> 选择支持Hadoop3.2以上的版本 <code>Pre-built for Apache Hadoop 3.2 and later</code>，点击下方的 <code>spark-3.0.1-bin-hadoop</code>；</p>
+<p><a href="https://mvnrepository.com/artifact/org.apache.spark/spark-sql?__cf_chl_captcha_tk__=0a05a22d352bf3c4cbd0c47a74bfed21a5a5a0c1-1611893236-0-AXkT62L0gxD-4zgaJ_Zrg2rFBsJqcpfKKLCPw8k4uYMXO08bntOJITLYBwQ8M8TVlBUox8OsRS8ZXiH6v37KMAScpua055_Yu9ZsmCaJ8VHAHkS6p-B5Llr8n-GOyh6RWwrbSHaTl3JRGMijzrtLoo82W0D0d5jvrvLaMD4aS2HEmbj01KPefdIMG20BYi_KgsaYpLsXfNZql0jXd-bobaOFhnBaVxVq7pxRV2AZyeS2au4i-xLl5NfJoYQZu3b4pwqLUyy690_Zl60Ui1C4q634mGbx_L3kn12o3nU_kvFJTFrO1_T8Iscor2yO9ugzg-jnAVUnLUPjuM2OJ7P8-kW11rYmwQ_km5PRcQ96V5aetKHq-ttnbFuYk0MYVn1TmHY5Dcp5C6X4PSZKpJEu_No2XLtZDE9ryeoReBfKa1qpcZDiHxe63iWnaTiq2zFz7t0OTs98IBGqwkBRjkuwZjRm9pOj3j47KuwRKB6_caQ60QZx5XV9f1XCNvHHU_bmU8Xar4X5cI2mJVzQzKhkbDMlAtYh6XhhGF4nnrZ07Rhzu8aT_yr7IgA_79AKwijrg9egZIR0Wj7eHrEzYZbcbeUzT-zkyi2nOwpIRHsldZFJop-y_hUIkgExuPkhUsDJ6A" target="_blank" rel="noopener">Spark与Scala版本对应关系/Maven中央库</a></p>
+</blockquote>
+<h3 id="下载Spark压缩包"><a href="#下载Spark压缩包" class="headerlink" title="下载Spark压缩包"></a>下载Spark压缩包</h3><p>本地主机端进入<a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">Spark官网</a>，下载对应Hadoop版本的Spark3压缩包。由于上文配置的Hadoop版本为3.3.0，因此 <code>package</code> 选择支持Hadoop3.2以上的版本 <code>Pre-built for Apache Hadoop 3.2 and later</code>，点击下方的 <code>spark-3.0.1-bin-hadoop</code>；</p>
 <img src="/2021/01/23/spark-build-ubuntu/9.png" style="zoom:100%">
 
 <p>通过共享文件夹 <code>VMshare</code>，将压缩包复制到虚拟机中，并解压到 <code>/usr/local/</code> 路径下，且重命名文件夹为 <code>spark-3.0.1</code>；</p>
@@ -789,21 +792,21 @@ textFile<span class="token punctuation">.</span>first <span class="token comment
 <img src="/2021/01/23/spark-build-ubuntu/12.png" style="zoom:100%">
 
 <p>tips：交互式scala环境中清屏的方式为 <code>ctrl+l</code></p>
-<h3 id="验证分布式Spark"><a href="#验证分布式Spark" class="headerlink" title="验证分布式Spark"></a>验证分布式Spark</h3><p>确认三台虚拟机均为启动状态，在任意一台中执行</p>
+<h3 id="验证分布式Spark"><a href="#验证分布式Spark" class="headerlink" title="验证分布式Spark"></a>验证分布式Spark</h3><p>确认三台虚拟机均为启动状态，确保dfs和spark均启动</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># master</span>
+start-dfs.sh
+/usr/local/spark-3.0.1/sbin/start-all.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>提交SparkPi应用到Spark集群主机端执行</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /usr/local/spark-3.0.1
-spark-submit --class org.apache.examples.SparkPi --master spark://master:7077 ./examples/jars/spark-examples_2.12-3.0.1.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>该命令的作用是提交一个应用到Spark集群主机端执行，其中</p>
+spark-submit --class org.apache.spark.examples.SparkPi --master spark://master:7077 ./examples/jars/spark-examples_2.12-3.0.1.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <ul>
-<li><p><code>--class</code> 表示待执行应用的主类</p>
-</li>
-<li><p><code>--master spark://master:7077</code> 指定”standalone”独立部署模式连接到Spark集群</p>
-</li>
-<li><p><code>spark-examples_2.12-3.0.1.jar</code> 指定应用的运行类所在的jar包路径</p>
-</li>
-<li><p><code>10</code> 是程序的入口参数，用于设定当前应用的任务数量</p>
-</li>
+<li><code>--class</code> 表示待执行应用的主类</li>
+<li><code>--master spark://master:7077</code> 指定”standalone”独立部署模式连接到Spark集群</li>
+<li><code>spark-examples_2.12-3.0.1.jar</code> 指定应用的运行类所在的jar包路径</li>
+<li><code>10</code> 是程序的入口参数，用于设定当前应用的任务数量</li>
 </ul>
-<p>如图所示，配置完成</p>
+<p>执行 <code>spar-submit</code> 提交应用的日志会保存在作为worker的slave1和slave2的 <code>/usr/local/spark-3.0.1/work</code> 路径下，需要定期删除一次，不然长期下来容易导致磁盘空间不足；</p>
+<p>如图所示，表示配置成功</p>
 <img src="/2021/01/23/spark-build-ubuntu/23.png" style="zoom:100%">
 
 <p>打开浏览器，通过Spark默认的Master外部端口 <code>master:8080</code>，访问Spark集群</p>
@@ -835,7 +838,7 @@ spark.eventLog.dir                 hdfs://master:9000/logs</code></pre><p>修改
 sbin/start-all.sh
 sbin/start-history-server.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>提交SparkPi测试应用</p>
-<pre class="line-numbers language-bash"><code class="language-bash">spark-submit --class org.apache.examples.SparkPi --master spark://master:7077 ./examples/jars/spark-examples_2.12-3.0.1.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash"><code class="language-bash">spark-submit --class org.apache.spark.examples.SparkPi --master spark://master:7077 ./examples/jars/spark-examples_2.12-3.0.1.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <img src="/2021/01/23/spark-build-ubuntu/25.png" style="zoom:100%">
 
 <p>此时在 <code>hdfs://master:9000/logs</code> 路径下会生成一个日志文件</p>
@@ -902,7 +905,7 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
 <img src="/2021/01/23/spark-build-ubuntu/29.png" alt="slave1:8989,STANDBY">
 
 <p>当以高可用方式运行Spark集群时，提交应用需要提交到所有master上，例如</p>
-<pre class="line-numbers language-bash"><code class="language-bash">spark-submit --class org.apache.examples.SparkPi --master spark://master:7077,slave1:7077 ./examples/jars/spark-examples_2.12-3.0.1.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash"><code class="language-bash">spark-submit --class org.apache.spark.examples.SparkPi --master spark://master:7077,slave1:7077 ./examples/jars/spark-examples_2.12-3.0.1.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>最后测试一下将master进程杀死后，slave1是否会通过zookeeper判断宕机状态，并及时启动接管master工作；</p>
 <p>在master端通过 <code>jps</code> 命令查到 Master 节点进程的 pid，通过<code>kill -9</code>命令强制结束进程</p>
 <img src="/2021/01/23/spark-build-ubuntu/30.png">
@@ -991,15 +994,17 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
 <p>点击左下角 <code>Cluster</code>，右侧栏目中点击 <code>添加</code>，创建一个cluster，并将左侧 <code>Hadoop</code> 组内三台服务器都添加到该cluster内；</p>
 <img src="/2021/01/23/spark-build-ubuntu/21.png" style="zoom:100%">
 
-<p>点击左下角 <code>PCC</code>，在只有一个cluster时无法选择cluster，也无需勾选<code>Send to ALL Terminals</code>，直接在 <code>Type commmands here</code> 一栏可直接输入命令同时与三个终端进行交互，注意后面的 <code>Send on &lt;INTRO&gt;</code> 不勾选时，输入的内容是直接反馈到右侧终端界面的，不会显示在文本框内；</p>
+<p>点击左下角 <code>PCC</code>，如果不是从cluster启动连接的话，在PCC界面无法选择cluster，也无需勾选<code>Send to ALL Terminals</code>，默认就是发送到所有终端，在 <code>Type commmands here</code> 一栏可直接输入命令同时与三个终端进行交互，注意后面的 <code>Send on &lt;INTRO&gt;</code> 不勾选时，输入的内容是直接反馈到右侧终端界面的，不会显示在文本框内；</p>
 <img src="/2021/01/23/spark-build-ubuntu/22.png" style="zoom:100%">
 
 <p><strong>问题五：</strong>进行 <code>spark-submit</code> 提交应用进行一半时不小心 <code>CTRL+C</code> 强制中断了，之后再也提交不成功，报错如下：</p>
 <img src="/2021/01/23/spark-build-ubuntu/32.png">
 
-<p>困扰了一整天，到现在我也不知道为什么，中间可能因为一些不刻意的操作恢复过一次，第二次中断后就再也没成功过，尝试了网上几种办法，以及重启虚拟机和主机都不管用，愁ing；</p>
+<p>我傻了，<code>--class</code> 入口类名应该是 <code>org.apache.spark.examples.SparkPi</code>，我后来的提交都是手打的，少写了个 <code>.spark</code>，导致无法找到并加载这个类，跟什么强制中断没有用半毛钱关系，自始至终我都丝毫没怀疑过这个能敲错，真是丢人现眼长记性了。</p>
 <p><strong>问题六：</strong>配置完Zookeeper后发现master和slave1在8989端口上均处于 <strong>STANDBY</strong> 状态</p>
-<p>与上一个问题一起困扰了我一整天，不论是改 <code>zoo.cfg</code> 还是改 <code>spark-env.sh</code> 都没用，最后发现是因为我只在master主机上启动了zkServer，而slave上没有启动，具体原因我暂时也不明白，后来三台都启动zk就好了;</p>
+<p>起初以为是配置文件的问题，但不论是改 <code>zoo.cfg</code> 还是改 <code>spark-env.sh</code> 都没用，最后发现是因为我只在master主机上启动了zkServer，而slave上没有启动，具体原因我暂时也不明白，后来三台都启动zk就好了;</p>
+<p><strong>问题七：</strong>Spark启动后，WEBUI访问速度慢</p>
+<p>删除三台虚拟机 <code>/usr/local/spark-3.0.1/logs</code> 路径下的日志文件后速度明显快了不少</p>
 
             </div>
             <hr />
@@ -1493,7 +1498,7 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0">
                         
                         <span class="card-title">Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0</span>
                     </div>
@@ -1552,7 +1557,7 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
                         
                         <span class="card-title">主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享</span>
                     </div>
@@ -1758,7 +1763,7 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">106.7k</span>
+            <span class="white-color">106.9k</span>
             
 
             <br>
