@@ -4,13 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="卡尔曼滤波 maybeck_ch1 阅读摘录, LightHouse">
+    <meta name="keywords" content="基于Hadoop集群配置Hbase并与Spark对接, LightHouse">
     <meta name="baidu-site-verification" content="qEvyYTI5eV">
     <meta name="google-site-verification" content>
     <meta name="360-site-verification" content>
-    <meta name="description" content="[Note &amp;amp; Extract] Kalman Filter Concepts
-Note Taker：Lightshaker, 2020/3/4
-Source：https://web.archive.org/web/20060420">
+    <meta name="description" content="本文基于 Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0 配置好的 Hadoop+Spark+Zookeeper 环境的基础上配置HBase并与Spark进行对接；
+安装并配置HBase配置过程进入Hbase官网或直接">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +17,7 @@ Source：https://web.archive.org/web/20060420">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>卡尔曼滤波 maybeck_ch1 阅读摘录 | LightHouse</title>
+    <title>基于Hadoop集群配置Hbase并与Spark对接 | LightHouse</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -329,13 +328,13 @@ Source：https://web.archive.org/web/20060420">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        卡尔曼滤波 maybeck_ch1 阅读摘录
+                        基于Hadoop集群配置Hbase并与Spark对接
                     </div>
                 </div>
             </div>
@@ -445,11 +444,7 @@ Source：https://web.archive.org/web/20060420">
                 <div class="col s7">
                     
                     <div class="article-tag">
-                        
-                        <a href="/tags/卡尔曼滤波/" target="_blank">
-                            <span class="chip bg-color">卡尔曼滤波</span>
-                        </a>
-                        
+                        <span class="chip bg-color">无标签</span>
                     </div>
                     
                 </div>
@@ -458,8 +453,8 @@ Source：https://web.archive.org/web/20060420">
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/数学-算法/" class="post-category" target="_blank">
-                            数学|算法
+                        <a href="/categories/大数据/" class="post-category" target="_blank">
+                            大数据
                         </a>
                         
                     </div>
@@ -470,7 +465,7 @@ Source：https://web.archive.org/web/20060420">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-14
+                    2021-01-29
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -484,14 +479,14 @@ Source：https://web.archive.org/web/20060420">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.2k
+                    614
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    14 分
+                    2 分
                 </div>
                 
                 
@@ -502,130 +497,91 @@ Source：https://web.archive.org/web/20060420">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Note-amp-Extract-Kalman-Filter-Concepts"><a href="#Note-amp-Extract-Kalman-Filter-Concepts" class="headerlink" title="[Note &amp; Extract] Kalman Filter Concepts"></a>[Note &amp; Extract] Kalman Filter Concepts</h2><blockquote>
-<p><strong>Note Taker：Lightshaker, 2020/3/4</strong></p>
-<p><strong>Source：</strong><a href="https://web.archive.org/web/20060420154727/http://www.cs.unc.edu/~welch/media/pdf/maybeck_ch1.pdf" target="_blank" rel="noopener">https://web.archive.org/web/20060420154727/http://www.cs.unc.edu/~welch/media/pdf/maybeck_ch1.pdf</a></p>
-<p><strong>Article：Stochastic models, estimation, and control, chapter 1, by Peter Maybeck</strong></p>
-</blockquote>
-<h3 id="1-1-Why-stochastic-models-estimation-and-control"><a href="#1-1-Why-stochastic-models-estimation-and-control" class="headerlink" title="1.1 Why stochastic models, estimation, and control ?"></a>1.1 Why stochastic models, estimation, and control ?</h3><p><strong>Q：</strong>Why <strong>deterministic system</strong> and <strong>control theories</strong> do not provide a totally sufficient means of performing system analysis and controller design？</p>
-<p><strong>Answer：</strong></p>
-<ul>
-<li><p>Mathematical models depicts only those characteristics of direct interest to the engineer’s purpose.</p>
-</li>
-<li><p>Various parameters within a deterministic structure are not determined absolutedly.</p>
-</li>
-<li><p>Sensors do not provide perfect and complete data about a system.</p>
-</li>
-</ul>
-<p><strong>Conclusion：</strong>To assume perfect knowledge of all quantities necessary to describe a system completely and/or to assume perfect control over the system is <strong>naive</strong>, and often <strong>inadequate, approach.</strong></p>
-<p>Thus <strong>four questions</strong> are come up with：</p>
-<blockquote>
-<ol>
-<li>How do you develop system models that account for these <strong>uncertainties</strong> in a direct and proper, yet practical, fashion?</li>
-<li>Equipped with such models and incomplete, noise-corrupted data from available sensors, how do you <strong>optimally estimate</strong> the quantities of interest to you?</li>
-<li>In the face of uncertain system descriptions, incomplete and noise-corrupted data, and disturbances beyond your control, how do you <strong>optimally control</strong> a system to perform in a desirable manner?</li>
-<li>How do you <strong>evaluate the performance capabilities</strong> of such estimation and control systems, both before and after they are actually built? </li>
-</ol>
-</blockquote>
-<h3 id="1-2-Overview-of-the-text"><a href="#1-2-Overview-of-the-text" class="headerlink" title="1.2 Overview of the text"></a>1.2 Overview of the text</h3><p><strong>Chapter 1-2：</strong>Review the pertinent aspects of <strong>deterministic system models</strong>.</p>
-<p><strong>3：</strong>Develop both the general concepts and the natural result of <strong>static</strong> system models.</p>
-<p><strong>4：</strong>Investigate stochastic process, concluding with practical <strong>linear dynamic system</strong>.</p>
-<p><strong>5：</strong>Explore <strong>optimal filtering</strong> for cases in which linear system model adequately describes the problem dynamics.</p>
-<p><strong>6：</strong>Describe the design and performance analysis of <strong>pratical online Kalman filter</strong>.</p>
-<p><strong>7：</strong>Introduce the <strong>Square root filters</strong>.</p>
-<h3 id="1-3-The-Kalman-filter：An-introduction-to-concepts"><a href="#1-3-The-Kalman-filter：An-introduction-to-concepts" class="headerlink" title="1.3 The Kalman filter：An introduction to concepts"></a>1.3 The Kalman filter：An introduction to concepts</h3><p><strong>Q：</strong>What is Kalman Filter?</p>
-<p><strong>A：</strong>An <strong>optimal recursive data processing algorithm</strong>, which processes all available measurements, regardless of their precision, to estimate the current value of the variables of interest.</p>
-<p><strong>Condition：</strong>A Kalman filter performs this conditional probability density propagation for problems in which the system can be described through a <strong>linear model</strong> and in which system and measurement noises are <strong>white</strong> and <strong>Gaussian</strong>.</p>
-<p><strong>Practicalities</strong>：Do not require all previous data to be kept in storage and reprocessed every time a new measurement is taken.</p>
-<p><strong>Case：</strong>Often Variables of interest, some finite number of quantities to describe the “state” of the system, cannot be measured directly, and some means of inferring these values from the available data must be generated.</p>
-<p><strong>Need：</strong></p>
-<ol>
-<li>Knowledge of the system and measurement device dynamic.</li>
-<li>The statistical description of the system noises, measurement error, and uncertainty in the dynamics models.</li>
-<li>Any available information about initial conditions of the variables of interest.</li>
-</ol>
-<p><strong>Plot of Conditional Probability Density：</strong></p>
-<ol>
-<li>Its shape conveys the <strong>amount of certainty</strong> you have in the knowledge of the value of x. </li>
-<li>If the density plot is a <strong>narrow peak</strong>, then most of the probability “weight” is <strong>concentrated</strong> in a narrow band of x values.</li>
-<li>If the plot has a <strong>gradual shape</strong>, the probability “weight” is spread over a <strong>wider range</strong> of x, indicating that you are less sure of its value.</li>
-</ol>
-<p><strong>With the CPD,  we can define the “optimal” estimate in these choices (3 assumptions)：</strong></p>
-<ol>
-<li>the mean  – the “center of probability mass” estimate. </li>
-<li>the mode – the value of x that has the highest probability, locating the peak of the density.</li>
-<li>the median  – the value of x such that half of the probability weight lies to the left and half to the right of it.</li>
-</ol>
-<h3 id="1-4-Basic-assumptions"><a href="#1-4-Basic-assumptions" class="headerlink" title="1.4 Basic assumptions"></a>1.4 Basic assumptions</h3><p><strong>BandPass：</strong>a frequency range of inputs to which a physical system can respond, above which the input either has no effect, or the system so severely attenuates the effect that it essentially does not exist.</p>
-<img src="/2020/05/14/kf-extract/bandpass.png" style="zoom:80%">
+                <p>本文基于 <a href="https://www.lightshaker.cn/2021/01/23/spark-build-ubuntu/" target="_blank" rel="noopener">Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0</a> 配置好的 Hadoop+Spark+Zookeeper 环境的基础上配置HBase并与Spark进行对接；</p>
+<h2 id="安装并配置HBase"><a href="#安装并配置HBase" class="headerlink" title="安装并配置HBase"></a>安装并配置HBase</h2><h3 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h3><p>进入<a href="https://apache.org/dyn/closer.cgi" target="_blank" rel="noopener">Hbase官网</a>或直接进入<a href="https://apache.org/dyn/closer.cgi" target="_blank" rel="noopener">清华源apache镜像</a>，下载hbase压缩包 <code>hbase-2.4.1-bin.tar.gz</code>；</p>
+<p>解压缩到三台虚拟机 <code>/usr/local/</code> 路径下，默认文件夹名为 <code>hbase-2.4.1</code></p>
+<p>配置 <code>etc/profile</code></p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> HBASE_HOME<span class="token operator">=</span>/usr/local/hbase-2.4.1
+<span class="token function">export</span> PATH<span class="token operator">=</span><span class="token variable">${HBASE_HOME}</span>/bin:<span class="token variable">${PATH}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>进入 <code>hbase-2.4.1/conf</code> 路径下，配置 <code>hbase-env.sh</code> 文件</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> JAVA_HOME<span class="token operator">=</span>/usr/local/java/jdk1.8
+<span class="token function">export</span> HBASE_MANAGES_ZK<span class="token operator">=</span>false<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>相同路径下配置 <code>regionserver</code> 文件，删除原有内容，添加三台主机名</p>
+<pre><code>master
+slave1
+slave2</code></pre><p>相同路径下配置 <code>hbase-site.xml</code> 文件</p>
+<p>删除原有的 <code>&lt;property&gt;</code> 元素块，添加如下配置</p>
+<pre class="line-numbers language-xml"><code class="language-xml">    <span class="token comment" spellcheck="true">&lt;!-- HBase的Region的共享目录, 用于将HBase存入硬盘, 通常给出一个HDFS的目录, 用hdfs://$namenode:hdfsport(查看hadoop的core-site.xml配置), 如不设定, 则保存在本机的/tmp下 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span> hbase.rootdir <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>hdfs://master:9000/hbase<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
 
-<p><strong>Why White Noise?：</strong></p>
-<p>“Whiteness” implies that the noise value is not correlated in time, also claims that the noise has equal power at all frequencies. Since this results in a noise with infinite power, a white noise obviously connot really exist.</p>
-<p>Typically a system will be driven by wideband noise, which differs from white noise just in the limited bandwidth.</p>
-<p>By replacing the real wideband noise with a white noise, the mathematics involved in the filter can be vastly simplified which, and from the system’s “point of view”, they are identical.</p>
-<p><strong>What if the noise is not power-constant or time-correlated?</strong></p>
-<p>A white noise put through a small linear system can duplicate virtually any form of time-correlated noise. This small system is call a “shaping filter”, added to the original system to achieve an overall linear system driven by white noise.</p>
-<p><strong>Why Gaussian densities?：</strong></p>
-<p>Wheraes whiteness pertains to time or frequency relationships of a noise, Gaussianness has to do with its amplitude.Thus at any single point in time, the probability density of a Gaussian noise amplitude takes on the shape of a normal bell-shape curve.</p>
-<p>It can be shown mathematically that when a number of independent random variables are added together, the summed effect can be described very closely by a Gaussian probability density, regardless of the shape of the individual densitities.</p>
-<p>An engineer will know, at best, the first and second order statictics of a noise process, but in the absence of higher order statistics, there is no better form to assume than the Gaussian density, because Gaussian density can be completely determined by the first and second order statistics, while most of others require an endless number of that to specify their shape entirely.</p>
-<p>Gaussian densities is virtually the best approximation, and it makes mathematics tractable.</p>
-<h3 id="1-5-A-simple-example"><a href="#1-5-A-simple-example" class="headerlink" title="1.5 A simple example"></a>1.5 A simple example</h3><blockquote>
-<p>According from the probability theories, the <strong>larger</strong> $\sigma $ is , the <strong>broader</strong> the probability peak is. For a Gaussian density, <strong>68.3%</strong> of the probability “weight” is contained with the band $\sigma$ units to each side of the mean.</p>
-</blockquote>
-<h4 id="Part-I"><a href="#Part-I" class="headerlink" title="Part I"></a>Part I</h4><p><strong>Scene：</strong>Suppose being lost at sea during the night and have no idea at all of your location. You can only establish your position by taking a star sighting.</p>
-<p><strong>Measurement：</strong>Your establishment of the conditional probability of $x(t_1)$, conditioned on the observed value of measurement being $z_1$, with standard deviation $\sigma_{z_1}$ or variance $\sigma_{z_1}^2$.</p>
-<p>Thus the conditional density of your position at time $t_1$, based only on $z_1$ is：</p>
-<img src="/2020/05/14/kf-extract/measurement_1.png" style="zoom:80%">
+  <span class="token comment" spellcheck="true">&lt;!-- HMaster配置 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.master<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>master<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
 
-<p>Based on conditional probability density, the <strong>best estimate</strong> of your position is<br>$$<br>\hat x(t_1) = z_1 \tag{1}<br>$$<br>and the variance of the error in the estimate is<br>$$<br>\sigma^2(t_1) = \sigma^2_{z_1} \tag{2}<br>$$<br>Note that $\hat x$ is both the <strong>mode</strong> and the <strong>median</strong>, as well as the <strong>mean</strong>.</p>
-<h4 id="Part-II："><a href="#Part-II：" class="headerlink" title="Part II："></a>Part II：</h4><p><strong>Scene：</strong>After the prediction, a trained navigator friend takes an independent fix at time $t_2 \approx t_1$.</p>
-<p><strong>Measurement：</strong> He obtains a measurement $z_2$ with  standard deviation $\sigma_{z_2}$ or variance $\sigma_{z_2}^2$.</p>
-<p>Because he has higher skill, assume the variance in his measurement to be somewhat smaller that in yours.<br>$$<br>\sigma_{z_2} &lt; \sigma_{z_1}<br>$$<br>Thus the conditional density of your position at time $t_1$, based only on $z_2$ is：</p>
-<img src="/2020/05/14/kf-extract/measurement_2.png" style="zoom:70%">
+  <span class="token comment" spellcheck="true">&lt;!-- HMaster配置web页面端口 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.master.info.port<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>16010<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
 
-<h4 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h4><p><strong>Q：</strong>Now you have two measurements available for estimating your position, how do you combine these data?</p>
-<p><strong>A：</strong>Based on the assumptions made, the conditional density of your position at time $t_2 \approx t_1 $, $x(t_2)$, given both $z_1$ and $z_2$, is <strong>Gaussian density</strong> with mean $\mu$ and variance $\sigma^2$ with<br>$$<br>\begin{align}<br>\<br>    &amp;\mu = [\sigma_{z_2}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_1 + [\sigma_{z_1}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_2 \tag{3}<br>\\\\\<br>    &amp;1/\sigma^2 = (1 + \sigma_{z_1}^2) + (1 + \sigma_{z_2}^2) \tag{4}<br>\end{align}<br>$$<br>The conditinal density curve is：</p>
-<img src="/2020/05/14/kf-extract/combine.png" style="zoom:70%;">
+  <span class="token comment" spellcheck="true">&lt;!-- HBase的运行模式, false代表是单机运行模式, true代表是分布式模式 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.cluster.distributed<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
 
-<p>Note that $\sigma$ is <strong>less</strong> than either $\sigma_{z_1}$ or $\sigma_{z_2}$, which is to say that the <strong>uncertainty</strong> in your estimate of position <strong>has been decreased</strong> by comb</p>
-<p>ining the two pieces of information.</p>
-<p>Given this density, the <strong>best estimate</strong> is<br>$$<br>\hat x(t_2) = \mu \tag{5}<br>$$<br>Furthermore, it is also the <strong>maximum likelihood estimate</strong>, the <strong>weighted least squares estimate</strong>, and the <strong>linear estimate</strong> whose variance is <strong>less than</strong> that of <strong>any other</strong> linear unbiased estimate. In other words, it is the “best” you can do according to just about any reasonable criterion.</p>
-<h4 id="Deeper-Thoughts："><a href="#Deeper-Thoughts：" class="headerlink" title="Deeper Thoughts："></a>Deeper Thoughts：</h4><p>The $\mu$ we got means  $\sigma_{z_1}$ were <strong>equal</strong> to $\sigma_{z_2}$, indicating that the two measurements are of equal precision. Actually $\sigma_{z_1}$ is <strong>greater</strong> than $\sigma_{z_2}$, thus the “weight” of $z_2$ is surely <strong>bigger</strong> than that of $z_1$, then finally the variance of the estimate is <strong>less</strong> than $\sigma_{z_1}$ regardless of how large $\sigma_{z_2}$ is.</p>
-<p>Therefore $\hat x(t_2)$ can be rewritten as<br>$$<br>\begin{align}<br>\mu &amp;=<br>[\sigma_{z_2}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_1 + [\sigma_{z_1}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_2 \\\\\<br>&amp;=<br>z_1 + [\sigma_{z_1}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)][z_2-z_1] \tag{6}<br>\end{align}<br>$$<br>let $z_1$ be replaced by $\hat x(t_1)$, we can get the <strong>final form</strong> actually used in <strong>Kalman filter</strong> implementations<br>$$<br>\hat x(t_2) = x_(t_1) + K(t_2)[z_2 - \hat x(t_1)] \tag{7}<br>$$<br>where the <strong>Kalman gain</strong> is<br>$$<br>K(t_2) = \sigma_{z_1}^2/(\sigma_{z_1}^2+\sigma_{z_2}^2) \tag{8}<br>$$<br>then <strong>Eq.(2)</strong> can be rewritten as<br>$$<br>\sigma_x^2(t_2) = \sigma_x^2(t_1) - K(t_2)\sigma_x^2(t_1) \tag{9}<br>$$<br>some explanation：</p>
-<p>​    $\hat x (t_1)$：the best <strong>prediction</strong> of the optimal estimate at time $t_2$, before $z_2 $ is taken.</p>
-<p>​    $\hat x(t_2)$：the <strong>optimal estimate</strong> at time $t_2$, after $z_2$ is taken.</p>
-<p>​    $K(t_2)$：a correction term of an <strong>optimal weighting value times</strong> the difference between $z_2$ and $\hat  x(t_1)$</p>
-<h4 id="Introduce-dynamics-factor："><a href="#Introduce-dynamics-factor：" class="headerlink" title="Introduce dynamics factor："></a>Introduce dynamics factor：</h4><p><strong>Scene：</strong>Suppose that you <strong>travel for some time</strong> before taking another measurement.</p>
-<p><strong>Form： <em><em> $dx/dt = u+w$, including，$u$：a nominal </em></em>velocity</strong>，</p>
-<p>​    $w$：a <strong>noise term</strong> used to represent the uncertainty in your knowledge of the actual velocity due to disturbances, off-nominal conditians, effects not accounted for in the simple first order equation, and the like, modeled as a white <strong>Gaussian noise</strong> with a <strong>mean</strong> of zero and <strong>variance</strong> of $\sigma_w^2$.</p>
-<p>As time progresses, the probability density starts at the best estimate, moves according to the nominal model of dynamics, and spreads out in time because you become <strong>less sure</strong> of your exact position due to <strong>constant addition</strong> of uncertainty over time.</p>
-<img src="/2020/05/14/kf-extract/dynamics.png" style="zoom:70%">
+  <span class="token comment" spellcheck="true">&lt;!-- 配置zookeeper的三台主机名 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.zookeeper.quorum<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>master,slave1,slave2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
 
-<p>The density of  <strong>prediction</strong> can be expressed mathematically as a Gaussian density with mean and variance given by<br>$$<br>\begin{align}<br>\hat x(t_3^-) &amp;= \hat x(t_2) + u[t_3-t_2] \tag{11}<br>\\\\\<br>\sigma_x^2(t_3^-) &amp;= \sigma_x^2(t_2) + \sigma_w^2[t_3-t_2]\tag{12}<br>\end{align}<br>$$<br>Now a <strong>measurement</strong> is taken, and its mean turns out to be $z_3$, with a variance to be $\sigma_{z_3}^2$, as before, there are <strong>two Gaussian densities</strong> available that contain information about position, one encompassing all the information available <strong>before</strong> the measurement, and the other being the information <strong>provided by</strong> the measurement itself.</p>
-<p>The density with mean $\hat x(t_3^-)$ and variance $\sigma_x^2(t_3^-) $ is combined with the density with mean $z_3$ and variance $\sigma^2_{z_3} $ to yield a Gaussian density with mean<br>$$<br>\hat x(t_3) = \hat x(t_3^-) + K(t_3)[z_3 - \hat x(t_3^-)] \tag{13}<br>$$<br>and variance<br>$$<br>\sigma_x^2(t_3) = \sigma_x^2(t_3^-) - K(t_3)\sigma_x^2(t_3^-) \tag{14}<br>$$<br>where the gain $K(t_3)$ is given by<br>$$<br>K(t_3) = \sigma_x^2(t_3^-) / [\sigma_x^2(t_3^-) + \sigma_{z_3}^2 ] \tag{15}<br>$$</p>
-<h4 id="Analysis-about-K-t-3"><a href="#Analysis-about-K-t-3" class="headerlink" title="Analysis about $K(t_3)$"></a>Analysis about $K(t_3)$</h4><p>Observe the form of the equation for $K(t_3)$.</p>
-<p>If $\sigma_{z_3}$, the <strong>measurement noise</strong> variance, is <strong>large</strong>, then $K(t_3)$ is <strong>small</strong>, which mean you put <strong>little</strong> confidence in a very noisy measurement and so would weight it <strong>lightly</strong>.</p>
-<p>In the limit as $\sigma_{z_3}^2 \rightarrow \infty$, $K(t_3)$ will become <strong>zero</strong>, and $\hat x(t_3)$ <strong>equals</strong> $\hat x(t_3^-)$, which means an infinitely noisy measurement is totally ignored.</p>
-<p>If the <strong>dynamic system noise</strong> variance $\sigma_w^2$ is large, then $\sigma_x^2(t_3^-)$ will be large and so will $K(t_3)$. In this case, you are not very certain of the output of the system model within the filter structure and therefore would weight the measurement heavily.</p>
-<p>In the limit as $\sigma_w^2 \rightarrow \infty$,  $\sigma_x^2(t_3^-) \rightarrow \infty$,  $K(t_3)\rightarrow 1$,  therefore  $\hat x(t_3)$ equals $z_3$. It means you have no confidence in the system model output, to use the new measurement as the optimal estimate.</p>
-<p>Finally, if $\sigma_x^2(t_3^-)$ should ever become zero, then so does $K(t_3)$. This is sensible since if $\sigma_x^2(t_3^-) = 0$, you have absolutely sure of your estimate before $z_3$ becomes available and therefore can disregard the measurement. </p>
-<h4 id="A-preview"><a href="#A-preview" class="headerlink" title="A preview"></a>A preview</h4><p><strong>To yield a general Kalman filter algorithm：</strong></p>
-<ol>
-<li><p>Extend <strong>Eqs.(11)</strong> and <strong>(12)</strong> to the vector case.</p>
-</li>
-<li><p>Allow time varying parameters in the system and noise descriptions.</p>
-</li>
-</ol>
-<p><strong>What can the KF algorithm do?</strong></p>
-<p>It can be used for propagating the conditional density and optimal estimate from one measurement sample time to the next.</p>
-<p><strong>Similarily</strong>, the Kalman filter update at a measurement time is just the extension of <strong>Eqs.(13) -(15)</strong> , <strong>further logical extensions tould include：</strong></p>
-<ol>
-<li>Estimation with data <strong>beyond the time</strong> when variables are to be estimated.</li>
-<li>Estimation with <strong>nonlinear system</strong> models rather than linear.</li>
-<li>Control of systems described through <strong>stochastic models</strong>.</li>
-<li>Both estimation and control when the noise and system parameters are <strong>not known</strong> with absolute certainty.</li>
-</ol>
+  <span class="token comment" spellcheck="true">&lt;!-- zookeeper端口, 在zookeeper的conf/zoo.cfg文件中设定 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.zookeeper.property.clientPort<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>2181<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- zookeeper会话超时时间 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>zookeeper.session.timeout<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>60000000<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- zookeeper数据存储位置(dataDir) --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.zookeeper.property.dataDir<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>/usr/local/zookeeper-3.6.2/data<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- 启用hdfs支持 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>dfs.support.append<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在master中启动hdfs节点 <code>start-dfs.sh</code>，并在hdfs根目录中创建 <code>hbase</code> 文件夹</p>
+<pre class="line-numbers language-bash"><code class="language-bash">hdfs dfs -mkdir /hbase<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="验证Hbase"><a href="#验证Hbase" class="headerlink" title="验证Hbase"></a>验证Hbase</h3><h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p>三台机子均启动zookeeper服务器</p>
+<pre class="line-numbers language-bash"><code class="language-bash">zkServer.sh start<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在master中启动 Hbase Master</p>
+<pre class="line-numbers language-bash"><code class="language-bash">start-hbase.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>打开浏览器，通过端口 <code>master:16010</code> 访问 HMaster</p>
+<img src="/2021/01/29/hbase-spark-build/1.png">
+
+<p>此外，hbase提供了交互式shell，通过 <code>hbase shell</code> 命令可启动</p>
+<img src="/2021/01/29/hbase-spark-build/2.png">
+
+<h4 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h4><p>master中关闭 HMaster</p>
+<pre class="line-numbers language-bash"><code class="language-bash">stop-hbase.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>关闭三台机子的 zookeeper 服务器</p>
+<pre class="line-numbers language-bash"><code class="language-bash">zkServer.sh stop<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>关闭三台机子的 regionserver</p>
+<pre class="line-numbers language-bash"><code class="language-bash">hbase-daemon stop regionserver<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
             </div>
             <hr />
@@ -784,9 +740,9 @@ Source：https://web.archive.org/web/20060420">
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《卡尔曼滤波 maybeck_ch1 阅读摘录》
+                    《基于Hadoop集群配置Hbase并与Spark对接》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/05/14/kf-extract/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2021/01/29/hbase-spark-build/" property="cc:attributionName"
                rel="cc:attributionURL">
                 Lightshaker
             </a> 采用
@@ -827,7 +783,7 @@ Source：https://web.archive.org/web/20060420">
         repo: 'Lightshaker.github.io',
         owner: 'Lightshaker',
         admin: "Lightshaker",
-        id: '2020/05/14/kf-extract/',
+        id: '2021/01/29/hbase-spark-build/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -1110,56 +1066,43 @@ Source：https://web.archive.org/web/20060420">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/05/15/mathjax/">
+                <a href="/2021/01/29/hbase-spark-build/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="MathJax与Latex公式简介">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="基于Hadoop集群配置Hbase并与Spark对接">
                         
-                        <span class="card-title">MathJax与Latex公式简介</span>
+                        <span class="card-title">基于Hadoop集群配置Hbase并与Spark对接</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-本文全文转载自：https://www.cnblogs.com/linxd/p/4955530.html
-
-MathJax与Latex公式简介本文从math.stackexchange.com上名为MathJax basic tutori
+                            Spark,HBase
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-05-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-29
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/其他工具/" class="post-category" target="_blank">
-                                    其他工具
+                            <a href="/categories/大数据/" class="post-category" target="_blank">
+                                    大数据
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/MathJax/" target="_blank">
-                        <span class="chip bg-color">MathJax</span>
-                    </a>
-                    
-                    <a href="/tags/Latex/" target="_blank">
-                        <span class="chip bg-color">Latex</span>
-                    </a>
-                    
-                </div>
+
                 
             </div>
         </div>
@@ -1170,36 +1113,36 @@ MathJax与Latex公式简介本文从math.stackexchange.com上名为MathJax basic
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/13/hybrid-cpython/">
+                <a href="/2021/01/23/spark-build-ubuntu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Ubuntu C++/Python混合编程">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0">
                         
-                        <span class="card-title">Ubuntu C++/Python混合编程</span>
+                        <span class="card-title">Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-  本文总结了在CLion的C/C++工程中调用Python脚本的配置与使用方法。
+                            本文Spark配置基于通过VirtualBox搭建的Hadoop集群（3台Ubuntu18.04-Server服务器）环境；
+使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群集群规划
 
-环境配置配置CMakeLists
-include_directories(/usr/include/python3.6)
-link_directorie
+
+主机名
+功能  ha
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-04-13
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-23
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/混合编程/" class="post-category" target="_blank">
-                                    混合编程
+                            <a href="/categories/大数据/" class="post-category" target="_blank">
+                                    大数据
                                 </a>
                             
                             
@@ -1209,16 +1152,12 @@ link_directorie
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/Hadoop/" target="_blank">
+                        <span class="chip bg-color">Hadoop</span>
                     </a>
                     
-                    <a href="/tags/混合编程/" target="_blank">
-                        <span class="chip bg-color">混合编程</span>
-                    </a>
-                    
-                    <a href="/tags/Python/" target="_blank">
-                        <span class="chip bg-color">Python</span>
+                    <a href="/tags/Spark/" target="_blank">
+                        <span class="chip bg-color">Spark</span>
                     </a>
                     
                 </div>

@@ -13,7 +13,7 @@
 
 
 主机名
-功能(had">
+功能  ha">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -491,7 +491,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.6k
+                    5.7k
                 </div>
                 
 
@@ -514,7 +514,7 @@
 <thead>
 <tr>
 <th align="center">主机名</th>
-<th align="center">功能(hadoop|spark)</th>
+<th align="center">功能  hadoop|spark</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -915,6 +915,7 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
 
 <h2 id="遇到的问题与解决方案"><a href="#遇到的问题与解决方案" class="headerlink" title="遇到的问题与解决方案"></a>遇到的问题与解决方案</h2><p><strong>注意点一：</strong>hadoop要求主机名<strong>不带</strong>下划线<code>_</code>；</p>
 <p><strong>注意点二：</strong>每台运行hadoop的主机的<strong>用户名</strong>需要相同；</p>
+<p><strong>注意点三：</strong>使用 <code>chown -R</code> 将hadoop、spark等相关文件夹所有者变更为 <code>node</code>，否则会有很多 <code>permission denied</code> 的错误</p>
 <p><strong>问题一：</strong>启动 <code>hdfs namenode -format</code> 报错，内容大致是无法创建或写入logs文件夹；</p>
 <ul>
 <li>原因：所在用户（node）无法对hadoop路径下的文件进行写操作；</li>
@@ -1489,35 +1490,29 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/01/23/spark-build-ubuntu/">
+                <a href="/2021/01/29/hbase-spark-build/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="基于Hadoop集群配置Hbase并与Spark对接">
                         
-                        <span class="card-title">Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0</span>
+                        <span class="card-title">基于Hadoop集群配置Hbase并与Spark对接</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            本文Spark配置基于通过VirtualBox搭建的Hadoop集群（3台Ubuntu18.04-Server服务器）环境；
-使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群集群规划
-
-
-主机名
-功能(had
+                            Spark,HBase
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-23
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-29
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -1529,19 +1524,6 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Hadoop/" target="_blank">
-                        <span class="chip bg-color">Hadoop</span>
-                    </a>
-                    
-                    <a href="/tags/Spark/" target="_blank">
-                        <span class="chip bg-color">Spark</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -1763,7 +1745,7 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">106.9k</span>
+            <span class="white-color">107.5k</span>
             
 
             <br>
