@@ -491,14 +491,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.7k
+                    6.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    23 分
+                    26 分
                 </div>
                 
                 
@@ -913,6 +913,90 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
 <p>结束进程后 <code>master:8989</code> 立刻变为不可访问状态，等待十几秒后查看 <code>slave1:8989</code>，发现状态已由 <strong>STANDBY</strong> 变成了 <strong>ALIVE</strong></p>
 <img src="/2021/01/23/spark-build-ubuntu/31.png">
 
+<h3 id="Spark与HBase交互"><a href="#Spark与HBase交互" class="headerlink" title="Spark与HBase交互"></a>Spark与HBase交互</h3><h4 id="配置HBase"><a href="#配置HBase" class="headerlink" title="配置HBase"></a>配置HBase</h4><p>进入<a href="https://apache.org/dyn/closer.cgi" target="_blank" rel="noopener">Apache官网</a>或直接进入<a href="https://apache.org/dyn/closer.cgi" target="_blank" rel="noopener">清华源apache镜像</a>，下载hbase压缩包 <code>hbase-2.4.1-bin.tar.gz</code>；</p>
+<p>解压缩到三台虚拟机 <code>/usr/local/</code> 路径下，默认文件夹名为 <code>hbase-2.4.1</code></p>
+<p>配置 <code>etc/profile</code></p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> HBASE_HOME<span class="token operator">=</span>/usr/local/hbase-2.4.1
+<span class="token function">export</span> PATH<span class="token operator">=</span><span class="token variable">${HBASE_HOME}</span>/bin:<span class="token variable">${PATH}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>进入 <code>hbase-2.4.1/conf</code> 路径下，配置 <code>hbase-env.sh</code> 文件</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> JAVA_HOME<span class="token operator">=</span>/usr/local/java/jdk1.8
+<span class="token function">export</span> HBASE_MANAGES_ZK<span class="token operator">=</span>false<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>相同路径下配置 <code>regionserver</code> 文件，删除原有内容，添加三台主机名</p>
+<pre><code>master
+slave1
+slave2</code></pre><p>相同路径下配置 <code>hbase-site.xml</code> 文件</p>
+<p>删除原有的 <code>&lt;property&gt;</code> 元素块，添加如下配置</p>
+<pre class="line-numbers language-xml"><code class="language-xml">  <span class="token comment" spellcheck="true">&lt;!-- HBase的Region的共享目录, 用于将HBase存入硬盘, 通常给出一个HDFS的目录, 用hdfs://$namenode:hdfsport(查看hadoop的core-site.xml配置), 如不设定, 则保存在本机的/tmp下 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span> hbase.rootdir <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>hdfs://master:9000/hbase<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- HMaster配置 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.master<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>master<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- HMaster配置web页面端口 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.master.info.port<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>16010<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- HBase的运行模式, false代表是单机运行模式, true代表是分布式模式 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.cluster.distributed<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- 配置zookeeper的三台主机名 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.zookeeper.quorum<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>master,slave1,slave2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- zookeeper端口, 在zookeeper的conf/zoo.cfg文件中设定 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.zookeeper.property.clientPort<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>2181<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- zookeeper会话超时时间 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>zookeeper.session.timeout<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>60000000<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- zookeeper数据存储位置(dataDir) --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>hbase.zookeeper.property.dataDir<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>/usr/local/zookeeper-3.6.2/data<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span>
+
+  <span class="token comment" spellcheck="true">&lt;!-- 启用hdfs支持 --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span><span class="token punctuation">></span></span>dfs.support.append<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>value</span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>value</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在master中启动hdfs节点 <code>start-dfs.sh</code>，并在hdfs根目录中创建 <code>hbase</code> 文件夹</p>
+<pre class="line-numbers language-bash"><code class="language-bash">hdfs dfs -mkdir /hbase<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="验证Hbase"><a href="#验证Hbase" class="headerlink" title="验证Hbase"></a>验证Hbase</h4><h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><p>三台机子均启动zookeeper服务器</p>
+<pre class="line-numbers language-bash"><code class="language-bash">zkServer.sh start<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在master中启动 Hbase Master</p>
+<pre class="line-numbers language-bash"><code class="language-bash">start-hbase.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>打开浏览器，通过端口 <code>master:16010</code> 访问 HMaster</p>
+<img src="/home/lightshaker/Hexo-Source/source/_posts/33.png">
+
+<p>此外，hbase提供了交互式shell，通过 <code>hbase shell</code> 命令可启动</p>
+<img src="/home/lightshaker/Hexo-Source/source/_posts/34.png">
+
+<h5 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h5><p>master中关闭 HMaster</p>
+<pre class="line-numbers language-bash"><code class="language-bash">stop-hbase.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>关闭三台机子的 zookeeper 服务器</p>
+<pre class="line-numbers language-bash"><code class="language-bash">zkServer.sh stop<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>关闭三台机子的 regionserver</p>
+<pre class="line-numbers language-bash"><code class="language-bash">hbase-daemon stop regionserver<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h2 id="遇到的问题与解决方案"><a href="#遇到的问题与解决方案" class="headerlink" title="遇到的问题与解决方案"></a>遇到的问题与解决方案</h2><p><strong>注意点一：</strong>hadoop要求主机名<strong>不带</strong>下划线<code>_</code>；</p>
 <p><strong>注意点二：</strong>每台运行hadoop的主机的<strong>用户名</strong>需要相同；</p>
 <p><strong>注意点三：</strong>使用 <code>chown -R</code> 将hadoop、spark等相关文件夹所有者变更为 <code>node</code>，否则会有很多 <code>permission denied</code> 的错误</p>
@@ -1506,8 +1590,8 @@ sbin/start-master.sh<span aria-hidden="true" class="line-numbers-rows"><span></s
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            本文基于 Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0 配置好的 Hadoop+Spark+Zookeeper 环境的基础上配置HBase并与Spark进行对接；
-安装并配置HBase配置过程进入Hbase官网或直接
+                            本文基于 Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0 配置好的 Hadoop+Spark+Zookeeper 环境的基础上配置HBase并与Spark进行对接
+
                         
                     </div>
                     <div class="publish-info">
