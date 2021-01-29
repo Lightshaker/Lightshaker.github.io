@@ -4,33 +4,6 @@
   
     
     <entry>
-      <title>基于Hadoop集群配置Hbase并与Spark对接</title>
-      <link href="/2021/01/29/hbase-spark-build/"/>
-      <url>/2021/01/29/hbase-spark-build/</url>
-      
-        <content type="html"><![CDATA[<p>本文基于 <a href="https://www.lightshaker.cn/2021/01/23/spark-build-ubuntu/" target="_blank" rel="noopener">Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0</a> 配置好的 Hadoop+Spark+Zookeeper 环境的基础上配置HBase并与Spark进行对接</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 大数据 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Spark </tag>
-            
-            <tag> HBase </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0</title>
       <link href="/2021/01/23/spark-build-ubuntu/"/>
       <url>/2021/01/23/spark-build-ubuntu/</url>
