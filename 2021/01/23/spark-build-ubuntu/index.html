@@ -1100,7 +1100,7 @@ slave2</code></pre><p>相同路径下配置 <code>hbase-site.xml</code> 文件</
 <img src="/2021/01/23/spark-build-ubuntu/35.png">
 
 <p>在尝试网上各种办法期间还碰到了启动hbase后HMaster进程自动关闭的问题，我没有照网上大部分教程说的启动 <code>zkCli.sh</code>，删除hbase节点再重启zk，而是直接执行 <code>hdfs namenode -format</code> 把namenode格式化了，又导致datanode出问题参考问题二的解决方式重复了一遍，然后启动dfs，在根目录重新创建spark历史服务需要的 <code>/logs</code> 目录，以及hbase需要的 <code>/hbase</code>目录，绕了一大圈重新恢复HMaster之后仍然没有解决hbase shell的问题；</p>
-<img src="/2021/01/23/spark-build-ubuntu/36" alt="HMaster崩溃在日志里记录的报错">
+<img src="/2021/01/23/spark-build-ubuntu/36.png" alt="HMaster崩溃在日志里记录的报错">
 
 <p>解决HMaster问题仍然报错后，重新查看了 <code>/hbase/logs</code> 路径下的 <code>hbase-node-master-master.log</code> 日志文件，发现记录了一个关键错误：</p>
 <pre class="line-numbers language-log"><code class="language-log">2021-01-31 05:00:23,966 WARN  [RS-EventLoopGroup-1-1] concurrent.DefaultPromise: An exception was thrown by org.apache.hadoop.hbase.io.asyncfs.FanOutOneBlockAsyncDFSOutputHelper$4.operationComplete()
