@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="lightshaker.cn/"/>
-  <updated>2021-01-29T15:33:35.308Z</updated>
+  <updated>2021-01-31T07:36:28.232Z</updated>
   <id>lightshaker.cn/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="lightshaker.cn/2021/01/23/spark-build-ubuntu/"/>
     <id>lightshaker.cn/2021/01/23/spark-build-ubuntu/</id>
     <published>2021-01-23T06:07:40.000Z</published>
-    <updated>2021-01-29T15:33:35.308Z</updated>
+    <updated>2021-01-31T07:36:28.232Z</updated>
     
     <summary type="html">
     
@@ -29,8 +29,8 @@
       
         
         
-          &lt;p&gt;本文Spark配置基于通过&lt;strong&gt;VirtualBox&lt;/strong&gt;搭建的Hadoop集群（3台Ubuntu18.04-Server服务器）环境；&lt;/p&gt;
-&lt;h2 id=&quot;使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群&quot;&gt;&lt;a
+          &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.yuque.com/apachecn&quot; target=&quot;_blank&quot;
         
       
     
