@@ -10,9 +10,11 @@
     <meta name="360-site-verification" content>
     <meta name="description" content="
 ApacheCN社区
+Hadoop2.x与3.x端口变化
+Maven Repository
+Spark与Scala版本对应关系/Maven中央库
 
-本文Spark配置基于通过VirtualBox搭建的Hadoop集群（3台Ubuntu18.04-Server服务器）环境；
-使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群集群规划">
+本文Spark配置基于通过VirtualBox搭建的Hadoop集群（3台Ubuntu18">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -490,14 +492,14 @@ ApacheCN社区
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.8k
+                    7.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    28 分
+                    30 分
                 </div>
                 
                 
@@ -510,6 +512,9 @@ ApacheCN社区
             <div id="articleContent">
                 <blockquote>
 <p><a href="https://www.yuque.com/apachecn" target="_blank" rel="noopener">ApacheCN社区</a></p>
+<p><a href="https://blog.csdn.net/qq_31454379/article/details/105439752" target="_blank" rel="noopener">Hadoop2.x与3.x端口变化</a></p>
+<p><a href="https://mvnrepository.com/" target="_blank" rel="noopener">Maven Repository</a></p>
+<p><a href="https://mvnrepository.com/artifact/org.apache.spark/spark-sql?__cf_chl_captcha_tk__=0a05a22d352bf3c4cbd0c47a74bfed21a5a5a0c1-1611893236-0-AXkT62L0gxD-4zgaJ_Zrg2rFBsJqcpfKKLCPw8k4uYMXO08bntOJITLYBwQ8M8TVlBUox8OsRS8ZXiH6v37KMAScpua055_Yu9ZsmCaJ8VHAHkS6p-B5Llr8n-GOyh6RWwrbSHaTl3JRGMijzrtLoo82W0D0d5jvrvLaMD4aS2HEmbj01KPefdIMG20BYi_KgsaYpLsXfNZql0jXd-bobaOFhnBaVxVq7pxRV2AZyeS2au4i-xLl5NfJoYQZu3b4pwqLUyy690_Zl60Ui1C4q634mGbx_L3kn12o3nU_kvFJTFrO1_T8Iscor2yO9ugzg-jnAVUnLUPjuM2OJ7P8-kW11rYmwQ_km5PRcQ96V5aetKHq-ttnbFuYk0MYVn1TmHY5Dcp5C6X4PSZKpJEu_No2XLtZDE9ryeoReBfKa1qpcZDiHxe63iWnaTiq2zFz7t0OTs98IBGqwkBRjkuwZjRm9pOj3j47KuwRKB6_caQ60QZx5XV9f1XCNvHHU_bmU8Xar4X5cI2mJVzQzKhkbDMlAtYh6XhhGF4nnrZ07Rhzu8aT_yr7IgA_79AKwijrg9egZIR0Wj7eHrEzYZbcbeUzT-zkyi2nOwpIRHsldZFJop-y_hUIkgExuPkhUsDJ6A" target="_blank" rel="noopener">Spark与Scala版本对应关系/Maven中央库</a></p>
 </blockquote>
 <p>本文Spark配置基于通过<strong>VirtualBox</strong>搭建的Hadoop集群（3台Ubuntu18.04-Server服务器）环境；</p>
 <h2 id="使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群"><a href="#使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群" class="headerlink" title="使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群"></a>使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群</h2><h3 id="集群规划"><a href="#集群规划" class="headerlink" title="集群规划"></a>集群规划</h3><table>
@@ -753,11 +758,7 @@ start-dfs.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
 <li><strong>slave1</strong></li>
 </ul>
 <pre class="line-numbers language-bash"><code class="language-bash">mapred --daemon stop historyserver<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h2 id="配置Spark3-0环境"><a href="#配置Spark3-0环境" class="headerlink" title="配置Spark3.0环境"></a>配置Spark3.0环境</h2><blockquote>
-<p><a href="https://blog.csdn.net/qq_31454379/article/details/105439752" target="_blank" rel="noopener">Hadoop2.x与3.x端口变化</a></p>
-<p><a href="https://mvnrepository.com/artifact/org.apache.spark/spark-sql?__cf_chl_captcha_tk__=0a05a22d352bf3c4cbd0c47a74bfed21a5a5a0c1-1611893236-0-AXkT62L0gxD-4zgaJ_Zrg2rFBsJqcpfKKLCPw8k4uYMXO08bntOJITLYBwQ8M8TVlBUox8OsRS8ZXiH6v37KMAScpua055_Yu9ZsmCaJ8VHAHkS6p-B5Llr8n-GOyh6RWwrbSHaTl3JRGMijzrtLoo82W0D0d5jvrvLaMD4aS2HEmbj01KPefdIMG20BYi_KgsaYpLsXfNZql0jXd-bobaOFhnBaVxVq7pxRV2AZyeS2au4i-xLl5NfJoYQZu3b4pwqLUyy690_Zl60Ui1C4q634mGbx_L3kn12o3nU_kvFJTFrO1_T8Iscor2yO9ugzg-jnAVUnLUPjuM2OJ7P8-kW11rYmwQ_km5PRcQ96V5aetKHq-ttnbFuYk0MYVn1TmHY5Dcp5C6X4PSZKpJEu_No2XLtZDE9ryeoReBfKa1qpcZDiHxe63iWnaTiq2zFz7t0OTs98IBGqwkBRjkuwZjRm9pOj3j47KuwRKB6_caQ60QZx5XV9f1XCNvHHU_bmU8Xar4X5cI2mJVzQzKhkbDMlAtYh6XhhGF4nnrZ07Rhzu8aT_yr7IgA_79AKwijrg9egZIR0Wj7eHrEzYZbcbeUzT-zkyi2nOwpIRHsldZFJop-y_hUIkgExuPkhUsDJ6A" target="_blank" rel="noopener">Spark与Scala版本对应关系/Maven中央库</a></p>
-</blockquote>
-<h3 id="下载Spark压缩包"><a href="#下载Spark压缩包" class="headerlink" title="下载Spark压缩包"></a>下载Spark压缩包</h3><p>本地主机端进入<a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">Spark官网</a>，下载对应Hadoop版本的Spark3压缩包。由于上文配置的Hadoop版本为3.3.0，因此 <code>package</code> 选择支持Hadoop3.2以上的版本 <code>Pre-built for Apache Hadoop 3.2 and later</code>，点击下方的 <code>spark-3.0.1-bin-hadoop</code>；</p>
+<h2 id="配置Spark3-0环境"><a href="#配置Spark3-0环境" class="headerlink" title="配置Spark3.0环境"></a>配置Spark3.0环境</h2><h3 id="下载Spark压缩包"><a href="#下载Spark压缩包" class="headerlink" title="下载Spark压缩包"></a>下载Spark压缩包</h3><p>本地主机端进入<a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">Spark官网</a>，下载对应Hadoop版本的Spark3压缩包。由于上文配置的Hadoop版本为3.3.0，因此 <code>package</code> 选择支持Hadoop3.2以上的版本 <code>Pre-built for Apache Hadoop 3.2 and later</code>，点击下方的 <code>spark-3.0.1-bin-hadoop</code>；</p>
 <img src="/2021/01/23/spark-build-ubuntu/9.png" style="zoom:100%">
 
 <p>通过共享文件夹 <code>VMshare</code>，将压缩包复制到虚拟机中，并解压到 <code>/usr/local/</code> 路径下，且重命名文件夹为 <code>spark-3.0.1</code>；</p>
@@ -1009,7 +1010,40 @@ slave2</code></pre><p>相同路径下配置 <code>hbase-site.xml</code> 文件</
 <p>关闭三台机子的 regionserver</p>
 <pre class="line-numbers language-bash"><code class="language-bash">hbase-daemon.sh stop regionserver<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>出现异常，需要单独关闭 HMaster 的命令</p>
-<pre><code>hbase-daemon.sh stop master</code></pre><h2 id="遇到的问题与解决方案"><a href="#遇到的问题与解决方案" class="headerlink" title="遇到的问题与解决方案"></a>遇到的问题与解决方案</h2><p><strong>注意点一：</strong>hadoop要求主机名<strong>不带</strong>下划线<code>_</code>；</p>
+<pre><code>hbase-daemon.sh stop master</code></pre><h4 id="创建Hbase数据表"><a href="#创建Hbase数据表" class="headerlink" title="创建Hbase数据表"></a>创建Hbase数据表</h4><pre><code>hbase:001:0&gt; create &#39;student&#39;,&#39;info&#39;
+Created table student
+Took 1.8511 seconds                                                                                     
+=&gt; Hbase::Table - student
+hbase:002:0&gt; put &#39;student&#39;,&#39;1&#39;,&#39;info:name&#39;,&#39;frank&#39;
+Took 0.2428 seconds                                                                                     
+hbase:003:0&gt; put &#39;student&#39;,&#39;1&#39;,&#39;info:gender&#39;,&#39;male&#39;
+Took 0.0124 seconds                                                                                     
+hbase:004:0&gt; put &#39;student&#39;,&#39;1&#39;,&#39;info:age&#39;,&#39;22&#39;
+Took 0.0240 seconds                                                                                     
+hbase:005:0&gt; put &#39;student&#39;,&#39;2&#39;,&#39;info:name&#39;,&#39;lilly&#39;
+Took 0.0169 seconds                                                                                     
+hbase:006:0&gt; put &#39;student&#39;,&#39;2&#39;,&#39;info:gender&#39;,&#39;female&#39;
+Took 0.0110 seconds                                                                                     
+hbase:007:0&gt; put &#39;student&#39;,&#39;2&#39;,&#39;info:age&#39;,&#39;20&#39;
+Took 0.0108 seconds                                                                                     
+hbase:008:0&gt; list &#39;student&#39;
+TABLE                                                                                                   
+student                                                                                                 
+1 row(s)
+Took 0.0564 seconds                                                                                     
+=&gt; [&quot;student&quot;]
+hbase:009:0&gt; describe &#39;student&#39;
+Table student is ENABLED                                                                                
+student                                                                                                 
+COLUMN FAMILIES DESCRIPTION                                                                             
+{NAME =&gt; &#39;info&#39;, BLOOMFILTER =&gt; &#39;ROW&#39;, IN_MEMORY =&gt; &#39;false&#39;, VERSIONS =&gt; &#39;1&#39;, KEEP_DELETED_CELLS =&gt; &#39;FAL
+SE&#39;, DATA_BLOCK_ENCODING =&gt; &#39;NONE&#39;, COMPRESSION =&gt; &#39;NONE&#39;, TTL =&gt; &#39;FOREVER&#39;, MIN_VERSIONS =&gt; &#39;0&#39;, BLOCKC
+ACHE =&gt; &#39;true&#39;, BLOCKSIZE =&gt; &#39;65536&#39;, REPLICATION_SCOPE =&gt; &#39;0&#39;}                                         
+
+1 row(s)
+Quota is disabled
+Took 0.1049 seconds</code></pre><h4 id="拷贝jar包"><a href="#拷贝jar包" class="headerlink" title="拷贝jar包"></a>拷贝jar包</h4><p>将 <code>hbase/libs</code> 路径下的部分 <code>.jar</code> 包拷贝到 <code>spark/jars</code> 路径下</p>
+<h2 id="遇到的问题与解决方案"><a href="#遇到的问题与解决方案" class="headerlink" title="遇到的问题与解决方案"></a>遇到的问题与解决方案</h2><p><strong>注意点一：</strong>hadoop要求主机名<strong>不带</strong>下划线<code>_</code>；</p>
 <p><strong>注意点二：</strong>每台运行hadoop的主机的<strong>用户名</strong>需要相同；</p>
 <p><strong>注意点三：</strong>使用 <code>chown -R</code> 将hadoop、spark等相关文件夹所有者变更为 <code>node</code>，否则会有很多 <code>permission denied</code> 的错误</p>
 <p><strong>问题一：</strong>启动 <code>hdfs namenode -format</code> 报错，内容大致是无法创建或写入logs文件夹；</p>
@@ -1626,9 +1660,11 @@ java.lang.IllegalArgumentException: object is not an instance of declaring class
                         
                             
 ApacheCN社区
+Hadoop2.x与3.x端口变化
+Maven Repository
+Spark与Scala版本对应关系/Maven中央库
 
-本文Spark配置基于通过VirtualBox搭建的Hadoop集群（3台Ubuntu18.04-Server服务器）环境；
-使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群集群规划
+本文Spark配置基于通过VirtualBox搭建的Hadoop集群（3台Ubuntu18
                         
                     </div>
                     <div class="publish-info">
@@ -1880,7 +1916,7 @@ ApacheCN社区
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">108.1k</span>
+            <span class="white-color">108.4k</span>
             
 
             <br>
