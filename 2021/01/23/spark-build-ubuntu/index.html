@@ -333,7 +333,7 @@ Spark与Scala版本对应关系/Maven中央库
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -492,14 +492,14 @@ Spark与Scala版本对应关系/Maven中央库
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    7.1k
+                    8.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    30 分
+                    37 分
                 </div>
                 
                 
@@ -517,6 +517,21 @@ Spark与Scala版本对应关系/Maven中央库
 <p><a href="https://mvnrepository.com/artifact/org.apache.spark/spark-sql?__cf_chl_captcha_tk__=0a05a22d352bf3c4cbd0c47a74bfed21a5a5a0c1-1611893236-0-AXkT62L0gxD-4zgaJ_Zrg2rFBsJqcpfKKLCPw8k4uYMXO08bntOJITLYBwQ8M8TVlBUox8OsRS8ZXiH6v37KMAScpua055_Yu9ZsmCaJ8VHAHkS6p-B5Llr8n-GOyh6RWwrbSHaTl3JRGMijzrtLoo82W0D0d5jvrvLaMD4aS2HEmbj01KPefdIMG20BYi_KgsaYpLsXfNZql0jXd-bobaOFhnBaVxVq7pxRV2AZyeS2au4i-xLl5NfJoYQZu3b4pwqLUyy690_Zl60Ui1C4q634mGbx_L3kn12o3nU_kvFJTFrO1_T8Iscor2yO9ugzg-jnAVUnLUPjuM2OJ7P8-kW11rYmwQ_km5PRcQ96V5aetKHq-ttnbFuYk0MYVn1TmHY5Dcp5C6X4PSZKpJEu_No2XLtZDE9ryeoReBfKa1qpcZDiHxe63iWnaTiq2zFz7t0OTs98IBGqwkBRjkuwZjRm9pOj3j47KuwRKB6_caQ60QZx5XV9f1XCNvHHU_bmU8Xar4X5cI2mJVzQzKhkbDMlAtYh6XhhGF4nnrZ07Rhzu8aT_yr7IgA_79AKwijrg9egZIR0Wj7eHrEzYZbcbeUzT-zkyi2nOwpIRHsldZFJop-y_hUIkgExuPkhUsDJ6A" target="_blank" rel="noopener">Spark与Scala版本对应关系/Maven中央库</a></p>
 </blockquote>
 <p>本文Spark配置基于通过<strong>VirtualBox</strong>搭建的Hadoop集群（3台Ubuntu18.04-Server服务器）环境；</p>
+<p>涉及到的包版本：</p>
+<ul>
+<li><p>JDK1.8 <code>jdk-8u271-linux-x64.tar.gz</code></p>
+</li>
+<li><p>hadoop-3.3.0 <code>hadoop-3.3.0.tar.gz</code></p>
+</li>
+<li><p>spark-3.0.1 <code>spark-3.0.1-bin-hadoop3.2.tgz</code></p>
+</li>
+<li><p>scala-2.12.13 <code>scala-2.12.13.tgz</code></p>
+</li>
+<li><p>hbase-2.4.0 <code>hbase-2.4.0-bin.tar.gz</code></p>
+</li>
+<li><p>zookeeper-3.6.2 <code>apache-zookeeper-3.6.2-bin.tar.gz</code></p>
+</li>
+</ul>
 <h2 id="使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群"><a href="#使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群" class="headerlink" title="使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群"></a>使用VirtualBox搭建基于Ubuntu-Server的三机Hadoop集群</h2><h3 id="集群规划"><a href="#集群规划" class="headerlink" title="集群规划"></a>集群规划</h3><table>
 <thead>
 <tr>
@@ -1010,7 +1025,20 @@ slave2</code></pre><p>相同路径下配置 <code>hbase-site.xml</code> 文件</
 <p>关闭三台机子的 regionserver</p>
 <pre class="line-numbers language-bash"><code class="language-bash">hbase-daemon.sh stop regionserver<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>出现异常，需要单独关闭 HMaster 的命令</p>
-<pre><code>hbase-daemon.sh stop master</code></pre><h4 id="创建Hbase数据表"><a href="#创建Hbase数据表" class="headerlink" title="创建Hbase数据表"></a>创建Hbase数据表</h4><pre><code>hbase:001:0&gt; create &#39;student&#39;,&#39;info&#39;
+<pre><code>hbase-daemon.sh stop master</code></pre><h4 id="创建Hbase数据表"><a href="#创建Hbase数据表" class="headerlink" title="创建Hbase数据表"></a>创建Hbase数据表</h4><p>注意启动顺序为</p>
+<ul>
+<li><p>三台 <code>zkServer.sh start</code></p>
+</li>
+<li><p>master <code>hadoop/sbin/start-dfs.sh</code></p>
+</li>
+<li><p>master <code>spark/sbin/start-all.sh</code></p>
+</li>
+<li><p>master <code>hbase/bin/start-hbase.sh</code></p>
+</li>
+<li><p>任意一台 <code>hbase shell</code></p>
+</li>
+</ul>
+<pre><code>hbase:001:0&gt; create &#39;student&#39;,&#39;info&#39;
 Created table student
 Took 1.8511 seconds                                                                                     
 =&gt; Hbase::Table - student
@@ -1042,7 +1070,145 @@ ACHE =&gt; &#39;true&#39;, BLOCKSIZE =&gt; &#39;65536&#39;, REPLICATION_SCOPE =&
 
 1 row(s)
 Quota is disabled
-Took 0.1049 seconds</code></pre><h4 id="拷贝jar包"><a href="#拷贝jar包" class="headerlink" title="拷贝jar包"></a>拷贝jar包</h4><p>将 <code>hbase/libs</code> 路径下的部分 <code>.jar</code> 包拷贝到 <code>spark/jars</code> 路径下</p>
+Took 0.1049 seconds</code></pre><h4 id="拷贝jar包"><a href="#拷贝jar包" class="headerlink" title="拷贝jar包"></a>拷贝jar包</h4><p>将 <code>hbase/libs</code> 路径下以”hbase”开头的所有 <code>.jar</code> 包拷贝到 <code>spark/jars</code> 路径下</p>
+<h4 id="测试程序"><a href="#测试程序" class="headerlink" title="测试程序"></a>测试程序</h4><p>启动spark-shell，测试程序是否可用，程序来源见 <a href="https://blog.csdn.net/qq_36142114/article/details/80891220" target="_blank" rel="noopener">Spark对接Hbase</a></p>
+<pre class="line-numbers language-scala"><code class="language-scala"><span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hbase<span class="token punctuation">.</span><span class="token punctuation">{</span>CellUtil<span class="token punctuation">,</span> HBaseConfiguration<span class="token punctuation">}</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hbase<span class="token punctuation">.</span>client<span class="token punctuation">.</span>Result
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hbase<span class="token punctuation">.</span>io<span class="token punctuation">.</span>ImmutableBytesWritable
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hbase<span class="token punctuation">.</span>mapreduce<span class="token punctuation">.</span>TableInputFormat
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hbase<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Bytes
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span><span class="token punctuation">{</span>SparkConf<span class="token punctuation">,</span> SparkContext<span class="token punctuation">}</span>
+<span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>spark<span class="token punctuation">.</span>serializer<span class="token punctuation">.</span>KryoSerializer
+
+<span class="token keyword">object</span> Test <span class="token punctuation">{</span>
+    <span class="token keyword">def</span> main<span class="token punctuation">(</span>args<span class="token operator">:</span> Array<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token keyword">val</span> sparkConf <span class="token operator">=</span> <span class="token keyword">new</span> SparkConf<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setAppName<span class="token punctuation">(</span><span class="token string">"ReadEventLogsSparkDemo"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setMaster<span class="token punctuation">(</span><span class="token string">"local[2]"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span>set<span class="token punctuation">(</span><span class="token string">"spark.serializer"</span><span class="token punctuation">,</span> classOf<span class="token punctuation">[</span>KryoSerializer<span class="token punctuation">]</span><span class="token punctuation">.</span>getName<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span>registerKryoClasses<span class="token punctuation">(</span>Array<span class="token punctuation">(</span>classOf<span class="token punctuation">[</span>ImmutableBytesWritable<span class="token punctuation">]</span><span class="token punctuation">,</span>classOf<span class="token punctuation">[</span>Result<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">// 创建SparkContext 实例对象</span>
+        <span class="token keyword">val</span> sc <span class="token operator">=</span> SparkContext<span class="token punctuation">.</span>getOrCreate<span class="token punctuation">(</span>sparkConf<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">// 设置日志级别  Valid log levels include: ALL, DEBUG, ERROR, FATAL, INFO, OFF, TRACE, WARN</span>
+        sc<span class="token punctuation">.</span>setLogLevel<span class="token punctuation">(</span><span class="token string">"WARN"</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">// a. 读取配置信息</span>
+        <span class="token keyword">val</span> conf <span class="token operator">=</span> HBaseConfiguration<span class="token punctuation">.</span>create<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        conf<span class="token punctuation">.</span>set<span class="token punctuation">(</span><span class="token string">"hbase.zookeeper.quorum"</span><span class="token punctuation">,</span> <span class="token string">"192.168.56.104"</span><span class="token punctuation">)</span>
+        conf<span class="token punctuation">.</span>set<span class="token punctuation">(</span><span class="token string">"hbase.zookeeper.property.clientPort"</span><span class="token punctuation">,</span> <span class="token string">"2181"</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">// b. 设置从HBase那张表读取数据</span>
+        conf<span class="token punctuation">.</span>set<span class="token punctuation">(</span>TableInputFormat<span class="token punctuation">.</span>INPUT_TABLE<span class="token punctuation">,</span><span class="token string">"student"</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">// c. 调用SparkContext中newAPIHadoopRDD读取表中的数据</span>
+        <span class="token keyword">val</span> resultRDD <span class="token operator">=</span> sc<span class="token punctuation">.</span>newAPIHadoopRDD<span class="token punctuation">(</span>
+            conf<span class="token punctuation">,</span>
+            classOf<span class="token punctuation">[</span>TableInputFormat<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            classOf<span class="token punctuation">[</span>ImmutableBytesWritable<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            classOf<span class="token punctuation">[</span>Result<span class="token punctuation">]</span>
+        <span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">// 测试获取的数据</span>
+        println<span class="token punctuation">(</span>s<span class="token string">"RDD count = ${resultRDD.count()}"</span><span class="token punctuation">)</span>
+        resultRDD<span class="token punctuation">.</span>take<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span>foreach<span class="token punctuation">{</span>
+            <span class="token keyword">case</span> <span class="token punctuation">(</span>key<span class="token punctuation">,</span> result<span class="token punctuation">)</span> <span class="token keyword">=></span>
+                println<span class="token punctuation">(</span>s<span class="token string">"rowKey = ${Bytes.toString(result.getRow)}"</span><span class="token punctuation">)</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span>cell <span class="token keyword">&lt;-</span> result<span class="token punctuation">.</span>rawCells<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">val</span> cf <span class="token operator">=</span> Bytes<span class="token punctuation">.</span>toString<span class="token punctuation">(</span>CellUtil<span class="token punctuation">.</span>cloneFamily<span class="token punctuation">(</span>cell<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token keyword">val</span> colum <span class="token operator">=</span> Bytes<span class="token punctuation">.</span>toString<span class="token punctuation">(</span>CellUtil<span class="token punctuation">.</span>cloneQualifier<span class="token punctuation">(</span>cell<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token keyword">val</span> value <span class="token operator">=</span> Bytes<span class="token punctuation">.</span>toString<span class="token punctuation">(</span>CellUtil<span class="token punctuation">.</span>cloneValue<span class="token punctuation">(</span>cell<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    println<span class="token punctuation">(</span>s<span class="token string">"\t$cf:$colum = $value"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 关闭资源</span>
+        sc<span class="token punctuation">.</span>stop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将import与main函数的内容复制到spark-shell中执行，确保程序没有问题后进行下一步</p>
+<h4 id="打包jar"><a href="#打包jar" class="headerlink" title="打包jar"></a>打包jar</h4><p>这里使用的环境与工具是 <a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener">Intellij IDEA</a> + <a href="https://maven.apache.org/" target="_blank" rel="noopener">Maven</a></p>
+<p>创建一个Maven项目，在<code>File</code>-&gt;<code>setting</code>中设置好maven包路径以及配置文件路径，通过<code>File</code>-&gt;<code>Project Structure</code>-&gt;<code>Global Libraries</code>添加scala-sdk，并右键项目名，选择<code>Add Framework Support</code>添加scala框架支持；</p>
+<p>配置 <strong>pom.xml</strong> 依赖</p>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>properties</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maven.compiler.source</span><span class="token punctuation">></span></span>8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maven.compiler.source</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maven.compiler.target</span><span class="token punctuation">></span></span>8<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maven.compiler.target</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hadoop.version</span><span class="token punctuation">></span></span>3.3.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hadoop.version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>spark.version</span><span class="token punctuation">></span></span>3.0.1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>spark.version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hbase.version</span><span class="token punctuation">></span></span>2.4.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hbase.version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>properties</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- Spark依赖 --></span>
+    <span class="token comment" spellcheck="true">&lt;!-- https://mvnrepository.com/artifact/org.apache.spark --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.spark<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spark-core_2.12<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>${spark.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.spark<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spark-sql_2.12<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.0.1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.spark<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spark-streaming_2.12<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>${spark.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">></span></span>provided<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+    <span class="token comment" spellcheck="true">&lt;!-- Hadoop依赖 --></span>
+    <span class="token comment" spellcheck="true">&lt;!-- https://mvnrepository.com/artifact/org.apache.hadoop --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.hadoop<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>hadoop-client<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>${hadoop.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.hadoop<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>hadoop-common<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>${hadoop.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.hadoop<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>hadoop-hdfs<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>${hadoop.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+    <span class="token comment" spellcheck="true">&lt;!-- Hbase依赖 --></span>
+    <span class="token comment" spellcheck="true">&lt;!-- https://mvnrepository.com/artifact/org.apache.hbase --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.hbase<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>hbase<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>${hbase.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>type</span><span class="token punctuation">></span></span>pom<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>type</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.hbase<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>hbase-mapreduce<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>${hbase.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.hbase<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>hbase-client<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>${hbase.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.hbase<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>hbase-server<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>${hbase.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>点击 <code>File</code>-&gt;<code>Project Structure</code>-&gt;<code>Artifacts</code>-&gt;<code>+</code>-&gt;<code>JAR</code>-&gt;<code>From modules with dependencies</code>，浏览选择主类</p>
+<img src="/2021/01/23/spark-build-ubuntu/43.png">
+
+<p>点击 <code>OK</code>，删除Output Layout左侧子栏目中除了目标jar之外的其他所有jar依赖，单击目标jar，下方可确认 <code>Main class</code> 的名称，也就是在执行 <code>spark-submit</code> 时 <code>--class</code> 指定的参数名</p>
+<img src="/2021/01/23/spark-build-ubuntu/44.png">
+
+<p>确认后点击 <code>build</code>-&gt;<code>build Artifacts</code>-&gt;<code>build</code> 即可开始编译；</p>
+<p>编译完成后即在项目的 <code>/out</code> 路径下生成jar包</p>
+<img src="/2021/01/23/spark-build-ubuntu/45.png">
+
+<p>将jar包复制到共享文件夹中，或直接发送到任意一台虚拟机上，提交应用</p>
+<pre class="line-numbers language-bash"><code class="language-bash">spark-submit \
+--class Test \
+--master spark://master:7077 \
+/mnt/share/testProj.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<img src="/2021/01/23/spark-build-ubuntu/46.png">
+
 <h2 id="遇到的问题与解决方案"><a href="#遇到的问题与解决方案" class="headerlink" title="遇到的问题与解决方案"></a>遇到的问题与解决方案</h2><p><strong>注意点一：</strong>hadoop要求主机名<strong>不带</strong>下划线<code>_</code>；</p>
 <p><strong>注意点二：</strong>每台运行hadoop的主机的<strong>用户名</strong>需要相同；</p>
 <p><strong>注意点三：</strong>使用 <code>chown -R</code> 将hadoop、spark等相关文件夹所有者变更为 <code>node</code>，否则会有很多 <code>permission denied</code> 的错误</p>
@@ -1149,7 +1315,7 @@ java.lang.IllegalArgumentException: object is not an instance of declaring class
 
 <p>照这个错在网上又是一顿查，最后在 <a href="https://www.yuque.com/apachecn/hbase-doc-zh/docs_20" target="_blank" rel="noopener">ApacheCN-Hbase社区文档</a> 第136条RegionServer中找到了问题所在：</p>
 <blockquote>
-<p>我们将尝试将 <em>AsyncFSWAL</em> 用于 HBase-2.x，因为它具有更好的性能，同时消耗更少的资源。但 <em>AsyncFSWAL</em> 的问题在于它侵入了 DFSClient 实现的内部，因此在升级 hadoop 时很容易被破解，即使是简单的补丁发布也是如此。如果你没有指定 wal 提供者，如果我们无法初始化 <em>AsyncFSWAL</em> ，我们将尝试回退到旧的 <em>FSHLog</em> ，但它可能并不总是有效。失败将显示在这样的日志中：</p>
+<p>我们将尝试将 AsyncFSWAL 用于 HBase-2.x，因为它具有更好的性能，同时消耗更少的资源。但 AsyncFSWAL 的问题在于它侵入了 DFSClient 实现的内部，因此在升级 hadoop 时很容易被破解，即使是简单的补丁发布也是如此。如果你没有指定 wal 提供者，如果我们无法初始化 AsyncFSWAL ，我们将尝试回退到旧的 FSHLog ，但它可能并不总是有效。失败将显示在这样的日志中：</p>
 </blockquote>
 <p>官方指定需要在 <code>hbase-site.xml</code> 文件中配置一个property块，内容如下</p>
 <pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span><span class="token punctuation">></span></span>
@@ -1158,6 +1324,39 @@ java.lang.IllegalArgumentException: object is not an instance of declaring class
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>property</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>问题解决 T_T</p>
 <img src="/2021/01/23/spark-build-ubuntu/38.png">
+
+<p><strong>问题八：</strong>spark启动 <code>sbin/start-all.sh</code> 异常</p>
+<p>终端内显示的报错信息为</p>
+<pre class="line-numbers language-bash"><code class="language-bash">failed to launch: <span class="token function">nice</span> -n 0 /usr/local/spark-3.0.1/bin/spark-class org.apache.spark.deploy.master.Master --host master --port 7077 --webui-port 8080<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<img src="/2021/01/23/spark-build-ubuntu/39.png">
+
+<p>master日志文件记录：</p>
+<pre><code>21/02/01 01:05:38 ERROR SparkUncaughtExceptionHandler: Another uncaught exception in thread Thread[main,5,main], process halted.</code></pre><img src="/2021/01/23/spark-build-ubuntu/40.png">
+
+<p>原因：在解决之前的问题时无意注释掉了 <code>spark-env.sh</code> 中的一行：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> SPARK_DIST_CLASSPATH<span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span>/usr/local/hadoop-3.3.0/bin/hadoop classpath<span class="token variable">)</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>取消注释或重新加上这行就解决了</p>
+<p><strong>问题九：</strong>spark-shell中执行import引入包报错</p>
+<pre class="line-numbers language-scala"><code class="language-scala">scala<span class="token operator">></span> <span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hbase<span class="token punctuation">.</span>HBaseConfiguration
+ERROR<span class="token operator">:</span> <span class="token keyword">object</span> hbase is not a member of <span class="token keyword">package</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>原因：从 <code>hbase/libs</code> 中将以”hbase”开头的 <code>.jar</code> 包拷贝到 <code>spark/jars</code> 路径下时，一开始为了将拷贝进来的包隔离开，多创建了一级文件夹 <code>spark/jars/hbase</code>，导致在spark-shell中 <code>import</code> 找不到 <code>hbase-common</code> 的包。</p>
+<p>解决方案：拷贝时直接贴到 <code>spark/jars</code> 路径中即可。</p>
+<p>另外有一点，当时参考网上教程，说除了以”hbase”开头的包外，还需要拷贝两个包，分别是：</p>
+<ul>
+<li>guava-11.0.2.jar</li>
+<li>protobuf-java-2.5.0.jar</li>
+</ul>
+<p>我在hbase路径中没找到这两个包，还特地去网上看了五花八门的解决方案，有让手动下载的，有让重装的，最后我非常无语地在 <code>spark/jars</code> 里发现这俩包本来就在spark里有。</p>
+<p>当无知的脑子碰上误导人的网上教程，得走太多弯路。</p>
+<p><strong>问题十：</strong>spark-submit提交jar包报错 <code>Error: Failed to load class Test.</code></p>
+<img src="/2021/01/23/spark-build-ubuntu/41.png">
+
+<p>解决办法：使用idea打包时需要将 <code>Output Layout</code> 一栏中除了目标jar之外的其他jar全部删除，只留complie output文件（META-INF文件夹是否保留不影响），如图所示</p>
+<img src="/2021/01/23/spark-build-ubuntu/42.png">
+
+<p>另外，执行spark-submit时需要确保 <code>--class</code> 的参数与打包时设置的<code>Main Class</code>一致</p>
+<pre class="line-numbers language-bash"><code class="language-bash">spark-submit --class Test --master spark://master:7077 /mnt/share/testProj.jar 10<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
             </div>
             <hr />
 
@@ -1650,7 +1849,7 @@ java.lang.IllegalArgumentException: object is not an instance of declaring class
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0">
                         
                         <span class="card-title">Ubuntu18.04搭建Hadoop集群环境并配置Spark3.0</span>
                     </div>
@@ -1710,7 +1909,7 @@ Spark与Scala版本对应关系/Maven中央库
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
+                        <img src="/medias/featureimages/18.png" class="responsive-img" alt="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
                         
                         <span class="card-title">主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享</span>
                     </div>
@@ -1916,7 +2115,7 @@ Spark与Scala版本对应关系/Maven中央库
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">108.4k</span>
+            <span class="white-color">109.8k</span>
             
 
             <br>
