@@ -127,6 +127,28 @@
   </entry>
   
   <entry>
+    <title>C++使用OpenCV实现简易贪吃蛇</title>
+    <link href="lightshaker.cn/2020/09/21/opencv-snake/"/>
+    <id>lightshaker.cn/2020/09/21/opencv-snake/</id>
+    <published>2020-09-21T02:26:52.000Z</published>
+    <updated>2021-02-17T07:42:51.780Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;项目树状结构&quot;&gt;&lt;a href=&quot;#项目树状结构&quot; class=&quot;headerlink&quot; title=&quot;项目树状结构&quot;&gt;&lt;/a&gt;项目树状结构&lt;/h3&gt;&lt;p&gt;├── CMakeLists.txt&lt;br&gt;├── include&lt;br&gt;│   ├──
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>从xacro模型文件建立机械臂仿真环境</title>
     <link href="lightshaker.cn/2020/07/28/anno-simulation/"/>
     <id>lightshaker.cn/2020/07/28/anno-simulation/</id>
