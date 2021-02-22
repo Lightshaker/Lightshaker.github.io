@@ -131,7 +131,7 @@
     <link href="lightshaker.cn/2020/09/21/opencv-snake/"/>
     <id>lightshaker.cn/2020/09/21/opencv-snake/</id>
     <published>2020-09-21T02:26:52.000Z</published>
-    <updated>2021-02-17T07:42:51.780Z</updated>
+    <updated>2021-02-22T07:08:14.960Z</updated>
     
     <summary type="html">
     
@@ -145,6 +145,12 @@
     
     </summary>
     
+      <category term="OpenCV" scheme="lightshaker.cn/categories/OpenCV/"/>
+    
+    
+      <category term="C++" scheme="lightshaker.cn/tags/C/"/>
+    
+      <category term="OpenCV" scheme="lightshaker.cn/tags/OpenCV/"/>
     
   </entry>
   
@@ -342,9 +348,9 @@
       <category term="混合编程" scheme="lightshaker.cn/categories/%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="C++" scheme="lightshaker.cn/tags/C/"/>
-    
       <category term="混合编程" scheme="lightshaker.cn/tags/%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="C++" scheme="lightshaker.cn/tags/C/"/>
     
       <category term="Python" scheme="lightshaker.cn/tags/Python/"/>
     
