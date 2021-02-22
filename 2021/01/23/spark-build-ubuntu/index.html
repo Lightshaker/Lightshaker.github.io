@@ -1217,8 +1217,7 @@ Took 0.1049 seconds</code></pre><h4 id="拷贝jar包"><a href="#拷贝jar包" cl
 <li>原因：所在用户（node）无法对hadoop路径下的文件进行写操作；</li>
 <li>解决方案：<code>chown node /usr/local/hadoop-3.3.0</code>；</li>
 </ul>
-<p><strong>问题二：</strong>执行 <code>hadoop fs -put XXX /</code> 时报错：</p>
-<img src="/2021/01/23/spark-build-ubuntu/13.png" style="zoom:100%">
+<h3 id="向HDFS执行put命令时报错："><a href="#向HDFS执行put命令时报错：" class="headerlink" title="向HDFS执行put命令时报错："></a>向HDFS执行put命令时报错：</h3><img src="/2021/01/23/spark-build-ubuntu/13.png" style="zoom:100%">
 
 <ul>
 <li>原因：格式化多次导致 DataNode 运行异常；</li>
@@ -1238,8 +1237,7 @@ Took 0.1049 seconds</code></pre><h4 id="拷贝jar包"><a href="#拷贝jar包" cl
 
 <img src="/2021/01/23/spark-build-ubuntu/16.png" alt="测试成功" style="zoom:100%">
 
-<p><strong>问题三：</strong>VScode Remote-SSH 使用方式：</p>
-<ul>
+<h3 id="VScode插件Remote-SSH使用方式："><a href="#VScode插件Remote-SSH使用方式：" class="headerlink" title="VScode插件Remote-SSH使用方式："></a>VScode插件Remote-SSH使用方式：</h3><ul>
 <li><p>F1，输入ssh可以查看补全选项；</p>
 </li>
 <li><p>选configuration可以编辑连接对象的默认配置文件，在home和etc路径下各有一个，改一个就行；</p>
@@ -1275,8 +1273,7 @@ Took 0.1049 seconds</code></pre><h4 id="拷贝jar包"><a href="#拷贝jar包" cl
 </ul>
 </li>
 </ul>
-<p><strong>问题四：</strong>如何在Ubuntu下同时控制多台ssh连接的服务器</p>
-<p>XShell在linux下无法使用，我们可以使用开源软件<a href="https://github.com/asbru-cm/asbru-cm" target="_blank" rel="noopener">asbru-cm</a>达到相似的效果。</p>
+<h3 id="Ubuntu下XShell的替代软件"><a href="#Ubuntu下XShell的替代软件" class="headerlink" title="Ubuntu下XShell的替代软件"></a>Ubuntu下XShell的替代软件</h3><p>XShell在linux下无法使用，我们可以使用开源软件<a href="https://github.com/asbru-cm/asbru-cm" target="_blank" rel="noopener">asbru-cm</a>达到相似的效果。</p>
 <p>asbru-c官方文档：<a href="https://docs.asbru-cm.net/" target="_blank" rel="noopener">https://docs.asbru-cm.net/</a></p>
 <p>安装asbru-cm</p>
 <pre class="line-numbers language-bash"><code class="language-bash">curl -1sLf <span class="token string">'https://dl.cloudsmith.io/public/asbru-cm/release/cfg/setup/bash.deb.sh'</span> <span class="token operator">|</span> <span class="token function">sudo</span> -E <span class="token function">bash</span>
@@ -1294,14 +1291,13 @@ Took 0.1049 seconds</code></pre><h4 id="拷贝jar包"><a href="#拷贝jar包" cl
 <p>点击左下角 <code>PCC</code>，如果不是从cluster启动连接的话，在PCC界面无法选择cluster，也无需勾选<code>Send to ALL Terminals</code>，默认就是发送到所有终端，在 <code>Type commmands here</code> 一栏可直接输入命令同时与三个终端进行交互，注意后面的 <code>Send on &lt;INTRO&gt;</code> 不勾选时，输入的内容是直接反馈到右侧终端界面的，不会显示在文本框内；</p>
 <img src="/2021/01/23/spark-build-ubuntu/22.png" style="zoom:100%">
 
-<p><strong>问题五：</strong>进行 <code>spark-submit</code> 提交应用进行一半时不小心 <code>CTRL+C</code> 强制中断了，之后再也提交不成功，报错如下：</p>
+<h3 id="个人犯蠢教训"><a href="#个人犯蠢教训" class="headerlink" title="个人犯蠢教训"></a>个人犯蠢教训</h3><p>进行 <code>spark-submit</code> 提交应用进行一半时不小心 <code>CTRL+C</code> 强制中断了，之后再也提交不成功，报错如下：</p>
 <img src="/2021/01/23/spark-build-ubuntu/32.png">
 
 <p>我傻了，<code>--class</code> 入口类名应该是 <code>org.apache.spark.examples.SparkPi</code>，我后来的提交都是手打的，少写了个 <code>.spark</code>，导致无法找到并加载这个类，跟什么强制中断没有用半毛钱关系，自始至终我都丝毫没怀疑过这个能敲错，真是丢人现眼长记性了。</p>
-<p><strong>问题六：</strong>配置完Zookeeper后发现master和slave1在8989端口上均处于 <strong>STANDBY</strong> 状态</p>
+<h3 id="高可用Spark两台Master端口全部显示STANDBY"><a href="#高可用Spark两台Master端口全部显示STANDBY" class="headerlink" title="高可用Spark两台Master端口全部显示STANDBY"></a>高可用Spark两台Master端口全部显示STANDBY</h3><p>配置完Zookeeper后发现master和slave1在8989端口上均处于 <strong>STANDBY</strong> 状态</p>
 <p>起初以为是配置文件的问题，但不论是改 <code>zoo.cfg</code> 还是改 <code>spark-env.sh</code> 都没用，最后发现是因为我只在master上启动了zkServer，而slave上没有启动，具体原因我暂时也不明白，后来三台都启动zk就好了;</p>
-<p><strong>问题七：</strong>hbase shell中执行create报错</p>
-<p>报错关键句：<code>ERROR: org.apache.hadoop.hbase.ipc.ServerNotRunningYetException: Server is not running yet</code>；</p>
+<h3 id="hbase-shell中执行create报错"><a href="#hbase-shell中执行create报错" class="headerlink" title="hbase shell中执行create报错"></a>hbase shell中执行create报错</h3><p>报错关键句：<code>ERROR: org.apache.hadoop.hbase.ipc.ServerNotRunningYetException: Server is not running yet</code>；</p>
 <p>在网上找到的大部分解决办法都是关闭hadoop的安全模式，但我通过 <code>hdfs dfsadmin -safemode get</code> 命令查看到安全模式本身就是关闭的，再关闭也无济于事；</p>
 <img src="/2021/01/23/spark-build-ubuntu/35.png">
 
@@ -1325,8 +1321,7 @@ java.lang.IllegalArgumentException: object is not an instance of declaring class
 <p>问题解决 T_T</p>
 <img src="/2021/01/23/spark-build-ubuntu/38.png">
 
-<p><strong>问题八：</strong>spark启动 <code>sbin/start-all.sh</code> 异常</p>
-<p>终端内显示的报错信息为</p>
+<h3 id="Spark启动start-all-sh报错"><a href="#Spark启动start-all-sh报错" class="headerlink" title="Spark启动start-all.sh报错"></a>Spark启动start-all.sh报错</h3><p>spark启动 <code>sbin/start-all.sh</code> 异常，终端内显示的报错信息为</p>
 <pre class="line-numbers language-bash"><code class="language-bash">failed to launch: <span class="token function">nice</span> -n 0 /usr/local/spark-3.0.1/bin/spark-class org.apache.spark.deploy.master.Master --host master --port 7077 --webui-port 8080<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <img src="/2021/01/23/spark-build-ubuntu/39.png">
 
@@ -1336,8 +1331,7 @@ java.lang.IllegalArgumentException: object is not an instance of declaring class
 <p>原因：在解决之前的问题时无意注释掉了 <code>spark-env.sh</code> 中的一行：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">export</span> SPARK_DIST_CLASSPATH<span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span>/usr/local/hadoop-3.3.0/bin/hadoop classpath<span class="token variable">)</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>取消注释或重新加上这行就解决了</p>
-<p><strong>问题九：</strong>spark-shell中执行import引入包报错</p>
-<pre class="line-numbers language-scala"><code class="language-scala">scala<span class="token operator">></span> <span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hbase<span class="token punctuation">.</span>HBaseConfiguration
+<h3 id="spark-shell中执行import引入包报错"><a href="#spark-shell中执行import引入包报错" class="headerlink" title="spark-shell中执行import引入包报错"></a>spark-shell中执行import引入包报错</h3><pre class="line-numbers language-scala"><code class="language-scala">scala<span class="token operator">></span> <span class="token keyword">import</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hbase<span class="token punctuation">.</span>HBaseConfiguration
 ERROR<span class="token operator">:</span> <span class="token keyword">object</span> hbase is not a member of <span class="token keyword">package</span> org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>原因：从 <code>hbase/libs</code> 中将以”hbase”开头的 <code>.jar</code> 包拷贝到 <code>spark/jars</code> 路径下时，一开始为了将拷贝进来的包隔离开，多创建了一级文件夹 <code>spark/jars/hbase</code>，导致在spark-shell中 <code>import</code> 找不到 <code>hbase-common</code> 的包。</p>
 <p>解决方案：拷贝时直接贴到 <code>spark/jars</code> 路径中即可。</p>
@@ -1348,7 +1342,7 @@ ERROR<span class="token operator">:</span> <span class="token keyword">object</s
 </ul>
 <p>我在hbase路径中没找到这两个包，还特地去网上看了五花八门的解决方案，有让手动下载的，有让重装的，最后我非常无语地在 <code>spark/jars</code> 里发现这俩包本来就在spark里有。</p>
 <p>当无知的脑子碰上误导人的网上教程，得走太多弯路。</p>
-<p><strong>问题十：</strong>spark-submit提交jar包报错 <code>Error: Failed to load class Test.</code></p>
+<h3 id="spark-submit提交jar包报错"><a href="#spark-submit提交jar包报错" class="headerlink" title="spark-submit提交jar包报错"></a>spark-submit提交jar包报错</h3><p>报错内容：<code>Error: Failed to load class Test.</code></p>
 <img src="/2021/01/23/spark-build-ubuntu/41.png">
 
 <p>解决办法：使用idea打包时需要将 <code>Output Layout</code> 一栏中除了目标jar之外的其他jar全部删除，只留complie output文件（META-INF文件夹是否保留不影响），如图所示</p>

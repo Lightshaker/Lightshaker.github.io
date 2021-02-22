@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>lightshaker.cn/2020/09/21/opencv-snake/</loc>
+    <loc>lightshaker.cn/2021/01/23/spark-build-ubuntu/</loc>
     
     <lastmod>2021-02-22</lastmod>
     
   </url>
   
   <url>
-    <loc>lightshaker.cn/2021/01/23/spark-build-ubuntu/</loc>
+    <loc>lightshaker.cn/2020/09/21/opencv-snake/</loc>
     
-    <lastmod>2021-02-02</lastmod>
+    <lastmod>2021-02-22</lastmod>
     
   </url>
   
@@ -135,7 +135,7 @@
   </url>
   
   <url>
-    <loc>lightshaker.cn/categories/index.html</loc>
+    <loc>lightshaker.cn/contact/index.html</loc>
     
     <lastmod>2020-05-18</lastmod>
     
@@ -149,14 +149,7 @@
   </url>
   
   <url>
-    <loc>lightshaker.cn/contact/index.html</loc>
-    
-    <lastmod>2020-05-18</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>lightshaker.cn/tags/index.html</loc>
+    <loc>lightshaker.cn/categories/index.html</loc>
     
     <lastmod>2020-05-18</lastmod>
     
@@ -164,6 +157,13 @@
   
   <url>
     <loc>lightshaker.cn/friends/index.html</loc>
+    
+    <lastmod>2020-05-18</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>lightshaker.cn/tags/index.html</loc>
     
     <lastmod>2020-05-18</lastmod>
     
@@ -228,14 +228,14 @@
   </url>
   
   <url>
-    <loc>lightshaker.cn/tags/Hexo/</loc>
+    <loc>lightshaker.cn/tags/Hadoop/</loc>
     <lastmod>2021-02-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>lightshaker.cn/tags/Hadoop/</loc>
+    <loc>lightshaker.cn/tags/Hexo/</loc>
     <lastmod>2021-02-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -305,14 +305,14 @@
   </url>
   
   <url>
-    <loc>lightshaker.cn/tags/Ubuntu/</loc>
+    <loc>lightshaker.cn/tags/Spark/</loc>
     <lastmod>2021-02-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>lightshaker.cn/tags/Spark/</loc>
+    <loc>lightshaker.cn/tags/Ubuntu/</loc>
     <lastmod>2021-02-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -349,14 +349,14 @@
   </url>
   
   <url>
-    <loc>lightshaker.cn/categories/Hexo/</loc>
+    <loc>lightshaker.cn/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
     <lastmod>2021-02-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>lightshaker.cn/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
+    <loc>lightshaker.cn/categories/Hexo/</loc>
     <lastmod>2021-02-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
