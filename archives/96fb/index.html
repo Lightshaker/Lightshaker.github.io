@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、安装git、nodejs和npm  注：我打算把node装在我个人的目录下，所以需要下包解压，逐个创建软连接，如果不需要装在个人目录下，只需几行命令就可以安装：  12345sudo apt install nodejssudo apt install npmnpm install -g cnpm --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org #更换np">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu下Hexo静态博客搭建流程">
+<meta property="og:url" content="https://lightshaker.cn/archives/96fb/index.html">
+<meta property="og:site_name" content="Journey">
+<meta property="og:description" content="一、安装git、nodejs和npm  注：我打算把node装在我个人的目录下，所以需要下包解压，逐个创建软连接，如果不需要装在个人目录下，只需几行命令就可以安装：  12345sudo apt install nodejssudo apt install npmnpm install -g cnpm --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org #更换np">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/1.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/2.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/3.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/4.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/5.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/6.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/7.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/8.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/9.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/10.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/96fb/11.png">
+<meta property="article:published_time" content="2020-03-20T03:55:55.000Z">
+<meta property="article:modified_time" content="2023-06-12T07:28:18.021Z">
+<meta property="article:author" content="Lightshaker">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lightshaker.cn/archives/96fb/1.png">
+
+<link rel="canonical" href="https://lightshaker.cn/archives/96fb/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ubuntu下Hexo静态博客搭建流程 | Journey</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Journey</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lightshaker.cn/archives/96fb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lightshaker">
+      <meta itemprop="description" content="It is our choices that show what we truly are, far more than our abilities.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Journey">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ubuntu下Hexo静态博客搭建流程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-20 11:55:55" itemprop="dateCreated datePublished" datetime="2020-03-20T11:55:55+08:00">2020-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-12 15:28:18" itemprop="dateModified" datetime="2023-06-12T15:28:18+08:00">2023-06-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/archives/96fb/" class="post-meta-item leancloud_visitors" data-flag-title="Ubuntu下Hexo静态博客搭建流程" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/96fb/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/96fb/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一安装gitnodejs和npm">一、安装git、nodejs和npm</h3>
+<blockquote>
+<p><strong>注：</strong>我打算把node装在我<strong>个人</strong>的目录下，所以需要下包解压，逐个创建软连接，如果不需要装在个人目录下，只需几行命令就可以安装：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nodejs</span><br><span class="line">sudo apt install npm</span><br><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org <span class="comment">#更换npm源为国内源并安装cnpm替代npm</span></span><br><span class="line">sudo cnpm install hexo-cli -g <span class="comment">#全局安装hexo</span></span><br><span class="line">sudo apt install git</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h4 id="安装nodejs和npm"><strong>安装nodejs和npm</strong></h4>
+<p>官网下载新版<a
+target="_blank" rel="noopener" href="https://nodejs.org/en/download/current/">nodejs</a>，nodejs包里默认包含npm，也可以命令行下载（需要明确版本号）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://nodejs.org/dist/v13.6.0/node-v13.6.0-linux-x64.tar.xz </span><br></pre></td></tr></table></figure>
+<p>解压到想要存放的目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unar node-v13.6.0-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
+<p>进入解压目录确认nodejs版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> node-v13.6.0-linux-x64</span><br><span class="line">./bin/node -v</span><br></pre></td></tr></table></figure>
+<p>创建软链接（使用 <strong>绝对路径</strong>）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">ln</span> -s /home/lightshaker/node-v13.6.0-linux-x64/bin/node /usr/local/bin</span><br><span class="line">sudo <span class="built_in">ln</span> -s /home/lightshaker/node-v13.6.0-linux-x64/bin/npm /usr/local/bin</span><br></pre></td></tr></table></figure>
+<p>如果提示
+<code>ln: 无法创建符号链接'/usr/local/bin/node': 文件已存在</code>，需要先删除<code>/usr/local/bin/</code>目录下已存在的版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> -rf /usr/local/bin/node</span><br><span class="line">sudo <span class="built_in">rm</span> -rf /usr/local/bin/npm</span><br></pre></td></tr></table></figure>
+<p>查看node和npm版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<h4 id="安装git">安装git</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<h3 id="二安装配置hexo">二、安装、配置Hexo</h3>
+<h4 id="安装cnpm代替npm">安装cnpm代替npm</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org/ <span class="comment">#更换npm源为国内源</span></span><br><span class="line"><span class="comment"># sudo npm config set registry https://registry.npmjs.org/ #出问题时恢复默认源</span></span><br><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org <span class="comment"># 安装cnpm</span></span><br><span class="line">sudo <span class="built_in">ln</span> -s  /home/lightshaker/node-v13.6.0-linux-x64/bin/cnpm /usr/local/bin <span class="comment"># 创建cnpm软链接</span></span><br></pre></td></tr></table></figure>
+<h4 id="安装hexo">安装hexo</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo cnpm install hexo-cli -g</span><br><span class="line">sudo <span class="built_in">ln</span> -s /home/lightshaker/node-v13.6.0-linux-x64/bin/hexo /usr/local/bin</span><br><span class="line">hexo -v <span class="comment">#验证是否安装成功</span></span><br><span class="line"><span class="built_in">mkdir</span> HexoBlog <span class="comment"># 创建本地目录，初始化hexo</span></span><br><span class="line"><span class="built_in">cd</span> HexoBlog</span><br><span class="line">hexo init </span><br></pre></td></tr></table></figure>
+<p>初始化完毕后浏览器地址栏输入 <strong>localhost:4000</strong>
+即可打开博客页面，同时HexoBlog路径下会生成一些文件，用途分别为：</p>
+<blockquote>
+<p>**_config.yml：博客的配置文件**</p>
+<p>node_modules: 博客的依赖包</p>
+<p>public：存放生成的页面的目录</p>
+<p>scaffolds：文章的模板</p>
+<p>source：存放文章的目录</p>
+<p>themes：博客主题</p>
+</blockquote>
+<h4 id="启动博客新建文章和编辑文章">启动博客、新建文章和编辑文章</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo s <span class="comment">#hexo start 或 hexo server 启动hexo本地服务器</span></span><br><span class="line">hexo n <span class="string">&quot;My first blog&quot;</span> <span class="comment"># hexo new 新建文章</span></span><br><span class="line">typora <span class="built_in">source</span>/_posts/My-first-blog.md <span class="comment"># 用markdown编辑软件打开</span></span><br></pre></td></tr></table></figure>
+<h4 id="生成博客">生成博客</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean <span class="comment"># 清理缓存(public)</span></span><br><span class="line">hexo g  <span class="comment">#hexo generate 生成博客(public)</span></span><br></pre></td></tr></table></figure>
+<h3
+id="三分流部署博客到github和coding">三、分流部署博客到Github和Coding</h3>
+<blockquote>
+<p>注：Github是国外平台，Coding是国内平台，二者在国内外的访问速度不一样，同时部署是为了分流访问，国内走Coding，国外走Github，并且双线保障。如果只想部署一个建议部署在Coding上，国内访问比较快。</p>
+</blockquote>
+<h4 id="新建github个人仓库">新建Github个人仓库</h4>
+<p>​ 登录Github，新建个人仓库，仓库名为 [username].github.io</p>
+<p>​
+github.io是github提供的一个静态博客托管功能，只有仓库名符合格式的情况下才生效，所以只能这么写。</p>
+<h4 id="新建coding项目仓库">新建Coding项目仓库</h4>
+<blockquote>
+<p>本人刚用Coding就赶上2020年前的版本改动，现在的Coding把以前的个人版Coding以及腾讯云开发者平台都整合到一起去了，已经不存在所谓的纯个人版Coding，而且仓库的地址也跟旧版本不一样，所以网上部分部署个人Coding的教程都不太适用。最近我也踩了不少坑，为了避免大家再走弯路，这里我会把新版Coding的操作写得具体一点。</p>
+</blockquote>
+<p>​ 进入<a
+href="www.coding.net">Coding主页</a>，注册Coding账号（默认团队版）并登录，点击右上角头像
+<span class="math inline">\(\rightarrow\)</span> <code>团队管理</code>
+<span class="math inline">\(\rightarrow\)</span> <code>项目设置</code>
+<span class="math inline">\(\rightarrow\)</span>
+<code>创建项目</code>，项目的模板选择<code>DevOps项目</code>，选其他的没有<code>构建和部署</code>功能，没办法创建静态网站。项目名和项目标识可以随便写，你能认出这是啥项目就行，勾选<code>git仓库</code>以及<code>使用README.md文件初始化项目</code>，确定即可。</p>
+<p><img src="1.png" style="zoom: 67%;" /></p>
+<h4 id="安装ssh并生成个人公共密钥">安装SSH并生成个人公共密钥</h4>
+<blockquote>
+<p><strong>该步骤非必须，也可使用HTTPS传输协议，只是每次提交代码都需手动输入Git账号密码，设置SSH公钥后每次提交代码时通过私钥匹配，就不用再输密码了，数据传输也非常安全。</strong></p>
+</blockquote>
+<p><strong>安装并启动ssh</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openssh-server  <span class="comment">#安装</span></span><br><span class="line">sudo service ssh start  <span class="comment">#启动</span></span><br></pre></td></tr></table></figure>
+<p>检查是否启动成功的方式：<code>sudo ps -e | grep ssh</code>，出现<code>sshd</code>说明启动成功</p>
+<p><strong>创建git的全局name和email</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name [username]</span><br><span class="line">git config --global user.email [useremail]</span><br></pre></td></tr></table></figure>
+<p><strong>创建个人ssh公共密钥</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C [useremail]c</span><br></pre></td></tr></table></figure>
+<p><img src="2.png" style="zoom: 80%;" /></p>
+<p>​
+<strong>默认全部回车</strong>即可，会在<code>~/.ssh/</code>路径下创建私人密钥<code>id_rsa</code>、公共密钥<code>id_rsa.pub</code>以及<code>known_hosts</code>
+成功后会输出你的“指纹密钥”<code>fingerprint</code>以及它对应的<code>randomart image</code>，即将密钥转化为有规律的图进行展现，类似二维码，更容易对比密钥的异同。</p>
+<p>​
+若要自定义密钥路径以及密码（一般没啥必要，这里不用看了）需要提前手动创建私人密钥<code>id_rsa</code>才能生成公钥：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> sshkeys</span><br><span class="line"><span class="built_in">cd</span> sshkeys</span><br><span class="line"><span class="built_in">touch</span> id_rsa</span><br><span class="line">ssh-keygen -t rsa -C [useremail]</span><br></pre></td></tr></table></figure>
+<p>​
+并在<code>Enter file in which to save the key</code>这一步中填写创建的文件夹路径
+<code>/home/user/sshkeys/id_rsa</code>，这样会在<code>sshkey</code>文件夹中生成公共密钥<code>id_rsa.pub</code>，之后的<code>passphrase</code>填写自己想设定的密码或者不填都行。</p>
+<p>​ 创建完毕后添加私钥到ssh-agent中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> .ssh</span><br><span class="line">ssh-add id_rsa</span><br></pre></td></tr></table></figure>
+<h4 id="设置github和coding的ssh公钥">设置GitHub和Coding的SSH公钥</h4>
+<p>​ 进入<code>~/.ssh目录</code> 打开终端输入
+<code>cat id_rsa.pub</code>，复制公钥全部内容</p>
+<p>​ <strong>Github</strong>：打开GitHub仓库，点击右上角头像 <span
+class="math inline">\(\rightarrow\)</span> <code>setting</code><span
+class="math inline">\(\rightarrow\)</span>
+<code>SSH and GPG keys</code><span
+class="math inline">\(\rightarrow\)</span><code>New SSH key</code>，粘贴公钥内容添加。</p>
+<p>​ <strong>Coding</strong>：登录Coding，点击右上角头上<span
+class="math inline">\(\rightarrow\)</span> <code>个人设置</code><span
+class="math inline">\(\rightarrow\)</span> <code>SSH公钥</code><span
+class="math inline">\(\rightarrow\)</span><code>新增公钥</code>，粘贴公钥内容，选择<code>永久有效</code>，添加。</p>
+<p><strong>检查密钥是否有效：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com  <span class="comment">#Github</span></span><br><span class="line">ssh -T git@e.coding.net  <span class="comment">#Coding</span></span><br></pre></td></tr></table></figure>
+<h4 id="安装hexo-git插件">安装hexo-git插件</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cnpm install --save hexo-deployer-git</span><br></pre></td></tr></table></figure>
+<h4 id="修改-_config.yml-配置内容">修改 _config.yml 配置内容</h4>
+<p>​
+若不使用SSH秘钥，就在repo里填仓库的HTTPS地址，若使用SSH就填仓库的SSH地址。</p>
+<p>​ 获取地址方式：Github仓库点 <code>clone or download</code>
+选择HTTPS地址或者SSH地址；Coding代码仓库页面直接选择。</p>
+<p>​ <code>deploy</code>中<code>repo</code>的格式可以是
+<code>repo: [地址],[分支]</code>，也可以是
+<code>repo: [地址]</code>然后另起一行
+<code>branch: [分支]</code>，其中地址可以指定为<code>github</code>或者<code>coding</code>等等，使用另起一行注明分支时会认为每个仓库都使用该分支。格式举例如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#repo格式例1 -- 只部署在github上</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/Lightshaker/Lightshaker.github.io.git</span>  <span class="comment"># HTTPS地址或SSH地址</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">#repo格式例2 -- 只部署在github上</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/Lightshaker/Lightshaker.github.io.git,master</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">#repo格式例3 -- 同时部署在github和coding上</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> </span><br><span class="line">  	<span class="attr">github:</span> <span class="string">https://github.com/Lightshaker/Lightshaker.github.io.git</span>  </span><br><span class="line">  	<span class="attr">coding:</span> <span class="string">git@e.coding.net:lightshaker/Hexo.git,master</span> </span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#repo格式例4 -- 同时部署在github和coding上</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> </span><br><span class="line">    <span class="attr">github:</span> <span class="string">git@github.com:Lightshaker/Lightshaker.github.io.git,master</span> </span><br><span class="line">    <span class="attr">coding:</span> <span class="string">git@e.coding.net:lightshaker/Hexo.git,master</span> </span><br></pre></td></tr></table></figure>
+<h4 id="部署博客">部署博客</h4>
+<p>之前的步骤已经 <code>hexo g</code>
+生成过博客了，所以只需要deploy将本地Hexo文件推到Github和Coding的仓库内。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d  <span class="comment">#hexo deploy</span></span><br></pre></td></tr></table></figure>
+<p>访问博客的方式</p>
+<blockquote>
+<p>注 1：若果没有进行 <code>hexo d</code>
+部署，那么两个仓库内都是空的或者只有默认文件，访问时可能显示404或者空白页，此时需要在仓库内手动添加一个
+html 文件进行初始化，内容自定义。</p>
+<p>注
+2：部署完后Github和Coding的仓库内容都会迅速更新，但是博客页面不一定立即更新。个人测试过，部署在Github上，大概1-3分钟就会更新博客页面，部署在Coding上，从几分钟到大半天都不更新也是有可能的。</p>
+</blockquote>
+<p><strong>Github：直接访问</strong></p>
+<p>​ <code>[username].github.io</code>
+就是我们部署在Github上的静态博客地址。</p>
+<p><strong>Coding：创建静态网站</strong></p>
+<p>​ 进入项目，选择 <code>构建与部署</code> <span
+class="math inline">\(\rightarrow\)</span>
+<code>静态网站</code>，点击<code>立即发布静态网站</code>，网站名称随便写，其余项一般默认即可。默认勾选了推送master分支并且自动部署，就不需要在每次<code>hexo d</code>或者修改仓库内容时手动部署了。</p>
+<p>​ 创建成功后刷新界面，即可看到静态博客地址
+<code>a9yq7w.coding-pages.com</code> ，显示如下：</p>
+<p><img src="3.png" style="zoom: 80%;" /></p>
+<h3 id="四注册个人域名并与博客绑定">四、注册个人域名并与博客绑定</h3>
+<p>​
+在上一步中我们已经完成了Github和Coding双线的部署工作，现在我们既可以通过
+<code>Lightshaker.github.io</code> 访问博客，也可以通过
+<code>a9yq7w.coding-pages.com</code>
+访问博客，如果可以接受这两个形式的域名分别作为自己国内外的博客域名，那以下的步骤就可以无视了；如果想要有一个属于自己的域名，只用自己的域名访问博客，并实现国内外自动解析分流的话，就按照以下步骤继续进行。</p>
+<h4 id="购买域名">购买域名</h4>
+<p>​ 知名度比较高且较可靠的域名商有：<a
+target="_blank" rel="noopener" href="https://sg.godaddy.com/zh">GoDaddy</a>，<a
+target="_blank" rel="noopener" href="https://wanwang.aliyun.com/">阿里云万网</a>、<a
+target="_blank" rel="noopener" href="https://dnspod.cloud.tencent.com/">腾讯云DNSPod</a>等等，本人是在<a
+target="_blank" rel="noopener" href="https://sg.godaddy.com/zh">GoDaddy</a>购买和注册的</p>
+<h4 id="github仓库创建cname文件">Github仓库创建CNAME文件</h4>
+<blockquote>
+<p>此处CNAME文件的作用是记录指向该仓库的域名，对Github来说必须要有，而Coding仓库不需要。</p>
+</blockquote>
+<p>​
+可以在Github仓库中直接新建一个名为CNAME的文件填入自己购买的域名。但是每次通过<code>hexo d</code>部署博客时会把仓库内所有文件覆盖掉，所以最好在本地<code>~/HexoBlog/source</code>路径下创建CNAME文件填入域名保存，这样每次部署时仓库里都会有该文件，具体操作如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /HexoBlog/source <span class="comment"># 本地Hexo文件夹中的source目录</span></span><br><span class="line"><span class="built_in">touch</span> CNAME</span><br><span class="line">gedit ./CNAME <span class="comment"># 填入购买的域名后保存退出</span></span><br><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+<h4 id="添加dnspod记录">添加DNSPod记录</h4>
+<blockquote>
+<p><strong>注：</strong>若同时部署Github和Coding，需要海内外分流进行DNS解析，并且解析的顺序必须是先国内后国外，即在添加记录时必须<strong>先添加Coding的记录</strong>，然后到Coding的静态网站上绑定域名，SSL/TLS证书申请成功后，然后再添加Github的记录，完成Github的绑定。如果先添加了Github记录，那么在Coding申请证书会一直失败。</p>
+</blockquote>
+<p><strong>获取静态网页的IP</strong></p>
+<p>​
+打开终端，用<code>dig [address] +short</code>命令分别获取Coding和Github上创建的静态网页的IP</p>
+<p><img src="4.png" style="zoom: 80%;" /></p>
+<h4 id="添加coding的dns记录">添加Coding的DNS记录</h4>
+<p>​
+打开腾讯云DNSPod官网<code>https://www.dnspod.cn/</code>，注册登录，点击<code>管理控制台</code>，选择<code>DNS管理</code><span
+class="math inline">\(\rightarrow\)</span><code>我的域名</code><span
+class="math inline">\(\rightarrow\)</span><code>添加域名</code>，输入购买的域名，确认后点击域名进入记录管理页面，原有的两个记录不动，点击<code>添加记录</code>，将Coding获取的IP添加为A记录，将Coding静态网页的地址添加为www的CNAME记录。格式如下：（添加完后面自动加个点是正常的）</p>
+<blockquote>
+<p>A记录是为了将购买的域名直接指向仓库的IP，这样在省略www时也能访问，也是为了Coding上绑定不加www的域名</p>
+<p>CNAME记录则是为了将购买的域名指向静态网站的域名，也是为了Coding上绑定加了www主机前缀的域名</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">主机记录</th>
+<th style="text-align: center;">记录类型</th>
+<th style="text-align: center;">线路类型</th>
+<th style="text-align: center;">记录值</th>
+<th style="text-align: center;">TTL(秒)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">@</td>
+<td style="text-align: center;">NS</td>
+<td style="text-align: center;">默认</td>
+<td style="text-align: center;">f1g1ns1.dnspod.net.</td>
+<td style="text-align: center;">86400</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">@</td>
+<td style="text-align: center;">NS</td>
+<td style="text-align: center;">默认</td>
+<td style="text-align: center;">f1g1ns2.dnspod.net.</td>
+<td style="text-align: center;">86400</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">@</td>
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">默认</td>
+<td style="text-align: center;">124.156.123.74</td>
+<td style="text-align: center;">600</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">www</td>
+<td style="text-align: center;">CNAME</td>
+<td style="text-align: center;">默认</td>
+<td style="text-align: center;">j15kdd.coding-pages.com.</td>
+<td style="text-align: center;">600</td>
+</tr>
+</tbody>
+</table>
+<p>​ 等待几分钟记录生效，然后进入Coding的静态网站设置界面，拉到底，在
+<code>绑定新域名</code>
+一栏中填入购买的域名，点击<code>绑定</code>，等几秒后刷新界面，若<code>证书状态</code>一栏显示<code>正常</code>，说明证书已申请通过，若显示
+<code>申请失败</code>，查看之前的步骤是否正确操作，特别是不要先记录Github，然后再重来一次。</p>
+<p>​
+这里建议同时绑定加<code>www</code>和不加<code>www</code>的域名，并绑定带<code>www</code>前缀的为首选域名，然后勾选另一个为<code>跳转到首选</code>，这样不论加不加都会跳转到加了前缀的域名访问。</p>
+<p><img src="5.png" style="zoom: 100%;" /></p>
+<p>​
+上述均完成并且证书均显示为<code>正常</code>后，开启<code>强制HTTPS访问</code>功能，提高数据安全性。</p>
+<p><img src="6.png" style="zoom: 80%;" /></p>
+<h4 id="添加github的dns记录">添加Github的DNS记录</h4>
+<p>​ 同样进入DNSPod的域名记录管理界面，添加刚刚获取的Github
+pages的4个IP中的两个(同一个只能加两个，否则会报错<code>子域名负载均衡数量超出限制</code>)，注意将Github的记录线路类型设置为<code>境外</code>。添加完毕后如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">主机记录</th>
+<th style="text-align: center;">记录类型</th>
+<th style="text-align: center;">线路类型</th>
+<th style="text-align: center;">记录值</th>
+<th style="text-align: center;">TTL(秒)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">@</td>
+<td style="text-align: center;">NS</td>
+<td style="text-align: center;">默认</td>
+<td style="text-align: center;">f1g1ns1.dnspod.net.</td>
+<td style="text-align: center;">86400</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">@</td>
+<td style="text-align: center;">NS</td>
+<td style="text-align: center;">默认</td>
+<td style="text-align: center;">f1g1ns2.dnspod.net.</td>
+<td style="text-align: center;">86400</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">@</td>
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">默认</td>
+<td style="text-align: center;">124.156.123.74</td>
+<td style="text-align: center;">600</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">www</td>
+<td style="text-align: center;">CNAME</td>
+<td style="text-align: center;">默认</td>
+<td style="text-align: center;">a9yq7w.coding-pages.com</td>
+<td style="text-align: center;">600</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">@</td>
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">境外</td>
+<td style="text-align: center;">185.199.108.153.</td>
+<td style="text-align: center;">600</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">@</td>
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">境外</td>
+<td style="text-align: center;">185.199.109.153</td>
+<td style="text-align: center;">600</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">www</td>
+<td style="text-align: center;">CNAME</td>
+<td style="text-align: center;">境外</td>
+<td style="text-align: center;">lightshaker.github.io</td>
+<td style="text-align: center;">600</td>
+</tr>
+</tbody>
+</table>
+<h4 id="修改域名服务器godaddy为例">修改域名服务器：GoDaddy为例</h4>
+<p>​
+域名注册后需要选择DNS托管商，默认的托管商就是你购买域名的厂商，因为本人的域名是在GoDaddy买的，托管给国外的厂商会导致访问速度慢以及各种不安全因素，所以我们选择托管到腾讯云的DNSPod。</p>
+<p>​ 打开<a
+target="_blank" rel="noopener" href="https://sg.godaddy.com/zh">GoDaddy官网</a>，右上角登录，点击头像，选择
+<code>我的产品</code>，找到自己买的域名，点击<code>DNS</code>进入DNS管理页面，在<code>域名服务器</code>一栏中点击<code>更改</code>，选择<code>我将使用自己的域名服务器</code>，填入以下两个域名服务器：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f1g1ns1.dnspod.net</span><br><span class="line">f1g1ns2.dnspod.net</span><br></pre></td></tr></table></figure>
+<p><img src="7.png" style="zoom: 80%;" /></p>
+<p>其实就是DNSPod默认的两个记录值，表示DNSPod的域名服务器。至此就把购买的域名的DNS托管给DNSPod了，大功告成，等待一两分钟后就可以通过自己购买的域名访问博客了！</p>
+<p>表示DNSPod的域名服务器，至此已完成域名托管。</p>
+<h3
+id="五next主题添加valine评论系统">五、Next主题添加Valine评论系统</h3>
+<p>使用 <a href="leancloud.cn/">LeanCloud</a> 提供的云服务，具体参考<a
+target="_blank" rel="noopener" href="https://blog.csdn.net/jiunian_2761/article/details/97388997?spm=1001.2101.3001.6661.1&amp;utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-1-97388997-blog-123321038.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-1-97388997-blog-123321038.235%5Ev36%5Epc_relevant_default_base3&amp;utm_relevant_index=1">Hexo博客进阶：为Next主题添加Valine评论系统</a></p>
+<h3 id="问题记录">问题记录</h3>
+<h4
+id="部署到腾讯云cos存储桶后本地博客正常更新但云端博客不更新">部署到腾讯云COS存储桶后，本地博客正常更新，但云端博客不更新</h4>
+<p>在COS存储桶"域名与传输管理"配置中</p>
+<ol type="1">
+<li><p>仅需配置默认CDN加速域名即可，不需要配置自定义源站域名。</p>
+<p><img src="8.png" style="zoom:90%"></p></li>
+<li><p>Dnspod中不要同时给cdn和coding-pages-bucket配置CNAME解析，否则在访问博客时会报
+<code>NET :: ERR_CERT_DATE_INVALID</code>
+“您的链接不是私密的”错误，只给cdn配置就行。</p>
+<p><img src="9.png" style="zoom:80%"></p></li>
+</ol>
+<h4
+id="本地预览与部署后的网页内容不一致">本地预览与部署后的网页内容不一致</h4>
+<blockquote>
+<p>Ref-1：<a
+target="_blank" rel="noopener" href="https://www.jianshu.com/p/3d796ec56160">基于腾讯云COS对象存储部署hexo博客并实现一键部署</a></p>
+<p>Ref-2：<a
+target="_blank" rel="noopener" href="https://shijivk.cn/2021/07/23/hexo-deploy-issue/">Hexo本地预览与部署样式不统一的几种可能的解决思路</a></p>
+</blockquote>
+<p>在修改了permalink以及一些评论相关的配置后，本地 <code>hexo s</code>
+预览内容正常，执行 <code>hexo d</code>
+部署后，发现远端内容仍然保留了部分旧的url和格式，并且没有评论区。</p>
+<p>开始一顿分析原因并尝试了两个方法</p>
+<p><strong>优先尝试：浏览器Shift+F5强制刷新</strong></p>
+<p>开一个无痕页面，如果博客内容没有问题，说明就是浏览器缓存了旧的数据并直接加载了。</p>
+<p>“ Shift + F5
+强制Web浏览器忽略其缓存的内容,并将网页的新副本检索到浏览器中 ”</p>
+<p><strong>补充：</strong></p>
+<p>本博客原先同时部署到 coding.net 以及 github
+仓库，并同时使用了两端的静态页面作为部署，因此除了自定义域名外，还有两个静态url可以访问到博客：</p>
+<ul>
+<li>lightshaker.coding.me</li>
+<li>lightshaker.github.io</li>
+</ul>
+<p>在腾讯Coding.net系统更新后，我跟着coding.net的跳转提示，将博客资源挂到了腾讯云COS存储桶上，使用了腾讯云的对象存储与CDN加速服务，并借助COS部署了一个静态网站
+coding.net.bucket-xxxx 代替 coding.me，但由于本地
+<code>_config.yml</code>
+中仍使用coding的url作为部署仓库地址，因此从Coding到COS
+bucket静态网页的过程我一直都不了解。</p>
+<p>在检查完 <code>github.io</code>
+确认与本地一致后，问题定位在Bucket上，于是新建了一个存储桶，按照参考博客的流程进行配置，比较重要的步骤有：</p>
+<ol type="1">
+<li>使用 <code>hexo-deployer-qcloud-cos</code> 插件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">npm install hexo-deployer-qcloud-cos --save</span><br><span class="line"></span><br><span class="line"><span class="comment"># _config.yml 配置</span></span><br><span class="line">deploy:</span><br><span class="line">- <span class="built_in">type</span>: git</span><br><span class="line">  repository: </span><br><span class="line">    github: xxx</span><br><span class="line">    <span class="comment"># coding: xxx</span></span><br><span class="line">- <span class="built_in">type</span>: qcloud-cos</span><br><span class="line">  cosRegion: ap-guangzhou <span class="comment">#https://cloud.tencent.com/document/product/436/7751</span></span><br><span class="line">  cosSecretId: xxx <span class="comment"># 对象存储-密钥管理 或 右上角-访问管理-子用户信息页面中的API密钥</span></span><br><span class="line">  cosSecretKey: xxx <span class="comment"># 对象存储-密钥管理 或 右上角-访问管理-子用户信息页面中的API密钥</span></span><br><span class="line">  cosBucket: xxx  <span class="comment"># 存储桶名&quot;-&quot;前面的部分</span></span><br><span class="line">  cosAppid: xxx <span class="comment"># 右上角-帐号信息-APPID</span></span><br><span class="line">  remotePath: <span class="comment">#不用配置</span></span><br></pre></td></tr></table></figure>
+<ol start="2" type="1">
+<li>自定义CDN加速域名</li>
+</ol>
+<p>只需配置“自定义CDN加速域名”，不需要同时配置“自定义源站域名”，且注意"源站类型"要选择"静态网站源站"（静态网站源站比默认源站多了个"website"），如果选“默认源站”则无法访问。</p>
+<p>另外注意几点：</p>
+<ul>
+<li>存储桶-权限管理-存储桶访问权限：设置为“共有读私有写”</li>
+<li>存储桶-基础配置-静态网站：开启“强制HTTPS”</li>
+<li>（可选）自定义CDN加速域名中，配置HTTPS证书、开启回源鉴权并配置CDN缓存自动刷新和图片压缩</li>
+</ul>
+<p><img src="10.png" style="zoom:80%"></p>
+<ol start="3" type="1">
+<li>DNS解析</li>
+</ol>
+<p>配置完CDN加速域名后，打开DNS解析平台（本文使用Dnspod），添加配置CDN加速时提示的CNAME记录，一般一个@主机一个www主机。无需配置指向存储桶静态域名的CNAME记录。</p>
+<p><img src="11.png" style="zoom:80%"></p>
+<p><strong>补充2：</strong></p>
+<p>新问题：从不带www前缀的域名访问，内容全部正常，而用加了www前缀的域名访问时，归档页面的博客数量错误，点击进入的博客URL和内容也不对。</p>
+<p>解决方法：腾讯云-内容分发网络-域名管理，两个域名共用一个HTTPS证书，并都设置301跳转，然后在域名管理页面刷新不带www的域名的缓存</p>
+<p><strong>补充3：插件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-abbrlink --save</span><br><span class="line">npm un hexo-renderer-marked</span><br><span class="line">npm i hexo-renderer-pandoc</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/archives/eb4f/" rel="next" title="Hexo文章插入图片的常用方法和一些问题">
+      Hexo文章插入图片的常用方法和一些问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%AE%89%E8%A3%85gitnodejs%E5%92%8Cnpm"><span class="nav-number">1.</span> <span class="nav-text">一、安装git、nodejs和npm</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85nodejs%E5%92%8Cnpm"><span class="nav-number">1.1.</span> <span class="nav-text">安装nodejs和npm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85git"><span class="nav-number">1.2.</span> <span class="nav-text">安装git</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEhexo"><span class="nav-number">2.</span> <span class="nav-text">二、安装、配置Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85cnpm%E4%BB%A3%E6%9B%BFnpm"><span class="nav-number">2.1.</span> <span class="nav-text">安装cnpm代替npm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85hexo"><span class="nav-number">2.2.</span> <span class="nav-text">安装hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%8D%9A%E5%AE%A2%E6%96%B0%E5%BB%BA%E6%96%87%E7%AB%A0%E5%92%8C%E7%BC%96%E8%BE%91%E6%96%87%E7%AB%A0"><span class="nav-number">2.3.</span> <span class="nav-text">启动博客、新建文章和编辑文章</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%8D%9A%E5%AE%A2"><span class="nav-number">2.4.</span> <span class="nav-text">生成博客</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%88%86%E6%B5%81%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0github%E5%92%8Ccoding"><span class="nav-number">3.</span> <span class="nav-text">三、分流部署博客到Github和Coding</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAgithub%E4%B8%AA%E4%BA%BA%E4%BB%93%E5%BA%93"><span class="nav-number">3.1.</span> <span class="nav-text">新建Github个人仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAcoding%E9%A1%B9%E7%9B%AE%E4%BB%93%E5%BA%93"><span class="nav-number">3.2.</span> <span class="nav-text">新建Coding项目仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85ssh%E5%B9%B6%E7%94%9F%E6%88%90%E4%B8%AA%E4%BA%BA%E5%85%AC%E5%85%B1%E5%AF%86%E9%92%A5"><span class="nav-number">3.3.</span> <span class="nav-text">安装SSH并生成个人公共密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEgithub%E5%92%8Ccoding%E7%9A%84ssh%E5%85%AC%E9%92%A5"><span class="nav-number">3.4.</span> <span class="nav-text">设置GitHub和Coding的SSH公钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85hexo-git%E6%8F%92%E4%BB%B6"><span class="nav-number">3.5.</span> <span class="nav-text">安装hexo-git插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-_config.yml-%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9"><span class="nav-number">3.6.</span> <span class="nav-text">修改 _config.yml 配置内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2"><span class="nav-number">3.7.</span> <span class="nav-text">部署博客</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E6%B3%A8%E5%86%8C%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D%E5%B9%B6%E4%B8%8E%E5%8D%9A%E5%AE%A2%E7%BB%91%E5%AE%9A"><span class="nav-number">4.</span> <span class="nav-text">四、注册个人域名并与博客绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%AD%E4%B9%B0%E5%9F%9F%E5%90%8D"><span class="nav-number">4.1.</span> <span class="nav-text">购买域名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#github%E4%BB%93%E5%BA%93%E5%88%9B%E5%BB%BAcname%E6%96%87%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">Github仓库创建CNAME文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0dnspod%E8%AE%B0%E5%BD%95"><span class="nav-number">4.3.</span> <span class="nav-text">添加DNSPod记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0coding%E7%9A%84dns%E8%AE%B0%E5%BD%95"><span class="nav-number">4.4.</span> <span class="nav-text">添加Coding的DNS记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0github%E7%9A%84dns%E8%AE%B0%E5%BD%95"><span class="nav-number">4.5.</span> <span class="nav-text">添加Github的DNS记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%9F%9F%E5%90%8D%E6%9C%8D%E5%8A%A1%E5%99%A8godaddy%E4%B8%BA%E4%BE%8B"><span class="nav-number">4.6.</span> <span class="nav-text">修改域名服务器：GoDaddy为例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94next%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0valine%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.</span> <span class="nav-text">五、Next主题添加Valine评论系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95"><span class="nav-number">6.</span> <span class="nav-text">问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0%E8%85%BE%E8%AE%AF%E4%BA%91cos%E5%AD%98%E5%82%A8%E6%A1%B6%E5%90%8E%E6%9C%AC%E5%9C%B0%E5%8D%9A%E5%AE%A2%E6%AD%A3%E5%B8%B8%E6%9B%B4%E6%96%B0%E4%BD%86%E4%BA%91%E7%AB%AF%E5%8D%9A%E5%AE%A2%E4%B8%8D%E6%9B%B4%E6%96%B0"><span class="nav-number">6.1.</span> <span class="nav-text">部署到腾讯云COS存储桶后，本地博客正常更新，但云端博客不更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%A2%84%E8%A7%88%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%90%8E%E7%9A%84%E7%BD%91%E9%A1%B5%E5%86%85%E5%AE%B9%E4%B8%8D%E4%B8%80%E8%87%B4"><span class="nav-number">6.2.</span> <span class="nav-text">本地预览与部署后的网页内容不一致</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lightshaker</p>
+  <div class="site-description" itemprop="description">It is our choices that show what we truly are, far more than our abilities.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lightshaker</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'j3EqSOqSYjPS414YtmiadN5W-gzGzoHsz',
+      appKey     : '429Gb8wTQv1P09Fjbeyd9k5w',
+      placeholder: "Hello",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

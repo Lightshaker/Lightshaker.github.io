@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="坐标系内变换与坐标系间变换易混淆的概念 坐标系内变换 坐标系内变换要解决的问题：  坐标系中点的向量，绕其坐标轴进行旋转变换后，在同一个坐标轴中的新坐标（新向量）  坐标系内变换中的旋转矩阵： 旋转角值沿右手螺旋方向为正（即逆时针为正） 绕\(Z\)轴转\(\alpha\) \[ R_z &#x3D; \begin{bmatrix} cos(\alpha) &amp;-sin(\alpha) &amp;0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="坐标系内变换与坐标系间变换易混淆的概念">
+<meta property="og:url" content="https://lightshaker.cn/archives/ffdf7f9b/index.html">
+<meta property="og:site_name" content="Journey">
+<meta property="og:description" content="坐标系内变换与坐标系间变换易混淆的概念 坐标系内变换 坐标系内变换要解决的问题：  坐标系中点的向量，绕其坐标轴进行旋转变换后，在同一个坐标轴中的新坐标（新向量）  坐标系内变换中的旋转矩阵： 旋转角值沿右手螺旋方向为正（即逆时针为正） 绕\(Z\)轴转\(\alpha\) \[ R_z &#x3D; \begin{bmatrix} cos(\alpha) &amp;-sin(\alpha) &amp;0">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lightshaker.cn/archives/ffdf7f9b/1.png">
+<meta property="article:published_time" content="2023-05-25T07:40:09.000Z">
+<meta property="article:modified_time" content="2023-06-12T06:53:01.988Z">
+<meta property="article:author" content="Lightshaker">
+<meta property="article:tag" content="robotics">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lightshaker.cn/archives/ffdf7f9b/1.png">
+
+<link rel="canonical" href="https://lightshaker.cn/archives/ffdf7f9b/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>坐标系内变换与坐标系间变换易混淆的概念 | Journey</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Journey</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lightshaker.cn/archives/ffdf7f9b/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lightshaker">
+      <meta itemprop="description" content="It is our choices that show what we truly are, far more than our abilities.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Journey">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          坐标系内变换与坐标系间变换易混淆的概念
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-25 15:40:09" itemprop="dateCreated datePublished" datetime="2023-05-25T15:40:09+08:00">2023-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-12 14:53:01" itemprop="dateModified" datetime="2023-06-12T14:53:01+08:00">2023-06-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/robotics/" itemprop="url" rel="index"><span itemprop="name">robotics</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/archives/ffdf7f9b/" class="post-meta-item leancloud_visitors" data-flag-title="坐标系内变换与坐标系间变换易混淆的概念" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/ffdf7f9b/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/ffdf7f9b/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1
+id="坐标系内变换与坐标系间变换易混淆的概念">坐标系内变换与坐标系间变换易混淆的概念</h1>
+<h2 id="坐标系内变换">坐标系内变换</h2>
+<h3 id="坐标系内变换要解决的问题">坐标系内变换要解决的问题：</h3>
+<ul>
+<li>坐标系中点的向量，绕其坐标轴进行旋转变换后，在同一个坐标轴中的新坐标（新向量）</li>
+</ul>
+<h3 id="坐标系内变换中的旋转矩阵">坐标系内变换中的旋转矩阵：</h3>
+<p><strong>旋转角值沿右手螺旋方向为正（即逆时针为正）</strong></p>
+<p>绕<span class="math inline">\(Z\)</span>轴转<span
+class="math inline">\(\alpha\)</span> <span class="math display">\[
+R_z =
+\begin{bmatrix}
+cos(\alpha) &amp;-sin(\alpha) &amp;0 \\
+sin(\alpha) &amp;cos(\alpha) &amp;0 \\
+0 &amp;0 &amp;1
+\end{bmatrix}
+\]</span></p>
+<p>绕<span class="math inline">\(Y\)</span>轴转<span
+class="math inline">\(\beta\)</span> <span class="math display">\[
+R_y =
+\begin{bmatrix}
+cos(\beta) &amp;0 &amp;sin(\beta) \\
+0 &amp;1 &amp;0 \\
+-sin(\beta) &amp;0 &amp;cos(\beta)
+\end{bmatrix}
+\]</span></p>
+<p>绕<span class="math inline">\(X\)</span>轴转<span
+class="math inline">\(\gamma\)</span> <span class="math display">\[
+R_x =
+\begin{bmatrix}
+1 &amp;0 &amp;0 \\
+0 &amp;cos(\gamma) &amp;-sin(\gamma) \\
+0 &amp;sin(\gamma) &amp;cos(\gamma)
+\end{bmatrix}
+\]</span></p>
+<span id="more"></span>
+<h2 id="坐标系间变换">坐标系间变换</h2>
+<h3 id="坐标系间变换要解决的问题">坐标系间变换要解决的问题：</h3>
+<ul>
+<li>原坐标系中的点，在坐标系发生旋转平移变换之后，在新的坐标系下的坐标。</li>
+</ul>
+<h3 id="欧拉角">欧拉角</h3>
+<ul>
+<li><p>一般只在坐标系间变换中使用欧拉角的概念，且在没有特殊说明的情况下，使用的都是<strong>外旋欧拉角</strong>（固定坐标系/RPY角）</p></li>
+<li><p>欧拉角分为内旋(坐标系随动)和外旋(坐标系固定)，外旋欧拉角也称为RPY（Roll
+Yaw Pitch）角，其参考的旋转系为Z轴向上的笛卡尔右手系。</p></li>
+<li><p>内旋欧拉角与外旋欧拉角顺序相反时得出的旋转矩阵相同，例如<span
+class="math inline">\(R=Z_1X_2Y_3\)</span>既可以表示Y-&gt;X-&gt;Z外旋，也可以表示Z-&gt;X-&gt;Y内旋。</p></li>
+<li><p>只有在欧拉角为内旋，<span
+class="math inline">\(Pitch\)</span>在中间， 并且 <span
+class="math inline">\(Pitch=\cfrac{\pi}{2}\)</span>
+时出现万向锁。</p></li>
+<li><p>万向锁的具体表现形式是：任意 <span
+class="math inline">\((a,\frac{\pi}{2},b)\)</span> 的旋转方式都可以用
+<span class="math inline">\((a-b, \frac{\pi}{2},0)\)</span>
+来表示，即失去了一个旋转自由度。</p></li>
+<li><p>内旋和外旋的矩阵转换关系：交换第一次和第三次旋转的顺序可得到相同的旋转矩阵。</p></li>
+</ul>
+<h3 id="坐标系间变换中的旋转矩阵">坐标系间变换中的旋转矩阵</h3>
+<p><strong>RPY | 外旋欧拉角 |
+旋转角值沿右手螺旋方向为正（即逆时针为正）</strong></p>
+<p>绕<span class="math inline">\(Z\)</span>轴转<span
+class="math inline">\(\alpha\)</span> | Yaw <span
+class="math display">\[
+R_z =
+\begin{bmatrix}
+cos(\alpha) &amp;sin(\alpha) &amp;0 \\
+-sin(\alpha) &amp;cos(\alpha) &amp;0 \\
+0 &amp;0 &amp;1
+\end{bmatrix}
+\]</span></p>
+<p>绕<span class="math inline">\(Y\)</span>轴转<span
+class="math inline">\(\beta\)</span> | Pitch <span
+class="math display">\[
+R_y =
+\begin{bmatrix}
+cos(\beta) &amp;0 &amp;-sin(\beta) \\
+0 &amp;1 &amp;0 \\
+sin(\beta) &amp;0 &amp;cos(\beta)
+\end{bmatrix}
+\]</span></p>
+<p>绕<span class="math inline">\(X\)</span>轴转<span
+class="math inline">\(\gamma\)</span> | Roll <span
+class="math display">\[
+R_x =
+\begin{bmatrix}
+1 &amp;0 &amp;0 \\
+0 &amp;cos(\gamma) &amp;sin(\gamma) \\
+0 &amp;-sin(\gamma) &amp;cos(\gamma)
+\end{bmatrix}
+\]</span></p>
+<h3 id="坐标系间变换的标准描述方式">坐标系间变换的标准描述方式</h3>
+<p>符号描述方式：</p>
+<ul>
+<li><p><span class="math inline">\(^AP\)</span> ：点 <span
+class="math inline">\(P\)</span> 在坐标系 <span
+class="math inline">\(A\)</span> 中的坐标</p></li>
+<li><p><span class="math inline">\(^AP_{Borg}\)</span> 或 <span
+class="math inline">\(^At_{Borg}\)</span>或<span
+class="math inline">\(^At_B\)</span>：坐标系 <span
+class="math inline">\(B\)</span> 的原点在坐标系 <span
+class="math inline">\(A\)</span> 中的坐标向量</p></li>
+<li><p><span class="math inline">\(^AR_B\)</span>：坐标系 <span
+class="math inline">\(B\)</span> 到坐标系 <span
+class="math inline">\(A\)</span> 的旋转矩阵</p></li>
+<li><p><span class="math inline">\(^AT_B\)</span>：坐标系 <span
+class="math inline">\(B\)</span> 到坐标系 <span
+class="math inline">\(A\)</span> 的齐次变换矩阵</p></li>
+</ul>
+<p><strong>基本变换公式：</strong></p>
+<ul>
+<li><span class="math inline">\(^AP = {^AR_B}\space {^BP} +
+^At_B\)</span></li>
+<li><span class="math inline">\(^AP = {^AT_B}^BP\)</span></li>
+</ul>
+<p><img src="1.png" /></p>
+<h3 id="坐标变换过程描述举例">坐标变换过程描述举例</h3>
+<p>有一个点<span
+class="math inline">\(P\)</span>，基于（笛卡尔右手）坐标系<span
+class="math inline">\(A\)</span>描述为<span
+class="math inline">\(^AP\)</span>，此时坐标系<span
+class="math inline">\(A\)</span>（按照外旋欧拉角/RPY角的方向）绕<span
+class="math inline">\(Z\)</span>轴（沿笛卡尔右手系方向）旋转45度，并（使坐标系<span
+class="math inline">\(A\)</span>的原点）沿着坐标系<span
+class="math inline">\(A\)</span>的<span
+class="math inline">\(X、Y、Z\)</span>方向分别移动<span
+class="math inline">\((1,2,3)\)</span>，得到坐标系<span
+class="math inline">\(B\)</span>，要求点<span
+class="math inline">\(P\)</span>基于坐标系<span
+class="math inline">\(B\)</span>的描述<span
+class="math inline">\(^BP\)</span></p>
+<ul>
+<li>该描述使用上述旋转矩阵公式得到的<span
+class="math inline">\(R\)</span>为<span
+class="math inline">\(^BR_A\)</span>，即坐标系A到<span
+class="math inline">\(B\)</span>的旋转矩阵</li>
+<li>使用公式 <span class="math inline">\(^BP = {^BR_A}\space {^AP} +
+^Bt_A\)</span> 完成坐标变换</li>
+</ul>
+<h3 id="坐标系间变换推导实例">坐标系间变换推导实例</h3>
+<p><strong>已知坐标系<span class="math inline">\(W\)</span>与<span
+class="math inline">\(A\)</span>的位姿变换关系，以及<span
+class="math inline">\(W\)</span>与<span
+class="math inline">\(B\)</span>的位姿变换关系，可求出<span
+class="math inline">\(A\)</span>与<span
+class="math inline">\(B\)</span>的位姿变换关系</strong></p>
+<p><strong>例子：坐标系<span
+class="math inline">\(A\)</span>的原点在<span
+class="math inline">\(A\)</span>中描述 -&gt; 在<span
+class="math inline">\(W\)</span>中描述 -&gt; 在<span
+class="math inline">\(B\)</span>中描述</strong></p>
+<p>已知世界坐标系<span class="math inline">\(W\)</span>，以及坐标系<span
+class="math inline">\(A\)</span>和<span
+class="math inline">\(B\)</span>，由上述关系可得两个转换式： <span
+class="math display">\[
+^WP=^WR_A\space^AP+^Wt_{Aorg}\space \tag{1}
+\]</span></p>
+<p><span class="math display">\[
+^WP=^WR_B\space^BP+^Wt_{Borg}\space \tag{2}
+\]</span></p>
+<p>由 <span class="math inline">\((1)\)</span> 可知坐标系 <span
+class="math inline">\(A\)</span> 的原点在世界系 <span
+class="math inline">\(W\)</span> 中的坐标为： <span
+class="math display">\[
+^WP_{Aorg}=^WR_A\space^AP_{Aorg}+^Wt_{Aorg} \tag{3}
+\]</span> 由 <span class="math inline">\((2)\)</span>
+可推得任意世界坐标系中的点<span
+class="math inline">\(^WP\)</span>在坐标系 <span
+class="math inline">\(B\)</span> 中的坐标为： <span
+class="math display">\[
+^BP=(^WR_B)^{-1}(^WP-^Wt_{Borg}) \tag{4}
+\]</span> 将 <span class="math inline">\((3)\)</span> 中求出的<span
+class="math inline">\(A\)</span>原点在世界系的坐标代入到 <span
+class="math inline">\((4)\)</span> 中可得： <span
+class="math display">\[
+\begin{aligned}
+^BP_{Aorg}
+&amp;=(^WR_B)^{-1}(^WP_{Aorg}-^Wt_{Borg})\\\\
+&amp;=(^WR_B)^{-1}(^WR_A\space^AP_{Aorg}+^Wt_{Aorg}-^Wt_{Borg}) \\\\
+&amp;=((^WR_B)^{-1}\space^WR_A\space)^AP_{Aorg} +
+(^WR_B)^{-1}(^Wt_{Aorg}-^Wt_{Borg})
+\end{aligned}
+\]</span> 同时已知： <span class="math display">\[
+^BP_{Aorg}=^BR_A\space^AP_{Aorg}+Bt_{Aorg} \tag{5}
+\]</span> 因此易得从<span class="math inline">\(A\)</span>系到<span
+class="math inline">\(B\)</span>系的位姿变换关系： <span
+class="math display">\[
+^BR_A = (^WR_B)^{-1}\space^WR_A \tag{6}
+\]</span></p>
+<p><span class="math display">\[
+^Bt_A = (^WR_B)^{-1}(^Wt_{Aorg}-^Wt_{Borg}) \tag{7}
+\]</span></p>
+<p>其中 <span class="math inline">\(^BR_A\)</span> 表示从 <span
+class="math inline">\(A\)</span> 系到 <span
+class="math inline">\(B\)</span> 系的旋转变换（姿态），<span
+class="math inline">\(^Bt_A\)</span>表示 <span
+class="math inline">\(A\)</span> 系原点在 <span
+class="math inline">\(B\)</span> 系中的坐标（位置）</p>
+<h2 id="二者的关联">二者的关联</h2>
+<p><strong>在旋转次序相同的情况下，坐标系间与坐标系内变换的旋转矩阵互为转置（或逆）</strong></p>
+<p>在坐标系<span class="math inline">\(O-XYZ\)</span>中，将某一点<span
+class="math inline">\((x,y,z)\)</span>的向量沿某个轴<strong>正向（逆时针）</strong>旋转角度<span
+class="math inline">\(\theta\)</span>后得到的新坐标<span
+class="math inline">\((x&#39;,y&#39;,z&#39;)\)</span>，等价于将点<span
+class="math inline">\((x,y,z)\)</span>所在的坐标系沿同一个轴<strong>逆向(顺时针)</strong>旋转角度<span
+class="math inline">\(\theta\)</span>后，在新的坐标系<span
+class="math inline">\(O&#39;-X&#39;Y&#39;Z&#39;\)</span>
+下，对应的新坐标点<span
+class="math inline">\((x&#39;,y&#39;,z&#39;)\)</span></p>
+<p><strong>验证程序</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">calcR</span><span class="params">(<span class="type">float</span> theta, cv::Mat&amp; Rz, <span class="type">bool</span> coordTransform)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    theta = theta / <span class="number">180.0</span> * CV_PI;</span><br><span class="line">    <span class="keyword">if</span>(coordTransform)</span><br><span class="line">    &#123;</span><br><span class="line">        Rz = (cv::<span class="built_in">Mat_</span>&lt;<span class="type">float</span>&gt;(<span class="number">3</span>,<span class="number">3</span>) &lt;&lt; <span class="built_in">cos</span>(theta), <span class="built_in">sin</span>(theta), <span class="number">0</span>, -<span class="built_in">sin</span>(theta), <span class="built_in">cos</span>(theta), <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="comment">// Ry = (cv::Mat_&lt;float&gt;(3,3) &lt;&lt; cos(theta), 0, -sin(theta), 0, 1, 0, sin(theta), 0, cos(theta));</span></span><br><span class="line">        <span class="comment">// Rx = (cv::Mat_&lt;float&gt;(3,3) &lt;&lt; 1, 0, 0, 0, cos(theta), sin(theta), 0, -sin(theta), cos(theta));</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        Rz = (cv::<span class="built_in">Mat_</span>&lt;<span class="type">float</span>&gt;(<span class="number">3</span>,<span class="number">3</span>) &lt;&lt; <span class="built_in">cos</span>(theta), -<span class="built_in">sin</span>(theta), <span class="number">0</span>, <span class="built_in">sin</span>(theta), <span class="built_in">cos</span>(theta), <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        <span class="comment">// Ry = (cv::Mat_&lt;float&gt;(3,3) &lt;&lt; cos(theta), 0, sin(theta), 0, 1, 0, -sin(theta), 0, cos(theta));</span></span><br><span class="line">        <span class="comment">// Rx = (cv::Mat_&lt;float&gt;(3,3) &lt;&lt; 1, 0, 0, 0, cos(theta), -sin(theta), 0, sin(theta), cos(theta));</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 点P在坐标系A中的描述</span></span><br><span class="line">    cv::Mat pA = (cv::<span class="built_in">Mat_</span>&lt;<span class="type">float</span>&gt;(<span class="number">3</span>, <span class="number">1</span>) &lt;&lt; <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// 坐标系A绕Z轴旋转30度（逆时针为正）得到坐标系B，求得坐标系A到B的坐标变换矩阵</span></span><br><span class="line">    cv::Mat B_R_A;</span><br><span class="line">    <span class="built_in">calcR</span>(<span class="number">30</span>, B_R_A, <span class="literal">true</span>);</span><br><span class="line">    <span class="comment">// 点P在坐标系B中的描述</span></span><br><span class="line">    cv::Mat pB = B_R_A * pA;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;pB = &quot;</span> &lt;&lt; pB &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点P的向量绕坐标系A的Z轴旋转30度（逆时针为正），求得旋转变换的矩阵</span></span><br><span class="line">    cv::Mat Rotation;</span><br><span class="line">    <span class="built_in">calcR</span>(<span class="number">30</span>, Rotation, <span class="literal">false</span>);</span><br><span class="line">    <span class="comment">// 旋转后的点在坐标系A中的描述</span></span><br><span class="line">    cv::Mat pA1 = Rotation * pA;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;pA1 = &quot;</span> &lt;&lt; pA1 &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/robotics/" rel="tag"># robotics</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/5089e8f6/" rel="prev" title="Windows10 + VS Code 配置 C++ OpenCV-4.5.5 + Opencv_Contrib-4.5.5 开发环境">
+      <i class="fa fa-chevron-left"></i> Windows10 + VS Code 配置 C++ OpenCV-4.5.5 + Opencv_Contrib-4.5.5 开发环境
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/fd90faa3/" rel="next" title="Git 简记">
+      Git 简记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E5%86%85%E5%8F%98%E6%8D%A2%E4%B8%8E%E5%9D%90%E6%A0%87%E7%B3%BB%E9%97%B4%E5%8F%98%E6%8D%A2%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">坐标系内变换与坐标系间变换易混淆的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E5%86%85%E5%8F%98%E6%8D%A2"><span class="nav-number">1.1.</span> <span class="nav-text">坐标系内变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E5%86%85%E5%8F%98%E6%8D%A2%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.1.</span> <span class="nav-text">坐标系内变换要解决的问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E5%86%85%E5%8F%98%E6%8D%A2%E4%B8%AD%E7%9A%84%E6%97%8B%E8%BD%AC%E7%9F%A9%E9%98%B5"><span class="nav-number">1.1.2.</span> <span class="nav-text">坐标系内变换中的旋转矩阵：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E9%97%B4%E5%8F%98%E6%8D%A2"><span class="nav-number">1.2.</span> <span class="nav-text">坐标系间变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E9%97%B4%E5%8F%98%E6%8D%A2%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.1.</span> <span class="nav-text">坐标系间变换要解决的问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AC%A7%E6%8B%89%E8%A7%92"><span class="nav-number">1.2.2.</span> <span class="nav-text">欧拉角</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E9%97%B4%E5%8F%98%E6%8D%A2%E4%B8%AD%E7%9A%84%E6%97%8B%E8%BD%AC%E7%9F%A9%E9%98%B5"><span class="nav-number">1.2.3.</span> <span class="nav-text">坐标系间变换中的旋转矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E9%97%B4%E5%8F%98%E6%8D%A2%E7%9A%84%E6%A0%87%E5%87%86%E6%8F%8F%E8%BF%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.4.</span> <span class="nav-text">坐标系间变换的标准描述方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2%E8%BF%87%E7%A8%8B%E6%8F%8F%E8%BF%B0%E4%B8%BE%E4%BE%8B"><span class="nav-number">1.2.5.</span> <span class="nav-text">坐标变换过程描述举例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%E9%97%B4%E5%8F%98%E6%8D%A2%E6%8E%A8%E5%AF%BC%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.2.6.</span> <span class="nav-text">坐标系间变换推导实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E8%80%85%E7%9A%84%E5%85%B3%E8%81%94"><span class="nav-number">1.3.</span> <span class="nav-text">二者的关联</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lightshaker</p>
+  <div class="site-description" itemprop="description">It is our choices that show what we truly are, far more than our abilities.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lightshaker</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'j3EqSOqSYjPS414YtmiadN5W-gzGzoHsz',
+      appKey     : '429Gb8wTQv1P09Fjbeyd9k5w',
+      placeholder: "Hello",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

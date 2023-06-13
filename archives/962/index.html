@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="[Note &amp; Extract] Kalman Filter Concepts  Note Taker：Lightshaker, 2020&#x2F;3&#x2F;4 Source：https:&#x2F;&#x2F;web.archive.org&#x2F;web&#x2F;20060420154727&#x2F;http:&#x2F;&#x2F;www.cs.unc.edu&#x2F;~welch&#x2F;media&#x2F;pdf&#x2F;maybeck_ch1.pdf Article：Stochasti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卡尔曼滤波 maybeck_ch1 阅读摘录">
+<meta property="og:url" content="https://lightshaker.cn/archives/962/index.html">
+<meta property="og:site_name" content="Journey">
+<meta property="og:description" content="[Note &amp; Extract] Kalman Filter Concepts  Note Taker：Lightshaker, 2020&#x2F;3&#x2F;4 Source：https:&#x2F;&#x2F;web.archive.org&#x2F;web&#x2F;20060420154727&#x2F;http:&#x2F;&#x2F;www.cs.unc.edu&#x2F;~welch&#x2F;media&#x2F;pdf&#x2F;maybeck_ch1.pdf Article：Stochasti">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lightshaker.cn/archives/962/bandpass.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/962/measurement_1.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/962/measurement_2.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/962/combine.png">
+<meta property="og:image" content="https://lightshaker.cn/archives/962/dynamics.png">
+<meta property="article:published_time" content="2020-05-14T09:25:15.000Z">
+<meta property="article:modified_time" content="2023-06-12T06:53:01.968Z">
+<meta property="article:author" content="Lightshaker">
+<meta property="article:tag" content="卡尔曼滤波">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lightshaker.cn/archives/962/bandpass.png">
+
+<link rel="canonical" href="https://lightshaker.cn/archives/962/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>卡尔曼滤波 maybeck_ch1 阅读摘录 | Journey</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Journey</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lightshaker.cn/archives/962/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lightshaker">
+      <meta itemprop="description" content="It is our choices that show what we truly are, far more than our abilities.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Journey">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          卡尔曼滤波 maybeck_ch1 阅读摘录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-14 17:25:15" itemprop="dateCreated datePublished" datetime="2020-05-14T17:25:15+08:00">2020-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-12 14:53:01" itemprop="dateModified" datetime="2023-06-12T14:53:01+08:00">2023-06-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E5%AD%A6-%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数学|算法</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/archives/962/" class="post-meta-item leancloud_visitors" data-flag-title="卡尔曼滤波 maybeck_ch1 阅读摘录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/962/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/962/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="note-extract-kalman-filter-concepts">[Note &amp; Extract] Kalman
+Filter Concepts</h2>
+<blockquote>
+<p><strong>Note Taker：Lightshaker, 2020/3/4</strong></p>
+<p><strong>Source：</strong>https://web.archive.org/web/20060420154727/http://www.cs.unc.edu/~welch/media/pdf/maybeck_ch1.pdf</p>
+<p><strong>Article：Stochastic models, estimation, and control, chapter
+1, by Peter Maybeck</strong></p>
+</blockquote>
+<h3 id="why-stochastic-models-estimation-and-control">1.1 Why stochastic
+models, estimation, and control ?</h3>
+<p><strong>Q：</strong>Why <strong>deterministic system</strong> and
+<strong>control theories</strong> do not provide a totally sufficient
+means of performing system analysis and controller design？</p>
+<p><strong>Answer：</strong></p>
+<ul>
+<li>Mathematical models depicts only those characteristics of direct
+interest to the engineer's purpose.</li>
+<li>Various parameters within a deterministic structure are not
+determined absolutedly.</li>
+<li>Sensors do not provide perfect and complete data about a
+system.</li>
+</ul>
+<span id="more"></span>
+<p><strong>Conclusion：</strong>To assume perfect knowledge of all
+quantities necessary to describe a system completely and/or to assume
+perfect control over the system is <strong>naive</strong>, and often
+<strong>inadequate, approach.</strong></p>
+<p>Thus <strong>four questions</strong> are come up with：</p>
+<blockquote>
+<ol type="1">
+<li>How do you develop system models that account for these
+<strong>uncertainties</strong> in a direct and proper, yet practical,
+fashion?</li>
+<li>Equipped with such models and incomplete, noise-corrupted data from
+available sensors, how do you <strong>optimally estimate</strong> the
+quantities of interest to you?</li>
+<li>In the face of uncertain system descriptions, incomplete and
+noise-corrupted data, and disturbances beyond your control, how do you
+<strong>optimally control</strong> a system to perform in a desirable
+manner?</li>
+<li>How do you <strong>evaluate the performance capabilities</strong> of
+such estimation and control systems, both before and after they are
+actually built?</li>
+</ol>
+</blockquote>
+<h3 id="overview-of-the-text">1.2 Overview of the text</h3>
+<p><strong>Chapter 1-2：</strong>Review the pertinent aspects of
+<strong>deterministic system models</strong>.</p>
+<p><strong>3：</strong>Develop both the general concepts and the natural
+result of <strong>static</strong> system models.</p>
+<p><strong>4：</strong>Investigate stochastic process, concluding with
+practical <strong>linear dynamic system</strong>.</p>
+<p><strong>5：</strong>Explore <strong>optimal filtering</strong> for
+cases in which linear system model adequately describes the problem
+dynamics.</p>
+<p><strong>6：</strong>Describe the design and performance analysis of
+<strong>pratical online Kalman filter</strong>.</p>
+<p><strong>7：</strong>Introduce the <strong>Square root
+filters</strong>.</p>
+<h3 id="the-kalman-filteran-introduction-to-concepts">1.3 The Kalman
+filter：An introduction to concepts</h3>
+<p><strong>Q：</strong>What is Kalman Filter?</p>
+<p><strong>A：</strong>An <strong>optimal recursive data processing
+algorithm</strong>, which processes all available measurements,
+regardless of their precision, to estimate the current value of the
+variables of interest.</p>
+<p><strong>Condition：</strong>A Kalman filter performs this conditional
+probability density propagation for problems in which the system can be
+described through a <strong>linear model</strong> and in which system
+and measurement noises are <strong>white</strong> and
+<strong>Gaussian</strong>.</p>
+<p><strong>Practicalities</strong>：Do not require all previous data to
+be kept in storage and reprocessed every time a new measurement is
+taken.</p>
+<p><strong>Case：</strong>Often Variables of interest, some finite
+number of quantities to describe the "state" of the system, cannot be
+measured directly, and some means of inferring these values from the
+available data must be generated.</p>
+<p><strong>Need：</strong></p>
+<ol type="1">
+<li>Knowledge of the system and measurement device dynamic.</li>
+<li>The statistical description of the system noises, measurement error,
+and uncertainty in the dynamics models.</li>
+<li>Any available information about initial conditions of the variables
+of interest.</li>
+</ol>
+<p><strong>Plot of Conditional Probability Density：</strong></p>
+<ol type="1">
+<li>Its shape conveys the <strong>amount of certainty</strong> you have
+in the knowledge of the value of x.</li>
+<li>If the density plot is a <strong>narrow peak</strong>, then most of
+the probability "weight" is <strong>concentrated</strong> in a narrow
+band of x values.</li>
+<li>If the plot has a <strong>gradual shape</strong>, the probability
+"weight" is spread over a <strong>wider range</strong> of x, indicating
+that you are less sure of its value.</li>
+</ol>
+<p><strong>With the CPD, we can define the "optimal" estimate in these
+choices (3 assumptions)：</strong></p>
+<ol type="1">
+<li>the mean -- the "center of probability mass" estimate.</li>
+<li>the mode -- the value of x that has the highest probability,
+locating the peak of the density.</li>
+<li>the median -- the value of x such that half of the probability
+weight lies to the left and half to the right of it.</li>
+</ol>
+<h3 id="basic-assumptions">1.4 Basic assumptions</h3>
+<p><strong>BandPass：</strong>a frequency range of inputs to which a
+physical system can respond, above which the input either has no effect,
+or the system so severely attenuates the effect that it essentially does
+not exist.</p>
+<p><img src="bandpass.png" style="zoom:80%"></p>
+<p><strong>Why White Noise?：</strong></p>
+<p>"Whiteness" implies that the noise value is not correlated in time,
+also claims that the noise has equal power at all frequencies. Since
+this results in a noise with infinite power, a white noise obviously
+connot really exist.</p>
+<p>Typically a system will be driven by wideband noise, which differs
+from white noise just in the limited bandwidth.</p>
+<p>By replacing the real wideband noise with a white noise, the
+mathematics involved in the filter can be vastly simplified which, and
+from the system's "point of view", they are identical.</p>
+<p><strong>What if the noise is not power-constant or
+time-correlated?</strong></p>
+<p>A white noise put through a small linear system can duplicate
+virtually any form of time-correlated noise. This small system is call a
+"shaping filter", added to the original system to achieve an overall
+linear system driven by white noise.</p>
+<p><strong>Why Gaussian densities?：</strong></p>
+<p>Wheraes whiteness pertains to time or frequency relationships of a
+noise, Gaussianness has to do with its amplitude.Thus at any single
+point in time, the probability density of a Gaussian noise amplitude
+takes on the shape of a normal bell-shape curve.</p>
+<p>It can be shown mathematically that when a number of independent
+random variables are added together, the summed effect can be described
+very closely by a Gaussian probability density, regardless of the shape
+of the individual densitities.</p>
+<p>An engineer will know, at best, the first and second order statictics
+of a noise process, but in the absence of higher order statistics, there
+is no better form to assume than the Gaussian density, because Gaussian
+density can be completely determined by the first and second order
+statistics, while most of others require an endless number of that to
+specify their shape entirely.</p>
+<p>Gaussian densities is virtually the best approximation, and it makes
+mathematics tractable.</p>
+<h3 id="a-simple-example">1.5 A simple example</h3>
+<blockquote>
+<p>According from the probability theories, the <strong>larger</strong>
+$$ is , the <strong>broader</strong> the probability peak is. For a
+Gaussian density, <strong>68.3%</strong> of the probability "weight" is
+contained with the band <span class="math inline">\(\sigma\)</span>
+units to each side of the mean.</p>
+</blockquote>
+<h4 id="part-i">Part I</h4>
+<p><strong>Scene：</strong>Suppose being lost at sea during the night
+and have no idea at all of your location. You can only establish your
+position by taking a star sighting.</p>
+<p><strong>Measurement：</strong>Your establishment of the conditional
+probability of <span class="math inline">\(x(t_1)\)</span>, conditioned
+on the observed value of measurement being <span
+class="math inline">\(z_1\)</span>, with standard deviation <span
+class="math inline">\(\sigma_{z_1}\)</span> or variance <span
+class="math inline">\(\sigma_{z_1}^2\)</span>.</p>
+<p>Thus the conditional density of your position at time <span
+class="math inline">\(t_1\)</span>, based only on <span
+class="math inline">\(z_1\)</span> is：</p>
+<p><img src="measurement_1.png" style="zoom:80%"></p>
+<p>Based on conditional probability density, the <strong>best
+estimate</strong> of your position is <span class="math display">\[
+\hat x(t_1) = z_1 \tag{1}
+\]</span> and the variance of the error in the estimate is <span
+class="math display">\[
+\sigma^2(t_1) = \sigma^2_{z_1} \tag{2}
+\]</span> Note that <span class="math inline">\(\hat x\)</span> is both
+the <strong>mode</strong> and the <strong>median</strong>, as well as
+the <strong>mean</strong>.</p>
+<h4 id="part-ii">Part II：</h4>
+<p><strong>Scene：</strong>After the prediction, a trained navigator
+friend takes an independent fix at time <span class="math inline">\(t_2
+\approx t_1\)</span>.</p>
+<p><strong>Measurement：</strong> He obtains a measurement <span
+class="math inline">\(z_2\)</span> with standard deviation <span
+class="math inline">\(\sigma_{z_2}\)</span> or variance <span
+class="math inline">\(\sigma_{z_2}^2\)</span>.</p>
+<p>Because he has higher skill, assume the variance in his measurement
+to be somewhat smaller that in yours. <span class="math display">\[
+\sigma_{z_2} &lt; \sigma_{z_1}
+\]</span> Thus the conditional density of your position at time <span
+class="math inline">\(t_1\)</span>, based only on <span
+class="math inline">\(z_2\)</span> is：</p>
+<p><img src="measurement_2.png" style="zoom:70%"></p>
+<h4 id="analysis">Analysis</h4>
+<p><strong>Q：</strong>Now you have two measurements available for
+estimating your position, how do you combine these data?</p>
+<p><strong>A：</strong>Based on the assumptions made, the conditional
+density of your position at time $t_2 t_1 $, <span
+class="math inline">\(x(t_2)\)</span>, given both <span
+class="math inline">\(z_1\)</span> and <span
+class="math inline">\(z_2\)</span>, is <strong>Gaussian density</strong>
+with mean <span class="math inline">\(\mu\)</span> and variance <span
+class="math inline">\(\sigma^2\)</span> with <span
+class="math display">\[
+\begin{align}
+\\
+    &amp;\mu = [\sigma_{z_2}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_1 +
+[\sigma_{z_1}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_2 \tag{3}
+\\\\\\
+    &amp;1/\sigma^2 = (1 + \sigma_{z_1}^2) + (1 + \sigma_{z_2}^2)
+\tag{4}
+\end{align}
+\]</span> The conditinal density curve is：</p>
+<p><img src="combine.png" style="zoom:70%;" /></p>
+<p>Note that <span class="math inline">\(\sigma\)</span> is
+<strong>less</strong> than either <span
+class="math inline">\(\sigma_{z_1}\)</span> or <span
+class="math inline">\(\sigma_{z_2}\)</span>, which is to say that the
+<strong>uncertainty</strong> in your estimate of position <strong>has
+been decreased</strong> by comb</p>
+<p>ining the two pieces of information.</p>
+<p>Given this density, the <strong>best estimate</strong> is <span
+class="math display">\[
+\hat x(t_2) = \mu \tag{5}
+\]</span> Furthermore, it is also the <strong>maximum likelihood
+estimate</strong>, the <strong>weighted least squares estimate</strong>,
+and the <strong>linear estimate</strong> whose variance is <strong>less
+than</strong> that of <strong>any other</strong> linear unbiased
+estimate. In other words, it is the "best" you can do according to just
+about any reasonable criterion.</p>
+<h4 id="deeper-thoughts">Deeper Thoughts：</h4>
+<p>The <span class="math inline">\(\mu\)</span> we got means <span
+class="math inline">\(\sigma_{z_1}\)</span> were <strong>equal</strong>
+to <span class="math inline">\(\sigma_{z_2}\)</span>, indicating that
+the two measurements are of equal precision. Actually <span
+class="math inline">\(\sigma_{z_1}\)</span> is <strong>greater</strong>
+than <span class="math inline">\(\sigma_{z_2}\)</span>, thus the
+"weight" of <span class="math inline">\(z_2\)</span> is surely
+<strong>bigger</strong> than that of <span
+class="math inline">\(z_1\)</span>, then finally the variance of the
+estimate is <strong>less</strong> than <span
+class="math inline">\(\sigma_{z_1}\)</span> regardless of how large
+<span class="math inline">\(\sigma_{z_2}\)</span> is.</p>
+<p>Therefore <span class="math inline">\(\hat x(t_2)\)</span> can be
+rewritten as <span class="math display">\[
+\begin{align}
+\mu &amp;=
+[\sigma_{z_2}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_1 +
+[\sigma_{z_1}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)]z_2 \\\\\\
+&amp;=
+z_1 + [\sigma_{z_1}^2/(\sigma_{z_1}^2 + \sigma_{z_2}^2)][z_2-z_1]
+\tag{6}
+\end{align}
+\]</span> let <span class="math inline">\(z_1\)</span> be replaced by
+<span class="math inline">\(\hat x(t_1)\)</span>, we can get the
+<strong>final form</strong> actually used in <strong>Kalman
+filter</strong> implementations <span class="math display">\[
+\hat x(t_2) = x_(t_1) + K(t_2)[z_2 - \hat x(t_1)] \tag{7}
+\]</span> where the <strong>Kalman gain</strong> is <span
+class="math display">\[
+K(t_2) = \sigma_{z_1}^2/(\sigma_{z_1}^2+\sigma_{z_2}^2) \tag{8}
+\]</span> then <strong>Eq.(2)</strong> can be rewritten as <span
+class="math display">\[
+\sigma_x^2(t_2) = \sigma_x^2(t_1) - K(t_2)\sigma_x^2(t_1) \tag{9}
+\]</span> some explanation：</p>
+<p>​ <span class="math inline">\(\hat x (t_1)\)</span>：the best
+<strong>prediction</strong> of the optimal estimate at time <span
+class="math inline">\(t_2\)</span>, before $z_2 $ is taken.</p>
+<p>​ <span class="math inline">\(\hat x(t_2)\)</span>：the
+<strong>optimal estimate</strong> at time <span
+class="math inline">\(t_2\)</span>, after <span
+class="math inline">\(z_2\)</span> is taken.</p>
+<p>​ <span class="math inline">\(K(t_2)\)</span>：a correction term of an
+<strong>optimal weighting value times</strong> the difference between
+<span class="math inline">\(z_2\)</span> and <span
+class="math inline">\(\hat x(t_1)\)</span></p>
+<h4 id="introduce-dynamics-factor">Introduce dynamics factor：</h4>
+<p><strong>Scene：</strong>Suppose that you <strong>travel for some
+time</strong> before taking another measurement.</p>
+<p><strong>Form： </strong> <span class="math inline">\(dx/dt =
+u+w\)</span>, including，<span class="math inline">\(u\)</span>：a
+nominal <strong>velocity</strong>，</p>
+<p>​ <span class="math inline">\(w\)</span>：a <strong>noise
+term</strong> used to represent the uncertainty in your knowledge of the
+actual velocity due to disturbances, off-nominal conditians, effects not
+accounted for in the simple first order equation, and the like, modeled
+as a white <strong>Gaussian noise</strong> with a <strong>mean</strong>
+of zero and <strong>variance</strong> of <span
+class="math inline">\(\sigma_w^2\)</span>.</p>
+<p>As time progresses, the probability density starts at the best
+estimate, moves according to the nominal model of dynamics, and spreads
+out in time because you become <strong>less sure</strong> of your exact
+position due to <strong>constant addition</strong> of uncertainty over
+time.</p>
+<p><img src="dynamics.png" style="zoom:70%"></p>
+<p>The density of <strong>prediction</strong> can be expressed
+mathematically as a Gaussian density with mean and variance given by
+<span class="math display">\[
+\begin{align}
+\hat x(t_3^-) &amp;= \hat x(t_2) + u[t_3-t_2] \tag{11}
+\\\\\\
+\sigma_x^2(t_3^-) &amp;= \sigma_x^2(t_2) + \sigma_w^2[t_3-t_2]\tag{12}
+\end{align}
+\]</span> Now a <strong>measurement</strong> is taken, and its mean
+turns out to be <span class="math inline">\(z_3\)</span>, with a
+variance to be <span class="math inline">\(\sigma_{z_3}^2\)</span>, as
+before, there are <strong>two Gaussian densities</strong> available that
+contain information about position, one encompassing all the information
+available <strong>before</strong> the measurement, and the other being
+the information <strong>provided by</strong> the measurement itself.</p>
+<p>The density with mean <span class="math inline">\(\hat
+x(t_3^-)\)</span> and variance $<em>x<sup>2(t_3</sup>-) $ is combined
+with the density with mean <span class="math inline">\(z_3\)</span> and
+variance $^2</em>{z_3} $ to yield a Gaussian density with mean <span
+class="math display">\[
+\hat x(t_3) = \hat x(t_3^-) + K(t_3)[z_3 - \hat x(t_3^-)] \tag{13}
+\]</span> and variance <span class="math display">\[
+\sigma_x^2(t_3) = \sigma_x^2(t_3^-) - K(t_3)\sigma_x^2(t_3^-) \tag{14}
+\]</span> where the gain <span class="math inline">\(K(t_3)\)</span> is
+given by <span class="math display">\[
+K(t_3) = \sigma_x^2(t_3^-) / [\sigma_x^2(t_3^-) + \sigma_{z_3}^2 ]
+\tag{15}
+\]</span></p>
+<h4 id="analysis-about-kt_3">Analysis about <span
+class="math inline">\(K(t_3)\)</span></h4>
+<p>Observe the form of the equation for <span
+class="math inline">\(K(t_3)\)</span>.</p>
+<p>If <span class="math inline">\(\sigma_{z_3}\)</span>, the
+<strong>measurement noise</strong> variance, is <strong>large</strong>,
+then <span class="math inline">\(K(t_3)\)</span> is
+<strong>small</strong>, which mean you put <strong>little</strong>
+confidence in a very noisy measurement and so would weight it
+<strong>lightly</strong>.</p>
+<p>In the limit as <span class="math inline">\(\sigma_{z_3}^2
+\rightarrow \infty\)</span>, <span class="math inline">\(K(t_3)\)</span>
+will become <strong>zero</strong>, and <span class="math inline">\(\hat
+x(t_3)\)</span> <strong>equals</strong> <span class="math inline">\(\hat
+x(t_3^-)\)</span>, which means an infinitely noisy measurement is
+totally ignored.</p>
+<p>If the <strong>dynamic system noise</strong> variance <span
+class="math inline">\(\sigma_w^2\)</span> is large, then <span
+class="math inline">\(\sigma_x^2(t_3^-)\)</span> will be large and so
+will <span class="math inline">\(K(t_3)\)</span>. In this case, you are
+not very certain of the output of the system model within the filter
+structure and therefore would weight the measurement heavily.</p>
+<p>In the limit as <span class="math inline">\(\sigma_w^2 \rightarrow
+\infty\)</span>, <span class="math inline">\(\sigma_x^2(t_3^-)
+\rightarrow \infty\)</span>, <span
+class="math inline">\(K(t_3)\rightarrow 1\)</span>, therefore <span
+class="math inline">\(\hat x(t_3)\)</span> equals <span
+class="math inline">\(z_3\)</span>. It means you have no confidence in
+the system model output, to use the new measurement as the optimal
+estimate.</p>
+<p>Finally, if <span class="math inline">\(\sigma_x^2(t_3^-)\)</span>
+should ever become zero, then so does <span
+class="math inline">\(K(t_3)\)</span>. This is sensible since if <span
+class="math inline">\(\sigma_x^2(t_3^-) = 0\)</span>, you have
+absolutely sure of your estimate before <span
+class="math inline">\(z_3\)</span> becomes available and therefore can
+disregard the measurement.</p>
+<h4 id="a-preview">A preview</h4>
+<p><strong>To yield a general Kalman filter algorithm：</strong></p>
+<ol type="1">
+<li><p>Extend <strong>Eqs.(11)</strong> and <strong>(12)</strong> to the
+vector case.</p></li>
+<li><p>Allow time varying parameters in the system and noise
+descriptions.</p></li>
+</ol>
+<p><strong>What can the KF algorithm do?</strong></p>
+<p>It can be used for propagating the conditional density and optimal
+estimate from one measurement sample time to the next.</p>
+<p><strong>Similarily</strong>, the Kalman filter update at a
+measurement time is just the extension of <strong>Eqs.(13)
+-(15)</strong> , <strong>further logical extensions tould
+include：</strong></p>
+<ol type="1">
+<li>Estimation with data <strong>beyond the time</strong> when variables
+are to be estimated.</li>
+<li>Estimation with <strong>nonlinear system</strong> models rather than
+linear.</li>
+<li>Control of systems described through <strong>stochastic
+models</strong>.</li>
+<li>Both estimation and control when the noise and system parameters are
+<strong>not known</strong> with absolute certainty.</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/" rel="tag"># 卡尔曼滤波</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/2334/" rel="prev" title="Ubuntu C++/Python混合编程">
+      <i class="fa fa-chevron-left"></i> Ubuntu C++/Python混合编程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/7b6b/" rel="next" title="MathJax与Latex公式简介">
+      MathJax与Latex公式简介 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#note-extract-kalman-filter-concepts"><span class="nav-number">1.</span> <span class="nav-text">[Note &amp; Extract] Kalman
+Filter Concepts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#why-stochastic-models-estimation-and-control"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 Why stochastic
+models, estimation, and control ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#overview-of-the-text"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Overview of the text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-kalman-filteran-introduction-to-concepts"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 The Kalman
+filter：An introduction to concepts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#basic-assumptions"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 Basic assumptions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a-simple-example"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 A simple example</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#part-i"><span class="nav-number">1.5.1.</span> <span class="nav-text">Part I</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#part-ii"><span class="nav-number">1.5.2.</span> <span class="nav-text">Part II：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#analysis"><span class="nav-number">1.5.3.</span> <span class="nav-text">Analysis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deeper-thoughts"><span class="nav-number">1.5.4.</span> <span class="nav-text">Deeper Thoughts：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#introduce-dynamics-factor"><span class="nav-number">1.5.5.</span> <span class="nav-text">Introduce dynamics factor：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#analysis-about-kt_3"><span class="nav-number">1.5.6.</span> <span class="nav-text">Analysis about \(K(t_3)\)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#a-preview"><span class="nav-number">1.5.7.</span> <span class="nav-text">A preview</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lightshaker</p>
+  <div class="site-description" itemprop="description">It is our choices that show what we truly are, far more than our abilities.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lightshaker</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'j3EqSOqSYjPS414YtmiadN5W-gzGzoHsz',
+      appKey     : '429Gb8wTQv1P09Fjbeyd9k5w',
+      placeholder: "Hello",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
