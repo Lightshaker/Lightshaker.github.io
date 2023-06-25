@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。  一元线性回归  a &#x3D; 0，单变量x，单个未知数 b，求解一元一次方程  模型： \(y &#x3D; ax + b\) 目标函数：\(y &#x3D; c\)">
+  <meta name="description" content="本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。  一元线性回归 a &#x3D; 0，单变量x，单个未知数 b，求解一元一次方程  模型： $y &#x3D; ax + b$ 目标函数：$y &#x3D; c$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="最小二乘回归策略">
 <meta property="og:url" content="https://lightshaker.cn/archives/1b0d/index.html">
 <meta property="og:site_name" content="Journey">
-<meta property="og:description" content="本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。  一元线性回归  a &#x3D; 0，单变量x，单个未知数 b，求解一元一次方程  模型： \(y &#x3D; ax + b\) 目标函数：\(y &#x3D; c\)">
+<meta property="og:description" content="本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。  一元线性回归 a &#x3D; 0，单变量x，单个未知数 b，求解一元一次方程  模型： $y &#x3D; ax + b$ 目标函数：$y &#x3D; c$">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lightshaker.cn/archives/1b0d/image.png">
 <meta property="og:image" content="https://lightshaker.cn/archives/1b0d/result.png">
@@ -230,369 +230,70 @@
 
       
         <blockquote>
-<p>本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。</p>
+<p>  本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。</p>
 </blockquote>
-<h3 id="一元线性回归">一元线性回归</h3>
-<blockquote>
-<p><strong>a = 0，单变量x，单个未知数 b，求解一元一次方程</strong></p>
+<h3 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h3><blockquote>
+<p><strong>a &#x3D; 0，单变量x，单个未知数 b，求解一元一次方程</strong></p>
 </blockquote>
-<p><strong>模型</strong>： <span class="math inline">\(y = ax +
-b\)</span></p>
-<p><strong>目标函数：</strong><span class="math inline">\(y =
-c\)</span></p>
+<p><strong>模型</strong>： $y &#x3D; ax + b$</p>
+<p><strong>目标函数：</strong>$y &#x3D; c$</p>
 <span id="more"></span>
-<p><strong>n个样本点：</strong><span class="math inline">\((x_i, y_i),
-i=1,2,3,...,n\)</span></p>
-<p><strong>偏差平方和：</strong><span class="math inline">\(e =
-\sum_{i=1}^{n}{(c - y_i)^2}\)</span></p>
+
+<p><strong>n个样本点：</strong>$(x_i, y_i), i&#x3D;1,2,3,…,n$</p>
+<p><strong>偏差平方和：</strong>$e &#x3D; \sum_{i&#x3D;1}^{n}{(c - y_i)^2}$</p>
 <p><strong>求解过程：</strong></p>
-<p>​ 偏差平方和函数： <span class="math display">\[
-e = \sum_{i=1}^{n}{(c - y_i)^2}
-\]</span> ​ 对c求导，令导数为0： <span class="math display">\[
-\frac{de}{dc} = \sum_{i=1}^{n}2(c - y_i) = 0
-\]</span> ​ 解关于c的一元一次方程可得： <span class="math display">\[
-c = \frac{\begin{align}\sum_{i=1}^{n} y_i\end{align}}{n} = \overline y
-\]</span> ​
-由此可知，拟合一条与x轴平行的直线的最佳参数，就是样本点y值的<strong>均值</strong></p>
+<p>​	偏差平方和函数：<br>$$<br>e &#x3D; \sum_{i&#x3D;1}^{n}{(c - y_i)^2}<br>$$<br>​	对c求导，令导数为0：<br>$$<br>\frac{de}{dc} &#x3D; \sum_{i&#x3D;1}^{n}2(c - y_i) &#x3D; 0<br>$$<br>​	解关于c的一元一次方程可得：<br>$$<br>c &#x3D; \frac{\begin{align}\sum_{i&#x3D;1}^{n} y_i\end{align}}{n} &#x3D; \overline y<br>$$<br>​	由此可知，拟合一条与x轴平行的直线的最佳参数，就是样本点y值的<strong>均值</strong></p>
 <blockquote>
-<p><strong>a <span class="math inline">\(\not=\)</span>
-0，单变量x，两个未知数 a和b，解二元一次方程</strong></p>
+<p><strong>a $\not&#x3D;$ 0，单变量x，两个未知数 a和b，解二元一次方程</strong></p>
 </blockquote>
-<p><strong>模型</strong>： <span class="math inline">\(y = ax +
-b\)</span></p>
-<p><strong>目标函数：</strong><span class="math inline">\(y =
-ax+b\)</span></p>
-<p><strong>n个样本点：</strong><span class="math inline">\((x_i, y_i),
-i=1,2,3,...,n\)</span></p>
-<p><strong>偏差平方和：</strong><span class="math inline">\(e =
-\sum_{i=1}^{n}{((ax_i+b)) - y_i)^2}\)</span></p>
+<p><strong>模型</strong>： $y &#x3D; ax + b$</p>
+<p><strong>目标函数：</strong>$y &#x3D; ax+b$</p>
+<p><strong>n个样本点：</strong>$(x_i, y_i), i&#x3D;1,2,3,…,n$</p>
+<p><strong>偏差平方和：</strong>$e &#x3D; \sum_{i&#x3D;1}^{n}{((ax_i+b)) - y_i)^2}$</p>
 <p><strong>求解过程：</strong></p>
-<p>偏差平方和函数： <span class="math display">\[
-e = \sum_{i=1}^{n}{((ax_i+b)) - y_i)^2}
-\]</span> 对a、b的偏导数： <span class="math display">\[
-\begin{align}
-    &amp; \frac{\partial e}{\partial a} = \sum_{i=1}^{n}2x_i(ax_i
-+b-y_i) \\\\
-    &amp; \frac{\partial e}{\partial b} = \sum_{i=1}^{n}2(ax_i + b-y_i)
-\\\\
-\end{align}
-\]</span></p>
-<p>同时令e对a和b的偏导等于0： <span class="math display">\[
-\begin{cases}
-\begin{align}
-&amp;\sum_{i=1}^{n} x_i(ax_i+b-y_i) = 0\\\\
-&amp;\sum_{i=1}^{n} (ax_i+b-y_i) = 0
-\end{align}
-\end{cases}
-\]</span> 解关于a、b的二元一次方程组得： <span class="math display">\[
-\begin{cases}
-\begin{align}
-&amp; a = \frac{n\sum x_iy_i - \sum x_i \sum y_i}{n\sum x_i^2 - (\sum
-x_i)^2} \\\\\\
-&amp;b = \frac{\sum y_i - a\sum x_i  }{n}
-\end{align}
-\end{cases}
-\]</span></p>
-<h3 id="多元线性回归">多元线性回归</h3>
-<blockquote>
+<p>偏差平方和函数：<br>$$<br>e &#x3D; \sum_{i&#x3D;1}^{n}{((ax_i+b)) - y_i)^2}<br>$$<br>对a、b的偏导数：<br>$$<br>\begin{align}<br>    &amp; \frac{\partial e}{\partial a} &#x3D; \sum_{i&#x3D;1}^{n}2x_i(ax_i +b-y_i) \\<br>    &amp; \frac{\partial e}{\partial b} &#x3D; \sum_{i&#x3D;1}^{n}2(ax_i + b-y_i) \\<br>\end{align}<br>$$</p>
+<p>同时令e对a和b的偏导等于0：<br>$$<br>\begin{cases}<br>\begin{align}<br>&amp;\sum_{i&#x3D;1}^{n} x_i(ax_i+b-y_i) &#x3D; 0\\<br>&amp;\sum_{i&#x3D;1}^{n} (ax_i+b-y_i) &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$<br>解关于a、b的二元一次方程组得：<br>$$<br>\begin{cases}<br>\begin{align}<br>&amp; a &#x3D; \frac{n\sum x_iy_i - \sum x_i \sum y_i}{n\sum x_i^2 - (\sum x_i)^2} \\\<br>&amp;b &#x3D; \frac{\sum y_i - a\sum x_i  }{n}<br>\end{align}<br>\end{cases}<br>$$</p>
+<h3 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h3><blockquote>
 <p><strong>多项式函数：n个变量x，(n+1)个未知数a，解多元线性方程组</strong></p>
 </blockquote>
-<p><strong>模型</strong>：<span class="math inline">\(y =a_0 + a_1x_1 +
-a_2x_2 + ... + a_nx_n\)</span></p>
-<p><strong>目标函数：</strong> <span class="math inline">\(y =a_0 +
-a_1x_1 + a_2x_2 + ... + a_nx_n\)</span></p>
-<p><strong>m组样本点：</strong><span
-class="math inline">\((x_{1i},x_{2i},\dots,x_{ni}, y_i),\space
-i=1,2,...,m\)</span></p>
-<p><strong>偏差平方和：</strong><span class="math inline">\(e =
-\sum_{i=1}^{m}{(a_0 + a_1x_{1i} + a_2x_{2i} + ... + a_nx_{n i}-
-y_i)^2}\)</span></p>
-<p><strong>求解过程：</strong></p>
-<p>偏差平方和函数： <span class="math display">\[
-\begin{align} e = \sum_{i=1}^{m}{(a_0 + a_1x_{1i} + a_2x_{2i} + ... +
-a_nx_{n i}- y_i)^2} \end{align}
-\]</span> 令e对 <span class="math inline">\(a_0\)</span> ~ <span
-class="math inline">\(a_n\)</span>
-的各个偏导为0，稍微变化形式可得到关于未知数的<strong>正规方程组</strong>（n+1个方程，n+1个未知数）：
-<span class="math display">\[
-\begin{cases}
-\begin{align}
-\sum_{i=1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + ... + a_nx_{n i}) =
-\sum_{i=1}^{m}y_i \\\\
-\sum_{i=1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + ... + a_nx_{n
-i})x_{1i} = \sum_{i=1}^{m}x_{1i}y_i \\\\
-&amp;\vdots \\\\
-\sum_{i=1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + ... + a_nx_{n
-i})x_{ni} = \sum_{i=1}^{m}x_{ni}y_i
-\end{align}
-\end{cases}
-\]</span> 用矩阵的形式表示为： <span class="math display">\[
-\begin{aligned}
-\left[
-\begin{matrix}
-n &amp;\sum x_{1i} &amp;\sum x_{2i} &amp;\dots &amp;\sum x_{ni} \\\\
-\sum x_{1i} &amp;\sum x_{1i}^2 &amp; \sum x_{1i}x_{2i} &amp;\dots
-&amp;\sum x_{1i}x_{ni} \\\\
-\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\\\
-\sum x_{ni} &amp;\sum x_{1i}x_{ni} &amp;\sum  x_{2i}x_{ni} &amp;\sum
-\dots &amp;\sum x_{ni}^2
-\end{matrix}
-\right]
-\left[
-\begin{matrix}
-a_0 \\ a_1 \\ a_2 \\ \vdots \\ a_n
-\end{matrix}
-\right]
-=
-\left[
-\begin{matrix}
-1 &amp;1 &amp;1 &amp;\cdots &amp;1 \\\\
-x_{11} &amp;x_{12} &amp; x_{13} &amp;\dots &amp;x_{1m} \\\\
-\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\\\
-x_{n1} &amp;x_{n2} &amp; x_{n3} &amp;\dots &amp;x_{nm}
-\end{matrix}
-\right]
-\left[
-\begin{matrix}
-y_1 \\ y_2 \\ y_3 \\ \vdots \\y_m
-\end{matrix}
-\right]
-\end{aligned}
-\]</span> 令样本矩阵以及参数矩阵如下： <span class="math display">\[
-\begin{align}
-X =
-\left[
-\begin{matrix}
-&amp;1 &amp;x_{11} &amp;x_{21} &amp;\dots &amp;x_{n1} \\\\
-&amp;1 &amp;x_{12} &amp; x_{22} &amp;\dots &amp;x_{n2} \\\\
-&amp;\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\\\
-&amp;1 &amp;x_{1m} &amp; x_{2m} &amp;\dots &amp;x_{nm}
-\end{matrix}
-\right]，
-Y =
-\left[
-\begin{matrix}
-y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_m
-\end{matrix}
-\right]，
-A=
-\left[
-\begin{matrix}
-a_0 \\ a_1 \\ a_2 \\ \vdots \\ a_n
-\end{matrix}
-\right]
-\end{align}
-\]</span> 则上面的矩阵方程可以表示为： <span class="math display">\[
-\begin{align}
-(X^TX)A = XY
-\end{align}
-\]</span> 由于 <span class="math inline">\(X^TX\)</span> 为满秩矩阵
-，即非奇异、可逆，因此将上式等号两侧同时左乘 <span
-class="math inline">\((X^TX)^{-1}\)</span>，可得最优参数矩阵： <span
-class="math display">\[
-\begin{align}
-A = (X^TX)^{-1}XY
-\end{align}
-\]</span></p>
-<h3 id="多元非线性回归">多元非线性回归</h3>
-<blockquote>
+<p><strong>模型</strong>：$y &#x3D;a_0 + a_1x_1 + a_2x_2 + … + a_nx_n$</p>
+<p><strong>目标函数：</strong> $y &#x3D;a_0 + a_1x_1 + a_2x_2 + … + a_nx_n$</p>
+<p><strong>m组样本点：</strong>$(x_{1i},x_{2i},\dots,x_{ni}, y_i),\space i&#x3D;1,2,…,m$</p>
+<p><strong>偏差平方和：</strong>$e &#x3D; \sum_{i&#x3D;1}^{m}{(a_0 + a_1x_{1i} + a_2x_{2i} + … + a_nx_{n i}- y_i)^2}$</p>
+<p><strong>求解过程：</strong> </p>
+<h1 id="偏差平方和函数：-begin-align-e-x3D-sum-i-x3D-1-m-a-0-a-1x-1i-a-2x-2i-…-a-nx-n-i-y-i-2-end-align-令e对-a-0-a-n-的各个偏导为0，稍微变化形式可得到关于未知数的正规方程组（n-1个方程，n-1个未知数）：-begin-cases-begin-align-sum-i-x3D-1-m-a-0-a-1x-1i-a-2-amp-x-2i-…-a-nx-n-i-x3D-sum-i-x3D-1-m-y-i-sum-i-x3D-1-m-a-0-a-1x-1i-a-2-amp-x-2i-…-a-nx-n-i-x-1i-x3D-sum-i-x3D-1-m-x-1i-y-i-amp-vdots-sum-i-x3D-1-m-a-0-a-1x-1i-a-2-amp-x-2i-…-a-nx-n-i-x-ni-x3D-sum-i-x3D-1-m-x-ni-y-i-end-align-end-cases-用矩阵的形式表示为：-begin-aligned-left-begin-matrix-n-amp-sum-x-1i-amp-sum-x-2i-amp-dots-amp-sum-x-ni-sum-x-1i-amp-sum-x-1i-2-amp-sum-x-1i-x-2i-amp-dots-amp-sum-x-1i-x-ni-vdots-amp-vdots-amp-vdots-amp-ddots-amp-vdots-sum-x-ni-amp-sum-x-1i-x-ni-amp-sum-x-2i-x-ni-amp-sum-dots-amp-sum-x-ni-2-end-matrix-right-left-begin-matrix-a-0-a-1-a-2-vdots-a-n-end-matrix-right"><a href="#偏差平方和函数：-begin-align-e-x3D-sum-i-x3D-1-m-a-0-a-1x-1i-a-2x-2i-…-a-nx-n-i-y-i-2-end-align-令e对-a-0-a-n-的各个偏导为0，稍微变化形式可得到关于未知数的正规方程组（n-1个方程，n-1个未知数）：-begin-cases-begin-align-sum-i-x3D-1-m-a-0-a-1x-1i-a-2-amp-x-2i-…-a-nx-n-i-x3D-sum-i-x3D-1-m-y-i-sum-i-x3D-1-m-a-0-a-1x-1i-a-2-amp-x-2i-…-a-nx-n-i-x-1i-x3D-sum-i-x3D-1-m-x-1i-y-i-amp-vdots-sum-i-x3D-1-m-a-0-a-1x-1i-a-2-amp-x-2i-…-a-nx-n-i-x-ni-x3D-sum-i-x3D-1-m-x-ni-y-i-end-align-end-cases-用矩阵的形式表示为：-begin-aligned-left-begin-matrix-n-amp-sum-x-1i-amp-sum-x-2i-amp-dots-amp-sum-x-ni-sum-x-1i-amp-sum-x-1i-2-amp-sum-x-1i-x-2i-amp-dots-amp-sum-x-1i-x-ni-vdots-amp-vdots-amp-vdots-amp-ddots-amp-vdots-sum-x-ni-amp-sum-x-1i-x-ni-amp-sum-x-2i-x-ni-amp-sum-dots-amp-sum-x-ni-2-end-matrix-right-left-begin-matrix-a-0-a-1-a-2-vdots-a-n-end-matrix-right" class="headerlink" title="偏差平方和函数：$$\begin{align} e &#x3D; \sum_{i&#x3D;1}^{m}{(a_0 + a_1x_{1i} + a_2x_{2i} + … + a_nx_{n i}- y_i)^2} \end{align}$$令e对 $a_0$ ~ $a_n$ 的各个偏导为0，稍微变化形式可得到关于未知数的正规方程组（n+1个方程，n+1个未知数）：$$\begin{cases}\begin{align}\sum_{i&#x3D;1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i}) &#x3D; \sum_{i&#x3D;1}^{m}y_i \\\sum_{i&#x3D;1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i})x_{1i} &#x3D; \sum_{i&#x3D;1}^{m}x_{1i}y_i \\&amp;\vdots \\\sum_{i&#x3D;1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i})x_{ni} &#x3D; \sum_{i&#x3D;1}^{m}x_{ni}y_i\end{align}\end{cases}$$用矩阵的形式表示为：$$\begin{aligned}\left[\begin{matrix}n &amp;\sum x_{1i} &amp;\sum x_{2i} &amp;\dots &amp;\sum x_{ni} \\\sum x_{1i} &amp;\sum x_{1i}^2 &amp; \sum x_{1i}x_{2i} &amp;\dots &amp;\sum x_{1i}x_{ni} \\\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\\sum x_{ni} &amp;\sum x_{1i}x_{ni} &amp;\sum  x_{2i}x_{ni} &amp;\sum \dots &amp;\sum x_{ni}^2\end{matrix}\right]\left[\begin{matrix}a_0 \ a_1 \ a_2 \ \vdots \ a_n\end{matrix}\right]"></a>偏差平方和函数：<br>$$<br>\begin{align} e &#x3D; \sum_{i&#x3D;1}^{m}{(a_0 + a_1x_{1i} + a_2x_{2i} + … + a_nx_{n i}- y_i)^2} \end{align}<br>$$<br>令e对 $a_0$ ~ $a_n$ 的各个偏导为0，稍微变化形式可得到关于未知数的<strong>正规方程组</strong>（n+1个方程，n+1个未知数）：<br>$$<br>\begin{cases}<br>\begin{align}<br>\sum_{i&#x3D;1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i}) &#x3D; \sum_{i&#x3D;1}^{m}y_i \\<br>\sum_{i&#x3D;1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i})x_{1i} &#x3D; \sum_{i&#x3D;1}^{m}x_{1i}y_i \\<br>&amp;\vdots \\<br>\sum_{i&#x3D;1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i})x_{ni} &#x3D; \sum_{i&#x3D;1}^{m}x_{ni}y_i<br>\end{align}<br>\end{cases}<br>$$<br>用矩阵的形式表示为：<br>$$<br>\begin{aligned}<br>\left[<br>\begin{matrix}<br>n &amp;\sum x_{1i} &amp;\sum x_{2i} &amp;\dots &amp;\sum x_{ni} \\<br>\sum x_{1i} &amp;\sum x_{1i}^2 &amp; \sum x_{1i}x_{2i} &amp;\dots &amp;\sum x_{1i}x_{ni} \\<br>\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\<br>\sum x_{ni} &amp;\sum x_{1i}x_{ni} &amp;\sum  x_{2i}x_{ni} &amp;\sum \dots &amp;\sum x_{ni}^2<br>\end{matrix}<br>\right]<br>\left[<br>\begin{matrix}<br>a_0 \ a_1 \ a_2 \ \vdots \ a_n<br>\end{matrix}<br>\right]</h1><p>\left[<br>\begin{matrix}<br>1 &amp;1 &amp;1 &amp;\cdots &amp;1 \\<br>x_{11} &amp;x_{12} &amp; x_{13} &amp;\dots &amp;x_{1m} \\<br>\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\<br>x_{n1} &amp;x_{n2} &amp; x_{n3} &amp;\dots &amp;x_{nm}<br>\end{matrix}<br>\right]<br>\left[<br>\begin{matrix}<br>y_1 \ y_2 \ y_3 \ \vdots \y_m<br>\end{matrix}<br>\right]<br>\end{aligned}<br>$$<br>令样本矩阵以及参数矩阵如下：<br>$$<br>\begin{align}<br>X &#x3D;<br>\left[<br>\begin{matrix}<br>&amp;1 &amp;x_{11} &amp;x_{21} &amp;\dots &amp;x_{n1} \\<br>&amp;1 &amp;x_{12} &amp; x_{22} &amp;\dots &amp;x_{n2} \\<br>&amp;\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\<br>&amp;1 &amp;x_{1m} &amp; x_{2m} &amp;\dots &amp;x_{nm}<br>\end{matrix}<br>\right]，<br>Y &#x3D;<br>\left[<br>\begin{matrix}<br>y_1 \ y_2 \ y_3 \ \vdots \ y_m<br>\end{matrix}<br>\right]，<br>A&#x3D;<br>\left[<br>\begin{matrix}<br>a_0 \ a_1 \ a_2 \ \vdots \ a_n<br>\end{matrix}<br>\right]<br>\end{align}<br>$$<br>则上面的矩阵方程可以表示为：<br>$$<br>\begin{align}<br>(X^TX)A &#x3D; XY<br>\end{align}<br>$$<br>由于 $X^TX$ 为满秩矩阵 ，即非奇异、可逆，因此将上式等号两侧同时左乘 $(X^TX)^{-1}$，可得最优参数矩阵：<br>$$<br>\begin{align}<br>A &#x3D; (X^TX)^{-1}XY<br>\end{align}<br>$$</p>
+<h3 id="多元非线性回归"><a href="#多元非线性回归" class="headerlink" title="多元非线性回归"></a>多元非线性回归</h3><blockquote>
 <p><strong>一元非线性回归可通过换元法转化为一元线性回归</strong></p>
 <p><strong>四参数正弦函数：四个未知数，解多元非线性方程组</strong></p>
 <p><strong>解法：视为整体，在初始值处一阶泰勒展开，结合牛顿-拉弗森迭代法每次构造一个线性方程组，用高斯消元法求解，再代回去迭代直至符合误差预期</strong></p>
 </blockquote>
-<p><strong>模型</strong>：<span class="math inline">\(y =
-Asin(wt+\theta)+c\)</span></p>
-<p><strong>目标函数：</strong><span class="math inline">\(y =
-Asin(wt+\theta)+c\)</span></p>
-<p><strong>样本点：</strong><span class="math inline">\((t_i, y_i),
-i=1,2,3...n\)</span></p>
-<p><strong>偏差平方和：</strong><span class="math inline">\(e =
-\sum_{i=1}^{n}{[(Asin(wt_i + \theta)+c) - y_i]^2}\)</span></p>
-<p><strong>求解过程：</strong></p>
-<p>偏差平方和函数： <span class="math display">\[
-\begin{align}
-    &amp; e = \sum_{i=1}^{n}{[(Asin(wt_i + \theta)+c) - y_i]^2} \\\\
-\end{align}
-\]</span> 对各个待求参数求偏导： <span class="math display">\[
-\begin{align}
-&amp;\frac{\partial e}{\partial A} = \sum_{i=1}^{n}2[Asin(wt_i +\theta)
-+c - y_i]sin(wt_i + \theta) \\\\
-&amp;\frac{\partial e}{\partial w} = \sum_{i=1}^{n}2[Asin(wt_i +\theta)
-+c - y_i]At_icos(wt_i+\theta) \\\\
-&amp;\frac{\partial e}{\partial \theta} = \sum_{i=1}^{n}2[Asin(wt_i
-+\theta) +c - y_i]Acos(wt_i+\theta) \\\\
-&amp;\frac{\partial e}{\partial c} = \sum_{i=1}^{n}2[Asin(wt_i +\theta)
-+c - y_i]
-\end{align}
-\]</span>
-令各个偏导数为0，等价于求解<strong>非线性方程组</strong>（注意和上式有差异，约掉了常系数）：
-<span class="math display">\[
-\begin{cases}
-\begin{align}
-&amp;f_1(X) = \sum_{i=1}^{n}[Asin(wt_i +\theta) +c - y_i]sin(wt_i +
-\theta) = 0\\\\
-&amp;f_2(X) = \sum_{i=1}^{n}[Asin(wt_i +\theta) +c -
-y_i]t_icos(wt_i+\theta) = 0\\\\
-&amp;f_3(X) = \sum_{i=1}^{n}[Asin(wt_i +\theta) +c -
-y_i]cos(wt_i+\theta) = 0\\\\
-&amp;f_4(X) = \sum_{i=1}^{n}[Asin(wt_i +\theta) +c - y_i] = 0
-\end{align}
-\end{cases}
-\]</span>
-这里采用<strong>牛顿-拉弗森</strong>迭代法的思想，线性化迭代求解该方程组的4个未知量
-<span class="math inline">\(A、w、\theta,、c\)</span></p>
-<p>用矩阵形式表示参数集以及偏导数集，并假设初值为 <span
-class="math inline">\(X_0\)</span> <span class="math display">\[
-X=
-\left[
-\begin{matrix}
-A\\ w\\ \theta \\ c
-\end{matrix}
-\right]，
-F(X) =
-\left[
-\begin{matrix}
-f_1(X) \\ f_2(X) \\ f_3(X) \\ f_4(X)
-\end{matrix}
-\right]
-\]</span> 构建 <span class="math inline">\(F(X)\)</span> 在 <span
-class="math inline">\(X_0\)</span> 处的雅克比矩阵： <span
-class="math display">\[
-\begin{align}   
-J_F(X)=
-\large
-\left[
-\begin{matrix}          
-\frac{\partial f_1(X_0)}{\partial A} &amp; \frac{\partial
-f_1(X_0)}{\partial w} &amp; \frac{\partial f_1(X_0)}{\partial \theta}
-&amp; \frac{\partial f_1(X_0)}{\partial c} \\\\
-\frac{\partial f_2(X_0)}{\partial A} &amp; \frac{\partial
-f_2(X_0)}{\partial w} &amp; \frac{\partial f_2(X_0)}{\partial \theta}
-&amp; \frac{\partial f_2(X_0)}{\partial c} \\\\
-\frac{\partial f_3(X_0)}{\partial A} &amp; \frac{\partial
-f_3(X_0)}{\partial w} &amp; \frac{\partial f_3(X_0)}{\partial \theta}
-&amp; \frac{\partial f_3(X_0)}{\partial c} \\\\
-\frac{\partial f_4(X_0)}{\partial A} &amp; \frac{\partial
-f_4(X_0)}{\partial w} &amp; \frac{\partial f_4(X_0)}{\partial \theta}
-&amp; \frac{\partial f_4(X_0)}{\partial c}
-\end{matrix}
-\right]
-\end{align}
-\]</span></p>
-<p>其中f1对各个参数的偏导： <span class="math display">\[
-\begin{align}
-&amp;\frac{\partial f_1}{\partial A} = \sum_{i=1}^{n}
-sin^2(wt_i+\theta)\\\\
-&amp;\frac{\partial f_1}{\partial w} = \sum_{i=1}^{n}
-[At_isin2(wt_i+\theta)] + \sum_{i=1}^{n}
-[(c-y_i)t_icos(wt_i+\theta)]\\\\
-&amp;\frac{\partial f_1}{\partial \theta} = \sum_{i=1}^{n}
-[Asin2(wt_i+\theta)] + \sum_{i=1}^{n} [(c-y_i)cos(wt_i+\theta)]\\\\
-&amp;\frac{\partial f_1}{\partial c} = \sum_{i=1}^{n} sin(wt_i+\theta)
-\end{align}
-\]</span></p>
-<p>f2对各个参数的偏导： <span class="math display">\[
-\begin{align}
-&amp;\frac{\partial f_2}{\partial A} = \frac{1}{2}\sum_{i=1}^{n}
-t_isin2(wt_i+\theta)\\\\
-&amp;\frac{\partial f_2}{\partial w} = \sum_{i=1}^{n}
-[At_i^2cos2(wt_i+\theta)] - \sum_{i=1}^{n}
-[(c-y_i)t_i^2sin(wt_i+\theta)]\\\\
-&amp;\frac{\partial f_2}{\partial \theta} = \sum_{i=1}^{n}
-[At_icos2(wt_i+\theta)] - \sum_{i=1}^{n}
-[(c-y_i)t_isin(wt_i+\theta)]\\\\
-&amp;\frac{\partial f_2}{\partial c} = \sum_{i=1}^{n}
-t_icos(wt_i+\theta)
-\end{align}
-\]</span></p>
-<p>f3对各个参数的偏导： <span class="math display">\[
-\begin{align}
-&amp;\frac{\partial f_3}{\partial A} = \frac{1}{2}\sum_{i=1}^{n}
-sin2(wt_i+\theta) \\\\
-&amp;\frac{\partial f_3}{\partial w} = \sum_{i=1}^{n}
-[At_icos2(wt_i+\theta)] - \sum_{i=1}^{n}
-[(c-y_i)t_isin(wt_i+\theta)]\\\\
-&amp;\frac{\partial f_3}{\partial \theta} = \sum_{i=1}^{n}
-[Acos2(wt_i+\theta)] - \sum_{i=1}^{n} [(c-y_i)sin(wt_i+\theta)]\\\\
-&amp;\frac{\partial f_3}{\partial c} = \sum_{i=1}^{n} cos(wt_i+\theta)
-\end{align}
-\]</span></p>
-<p>f4对各个参数的偏导： <span class="math display">\[
-\begin{align}
-&amp;\frac{\partial f_4}{\partial A} = \sum_{i=1}^{n}
-sin(wt_i+\theta)\\\\
-&amp;\frac{\partial f_4}{\partial w} = \sum_{i=1}^{n}
-[At_icos(wt_i+\theta)]\\\\
-&amp;\frac{\partial f_4}{\partial \theta} = \sum_{i=1}^{n}
-[Acos(wt_i+\theta)]\\\\
-&amp;\frac{\partial f_4}{\partial c} = n
-\end{align}
-\]</span></p>
-<p><span class="math inline">\(F(X)\)</span> 在初值 <span
-class="math inline">\(X_0\)</span> 处的一阶泰勒展开： <span
-class="math display">\[
-\begin{align}   F(X) \approx F(X_0) \space +\space
-J_F(X_0)(X-X_0)\end{align}
-\]</span> 可知：令 等式右侧为0 求解出的 <span
-class="math inline">\(X\)</span> 会比 <span
-class="math inline">\(X_0\)</span> 更加趋近于 <span
-class="math inline">\(F(X)=0\)</span>
-的真实解，只要初值在这个真实解的收敛域内，经过不断的迭代求得的近似解会越来越趋近于真实解，我们令
-<span class="math inline">\(\Delta X = X - X_0\)</span> 可得： <span
-class="math display">\[
-\begin{align}
-    &amp; F(X_0) \space +\space J_F(X_0)\Delta X = 0
-\end{align}
-\]</span> 转化一下形式： <span class="math display">\[
-\begin{align}
-    J_F(X_0)\Delta X = -F(X_0)
-\end{align}
-\]</span>
-这样我们便将非线性方程的求解问题转化成了线性方程的求解问题，上述式子就等价于：
-<span class="math display">\[
-\begin{align}   \\  \large          \left[          \begin{matrix}                  \frac{\partial
-f_1(X_0)}{\partial A} &amp; \frac{\partial f_1(X_0)}{\partial w}
-&amp;   \frac{\partial f_1(X_0)}{\partial \theta} &amp; \frac{\partial
-f_1(X_0)}{\partial c} \\         \frac{\partial f_2(X_0)}{\partial A}
-&amp; \frac{\partial f_2(X_0)}{\partial w} &amp;   \frac{\partial
-f_2(X_0)}{\partial \theta} &amp; \frac{\partial f_2(X_0)}{\partial c}
-\\         \frac{\partial f_3(X_0)}{\partial A} &amp; \frac{\partial
-f_3(X_0)}{\partial w} &amp;   \frac{\partial f_3(X_0)}{\partial \theta}
-&amp; \frac{\partial f_3(X_0)}{\partial c} \\         \frac{\partial
-f_4(X_0)}{\partial A} &amp; \frac{\partial f_4(X_0)}{\partial w}
-&amp;   \frac{\partial f_4(X_0)}{\partial \theta} &amp; \frac{\partial
-f_4(X_0)}{\partial
-c}    \end{matrix}        \right]                 \small    \left[    \begin{matrix}      \Delta
-A \\         \Delta w \\         \Delta \theta \\        \Delta
-c    \end{matrix}    \right]             =       \left[  \begin{matrix}      -
-f_1(X_0) \\       - f_2(X_0) \\       - f_3(X_0) \\       - f_4(X_0)
-\\   \end{matrix}    \right]     \\\\        \end{align}
-\]</span> 用高斯消元法或奇异值分解法解这个线性方程，可以求出 <span
-class="math inline">\(\Delta A， \Delta w, \Delta \theta, \Delta
-c\)</span>，进而本次迭代的结果就是 <span class="math inline">\((X_0 +
-\Delta X)\)</span>，然后我们将<span class="math inline">\((X_0 + \Delta
-X)\)</span> 作为新的 <span class="math inline">\(X_0\)</span>
-，代入上面的线性方程，不断迭代求解，<span class="math inline">\(\Delta
-X\)</span> 就会越来越小，可以获得越来越趋近于真实解的 <span
-class="math inline">\(X\)</span>。</p>
-<h3 id="python-api----leastsq功能测试">Python API --
-Leastsq功能测试</h3>
-<p>需要预先安装scipy库： <code>sudo pip install scipy</code></p>
+<p><strong>模型</strong>：$y &#x3D; Asin(wt+\theta)+c$</p>
+<p><strong>目标函数：</strong>$y &#x3D; Asin(wt+\theta)+c$</p>
+<p><strong>样本点：</strong>$(t_i, y_i), i&#x3D;1,2,3…n$</p>
+<p><strong>偏差平方和：</strong>$e &#x3D; \sum_{i&#x3D;1}^{n}{[(Asin(wt_i + \theta)+c) - y_i]^2}$</p>
+<p><strong>求解过程：</strong> </p>
+<p>偏差平方和函数：<br>$$<br>\begin{align}<br>    &amp; e &#x3D; \sum_{i&#x3D;1}^{n}{[(Asin(wt_i + \theta)+c) - y_i]^2} \\<br>\end{align}<br>$$<br>对各个待求参数求偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial e}{\partial A} &#x3D; \sum_{i&#x3D;1}^{n}2[Asin(wt_i +\theta) +c - y_i]sin(wt_i + \theta) \\<br>&amp;\frac{\partial e}{\partial w} &#x3D; \sum_{i&#x3D;1}^{n}2[Asin(wt_i +\theta) +c - y_i]At_icos(wt_i+\theta) \\<br>&amp;\frac{\partial e}{\partial \theta} &#x3D; \sum_{i&#x3D;1}^{n}2[Asin(wt_i +\theta) +c - y_i]Acos(wt_i+\theta) \\<br>&amp;\frac{\partial e}{\partial c} &#x3D; \sum_{i&#x3D;1}^{n}2[Asin(wt_i +\theta) +c - y_i]<br>\end{align}<br>$$<br>令各个偏导数为0，等价于求解<strong>非线性方程组</strong>（注意和上式有差异，约掉了常系数）：<br>$$<br>\begin{cases}<br>\begin{align}<br>&amp;f_1(X) &#x3D; \sum_{i&#x3D;1}^{n}[Asin(wt_i +\theta) +c - y_i]sin(wt_i + \theta) &#x3D; 0\\<br>&amp;f_2(X) &#x3D; \sum_{i&#x3D;1}^{n}[Asin(wt_i +\theta) +c - y_i]t_icos(wt_i+\theta) &#x3D; 0\\<br>&amp;f_3(X) &#x3D; \sum_{i&#x3D;1}^{n}[Asin(wt_i +\theta) +c - y_i]cos(wt_i+\theta) &#x3D; 0\\<br>&amp;f_4(X) &#x3D; \sum_{i&#x3D;1}^{n}[Asin(wt_i +\theta) +c - y_i] &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$<br>这里采用<strong>牛顿-拉弗森</strong>迭代法的思想，线性化迭代求解该方程组的4个未知量 $A、w、\theta,、c$</p>
+<p>用矩阵形式表示参数集以及偏导数集，并假设初值为 $X_0$<br>$$<br>X&#x3D;<br>\left[<br>\begin{matrix}<br>A\ w\ \theta \ c<br>\end{matrix}<br>\right]，<br>F(X) &#x3D;<br>\left[<br>\begin{matrix}<br>f_1(X) \ f_2(X) \ f_3(X) \ f_4(X)<br>\end{matrix}<br>\right]<br>$$<br>构建 $F(X)$ 在 $X_0$ 处的雅克比矩阵：<br>$$<br>\begin{align}	<br>J_F(X)&#x3D;<br>\large<br>\left[<br>\begin{matrix}   		<br>\frac{\partial f_1(X_0)}{\partial A} &amp; \frac{\partial f_1(X_0)}{\partial w} &amp; \frac{\partial f_1(X_0)}{\partial \theta} &amp; \frac{\partial f_1(X_0)}{\partial c} \\<br>\frac{\partial f_2(X_0)}{\partial A} &amp; \frac{\partial f_2(X_0)}{\partial w} &amp; \frac{\partial f_2(X_0)}{\partial \theta} &amp; \frac{\partial f_2(X_0)}{\partial c} \\<br>\frac{\partial f_3(X_0)}{\partial A} &amp; \frac{\partial f_3(X_0)}{\partial w} &amp; \frac{\partial f_3(X_0)}{\partial \theta} &amp; \frac{\partial f_3(X_0)}{\partial c} \\<br>\frac{\partial f_4(X_0)}{\partial A} &amp; \frac{\partial f_4(X_0)}{\partial w} &amp; \frac{\partial f_4(X_0)}{\partial \theta} &amp; \frac{\partial f_4(X_0)}{\partial c}<br>\end{matrix}<br>\right]	<br>\end{align}<br>$$</p>
+<p>其中f1对各个参数的偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial f_1}{\partial A} &#x3D; \sum_{i&#x3D;1}^{n} sin^2(wt_i+\theta)\\<br>&amp;\frac{\partial f_1}{\partial w} &#x3D; \sum_{i&#x3D;1}^{n} [At_isin2(wt_i+\theta)] + \sum_{i&#x3D;1}^{n} [(c-y_i)t_icos(wt_i+\theta)]\\<br>&amp;\frac{\partial f_1}{\partial \theta} &#x3D; \sum_{i&#x3D;1}^{n} [Asin2(wt_i+\theta)] + \sum_{i&#x3D;1}^{n} [(c-y_i)cos(wt_i+\theta)]\\<br>&amp;\frac{\partial f_1}{\partial c} &#x3D; \sum_{i&#x3D;1}^{n} sin(wt_i+\theta)<br>\end{align}<br>$$</p>
+<p>f2对各个参数的偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial f_2}{\partial A} &#x3D; \frac{1}{2}\sum_{i&#x3D;1}^{n} t_isin2(wt_i+\theta)\\<br>&amp;\frac{\partial f_2}{\partial w} &#x3D; \sum_{i&#x3D;1}^{n} [At_i^2cos2(wt_i+\theta)] - \sum_{i&#x3D;1}^{n} [(c-y_i)t_i^2sin(wt_i+\theta)]\\<br>&amp;\frac{\partial f_2}{\partial \theta} &#x3D; \sum_{i&#x3D;1}^{n} [At_icos2(wt_i+\theta)] - \sum_{i&#x3D;1}^{n} [(c-y_i)t_isin(wt_i+\theta)]\\<br>&amp;\frac{\partial f_2}{\partial c} &#x3D; \sum_{i&#x3D;1}^{n} t_icos(wt_i+\theta)<br>\end{align}<br>$$</p>
+<p>f3对各个参数的偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial f_3}{\partial A} &#x3D; \frac{1}{2}\sum_{i&#x3D;1}^{n} sin2(wt_i+\theta) \\<br>&amp;\frac{\partial f_3}{\partial w} &#x3D; \sum_{i&#x3D;1}^{n} [At_icos2(wt_i+\theta)] - \sum_{i&#x3D;1}^{n} [(c-y_i)t_isin(wt_i+\theta)]\\<br>&amp;\frac{\partial f_3}{\partial \theta} &#x3D; \sum_{i&#x3D;1}^{n} [Acos2(wt_i+\theta)] - \sum_{i&#x3D;1}^{n} [(c-y_i)sin(wt_i+\theta)]\\<br>&amp;\frac{\partial f_3}{\partial c} &#x3D; \sum_{i&#x3D;1}^{n} cos(wt_i+\theta)<br>\end{align}<br>$$</p>
+<p>f4对各个参数的偏导：<br>$$<br>\begin{align}<br>&amp;\frac{\partial f_4}{\partial A} &#x3D; \sum_{i&#x3D;1}^{n} sin(wt_i+\theta)\\<br>&amp;\frac{\partial f_4}{\partial w} &#x3D; \sum_{i&#x3D;1}^{n} [At_icos(wt_i+\theta)]\\<br>&amp;\frac{\partial f_4}{\partial \theta} &#x3D; \sum_{i&#x3D;1}^{n} [Acos(wt_i+\theta)]\\<br>&amp;\frac{\partial f_4}{\partial c} &#x3D; n<br>\end{align}<br>$$</p>
+<p>$F(X)$ 在初值 $X_0$ 处的一阶泰勒展开：<br>$$<br>\begin{align}	F(X) \approx F(X_0) \space +\space J_F(X_0)(X-X_0)\end{align}<br>$$<br>可知：令 等式右侧为0 求解出的 $X$ 会比 $X_0$ 更加趋近于 $F(X)&#x3D;0$ 的真实解，只要初值在这个真实解的收敛域内，经过不断的迭代求得的近似解会越来越趋近于真实解，我们令 $\Delta X &#x3D; X - X_0$ 可得：<br>$$<br>\begin{align}<br>    &amp; F(X_0) \space +\space J_F(X_0)\Delta X &#x3D; 0<br>\end{align}<br>$$<br>转化一下形式：<br>$$<br>\begin{align}<br>    J_F(X_0)\Delta X &#x3D; -F(X_0)<br>\end{align}<br>$$<br>这样我们便将非线性方程的求解问题转化成了线性方程的求解问题，上述式子就等价于：<br>$$<br>\begin{align}	\	\large 			\left[ 			\begin{matrix}   				\frac{\partial f_1(X_0)}{\partial A} &amp; \frac{\partial f_1(X_0)}{\partial w} &amp; 	\frac{\partial f_1(X_0)}{\partial \theta} &amp; \frac{\partial f_1(X_0)}{\partial c} \ 		\frac{\partial f_2(X_0)}{\partial A} &amp; \frac{\partial f_2(X_0)}{\partial w} &amp; 	\frac{\partial f_2(X_0)}{\partial \theta} &amp; \frac{\partial f_2(X_0)}{\partial c} \ 		\frac{\partial f_3(X_0)}{\partial A} &amp; \frac{\partial f_3(X_0)}{\partial w} &amp; 	\frac{\partial f_3(X_0)}{\partial \theta} &amp; \frac{\partial f_3(X_0)}{\partial c} \ 		\frac{\partial f_4(X_0)}{\partial A} &amp; \frac{\partial f_4(X_0)}{\partial w} &amp; 	\frac{\partial f_4(X_0)}{\partial \theta} &amp; \frac{\partial f_4(X_0)}{\partial c}	\end{matrix} 		\right]		            \small    \left[    \begin{matrix}    	\Delta A \   		\Delta w \   		\Delta \theta \   		\Delta c    \end{matrix}    \right]				&#x3D;    	\left[	\begin{matrix}		- f_1(X_0) \		- f_2(X_0) \		- f_3(X_0) \		- f_4(X_0) \	\end{matrix}	\right]    	\\		\end{align}<br>$$<br>用高斯消元法或奇异值分解法解这个线性方程，可以求出 $\Delta A， \Delta w, \Delta \theta, \Delta c$，进而本次迭代的结果就是 $(X_0 + \Delta X)$，然后我们将$(X_0 + \Delta X)$ 作为新的 $X_0$ ，代入上面的线性方程，不断迭代求解，$\Delta X$ 就会越来越小，可以获得越来越趋近于真实解的 $X$。</p>
+<h3 id="Python-API-–-Leastsq功能测试"><a href="#Python-API-–-Leastsq功能测试" class="headerlink" title="Python API – Leastsq功能测试"></a>Python API – Leastsq功能测试</h3><p>需要预先安装scipy库： <code>sudo pip install scipy</code></p>
 <p>这个程序是我在学最小二乘的时候写的一个测试程序，测试的目标是scipy库里<code>leastsq</code>这个以最小二乘法为基本原理的回归函数，目标函数可以是线性的也可以是非线性的。为了两个都测试，我选择了常量函数<code>y=C</code>作为线性模型，四参数正弦函数<code>y=Asin(wt+Θ)+C</code>作为非线性模型。其余各个函数的意义如下：</p>
 <p><code>leastsq</code>：API，输入参数依次为：误差函数、拟合初值、样本点集、迭代次数上限</p>
 <p><code>func_sin</code>：求正弦函数值。输入自变量x的值与四个参数组成的列表p，返回由p组成的正弦函数在x处的值。</p>
 <p><code>error_sin</code>：求拟合值与样本值的偏差量。输入拟合出来的参数列表p0与样本因变量y，返回二者的偏差量。</p>
 <p><code>fit_sin</code>：调用<code>Leastsq</code>函数进行拟合，获取拟合结果并求积分，返回拟合结果或积分值。</p>
-<p><code>func_c</code>/<code>error_c</code>/<code>fit_c</code>：模型换成<code>y=C</code>，与上面几个对照</p>
+<p><code>func_c</code>&#x2F;<code>error_c</code>&#x2F;<code>fit_c</code>：模型换成<code>y=C</code>，与上面几个对照</p>
 <p><code>read</code>：纯粹是为了个人debug方便写的一个读取语句和捕获输入异常的功能函数，建议根据个人需求改写main函数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> leastsq</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func_sin</span>(<span class="params">x, p</span>):</span><br><span class="line">    a, f, theta, c = p</span><br><span class="line">    <span class="keyword">return</span> a * np.sin(<span class="number">2</span> * np.pi * f * x + theta) + c</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">error_sin</span>(<span class="params">p0, x, y</span>):</span><br><span class="line">    <span class="keyword">return</span> y - func_sin(x, p0)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fit_sin</span>(<span class="params">x, y, p, t, flag, max_fev=<span class="number">500</span></span>):</span><br><span class="line">    x_sample = np.array(x)</span><br><span class="line">    y_sample = np.array(y)</span><br><span class="line">    x_max = <span class="built_in">max</span>(x_sample)</span><br><span class="line"></span><br><span class="line">    p0 = np.array(p)</span><br><span class="line">    para = leastsq(error_sin, p0, args=(x_sample, y_sample), maxfev=max_fev)</span><br><span class="line"></span><br><span class="line">    a1, a2, a3, a4 = para[<span class="number">0</span>]</span><br><span class="line">    a1 = <span class="built_in">round</span>(<span class="built_in">float</span>(a1), <span class="number">3</span>)</span><br><span class="line">    a2 = <span class="built_in">round</span>(<span class="built_in">float</span>(a2), <span class="number">3</span>)</span><br><span class="line">    a3 = <span class="built_in">round</span>(<span class="built_in">float</span>(a3), <span class="number">3</span>)</span><br><span class="line">    a4 = <span class="built_in">round</span>(<span class="built_in">float</span>(a4), <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># result_api = round(integrate(expr, (x_t, x_max, x_max+t)), 3)  # 积分api,速度奇慢</span></span><br><span class="line">    tmp = a1 / (<span class="number">2</span>*np.pi*a2)</span><br><span class="line">    temp_x = x_max + t</span><br><span class="line">    lower = - tmp - tmp*np.cos(<span class="number">2</span>*np.pi*a2*x_max + a3) + a4*x_max</span><br><span class="line">    upper = - tmp - tmp*np.cos(<span class="number">2</span>*np.pi*a2*temp_x + a3) + a4*temp_x</span><br><span class="line">    result = <span class="built_in">round</span>((upper-lower), <span class="number">3</span>)</span><br><span class="line">    <span class="comment"># print(&quot;\nresult_api = &#123;&#125;, result_straight = &#123;&#125;&quot;.format(result_api, result))</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> flag:</span><br><span class="line">        <span class="keyword">return</span> [a1, a2, a3, a4], result</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func_c</span>(<span class="params">x, c</span>):</span><br><span class="line">    <span class="keyword">return</span> c * np.ones(x.shape)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">error_c</span>(<span class="params">p, x, y</span>):</span><br><span class="line">    <span class="keyword">return</span> y - func_c(x, p)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">fit_c</span>(<span class="params">x, y, p, t, flag, max_fev=<span class="number">500</span></span>):</span><br><span class="line">    x_sample = np.array(x)</span><br><span class="line">    y_sample =np.array(y)</span><br><span class="line">    para = leastsq(error_c, p, args=(x_sample, y_sample), maxfev=max_fev)</span><br><span class="line">    a = <span class="built_in">round</span>(<span class="built_in">float</span>(para[<span class="number">0</span>]), <span class="number">3</span>)</span><br><span class="line">    result = <span class="built_in">round</span>(t*a, <span class="number">3</span>)</span><br><span class="line">    <span class="keyword">if</span> flag:</span><br><span class="line">        <span class="keyword">return</span> a, result</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;拟合结果: y_c =&quot;</span>, a)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># (独立测试使用) 按规模读取键盘数字输入, 捕获异常</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read</span>(<span class="params">sentence, quantity</span>):</span><br><span class="line">    <span class="keyword">assert</span> quantity &gt; <span class="number">0</span></span><br><span class="line">    sentence_error = <span class="string">&quot;格式错误, 请按照要求重新输入: &quot;</span></span><br><span class="line">    inf = []</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        inf = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">float</span>, <span class="built_in">input</span>(sentence).split()))</span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(inf) != quantity:</span><br><span class="line">            inf = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">float</span>, <span class="built_in">input</span>(sentence_error).split()))</span><br><span class="line">    <span class="keyword">except</span> ValueError:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                inf = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">float</span>, <span class="built_in">input</span>(sentence_error).split()))</span><br><span class="line">                <span class="keyword">while</span> <span class="built_in">len</span>(inf) != quantity:</span><br><span class="line">                    inf = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">float</span>, <span class="built_in">input</span>(sentence_error).split()))</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">except</span> ValueError:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> quantity == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> inf[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> inf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 作为独立程序测试</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 样本点要求: 跨度小 或者 跨度大密度大, 这里的跨度指的是样本横坐标跨越的周期个数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">from</span> sympy <span class="keyword">import</span> *</span><br><span class="line">    <span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line">    <span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">    sentence_1 = <span class="string">&quot;请用空格分割, 按顺序输入希望的测试点 数目 &amp; 横坐标最小值 &amp; 横坐标最大值 &amp; 横坐标分度值(如:15 -3.14 0 0.1): &quot;</span></span><br><span class="line">    sentence_2 = <span class="string">&quot;输入w测试正弦模型, e测试直线模型, 其它键取消测试: &quot;</span></span><br><span class="line">    sentence_3 = <span class="string">&quot;请用空格分割, 请按顺序输入正弦模型y = Asin(2πf*t+Θ)+c的四个参数A,f,Θ,c的真实值: &quot;</span></span><br><span class="line">    sentence_4 = <span class="string">&quot;请用空格分割, 输入参数A,f,Θ,c的拟合初值: &quot;</span></span><br><span class="line">    sentence_5 = <span class="string">&quot;请输入直线模型y = c中参数c的真实值: &quot;</span></span><br><span class="line">    sentence_6 = <span class="string">&quot;请输入参数c的拟合初值: &quot;</span></span><br><span class="line">    sentence_7 = <span class="string">&quot;请输入预测时长(单位:s): &quot;</span></span><br><span class="line">    sentence_8 = <span class="string">&quot;分度值不可为0, 请重新输入: &quot;</span></span><br><span class="line">    sentence_9 = <span class="string">&quot;请输入拟合次数上限: &quot;</span></span><br><span class="line"></span><br><span class="line">    x_samples, y_samples, x_fit, y_fit = [], [], [], []</span><br><span class="line"></span><br><span class="line">    info = read(sentence_1, <span class="number">4</span>)</span><br><span class="line">    <span class="keyword">if</span> info[<span class="number">3</span>] == <span class="number">0</span>:</span><br><span class="line">        info = read(sentence_8, <span class="number">4</span>)</span><br><span class="line">    amount, x_min, x_max, x_division = <span class="built_in">int</span>(info[<span class="number">0</span>]), info[<span class="number">1</span>], info[<span class="number">2</span>], info[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">    key = <span class="built_in">input</span>(sentence_2)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> key == <span class="string">&#x27;w&#x27;</span>:</span><br><span class="line">        a, f, theta, c = read(sentence_3, <span class="number">4</span>)  <span class="comment"># 真实值</span></span><br><span class="line">        p0 = read(sentence_4, <span class="number">4</span>)  <span class="comment"># 拟合初值</span></span><br><span class="line">        x_samples = np.linspace(x_min, x_max, amount)  <span class="comment"># 样本x</span></span><br><span class="line">        y_origin = func_sin(x_samples, [a, f, theta, c])  <span class="comment"># 样本y(无噪声)</span></span><br><span class="line">        y_samples = y_origin + <span class="number">0.8</span> * np.random.randn(amount)  <span class="comment"># 样本y(带噪声)</span></span><br><span class="line">        t = read(sentence_7, <span class="number">1</span>)  <span class="comment"># 预测时长</span></span><br><span class="line">        max_fev = <span class="built_in">int</span>(read(sentence_9, <span class="number">1</span>))  <span class="comment"># 拟合次数上限</span></span><br><span class="line"></span><br><span class="line">        time_1 = time.time()</span><br><span class="line">        paras, result = fit_sin(x_samples, y_samples, p0, t, true, max_fev)  <span class="comment"># 拟合</span></span><br><span class="line">        time_2 = time.time()</span><br><span class="line"></span><br><span class="line">        x_t = symbols(<span class="string">&quot;x&quot;</span>)</span><br><span class="line">        expr = paras[<span class="number">0</span>] * sin(<span class="built_in">round</span>(<span class="number">2</span> * np.pi * paras[<span class="number">1</span>], <span class="number">3</span>) * x_t + paras[<span class="number">2</span>]) + paras[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\n模型: y = Asin(2πf*t+Θ)+c&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;样本点:\nx=&#123;&#125;\ny(无噪声)=&#123;&#125;\ny(含噪声)=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(x_samples, y_origin, y_samples))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;函数原型参数: &quot;</span>, [a, f, theta, c])</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;拟合初值: &quot;</span>, p0)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;拟合结果: &quot;</span>, paras)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;拟合表达式: y =&quot;</span>, expr)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;拟合耗时: &#123;&#125; ms&quot;</span>.<span class="built_in">format</span>(<span class="built_in">round</span>((time_2-time_1)*<span class="number">1000</span>, <span class="number">3</span>)))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;积分区间: [&#123;&#125;, &#123;&#125;]&quot;</span>.<span class="built_in">format</span>(x_max, x_max+t))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;积分值: &quot;</span>, result)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> x_max &gt; <span class="number">0</span>:</span><br><span class="line">            x_fit = np.arange(x_min, <span class="number">2</span>*(x_max+t), x_division)</span><br><span class="line">            x_bound = np.array([x_min, <span class="number">2</span>*(x_max+t)])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            x_fit = np.arange(x_min, <span class="built_in">abs</span>(-x_max+<span class="number">2</span>*t), x_division)</span><br><span class="line">            x_bound = np.array([x_min, <span class="built_in">abs</span>(-x_max+<span class="number">2</span>*t)])</span><br><span class="line"></span><br><span class="line">        y_fit = func_sin(x_fit, paras)</span><br><span class="line">        y_bound = np.array([c, c])</span><br><span class="line"></span><br><span class="line">        plt.figure(figsize=(<span class="number">8</span>, <span class="number">6</span>))</span><br><span class="line">        plt.scatter(x_samples, y_samples, color=<span class="string">&#x27;red&#x27;</span>, label=<span class="string">&#x27;Sample Points&#x27;</span>, linewidth=<span class="number">2</span>)  <span class="comment"># 带噪声的样本点图</span></span><br><span class="line">        plt.plot(x_samples, y_samples, color=<span class="string">&#x27;gray&#x27;</span>, label=<span class="string">&quot;Sample Lines&quot;</span>, linewidth=<span class="number">2</span>)  <span class="comment"># 带噪声的样本曲线图</span></span><br><span class="line">        plt.plot(x_fit, y_fit, color=<span class="string">&#x27;orange&#x27;</span>, label=<span class="string">&quot;Fitting Line&quot;</span>, linewidth=<span class="number">2</span>)  <span class="comment"># 拟合的曲线图</span></span><br><span class="line">        plt.plot(x_bound, y_bound, color=<span class="string">&#x27;gray&#x27;</span>, linewidth=<span class="number">1</span>, linestyle=<span class="string">&#x27;--&#x27;</span>)  <span class="comment"># 对称轴</span></span><br><span class="line">        plt.xlabel(<span class="string">&quot;Time&quot;</span>)</span><br><span class="line">        plt.ylabel(<span class="string">&quot;Velocity&quot;</span>)</span><br><span class="line">        plt.plot(x_max, func_sin(x_max, paras), <span class="string">&quot;ob&quot;</span>, color=<span class="string">&#x27;blue&#x27;</span>, label=<span class="string">&quot;current&quot;</span>)</span><br><span class="line">        plt.plot(x_max+t, func_sin(x_max+t, paras), <span class="string">&quot;ob&quot;</span>, color=<span class="string">&#x27;purple&#x27;</span>, label=<span class="string">&#x27;Prediction&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        plt.plot([x_max, x_max], [func_sin(x_max, paras), c],</span><br><span class="line">                 color=<span class="string">&#x27;blue&#x27;</span>, linestyle=<span class="string">&#x27;--&#x27;</span>)  <span class="comment"># 作最新点到对称轴的垂直虚线</span></span><br><span class="line">        plt.plot([x_max+t, x_max+t], [func_sin(x_max+t, paras), c],</span><br><span class="line">                 color=<span class="string">&#x27;purple&#x27;</span>, linestyle=<span class="string">&#x27;--&#x27;</span>)  <span class="comment"># 作预测点到对称轴的垂直虚线</span></span><br><span class="line">        x_series = np.linspace(x_max, x_max+t, amount)  <span class="comment"># 积分区域</span></span><br><span class="line">        y_1 = c</span><br><span class="line">        y_2 = func_sin(x_series, paras)</span><br><span class="line">        plt.fill_between(x_series, y_1, y_2, facecolor=<span class="string">&#x27;white&#x27;</span>, hatch=<span class="string">&#x27;/&#x27;</span>, interpolate=true)  <span class="comment"># 填充阴影</span></span><br><span class="line"></span><br><span class="line">        plt.legend()</span><br><span class="line">        plt.show()</span><br><span class="line">        exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">elif</span> key == <span class="string">&#x27;e&#x27;</span>:</span><br><span class="line">        c = read(sentence_5, <span class="number">1</span>)</span><br><span class="line">        p0 = read(sentence_6, <span class="number">1</span>)</span><br><span class="line">        x_samples = np.linspace(x_min, x_max, amount)  <span class="comment"># 样本x</span></span><br><span class="line">        y_origin = func_c(x_samples, c)  <span class="comment"># 样本y(无噪声)</span></span><br><span class="line">        y_samples = y_origin + <span class="number">0.8</span> * np.random.randn(amount)  <span class="comment"># 样本y(带噪声)</span></span><br><span class="line">        t = read(sentence_7, <span class="number">1</span>)  <span class="comment"># 预测时长</span></span><br><span class="line">        max_fev = <span class="built_in">int</span>(read(sentence_9, <span class="number">1</span>))  <span class="comment"># 拟合次数上限</span></span><br><span class="line"></span><br><span class="line">        time_1 = time.time()</span><br><span class="line">        para, result = fit_c(x_samples, y_samples, p0, t, true, max_fev)  <span class="comment"># 拟合</span></span><br><span class="line">        time_2 = time.time()</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\n模型: y = c&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;样本点:\nx=&#123;&#125;\ny=&#123;&#125;&quot;</span>.<span class="built_in">format</span>(x_samples, y_samples))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;函数原型参数: &quot;</span>, c)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;拟合初值: &quot;</span>, p0)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;拟合结果: &quot;</span>, para)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;拟合表达式: y =&quot;</span>, para)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;拟合耗时: &#123;&#125; ms&quot;</span>.<span class="built_in">format</span>((time_2-time_1)*<span class="number">1000</span>))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;积分区间: [&#123;&#125;, &#123;&#125;]&quot;</span>.<span class="built_in">format</span>(x_max, x_max+t))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;积分值: &quot;</span>, result)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> x_max &gt; <span class="number">0</span>:</span><br><span class="line">            x_fit = np.arange(x_min, <span class="number">2</span>*(x_max+t), x_division)</span><br><span class="line">            x_bound = np.array([x_min, <span class="number">2.5</span>*(x_max+t)])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            x_fit = np.arange(x_min, <span class="built_in">abs</span>(-x_max+<span class="number">2</span>*t), x_division)</span><br><span class="line">            x_bound = np.array([x_min, <span class="number">1.25</span> * <span class="built_in">abs</span>(-x_max+<span class="number">2</span>*t)])</span><br><span class="line"></span><br><span class="line">        y_fit = func_c(x_fit, para)</span><br><span class="line">        y_bound = np.array([c, c])</span><br><span class="line"></span><br><span class="line">        fig = plt.figure(figsize=(<span class="number">8</span>, <span class="number">6</span>))</span><br><span class="line">        ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">        ax.spines[<span class="string">&#x27;right&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)  <span class="comment"># 去掉右方的y轴</span></span><br><span class="line">        ax.spines[<span class="string">&#x27;top&#x27;</span>].set_color(<span class="string">&#x27;none&#x27;</span>)  <span class="comment"># 去掉上方的x轴</span></span><br><span class="line">        ax.spines[<span class="string">&#x27;left&#x27;</span>].set_position((<span class="string">&#x27;data&#x27;</span>, x_min))  <span class="comment"># 将y轴移动至x最小值处</span></span><br><span class="line">        ax.spines[<span class="string">&#x27;bottom&#x27;</span>].set_position((<span class="string">&#x27;data&#x27;</span>, <span class="built_in">min</span>(y_samples)))  <span class="comment"># 将x轴移动至y样本最小值处</span></span><br><span class="line">        ax.set_xticks(np.arange(<span class="built_in">min</span>(x_samples), x_max+<span class="number">2</span>*t, <span class="number">1</span>))  <span class="comment"># 设置x刻度</span></span><br><span class="line">        ax.scatter(x_samples, y_samples, color=<span class="string">&#x27;red&#x27;</span>, label=<span class="string">&#x27;Original Points&#x27;</span>, linewidth=<span class="number">1</span>)  <span class="comment"># 有噪声的样本点图</span></span><br><span class="line">        plt.plot(x_bound, y_bound, color=<span class="string">&#x27;green&#x27;</span>, label=<span class="string">&#x27;Real Value&#x27;</span>, linewidth=<span class="number">1</span>)  <span class="comment"># 实际</span></span><br><span class="line">        ax.plot(x_fit, y_fit, color=<span class="string">&#x27;orange&#x27;</span>, label=<span class="string">&quot;Fitting Line&quot;</span>, linewidth=<span class="number">2</span>)  <span class="comment"># 有噪声样本拟合的曲线图</span></span><br><span class="line">        plt.plot(x_max, func_c(np.array([x_max]), para), <span class="string">&quot;ob&quot;</span>, color=<span class="string">&#x27;blue&#x27;</span>, label=<span class="string">&quot;current&quot;</span>)  <span class="comment"># 最新点</span></span><br><span class="line">        plt.plot(x_max+t, func_c(np.array([x_max+t]), para), <span class="string">&quot;ob&quot;</span>, color=<span class="string">&#x27;purple&#x27;</span>, label=<span class="string">&#x27;Prediction&#x27;</span>)  <span class="comment"># 预测点</span></span><br><span class="line">        ax.plot([x_max, x_max], [func_c(np.array([x_max]), para), <span class="built_in">min</span>(y_samples)],</span><br><span class="line">                color=<span class="string">&#x27;blue&#x27;</span>, linestyle=<span class="string">&#x27;--&#x27;</span>)  <span class="comment"># 作最新点到x轴的垂直虚线</span></span><br><span class="line">        ax.plot([x_max+t, x_max+t], [func_c(np.array([x_max+t]), para), <span class="built_in">min</span>(y_samples)],</span><br><span class="line">                color=<span class="string">&#x27;purple&#x27;</span>, linestyle=<span class="string">&#x27;--&#x27;</span>)  <span class="comment"># 作预测点到x轴的垂直虚线</span></span><br><span class="line">        x_series = np.linspace(x_max, x_max+t, amount)  <span class="comment"># 积分区域</span></span><br><span class="line">        y_1 = <span class="built_in">min</span>(y_samples) * np.ones(x_series.shape)</span><br><span class="line">        y_2 = func_c(x_series, para)</span><br><span class="line">        plt.fill_between(x_series, y_1, y_2, where=y_1&lt;y_2, facecolor=<span class="string">&#x27;white&#x27;</span>, hatch=<span class="string">&#x27;/&#x27;</span>, interpolate=true)  <span class="comment"># 填充阴影</span></span><br><span class="line">        plt.xlabel(<span class="string">&quot;Time/s&quot;</span>)</span><br><span class="line">        plt.ylabel(<span class="string">&quot;Velocity&quot;</span>)</span><br><span class="line">        plt.legend()</span><br><span class="line">        plt.show()</span><br><span class="line">        exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;已取消测试&quot;</span>)</span><br><span class="line">        exit(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
 <p><strong>运行结果如下：</strong></p>
-<p>输入参数依次为：[15, -3.14, 0, 0.1], 'w', [8, 0.34, 0.52, 0], [7,
-0.2, 0.2, 0], 0.7, 1000， 结果如下：</p>
-<p><img src="image.png" alt="图像结果" style="zoom:80%"></p>
-<p>由于个人需要求了个积分，因此输入的参数中的"0.7"表示积分区间的长度，积分区间为
-[样本横坐标最大值，
-样本横坐标最大值+0.7]，由阴影部分表示。其余点/线的意义如下：</p>
+<p>输入参数依次为：[15, -3.14, 0, 0.1],  ‘w’,  [8, 0.34, 0.52, 0], [7, 0.2, 0.2, 0], 0.7, 1000， 结果如下：</p>
+<img src="image.png" alt="图像结果" style="zoom:80%">
+
+<p>由于个人需要求了个积分，因此输入的参数中的”0.7”表示积分区间的长度，积分区间为 [样本横坐标最大值， 样本横坐标最大值+0.7]，由阴影部分表示。其余点&#x2F;线的意义如下：</p>
 <ul>
 <li>红色点：由输入参数的正弦函数生成的带高斯噪声的样本点</li>
 <li>蓝色点：横坐标最大的样本点</li>
@@ -601,7 +302,8 @@ Leastsq功能测试</h3>
 <li>黄色曲线：拟合结果</li>
 </ul>
 <p>输出的数据结果如下，其中带噪声的样本点是由无噪声样本点的基础上加上符合标准正态分布的噪声产生的:</p>
-<p><img src="result.png" alt="数据结果" style="zoom:80%"></p>
+<img src="result.png" alt="数据结果" style="zoom:80%">
+
 <p>程序可改进的地方：因为选择了<code>y=C</code>这样一个与自变量不相关的线性模型，所以最佳拟合值就是样本均值，不需要再调用api了！</p>
 
     </div>
@@ -688,8 +390,7 @@ Leastsq功能测试</h3>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="nav-number">1.</span> <span class="nav-text">一元线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="nav-number">2.</span> <span class="nav-text">多元线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%85%83%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="nav-number">3.</span> <span class="nav-text">多元非线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-api----leastsq%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">Python API --
-Leastsq功能测试</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="nav-number">1.</span> <span class="nav-text">一元线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="nav-number">2.</span> <span class="nav-text">多元线性回归</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%81%8F%E5%B7%AE%E5%B9%B3%E6%96%B9%E5%92%8C%E5%87%BD%E6%95%B0%EF%BC%9A-begin-align-e-x3D-sum-i-x3D-1-m-a-0-a-1x-1i-a-2x-2i-%E2%80%A6-a-nx-n-i-y-i-2-end-align-%E4%BB%A4e%E5%AF%B9-a-0-a-n-%E7%9A%84%E5%90%84%E4%B8%AA%E5%81%8F%E5%AF%BC%E4%B8%BA0%EF%BC%8C%E7%A8%8D%E5%BE%AE%E5%8F%98%E5%8C%96%E5%BD%A2%E5%BC%8F%E5%8F%AF%E5%BE%97%E5%88%B0%E5%85%B3%E4%BA%8E%E6%9C%AA%E7%9F%A5%E6%95%B0%E7%9A%84%E6%AD%A3%E8%A7%84%E6%96%B9%E7%A8%8B%E7%BB%84%EF%BC%88n-1%E4%B8%AA%E6%96%B9%E7%A8%8B%EF%BC%8Cn-1%E4%B8%AA%E6%9C%AA%E7%9F%A5%E6%95%B0%EF%BC%89%EF%BC%9A-begin-cases-begin-align-sum-i-x3D-1-m-a-0-a-1x-1i-a-2-amp-x-2i-%E2%80%A6-a-nx-n-i-x3D-sum-i-x3D-1-m-y-i-sum-i-x3D-1-m-a-0-a-1x-1i-a-2-amp-x-2i-%E2%80%A6-a-nx-n-i-x-1i-x3D-sum-i-x3D-1-m-x-1i-y-i-amp-vdots-sum-i-x3D-1-m-a-0-a-1x-1i-a-2-amp-x-2i-%E2%80%A6-a-nx-n-i-x-ni-x3D-sum-i-x3D-1-m-x-ni-y-i-end-align-end-cases-%E7%94%A8%E7%9F%A9%E9%98%B5%E7%9A%84%E5%BD%A2%E5%BC%8F%E8%A1%A8%E7%A4%BA%E4%B8%BA%EF%BC%9A-begin-aligned-left-begin-matrix-n-amp-sum-x-1i-amp-sum-x-2i-amp-dots-amp-sum-x-ni-sum-x-1i-amp-sum-x-1i-2-amp-sum-x-1i-x-2i-amp-dots-amp-sum-x-1i-x-ni-vdots-amp-vdots-amp-vdots-amp-ddots-amp-vdots-sum-x-ni-amp-sum-x-1i-x-ni-amp-sum-x-2i-x-ni-amp-sum-dots-amp-sum-x-ni-2-end-matrix-right-left-begin-matrix-a-0-a-1-a-2-vdots-a-n-end-matrix-right"><span class="nav-number"></span> <span class="nav-text">偏差平方和函数：$$\begin{align} e &#x3D; \sum_{i&#x3D;1}^{m}{(a_0 + a_1x_{1i} + a_2x_{2i} + … + a_nx_{n i}- y_i)^2} \end{align}$$令e对 $a_0$ ~ $a_n$ 的各个偏导为0，稍微变化形式可得到关于未知数的正规方程组（n+1个方程，n+1个未知数）：$$\begin{cases}\begin{align}\sum_{i&#x3D;1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i}) &#x3D; \sum_{i&#x3D;1}^{m}y_i \\\sum_{i&#x3D;1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i})x_{1i} &#x3D; \sum_{i&#x3D;1}^{m}x_{1i}y_i \\&amp;\vdots \\\sum_{i&#x3D;1}^{m}(a_0 + a_1x_{1i} + a_2&amp;x_{2i} + … + a_nx_{n i})x_{ni} &#x3D; \sum_{i&#x3D;1}^{m}x_{ni}y_i\end{align}\end{cases}$$用矩阵的形式表示为：$$\begin{aligned}\left[\begin{matrix}n &amp;\sum x_{1i} &amp;\sum x_{2i} &amp;\dots &amp;\sum x_{ni} \\\sum x_{1i} &amp;\sum x_{1i}^2 &amp; \sum x_{1i}x_{2i} &amp;\dots &amp;\sum x_{1i}x_{ni} \\\vdots &amp;\vdots &amp;\vdots  &amp;\ddots &amp;\vdots \\\sum x_{ni} &amp;\sum x_{1i}x_{ni} &amp;\sum  x_{2i}x_{ni} &amp;\sum \dots &amp;\sum x_{ni}^2\end{matrix}\right]\left[\begin{matrix}a_0 \ a_1 \ a_2 \ \vdots \ a_n\end{matrix}\right]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%85%83%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="nav-number">1.</span> <span class="nav-text">多元非线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-API-%E2%80%93-Leastsq%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="nav-number">2.</span> <span class="nav-text">Python API – Leastsq功能测试</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

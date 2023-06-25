@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="CMake &amp; GCC 基础 Part I GCC GNU Compiler GCC&#x2F;G++ 执行编译工作时分4步：  预处理 ，即处理 #define #include #if #ifdef #pragma 等指令，生成 .i 文件 将预处理后的文件转化为汇编程序，生成 .s 文件 将汇编程序转化为目标代码（机器语言），生成 .o 文件 链接目标代码，生成可执行程序  分别编译至 .i&#x2F;">
+  <meta name="description" content="CMake &amp; GCC 基础Part I GCCGNU Compiler GCC&#x2F;G++  执行编译工作时分4步：  预处理 ，即处理 #define #include #if #ifdef #pragma 等指令，生成 .i 文件 将预处理后的文件转化为汇编程序，生成 .s 文件  将汇编程序转化为目标代码（机器语言），生成 .o 文件 链接目标代码，生成可执行程序  分别编译">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCC与CMake入门">
 <meta property="og:url" content="https://lightshaker.cn/archives/1806/index.html">
 <meta property="og:site_name" content="Journey">
-<meta property="og:description" content="CMake &amp; GCC 基础 Part I GCC GNU Compiler GCC&#x2F;G++ 执行编译工作时分4步：  预处理 ，即处理 #define #include #if #ifdef #pragma 等指令，生成 .i 文件 将预处理后的文件转化为汇编程序，生成 .s 文件 将汇编程序转化为目标代码（机器语言），生成 .o 文件 链接目标代码，生成可执行程序  分别编译至 .i&#x2F;">
+<meta property="og:description" content="CMake &amp; GCC 基础Part I GCCGNU Compiler GCC&#x2F;G++  执行编译工作时分4步：  预处理 ，即处理 #define #include #if #ifdef #pragma 等指令，生成 .i 文件 将预处理后的文件转化为汇编程序，生成 .s 文件  将汇编程序转化为目标代码（机器语言），生成 .o 文件 链接目标代码，生成可执行程序  分别编译">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-18T04:34:46.000Z">
 <meta property="article:modified_time" content="2023-06-12T06:53:01.952Z">
@@ -226,332 +226,276 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="cmake-gcc-基础">CMake &amp; GCC 基础</h1>
-<h2 id="part-i-gcc">Part I GCC</h2>
-<p><strong>GNU Compiler GCC/G++</strong> 执行编译工作时分4步：</p>
-<ol type="1">
-<li>预处理 ，即处理 <code>#define</code> <code>#include</code>
-<code>#if</code> <code>#ifdef</code> <code>#pragma</code> 等指令，生成
-.i 文件</li>
-<li>将预处理后的文件转化为汇编程序，生成 .s 文件</li>
+        <h1 id="CMake-amp-GCC-基础"><a href="#CMake-amp-GCC-基础" class="headerlink" title="CMake &amp; GCC 基础"></a>CMake &amp; GCC 基础</h1><h2 id="Part-I-GCC"><a href="#Part-I-GCC" class="headerlink" title="Part I GCC"></a>Part I GCC</h2><p><strong>GNU Compiler GCC&#x2F;G++</strong>  执行编译工作时分4步：</p>
+<ol>
+<li>预处理 ，即处理 <code>#define</code> <code>#include</code> <code>#if</code> <code>#ifdef</code> <code>#pragma</code> 等指令，生成 .i 文件</li>
+<li>将预处理后的文件转化为汇编程序，生成 .s 文件 </li>
 <li>将汇编程序转化为目标代码（机器语言），生成 .o 文件</li>
 <li>链接目标代码，生成可执行程序</li>
 </ol>
-<p>分别编译至
-<strong>.i</strong>/<strong>.s</strong>/<strong>.o</strong>/<strong>可执行</strong>
-文件的命令：</p>
+<p>分别编译至 <strong>.i</strong>&#x2F;<strong>.s</strong>&#x2F;<strong>.o</strong>&#x2F;<strong>可执行</strong> 文件的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gcc -E xxx</span><br><span class="line">gcc -S xxx </span><br><span class="line">gcc -c xxx</span><br><span class="line">gcc xxx</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li><p>gcc命令只能编译c和c++程序，c程序以.c为后缀，c++程序以.C或.cpp为后缀</p></li>
-<li><p>用gcc按上述操作编译c++程序时只能编译至生成<strong>.o</strong>文件，不能生成可执行文件，因为gcc在链接时默认链接到C的标准库。</p></li>
-<li><p>链接c++标准库生成可执行文件的方式有两种：</p></li>
+<li><p>gcc命令只能编译c和c++程序，c程序以.c为后缀，c++程序以.C或.cpp为后缀</p>
+</li>
+<li><p>用gcc按上述操作编译c++程序时只能编译至生成**.o**文件，不能生成可执行文件，因为gcc在链接时默认链接到C的标准库。</p>
+</li>
+<li><p>链接c++标准库生成可执行文件的方式有两种：</p>
+</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc xxx -lstdc++  <span class="comment"># 使用gcc命令时加上 -lstdc++ 编译选项，设定链接到c++标准库</span></span><br><span class="line">g++ xxx  <span class="comment"># 直接使用g++编译</span></span><br></pre></td></tr></table></figure>
+
 <span id="more"></span>
+
 <p><strong>其他参数</strong></p>
 <table>
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 75%" />
-</colgroup>
 <thead>
-<tr class="header">
-<th style="text-align: left;">选项</th>
-<th style="text-align: left;">解释</th>
+<tr>
+<th align="left">选项</th>
+<th align="left">解释</th>
 </tr>
 </thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">-o</td>
-<td
-style="text-align: left;">FILE生成指定的输出文件。用在生成可执行文件时。</td>
+<tbody><tr>
+<td align="left">-o</td>
+<td align="left">FILE生成指定的输出文件。用在生成可执行文件时。</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-g</td>
-<td style="text-align: left;">生成调试信息。GNU
-调试器可利用该信息。</td>
+<tr>
+<td align="left">-g</td>
+<td align="left">生成调试信息。GNU 调试器可利用该信息。</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-w</td>
-<td style="text-align: left;">不生成任何警告信息。</td>
+<tr>
+<td align="left">-w</td>
+<td align="left">不生成任何警告信息。</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-Wall</td>
-<td style="text-align: left;">生成所有警告信息。</td>
+<tr>
+<td align="left">-Wall</td>
+<td align="left">生成所有警告信息。</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-I(大写i) path</td>
-<td
-style="text-align: left;">指定path为第一个寻找头文件的目录，找完了这个目录才去
-/usr/include 和 /usr/local/include里找</td>
+<tr>
+<td align="left">-I(大写i) path</td>
+<td align="left">指定path为第一个寻找头文件的目录，找完了这个目录才去 &#x2F;usr&#x2F;include 和 &#x2F;usr&#x2F;local&#x2F;include里找</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-L path</td>
-<td style="text-align: left;">指定path为第一个寻找库文件的目录，找完了去
-/usr/lib 和 /usr/local/lib里找</td>
+<tr>
+<td align="left">-L path</td>
+<td align="left">指定path为第一个寻找库文件的目录，找完了去 &#x2F;usr&#x2F;lib 和 &#x2F;usr&#x2F;local&#x2F;lib里找</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-l[n] (小写L)</td>
-<td
-style="text-align: left;">首先在path里找库名为[n]的动态库文件，其对应的库文件名为lib[n].so</td>
+<tr>
+<td align="left">-l[n] (小写L)</td>
+<td align="left">首先在path里找库名为[n]的动态库文件，其对应的库文件名为lib[n].so</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-x language filename</td>
-<td style="text-align: left;">指定文件所使用的语言，可使用的参数有 "c",
-"objective-c", "c-header", "c++", "cpp-output", "assembler",
-"assembler-wit-cpp"，当language置空时，gcc会根据文件名后缀判断类型</td>
+<tr>
+<td align="left">-x language filename</td>
+<td align="left">指定文件所使用的语言，可使用的参数有 “c”, “objective-c”, “c-header”, “c++”, “cpp-output”, “assembler”, “assembler-wit-cpp”，当language置空时，gcc会根据文件名后缀判断类型</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-DMACRO=DEFN</td>
-<td style="text-align: left;">以字符串"DEFN"定义 MACRO 宏。</td>
+<tr>
+<td align="left">-DMACRO&#x3D;DEFN</td>
+<td align="left">以字符串”DEFN”定义 MACRO 宏。</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-IDIRECTORY</td>
-<td style="text-align: left;">指定额外的头文件搜索路径DIRECTORY。</td>
+<tr>
+<td align="left">-IDIRECTORY</td>
+<td align="left">指定额外的头文件搜索路径DIRECTORY。</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-LDIRECTORY</td>
-<td style="text-align: left;">指定额外的函数库搜索路径DIRECTORY。</td>
+<tr>
+<td align="left">-LDIRECTORY</td>
+<td align="left">指定额外的函数库搜索路径DIRECTORY。</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-lLIBRARY</td>
-<td style="text-align: left;">连接时搜索指定的函数库LIBRARY。</td>
+<tr>
+<td align="left">-lLIBRARY</td>
+<td align="left">连接时搜索指定的函数库LIBRARY。</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-m486</td>
-<td style="text-align: left;">针对 486 进行代码优化。</td>
+<tr>
+<td align="left">-m486</td>
+<td align="left">针对 486 进行代码优化。</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-O0</td>
-<td style="text-align: left;">不进行优化处理。</td>
+<tr>
+<td align="left">-O0</td>
+<td align="left">不进行优化处理。</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-O 或 -O1</td>
-<td style="text-align: left;">优化生成代码。</td>
+<tr>
+<td align="left">-O 或 -O1</td>
+<td align="left">优化生成代码。</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-O2</td>
-<td style="text-align: left;">进一步优化。</td>
+<tr>
+<td align="left">-O2</td>
+<td align="left">进一步优化。</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-O3</td>
-<td style="text-align: left;">比 -O2 更进一步优化，包括 inline
-函数。</td>
+<tr>
+<td align="left">-O3</td>
+<td align="left">比 -O2 更进一步优化，包括 inline 函数。</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-shared</td>
-<td
-style="text-align: left;">生成共享目标文件。通常用在建立共享库时。</td>
+<tr>
+<td align="left">-shared</td>
+<td align="left">生成共享目标文件。通常用在建立共享库时。</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-static</td>
-<td style="text-align: left;">禁止使用共享连接。</td>
+<tr>
+<td align="left">-static</td>
+<td align="left">禁止使用共享连接。</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-UMACRO</td>
-<td style="text-align: left;">取消对 MACRO 宏的定义。</td>
+<tr>
+<td align="left">-UMACRO</td>
+<td align="left">取消对 MACRO 宏的定义。</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">-ansi</td>
-<td style="text-align: left;">只支持 ANSI 标准的 C 语法。这一选项将禁止
-GNU C 的某些特色， 例如 asm 或 typeof 关键词</td>
+<tr>
+<td align="left">-ansi</td>
+<td align="left">只支持 ANSI 标准的 C 语法。这一选项将禁止 GNU C 的某些特色， 例如 asm 或 typeof 关键词</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">-DMACRO</td>
-<td style="text-align: left;">以字符串"1"定义 MACRO 宏。</td>
+<tr>
+<td align="left">-DMACRO</td>
+<td align="left">以字符串”1”定义 MACRO 宏。</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p><strong>GCC编译示例：</strong></p>
 <p>假设现在我们有三个文件，分别是main.cpp，log.cpp，log.h，其中log.h是log.cpp的声明，而main调用了log.cpp某个函数</p>
 <p><strong>方式一：</strong>将main之外的cpp分别编译成目标代码，再静态链接</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g++ -c log.cpp -o log.o  <span class="comment"># 编译log.cpp成目标代码log.o</span></span><br><span class="line">g++ main.cpp log.o -o MAIN  <span class="comment"># 静态链接</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>方式二：</strong>将main之外的cpp分别编译成目标代码，再生成静态链接库(.a)并使用</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">g++ -c log.cpp -o log.o</span><br><span class="line">ar rcs liblog.a log.o  <span class="comment"># 利用目标代码生成静态库</span></span><br><span class="line">g++ main.cpp -L./ -llog -o MAIN  <span class="comment"># 使用静态库编译至可执行文件 </span></span><br></pre></td></tr></table></figure>
-<p><strong>方式三：</strong>将main之外的cpp分别编译成动态链接库(.so)并使用链接，其中
-<code>-fPIC</code>
-设置了机器码不依赖与绝对地址，防止被同时多处调用时产生冲突，实现代码安全共享，不加该编译选项的话编译无法通过。另外环境变量
-<code>LD_LIBRARY_PATH</code>
-如果不进行设置，那么虽然编译的过程不受影响，但是运行可执行文件时仍然无法链接动态库。</p>
+
+<p><strong>方式三：</strong>将main之外的cpp分别编译成动态链接库(.so)并使用链接，其中 <code>-fPIC</code> 设置了机器码不依赖与绝对地址，防止被同时多处调用时产生冲突，实现代码安全共享，不加该编译选项的话编译无法通过。另外环境变量 <code>LD_LIBRARY_PATH</code> 如果不进行设置，那么虽然编译的过程不受影响，但是运行可执行文件时仍然无法链接动态库。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置环境变量中默认动态库的路径 (下面-I和-L设置的是编译器的默认搜索路径，二者最好保持一致)</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=./:<span class="variable">$LD_LIBRARY_PATH</span>  </span><br><span class="line"><span class="comment"># 编译log.cpp成动态链接库.so文件，文件名一般是lib[name].so</span></span><br><span class="line">g++ log.cpp -shared -fPIC -o liblog.so </span><br><span class="line"><span class="comment"># -I和-L分别设置默认头文件和动态库的路径(用于lib文件与项目源码不在同一路径下时)，-l指定动态库的库名[name]</span></span><br><span class="line">g++ main.cpp -I ./ -L ./ -l <span class="built_in">log</span> -o MAIN</span><br></pre></td></tr></table></figure>
-<p>如果不想每次都设置环境变量，可以直接修改存放于 <code>~/</code>
-路径下的 bash 配置文件 <code>.bashrc</code> 内容：</p>
+
+<p>如果不想每次都设置环境变量，可以直接修改存放于 <code>~/</code> 路径下的 bash 配置文件 <code>.bashrc</code> 内容：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;export LD_LIBRARY_PATH=./:<span class="variable">$LD_LIBRARY_PATH</span>&quot;</span> &gt;&gt; ./.bashrc</span><br></pre></td></tr></table></figure>
+
 <p>或者直接打开 <code>.bashrc</code> 文件，在末尾加上这行代码也行；</p>
-<h2 id="part-ii-cmake">Part II CMake</h2>
-<blockquote>
-<p>注：个人使用CMake的经验也不是很丰富，部分指令我自己暂时还不能理解，日后接触到的话会另起</p>
+<h2 id="Part-II-CMake"><a href="#Part-II-CMake" class="headerlink" title="Part II CMake"></a>Part II CMake</h2><blockquote>
+<p>  注：个人使用CMake的经验也不是很丰富，部分指令我自己暂时还不能理解，日后接触到的话会另起</p>
 </blockquote>
-<h3 id="概要">概要</h3>
-<p><strong>CMake : （Cross Platform Make）
-一款跨平台的工程构建（编译）工具</strong></p>
-<p><strong>特点/优势：</strong>① 遵守BSD开源协议 ② 跨平台 ③
-编译构建语句简单、易理解 ④ 高效、可扩展</p>
-<p><strong>工作方式：</strong> 通过解析并执行组态档 CMakelists.txt
-文件的语句，自动生成Makefile文件</p>
+<h3 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h3><p><strong>CMake : （Cross Platform Make） 一款跨平台的工程构建（编译）工具</strong></p>
+<p><strong>特点&#x2F;优势：</strong>① 遵守BSD开源协议 ② 跨平台 ③ 编译构建语句简单、易理解 ④ 高效、可扩展</p>
+<p><strong>工作方式：</strong> 通过解析并执行组态档 CMakelists.txt 文件的语句，自动生成Makefile文件</p>
 <p><strong>与其他编译工具的对比：</strong></p>
 <ul>
-<li>GNU GCC：① 用与C/C++, Java等语言开发 ②
-适用于简单的项目，项目复杂时只用gcc难以组织编译架构</li>
-<li>Makefile：① 有条理的gcc编译命令的文件 ② 用make工具执行编译指令 ③
-简单项目可手写Makefile，项目复杂时较困难</li>
-<li>GNU autotools ① 与CMake相似，通过源代码架构生成Makefile的编译工具 ②
-效率相对较低 ③ 开发与配置步骤繁琐</li>
+<li>GNU GCC：① 用与C&#x2F;C++, Java等语言开发 ② 适用于简单的项目，项目复杂时只用gcc难以组织编译架构</li>
+<li>Makefile：① 有条理的gcc编译命令的文件 ② 用make工具执行编译指令 ③ 简单项目可手写Makefile，项目复杂时较困难</li>
+<li>GNU autotools ① 与CMake相似，通过源代码架构生成Makefile的编译工具 ② 效率相对较低 ③ 开发与配置步骤繁琐</li>
 <li>CMake：通过组态档 CMakeLists.txt 文件</li>
 </ul>
-<h3 id="cmake语法主题框架">CMake语法主题框架</h3>
-<ul>
+<h3 id="CMake语法主题框架"><a href="#CMake语法主题框架" class="headerlink" title="CMake语法主题框架"></a>CMake语法主题框架</h3><ul>
 <li><p>工程配置部分（必需）</p>
-<p>​ 设置CMake版本、工程名、编译模式、编译系统语言及语言版本等；</p></li>
+<p>​	设置CMake版本、工程名、编译模式、编译系统语言及语言版本等；</p>
+</li>
 <li><p>依赖执行部分（必需）</p>
-<p>​
-引入外部依赖，生成静态(.a)或动态(.so)链接库，或生成可执行文件等；</p></li>
+<p>​	引入外部依赖，生成静态(.a)或动态(.so)链接库，或生成可执行文件等；</p>
+</li>
 <li><p>其他辅助部分（非必需）</p>
-<p>​ 参数打印、目录遍历、条件判断、函数定义等；</p></li>
+<p>​	参数打印、目录遍历、条件判断、函数定义等；</p>
+</li>
 </ul>
-<h3 id="常用预定义变量">常用预定义变量</h3>
-<blockquote>
-<p>命令行使用CMake设置预定义变量时，需要加上 -D 前缀表示定义</p>
+<h3 id="常用预定义变量"><a href="#常用预定义变量" class="headerlink" title="常用预定义变量"></a>常用预定义变量</h3><blockquote>
+<p>  命令行使用CMake设置预定义变量时，需要加上 -D 前缀表示定义</p>
 </blockquote>
-<h4 id="cmake预定义变量">CMake预定义变量</h4>
-<ul>
+<h4 id="CMake预定义变量"><a href="#CMake预定义变量" class="headerlink" title="CMake预定义变量"></a>CMake预定义变量</h4><ul>
 <li><code>PROJECT_SOURCE_DIR</code>：工程根目录；</li>
-<li><code>PROJECT_BINARY_DIR</code>：运行 CMake 命令的目录。建议定义为
-<code>$&#123;PROJECT_SOURCE_DIR&#125;/build</code> 下；</li>
+<li><code>PROJECT_BINARY_DIR</code>：运行 CMake 命令的目录。建议定义为 <code>$&#123;PROJECT_SOURCE_DIR&#125;/build</code> 下；</li>
 <li><code>CMAKE_INCLUDE_PATH</code>：环境变量，非 CMake 变量；</li>
 <li><code>CMAKE_LIBRARY_PATH</code>：环境变量；</li>
-<li><code>CMAKE_CURRENT_SOURCE_DIR</code>：当前处理的 CMakeLists.txt
-文件所在路径；</li>
-<li><code>CMAKE_CURRENT_BINARY_DIR</code>：target 编译目录；
-<ul>
+<li><code>CMAKE_CURRENT_SOURCE_DIR</code>：当前处理的 CMakeLists.txt 文件所在路径；</li>
+<li><code>CMAKE_CURRENT_BINARY_DIR</code>：target 编译目录；<ul>
 <li>使用 <code>add_subdirectory</code> 命令可以更改该变量的值；</li>
-<li><code>set(EXECUTABLE_OUTPUT_PATH )</code>
-命令不会对该变量有影响，但改变了最终目标文件的存储路径。</li>
-</ul></li>
-<li><code>CMAKE_CURRENT_LIST_FILE</code>：输出调用该变量的
-CMakeLists.txt 的完整路径；</li>
+<li><code>set(EXECUTABLE_OUTPUT_PATH )</code> 命令不会对该变量有影响，但改变了最终目标文件的存储路径。</li>
+</ul>
+</li>
+<li><code>CMAKE_CURRENT_LIST_FILE</code>：输出调用该变量的 CMakeLists.txt 的完整路径；</li>
 <li><code>CMAKE_CURRENT_LIST_LINE</code>：输出该变量所在的行；</li>
 <li><code>CMAKE_MODULE_PATH</code>：定义自己的 CMake 模块所在路径；</li>
 <li><code>EXECUTABLE_OUTPUT_PATH</code>：重新定义目标二进制可执行文件的存放位置；</li>
 <li><code>LIBRARY_OUTPUT_PATH</code>：重新定义目标链接库文件的存放位置；</li>
-<li><code>PROJECT_NAME</code>：返回由 <code>project</code>
-命令定义的项目名称；</li>
-<li><code>CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS</code>：用来控制
-<code>if…else…</code> 语句的书写方式。</li>
-<li><code>CMAKE_BUILD_TYPE</code>：编译类型，可选项Debug/Release</li>
+<li><code>PROJECT_NAME</code>：返回由 <code>project</code> 命令定义的项目名称；</li>
+<li><code>CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS</code>：用来控制 <code>if…else…</code> 语句的书写方式。</li>
+<li><code>CMAKE_BUILD_TYPE</code>：编译类型，可选项Debug&#x2F;Release</li>
 <li><code>CMAKE_INSTALL_PREFIX</code>：设置可执行文件的存放路径</li>
 </ul>
-<h4 id="系统预定义变量">系统预定义变量</h4>
-<ul>
-<li><p><code>CMAKE_MAJOR_VERSION</code>：CMake 主版本号，如 3.12.0 中的
-3；</p></li>
-<li><p><code>CMAKE_MINOR_VERSION</code>：CMake 次版本号，如 3.12.0 中的
-12；</p></li>
-<li><p><code>CMAKE_PATCH_VERSION</code>：CMake 补丁等级，如 3.12.0 中的
-0；</p></li>
-<li><p><code>CMAKE_SYSTEM</code>：系统名称，例如
-Windows-10.0.17134；</p></li>
-<li><p><code>CMAKE_SYSTEM_NAME</code>：不包含版本号的系统名，如
-Windows；</p></li>
-<li><p><code>CMAKE_SYSTEM_VERSION</code>：系统版本号，如
-10.0.17134；</p></li>
-<li><p><code>CMAKE_SYSTEM_PROCESSOR</code>：处理器架构，如
-AMD64；</p></li>
-<li><p><code>UNIX</code>：在所有的类 UNIX 平台为 true，包括 macOS 和
-Cygwin；</p></li>
-<li><p><code>WIN32</code>：在所有的 Win32 平台为 true，包括
-Cygwin</p></li>
+<h4 id="系统预定义变量"><a href="#系统预定义变量" class="headerlink" title="系统预定义变量"></a>系统预定义变量</h4><ul>
+<li><p><code>CMAKE_MAJOR_VERSION</code>：CMake 主版本号，如 3.12.0 中的 3；</p>
+</li>
+<li><p><code>CMAKE_MINOR_VERSION</code>：CMake 次版本号，如 3.12.0 中的 12；</p>
+</li>
+<li><p><code>CMAKE_PATCH_VERSION</code>：CMake 补丁等级，如 3.12.0 中的 0；</p>
+</li>
+<li><p><code>CMAKE_SYSTEM</code>：系统名称，例如 Windows-10.0.17134；</p>
+</li>
+<li><p><code>CMAKE_SYSTEM_NAME</code>：不包含版本号的系统名，如 Windows；</p>
+</li>
+<li><p><code>CMAKE_SYSTEM_VERSION</code>：系统版本号，如 10.0.17134；</p>
+</li>
+<li><p><code>CMAKE_SYSTEM_PROCESSOR</code>：处理器架构，如 AMD64；</p>
+</li>
+<li><p><code>UNIX</code>：在所有的类 UNIX 平台为 true，包括 macOS 和 Cygwin；</p>
+</li>
+<li><p><code>WIN32</code>：在所有的 Win32 平台为 true，包括 Cygwin</p>
+</li>
 </ul>
-<h4 id="开关选项">开关选项</h4>
-<ul>
-<li><p><code>BUILD_SHARED_LIBS</code>：控制默认的库编译方式；</p></li>
-<li><p>如果未进行设置，使用 add_library
-时又没有指定库类型，默认编译生成的库都是静态库。</p></li>
-<li><p><code>CMAKE_C_FLAGS</code>：设置 C 编译选项；</p></li>
-<li><p><code>CMAKE_CXX_FLAGS</code>：设置 C++ 编译选项。</p></li>
+<h4 id="开关选项"><a href="#开关选项" class="headerlink" title="开关选项"></a>开关选项</h4><ul>
+<li><p><code>BUILD_SHARED_LIBS</code>：控制默认的库编译方式；</p>
+</li>
+<li><p>如果未进行设置，使用 add_library 时又没有指定库类型，默认编译生成的库都是静态库。</p>
+</li>
+<li><p><code>CMAKE_C_FLAGS</code>：设置 C 编译选项；</p>
+</li>
+<li><p><code>CMAKE_CXX_FLAGS</code>：设置 C++ 编译选项。</p>
+</li>
 </ul>
-<h3 id="基本指令">基本指令</h3>
-<blockquote>
-<p>大小写习惯：指令全小写，预定义变量全大写</p>
-<p>变量使用 <code>$&#123;&#125;</code> 方式取值，但是在 <code>if</code>
-控制语句中是直接使用变量名。</p>
+<h3 id="基本指令"><a href="#基本指令" class="headerlink" title="基本指令"></a>基本指令</h3><blockquote>
+<p>  大小写习惯：指令全小写，预定义变量全大写</p>
+<p>  变量使用 <code>$&#123;&#125;</code> 方式取值，但是在 <code>if</code> 控制语句中是直接使用变量名。</p>
 </blockquote>
-<h4 id="常用构建语法">常用构建语法：</h4>
-<h5 id="cmake_minimum_required">cmake_minimum_required</h5>
-<p>​ <strong>功能</strong>：限制使用的cmake最低版本；</p>
-<p>​
-<strong>格式</strong>：<code>cmake_minimum_required(VERSION X.x.x);</code></p>
-<p>​
-<strong>示例：</strong><code>cmake_minimum_required (4.1.2);</code></p>
-<h5 id="project">project</h5>
-<p>​ <strong>功能</strong>：设定项目名；</p>
-<p>​
-<strong>格式</strong>：<code>project(&lt;PROJECT-NAME&gt;);</code></p>
-<p>​ <strong>示例</strong>：<code>project (test)</code></p>
-<h5 id="set">set</h5>
-<p>​ <strong>功能</strong>：创建变量或指定已存在的变量的值；</p>
-<p>​
-<strong>格式</strong>：<code>set(&lt;variable&gt; &lt;value&gt;);</code></p>
+<h4 id="常用构建语法："><a href="#常用构建语法：" class="headerlink" title="常用构建语法："></a>常用构建语法：</h4><h5 id="cmake-minimum-required"><a href="#cmake-minimum-required" class="headerlink" title="cmake_minimum_required"></a>cmake_minimum_required</h5><p>​	<strong>功能</strong>：限制使用的cmake最低版本；</p>
+<p>​	<strong>格式</strong>：<code>cmake_minimum_required(VERSION X.x.x);</code></p>
+<p>​	<strong>示例：</strong><code>cmake_minimum_required (4.1.2);</code></p>
+<h5 id="project"><a href="#project" class="headerlink" title="project"></a>project</h5><p>​	<strong>功能</strong>：设定项目名；</p>
+<p>​	<strong>格式</strong>：<code>project(&lt;PROJECT-NAME&gt;);</code></p>
+<p>​	<strong>示例</strong>：<code>project (test)</code></p>
+<h5 id="set"><a href="#set" class="headerlink" title="set"></a>set</h5><p>​	<strong>功能</strong>：创建变量或指定已存在的变量的值；</p>
+<p>​	<strong>格式</strong>：<code>set(&lt;variable&gt; &lt;value&gt;);</code></p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line"><span class="keyword">set</span> (CMAKE_CXX_STANDARD <span class="number">14</span>)  <span class="comment"># 设置编译使用的C++版本为C++14</span></span><br><span class="line"><span class="keyword">set</span> (CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -Wall&quot;</span>)  <span class="comment"># 设置显示所有警告</span></span><br><span class="line"><span class="keyword">set</span> (CMAKE_INSTALL_PREFIX <span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>)  <span class="comment"># 设置生成可执行文件的路径为工程根目录</span></span><br><span class="line"><span class="keyword">set</span> (source_files <span class="string">&quot;$&#123;PROJECT_SOURCE_DIR&#125;/*.cpp&quot;</span>)  <span class="comment"># 设置源文件包</span></span><br></pre></td></tr></table></figure>
-<h5 id="add_definitions">add_definitions</h5>
-<p>​ <strong>功能</strong>：为源文件的编译整体添加由 <code>-D</code>
-引入的宏定义 <code>#define</code>；</p>
-<p>​
-<strong>格式</strong>：<code>add_definitions(-D &lt;def&gt;)</code>；</p>
-<p>​ <strong>示例：</strong><code>add_definitions(-D DEBUG);</code></p>
-<h5 id="find_package">find_package</h5>
-<p>​ <strong>功能</strong>：查找并引入外部的包；</p>
+
+<h5 id="add-definitions"><a href="#add-definitions" class="headerlink" title="add_definitions"></a>add_definitions</h5><p>​	<strong>功能</strong>：为源文件的编译整体添加由 <code>-D</code> 引入的宏定义 <code>#define</code>；</p>
+<p>​	<strong>格式</strong>：<code>add_definitions(-D &lt;def&gt;)  </code>；</p>
+<p>​	<strong>示例：</strong><code>add_definitions(-D DEBUG);</code></p>
+<h5 id="find-package"><a href="#find-package" class="headerlink" title="find_package"></a>find_package</h5><p>​	<strong>功能</strong>：查找并引入外部的包；</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span> (&lt;PackageName&gt; [version] [EXACT] [QUIET] [MODULE]</span><br><span class="line">              [REQUIRED] [[COMPONENTS] [components...]]</span><br><span class="line">              [OPTIONAL_COMPONENTS components...]</span><br><span class="line">              [NO_POLICY_SCOPE])  <span class="comment"># 格式</span></span><br><span class="line">            </span><br><span class="line"><span class="keyword">find_package</span> (OpenCV <span class="number">4.1</span>.<span class="number">2</span>s)</span><br></pre></td></tr></table></figure>
-<h5 id="add_subdirectory">add_subdirectory</h5>
-<p>​ <strong>功能</strong>：添加一个目录作为子目录用于构建；</p>
-<p>​
-<strong>格式</strong>：<code>add_subdirectory(source_dir [binary_dir] [EXCLUDE_FROM_ALL])</code>；</p>
-<p>​
-<code>source_dir</code>：目录路径，使用相对路径时默认当前路径为工程根目录，即
-<code>$&#123;PROJECT_SOURCE_DIR&#125;</code>；</p>
-<p>​ <code>binary_dir</code>：中间二进制与目标二进制文件的存放路径；</p>
-<p>​ <code>EXCLUDE_FROM_ALL</code>：
-默认情况下将该目录从编译过程中排除；</p>
-<p>​ <strong>示例：</strong><code>add_subdirectory (./toolkit)</code></p>
-<h5 id="include_directories">include_directories</h5>
-<p>​ <strong>功能</strong>：添加外部库的搜索路径，用空格分割；</p>
-<p>​
-<strong>格式</strong>：<code>link_directories(directory1 directory2 …);</code></p>
-<p>​
-<strong>示例：</strong><code>link_directories(/home/lightshaker /usr/local/lib);</code></p>
-<h5 id="aux_source_directory">aux_source_directory</h5>
-<p>​
-<strong>功能</strong>：查找指定路径下的所有源文件，并将源文件列表存储到指定变量中；</p>
-<p>​
-<strong>格式</strong>：<code>aux_source_directory(&lt;dir&gt; &lt;variable&gt;)</code>；</p>
-<p>​
-<strong>示例</strong>：<code>aux_source_directory(. SRC_LIST)</code>（需要提前创建变量SRC_LIST）；</p>
-<h5 id="add_library">add_library</h5>
-<p>​ <strong>功能</strong>：生成动态/静态链接库文件；</p>
+
+<h5 id="add-subdirectory"><a href="#add-subdirectory" class="headerlink" title="add_subdirectory"></a>add_subdirectory</h5><p>​	<strong>功能</strong>：添加一个目录作为子目录用于构建；</p>
+<p>​	<strong>格式</strong>：<code>add_subdirectory(source_dir [binary_dir] [EXCLUDE_FROM_ALL])</code>；</p>
+<p>​	 	   	 <code>source_dir </code>：目录路径，使用相对路径时默认当前路径为工程根目录，即 <code>$&#123;PROJECT_SOURCE_DIR&#125;</code>；</p>
+<p>​	 	        <code>binary_dir </code>：中间二进制与目标二进制文件的存放路径；</p>
+<p>​			     <code>EXCLUDE_FROM_ALL</code>： 默认情况下将该目录从编译过程中排除；</p>
+<p>​	<strong>示例：</strong><code>add_subdirectory (./toolkit)</code></p>
+<h5 id="include-directories"><a href="#include-directories" class="headerlink" title="include_directories"></a>include_directories</h5><p>​	<strong>功能</strong>：添加外部库的搜索路径，用空格分割；</p>
+<p>​	<strong>格式</strong>：<code>link_directories(directory1 directory2 …);</code></p>
+<p>​	<strong>示例：</strong><code>link_directories(/home/lightshaker /usr/local/lib);</code></p>
+<h5 id="aux-source-directory"><a href="#aux-source-directory" class="headerlink" title="aux_source_directory"></a>aux_source_directory</h5><p>​	<strong>功能</strong>：查找指定路径下的所有源文件，并将源文件列表存储到指定变量中；</p>
+<p>​	<strong>格式</strong>：<code>aux_source_directory(&lt;dir&gt; &lt;variable&gt;)</code>；</p>
+<p>​	<strong>示例</strong>：<code>aux_source_directory(. SRC_LIST)</code>（需要提前创建变量SRC_LIST）；</p>
+<h5 id="add-library"><a href="#add-library" class="headerlink" title="add_library"></a>add_library</h5><p>​	<strong>功能</strong>：生成动态&#x2F;静态链接库文件；</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span> (&lt;name&gt; [STATIC|SHARED|MODULE]  <span class="comment"># 库文件名 库类型(静态|)</span></span><br><span class="line">             [EXCLUDE_FROM_ALL]</span><br><span class="line">             [source1] [source2 …])	</span><br></pre></td></tr></table></figure>
-<h5 id="add_custom_command">add_custom_command</h5>
-<p>​ <strong>功能一</strong>：
-创建一个自定义的构建规则来产生一个输出；</p>
+
+<h5 id="add-custom-command"><a href="#add-custom-command" class="headerlink" title="add_custom_command"></a>add_custom_command</h5><p>​	<strong>功能一</strong>： 创建一个自定义的构建规则来产生一个输出；</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_custom_command</span> (OUTPUT output1 [output2 ...]              <span class="comment"># output 输出量的存放载体变量</span></span><br><span class="line">                    <span class="keyword">COMMAND</span> command1 [ARGS] [args1...]        <span class="comment"># COMMAND 关键字 command 命令语句  </span></span><br><span class="line">                    [<span class="keyword">COMMAND</span> command2 [ARGS] [args2...] ...]  <span class="comment"># ARGS 命令可能带有的参数 如cp [f1] [f2]</span></span><br><span class="line">                    [MAIN_DEPENDENCY depend]                  </span><br><span class="line">                    [DEPENDS [depends...]]                    </span><br><span class="line">                    [IMPLICIT_DEPENDS &lt;lang1&gt; depend1</span><br><span class="line">                                     [&lt;lang2&gt; depend2] ...]</span><br><span class="line">                    [WORKING_DIRECTORY dir]</span><br><span class="line">                    [COMMENT comment] [VERBATIM] [APPEND])</span><br></pre></td></tr></table></figure>
-<p>​
-<strong>功能二</strong>：创建目标并为其添加一个自定义命令，可指定命令的执行时刻，若目标已存在则不执行命令
-；</p>
+
+
+<p>​	<strong>功能二</strong>：创建目标并为其添加一个自定义命令，可指定命令的执行时刻，若目标已存在则不执行命令    ；</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_custom_command</span> (<span class="keyword">TARGET</span> &lt;<span class="keyword">target</span>&gt;                       <span class="comment"># target 目标名</span></span><br><span class="line">                    PRE_BUILD | PRE_LINK | POST_BUILD     <span class="comment"># 构建目标前执行|链接依赖项后执行|构建目标后执行</span></span><br><span class="line">                    <span class="keyword">COMMAND</span> command1 [ARGS] [args1...]    <span class="comment"># 命令</span></span><br><span class="line">                    [<span class="keyword">COMMAND</span> command2 [ARGS] [args2...] ...]</span><br><span class="line">                    [BYPRODUCTS [files...]]</span><br><span class="line">                    [WORKING_DIRECTORY dir]</span><br><span class="line">                    [COMMENT comment]</span><br><span class="line">                    [VERBATIM] [USES_TERMINAL]</span><br><span class="line">                    [COMMAND_EXPAND_LISTS])</span><br></pre></td></tr></table></figure>
-<h5 id="add_custom_target">add_custom_target</h5>
-<p>​
-<strong>功能</strong>：增加一个指定名称的目标，并执行指定的命令，但该目标没有输出文件；</p>
+
+<h5 id="add-custom-target"><a href="#add-custom-target" class="headerlink" title="add_custom_target"></a>add_custom_target</h5><p>​	<strong>功能</strong>：增加一个指定名称的目标，并执行指定的命令，但该目标没有输出文件；</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_custom_target</span> (Name [ALL] [command1 [args1...]]</span><br><span class="line">                   [<span class="keyword">COMMAND</span> command2 [args2...] ...]</span><br><span class="line">                   [DEPENDS depend depend depend ... ]</span><br><span class="line">                   [WORKING_DIRECTORY dir]</span><br><span class="line">                   [COMMENT comment] [VERBATIM]</span><br><span class="line">                   [SOURCES src1 [src2...]])</span><br></pre></td></tr></table></figure>
-<p>​ 该命令可与add_custom_command配合使用，如：</p>
+
+<p>​	该命令可与add_custom_command配合使用，如：</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> (TEST_FILE <span class="string">&quot;log.txt&quot;</span>)</span><br><span class="line"><span class="keyword">add_custom_command</span> (OUTPUT <span class="variable">$&#123;TEST_FILE&#125;</span></span><br><span class="line">    <span class="keyword">COMMAND</span> echo <span class="string">&quot;Generating log.txt file...&quot;</span></span><br><span class="line">    <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_COMMAND&#125;</span> -E copy <span class="variable">$&#123;CMAKE_CURRENT_LIST_FILE&#125;</span> <span class="variable">$&#123;TEST_FILE&#125;</span></span><br><span class="line">    COMMENT  <span class="string">&quot;This is a test&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_custom_target</span> (Test1 ALL DEPENDS <span class="variable">$&#123;TEST_FILE&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_custom_command</span> (<span class="keyword">TARGET</span> Test1</span><br><span class="line">    PRE_BUILD </span><br><span class="line">    <span class="keyword">COMMAND</span> echo <span class="string">&quot;executing a fake command&quot;</span></span><br><span class="line">    COMMENT <span class="string">&quot;This command will be executed before building target Test1&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>​ 输出结果：</p>
+
+<p>​	输出结果：</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[100%] This is a test</span><br><span class="line">Generating log.txt file...</span><br><span class="line">This command will be executed before building target Test1</span><br><span class="line">executing a fake command</span><br><span class="line">[100%] Built target Test1</span><br></pre></td></tr></table></figure>
-<h5 id="add_executable">add_executable</h5>
-<p><strong>功能</strong>：使用给定的源文件，生成一个可执行文件；</p>
+
+<h5 id="add-executable"><a href="#add-executable" class="headerlink" title="add_executable"></a>add_executable</h5><p><strong>功能</strong>：使用给定的源文件，生成一个可执行文件；</p>
 <p><strong>示例：</strong><code>add_executable(TEST main.cpp log.cpp)</code></p>
-<h5 id="set_target_properties">set_target_properties</h5>
-<p><strong>功能</strong>：设置目标属性以改变构建方式，格式与例子如下：</p>
+<h5 id="set-target-properties"><a href="#set-target-properties" class="headerlink" title="set_target_properties"></a>set_target_properties</h5><p><strong>功能</strong>：设置目标属性以改变构建方式，格式与例子如下：</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set_target_properties</span> (<span class="keyword">target</span> PROPERTIES </span><br><span class="line">                       prop1 value1</span><br><span class="line">                       prop2 value2 ...)</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set_target_properties</span>(<span class="keyword">test</span> PROPERTIES</span><br><span class="line">                      ARCHIVE_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_BINARY_DIR&#125;/lib&quot;</span></span><br><span class="line">                      LIBRARY_OUTPUT_DIRECTORY <span class="string">&quot;$&#123;CMAKE_BINARY_DIR&#125;/lib&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p><strong>target_link_libraries</strong></p>
 <p><strong>功能：</strong>将目标文件链接外部库；</p>
 <p><strong>格式：</strong><code>target_link_libraries(&lt;target&gt; … &lt;item&gt;…)</code>；</p>
@@ -560,62 +504,63 @@ Cygwin</p></li>
 <p><strong>功能：</strong>指定在编译指定目标时所使用的include目录；</p>
 <p><strong>格式：</strong><code>target_include_directories(&lt;target&gt; [SYSTEM][BEFORE] &lt;INTERFACE|PUBLIC|PRIVATE&gt; [items])</code>；</p>
 <p><strong>说明：</strong>interface表示该库的接口只为别人开放，自己不使用，public表示自己与他人一并使用，private与interface相反；</p>
-<h5 id="enable_testingadd_test">enable_testing/add_test</h5>
-<p><strong>功能：</strong>前者用于控制Makefile是否构建目标，后者配合前者使用，格式如下：</p>
+<h5 id="enable-testing-x2F-add-test"><a href="#enable-testing-x2F-add-test" class="headerlink" title="enable_testing&#x2F;add_test"></a>enable_testing&#x2F;add_test</h5><p><strong>功能：</strong>前者用于控制Makefile是否构建目标，后者配合前者使用，格式如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add_test(NAME &lt;name&gt; [CONFIGURATIONS [Debug|Release|...]]</span><br><span class="line">           [WORKING_DIRECTORY dir]</span><br><span class="line">           COMMAND &lt;command&gt; [arg1 [arg2 ...]])</span><br></pre></td></tr></table></figure>
-<h5 id="install">install</h5>
-<p><strong>功能：</strong>用于定义安装规则，安装的内容可包括目标二进制、动态库、静态库以及文件、目录、脚本等；</p>
+
+<h5 id="install"><a href="#install" class="headerlink" title="install"></a>install</h5><p><strong>功能：</strong>用于定义安装规则，安装的内容可包括目标二进制、动态库、静态库以及文件、目录、脚本等；</p>
 <p>示例：将二进制文件myrun、动态库文件mylib、静态库文件mystatic分别安装到build目录下的bin、lin、libstatic文件夹中</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &quot;安装&quot; 其实就是复制粘贴的过程</span></span><br><span class="line"><span class="keyword">install</span> (</span><br><span class="line">    TARGETS myrun mylib mystatic</span><br><span class="line">    RUNTIME DESTINATION bin</span><br><span class="line">    LIBRARY DESTINATION lib</span><br><span class="line">    ARCHIVE DESTINATION libstatic)</span><br></pre></td></tr></table></figure>
-<h4 id="基本逻辑控制语句">基本逻辑控制语句：</h4>
-<h5 id="foreach-endforeach">foreach endforeach</h5>
-<p><strong>功能：</strong>循环操作</p>
+
+<h4 id="基本逻辑控制语句："><a href="#基本逻辑控制语句：" class="headerlink" title="基本逻辑控制语句："></a>基本逻辑控制语句：</h4><h5 id="foreach-endforeach"><a href="#foreach-endforeach" class="headerlink" title="foreach  endforeach"></a>foreach  endforeach</h5><p><strong>功能：</strong>循环操作</p>
 <p><strong>示例：</strong>分别为列表、范围、范围步进语法</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 列表语法</span><br><span class="line"><span class="keyword">aux_source_directory</span>(. SRC_LIST)</span><br><span class="line"><span class="keyword">foreach</span>(F <span class="variable">$&#123;SRC_LIST&#125;</span>)</span><br><span class="line">     <span class="keyword">message</span>(<span class="variable">$&#123;F&#125;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>(F)</span><br><span class="line"></span><br><span class="line">// 范围语法</span><br><span class="line"><span class="keyword">foreach</span>(v RANGE <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">message</span>(<span class="variable">$&#123;v&#125;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>(v)</span><br><span class="line"></span><br><span class="line">// 范围步进语法</span><br><span class="line"><span class="keyword">foreach</span>(a RANGE <span class="number">5</span> <span class="number">15</span> <span class="number">3</span>)</span><br><span class="line">    <span class="keyword">message</span>(<span class="variable">$&#123;a&#125;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>(a)</span><br></pre></td></tr></table></figure>
-<h5 id="message">message</h5>
-<p><strong>功能：</strong>打印消息</p>
+
+<h5 id="message"><a href="#message" class="headerlink" title="message"></a>message</h5><p><strong>功能：</strong>打印消息</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">message</span>(<span class="variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>)</span><br></pre></td></tr></table></figure>
-<h5 id="if-elif-else-endif">if elif else endif</h5>
-<p><strong>功能：</strong>条件语句</p>
+
+<h5 id="if-elif-else-endif"><a href="#if-elif-else-endif" class="headerlink" title="if  elif  else  endif"></a>if  elif  else  endif</h5><p><strong>功能：</strong>条件语句</p>
 <p><strong>基本用法：</strong></p>
 <ul>
-<li><p><code>if(&lt;expression&gt;)</code>：当<code>expression</code>
-不为
-<code>0</code>、<code>OFF</code>、<code>NO</code>、<code>FALSE</code>、<code>N</code>、<code>IGNORE</code>、<code>NOTFOUND</code>、空字符串，或者不含后缀
-<code>-NOTFOUND</code> 时，为真；</p></li>
-<li><p><code>if(NOT &lt;expression&gt;)</code>：与上一条相反；</p></li>
-<li><p><code>if(&lt;expr1&gt; AND &lt;expr2&gt;)</code> 以及
-<code>if(&lt;expr1&gt; OR &lt;expr2&gt;)</code></p></li>
-<li><p><code>if(COMMAND command-name)</code>：如果
-<code>command-name</code> 是命令、宏或函数并可调用，为真；</p></li>
-<li><p><code>if(EXISTS path-to-file-or-directory)</code>：如果给定路径的文件或目录存在，为真；</p></li>
-<li><p><code>if(file1 IS_NEWER_THAN file2)</code>：当 file1 比 file2
-新，或 file1/file2 中有一个不存在时为真，文件名需使用全路径；</p></li>
-<li><p><code>if(IS_DIRECTORY path-to-directory)</code>：当给定路径是目录时，为真。注意使用全路径；</p></li>
-<li><p><code>if(DEFINED &lt;variable&gt; )</code>：如果变量已被定义，为真；</p></li>
-<li><p><code>if( &lt;variable|string&gt; MATCHES regex)</code>：当给定变量或字符串能匹配正则表达式
-regex 时，为真。此处的 <code>variable</code> 直接使用变量名，而非
-<code>$&#123;variable&#125;</code>。</p></li>
-<li><p><code>if(&lt;var&gt; LESS &lt;number&gt;)</code> or
-<code>if(&lt;var&gt; GREATER &lt;number&gt;)</code> or
-<code>if(&lt;var&gt; EQUAL &lt;number&gt;)</code> 数字比较</p></li>
-<li><p><code>if&lt;var1&gt; STRLESS &lt;var2&gt;</code> or
-<code>if&lt;var1&gt; STRGREATER &lt;var2&gt;</code> or
-<code>if&lt;var1&gt; STREQUAL &lt;var2&gt;</code>
-字母表顺序比较</p></li>
+<li><p><code>if(&lt;expression&gt;)</code>：当<code>expression</code> 不为 <code>0</code>、<code>OFF</code>、<code>NO</code>、<code>FALSE</code>、<code>N</code>、<code>IGNORE</code>、<code>NOTFOUND</code>、空字符串，或者不含后缀 <code>-NOTFOUND</code> 时，为真；</p>
+</li>
+<li><p><code>if(NOT &lt;expression&gt;)</code>：与上一条相反；</p>
+</li>
+<li><p><code>if(&lt;expr1&gt; AND &lt;expr2&gt;)</code> 以及 <code>if(&lt;expr1&gt; OR &lt;expr2&gt;)</code></p>
+</li>
+<li><p><code>if(COMMAND command-name)</code>：如果 <code>command-name</code> 是命令、宏或函数并可调用，为真；</p>
+</li>
+<li><p><code>if(EXISTS path-to-file-or-directory)</code>：如果给定路径的文件或目录存在，为真；</p>
+</li>
+<li><p><code>if(file1 IS_NEWER_THAN file2)</code>：当 file1 比 file2 新，或 file1&#x2F;file2 中有一个不存在时为真，文件名需使用全路径；</p>
+</li>
+<li><p><code>if(IS_DIRECTORY path-to-directory)</code>：当给定路径是目录时，为真。注意使用全路径；</p>
+</li>
+<li><p><code>if(DEFINED &lt;variable&gt; )</code>：如果变量已被定义，为真；</p>
+</li>
+<li><p><code>if( &lt;variable|string&gt; MATCHES regex)</code>：当给定变量或字符串能匹配正则表达式 regex 时，为真。此处的 <code>variable</code> 直接使用变量名，而非 <code>$&#123;variable&#125;</code>。</p>
+</li>
+<li><p><code>if(&lt;var&gt; LESS &lt;number&gt;)</code> or <code>if(&lt;var&gt; GREATER &lt;number&gt;)</code> or <code>if(&lt;var&gt; EQUAL &lt;number&gt;)</code> 数字比较</p>
+</li>
+<li><p><code>if&lt;var1&gt; STRLESS &lt;var2&gt;</code> or <code>if&lt;var1&gt; STRGREATER &lt;var2&gt;</code> or <code>if&lt;var1&gt; STREQUAL &lt;var2&gt;</code> 字母表顺序比较</p>
+</li>
 </ul>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 示例一</span><br><span class="line"><span class="keyword">if</span>(WIN32)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;This is windows.&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;This is not windows.&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line">// 示例二</span><br><span class="line"><span class="keyword">if</span>(<span class="string">&quot; $&#123;CMAKE_SOURCE_DIR&#125;&quot;</span> <span class="keyword">STREQUAL</span> <span class="string">&quot; $&#123;CMAKE_BINARY_DIR&#125;&quot;</span>)</span><br><span class="line">  <span class="keyword">message</span>(FATAL_ERROR <span class="string">&quot;</span></span><br><span class="line"><span class="string">FATAL: In-source builds are not allowed.</span></span><br><span class="line"><span class="string">       You should create a separate directory for build files.</span></span><br><span class="line"><span class="string">&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
-<h5 id="while-endwhile">while endwhile</h5>
-<p><strong>功能：循环操作</strong></p>
+
+<h5 id="while-endwhile"><a href="#while-endwhile" class="headerlink" title="while  endwhile"></a>while  endwhile</h5><p><strong>功能：循环操作</strong></p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(&lt;condition&gt;)</span><br><span class="line">  COMMAND1(&lt;ARGS&gt; …)</span><br><span class="line">  COMMAND2(&lt;ARGS&gt; …)</span><br><span class="line">  …</span><br><span class="line"><span class="keyword">endwhile</span>(&lt;condition&gt;)</span><br></pre></td></tr></table></figure>
-<h5 id="option">option</h5>
-<p><strong>功能：</strong>控制某个变量或宏的定义与否，选项ON/OFF，如果变量在之前没有定义过，则在执行option时定义该变量</p>
+
+<h5 id="option"><a href="#option" class="headerlink" title="option"></a>option</h5><p><strong>功能：</strong>控制某个变量或宏的定义与否，选项ON&#x2F;OFF，如果变量在之前没有定义过，则在执行option时定义该变量</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编译脚本传入宏定义 TEST_DEBUG</span></span><br><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line">cmake -DTEST_DEBUG=<span class="keyword">ON</span> .</span><br><span class="line">cmake --build .</span><br><span class="line"></span><br><span class="line"><span class="comment"># CMakeLists接受TEST_DEBUG 并设置默认关闭OFF</span></span><br><span class="line"><span class="keyword">option</span>(TEST_DEBUG <span class="string">&quot;option for debug&quot;</span> <span class="keyword">OFF</span>)</span><br><span class="line"><span class="keyword">if</span> (TEST_DEBUG)</span><br><span class="line"><span class="keyword">add_definitions</span>(-DTEST_DEBUG)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <p>参考资料：</p>
 <blockquote>
-<p>https://www.bilibili.com/video/BV17J411m7o1</p>
-<p>https://www.jianshu.com/p/9763cd8325bf</p>
-<p>https://www.jianshu.com/p/035bc18f8f62</p>
+<p>  <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV17J411m7o1">https://www.bilibili.com/video/BV17J411m7o1</a></p>
+<p>  <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9763cd8325bf">https://www.jianshu.com/p/9763cd8325bf</a></p>
+<p>  <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/035bc18f8f62">https://www.jianshu.com/p/035bc18f8f62</a></p>
 </blockquote>
 
     </div>
@@ -702,7 +647,7 @@ regex 时，为真。此处的 <code>variable</code> 直接使用变量名，而
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cmake-gcc-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">CMake &amp; GCC 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#part-i-gcc"><span class="nav-number">1.1.</span> <span class="nav-text">Part I GCC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#part-ii-cmake"><span class="nav-number">1.2.</span> <span class="nav-text">Part II CMake</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%A6%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cmake%E8%AF%AD%E6%B3%95%E4%B8%BB%E9%A2%98%E6%A1%86%E6%9E%B6"><span class="nav-number">1.2.2.</span> <span class="nav-text">CMake语法主题框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">常用预定义变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cmake%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">CMake预定义变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">系统预定义变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%85%B3%E9%80%89%E9%A1%B9"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">开关选项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4"><span class="nav-number">1.2.4.</span> <span class="nav-text">基本指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9E%84%E5%BB%BA%E8%AF%AD%E6%B3%95"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">常用构建语法：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cmake_minimum_required"><span class="nav-number">1.2.4.1.1.</span> <span class="nav-text">cmake_minimum_required</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#project"><span class="nav-number">1.2.4.1.2.</span> <span class="nav-text">project</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#set"><span class="nav-number">1.2.4.1.3.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add_definitions"><span class="nav-number">1.2.4.1.4.</span> <span class="nav-text">add_definitions</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#find_package"><span class="nav-number">1.2.4.1.5.</span> <span class="nav-text">find_package</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add_subdirectory"><span class="nav-number">1.2.4.1.6.</span> <span class="nav-text">add_subdirectory</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#include_directories"><span class="nav-number">1.2.4.1.7.</span> <span class="nav-text">include_directories</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#aux_source_directory"><span class="nav-number">1.2.4.1.8.</span> <span class="nav-text">aux_source_directory</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add_library"><span class="nav-number">1.2.4.1.9.</span> <span class="nav-text">add_library</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add_custom_command"><span class="nav-number">1.2.4.1.10.</span> <span class="nav-text">add_custom_command</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add_custom_target"><span class="nav-number">1.2.4.1.11.</span> <span class="nav-text">add_custom_target</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add_executable"><span class="nav-number">1.2.4.1.12.</span> <span class="nav-text">add_executable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#set_target_properties"><span class="nav-number">1.2.4.1.13.</span> <span class="nav-text">set_target_properties</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#enable_testingadd_test"><span class="nav-number">1.2.4.1.14.</span> <span class="nav-text">enable_testing&#x2F;add_test</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#install"><span class="nav-number">1.2.4.1.15.</span> <span class="nav-text">install</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%80%BB%E8%BE%91%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">基本逻辑控制语句：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#foreach-endforeach"><span class="nav-number">1.2.4.2.1.</span> <span class="nav-text">foreach endforeach</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#message"><span class="nav-number">1.2.4.2.2.</span> <span class="nav-text">message</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#if-elif-else-endif"><span class="nav-number">1.2.4.2.3.</span> <span class="nav-text">if elif else endif</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#while-endwhile"><span class="nav-number">1.2.4.2.4.</span> <span class="nav-text">while endwhile</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#option"><span class="nav-number">1.2.4.2.5.</span> <span class="nav-text">option</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CMake-amp-GCC-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">CMake &amp; GCC 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-I-GCC"><span class="nav-number">1.1.</span> <span class="nav-text">Part I GCC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-II-CMake"><span class="nav-number">1.2.</span> <span class="nav-text">Part II CMake</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%A6%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMake%E8%AF%AD%E6%B3%95%E4%B8%BB%E9%A2%98%E6%A1%86%E6%9E%B6"><span class="nav-number">1.2.2.</span> <span class="nav-text">CMake语法主题框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">常用预定义变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CMake%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">CMake预定义变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">系统预定义变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%85%B3%E9%80%89%E9%A1%B9"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">开关选项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4"><span class="nav-number">1.2.4.</span> <span class="nav-text">基本指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%9E%84%E5%BB%BA%E8%AF%AD%E6%B3%95%EF%BC%9A"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">常用构建语法：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cmake-minimum-required"><span class="nav-number">1.2.4.1.1.</span> <span class="nav-text">cmake_minimum_required</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#project"><span class="nav-number">1.2.4.1.2.</span> <span class="nav-text">project</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#set"><span class="nav-number">1.2.4.1.3.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add-definitions"><span class="nav-number">1.2.4.1.4.</span> <span class="nav-text">add_definitions</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#find-package"><span class="nav-number">1.2.4.1.5.</span> <span class="nav-text">find_package</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add-subdirectory"><span class="nav-number">1.2.4.1.6.</span> <span class="nav-text">add_subdirectory</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#include-directories"><span class="nav-number">1.2.4.1.7.</span> <span class="nav-text">include_directories</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#aux-source-directory"><span class="nav-number">1.2.4.1.8.</span> <span class="nav-text">aux_source_directory</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add-library"><span class="nav-number">1.2.4.1.9.</span> <span class="nav-text">add_library</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add-custom-command"><span class="nav-number">1.2.4.1.10.</span> <span class="nav-text">add_custom_command</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add-custom-target"><span class="nav-number">1.2.4.1.11.</span> <span class="nav-text">add_custom_target</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#add-executable"><span class="nav-number">1.2.4.1.12.</span> <span class="nav-text">add_executable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#set-target-properties"><span class="nav-number">1.2.4.1.13.</span> <span class="nav-text">set_target_properties</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#enable-testing-x2F-add-test"><span class="nav-number">1.2.4.1.14.</span> <span class="nav-text">enable_testing&#x2F;add_test</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#install"><span class="nav-number">1.2.4.1.15.</span> <span class="nav-text">install</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%80%BB%E8%BE%91%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5%EF%BC%9A"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">基本逻辑控制语句：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#foreach-endforeach"><span class="nav-number">1.2.4.2.1.</span> <span class="nav-text">foreach  endforeach</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#message"><span class="nav-number">1.2.4.2.2.</span> <span class="nav-text">message</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#if-elif-else-endif"><span class="nav-number">1.2.4.2.3.</span> <span class="nav-text">if  elif  else  endif</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#while-endwhile"><span class="nav-number">1.2.4.2.4.</span> <span class="nav-text">while  endwhile</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#option"><span class="nav-number">1.2.4.2.5.</span> <span class="nav-text">option</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

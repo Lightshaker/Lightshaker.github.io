@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="Journey">
 <meta property="og:description" content="本文总结了在Hexo文章中插入图片的常用方法以及可能遇到的一些问题的解决方案。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://lightshaker.cn/archives/eb4f/img.png">
+<meta property="og:image" content="https://lightshaker.cn/img.png">
 <meta property="og:image" content="https://lightshaker.cn/archives/eb4f/img.png">
 <meta property="og:image" content="https://lightshaker.cn/archives/eb4f/img.png">
 <meta property="og:image" content="https://lightshaker.cn/archives/eb4f/local.png">
@@ -38,7 +38,7 @@
 <meta property="article:author" content="Lightshaker">
 <meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://lightshaker.cn/archives/eb4f/img.png">
+<meta name="twitter:image" content="https://lightshaker.cn/img.png">
 
 <link rel="canonical" href="https://lightshaker.cn/archives/eb4f/">
 
@@ -236,80 +236,53 @@
 <p>本文总结了在Hexo文章中插入图片的常用方法以及可能遇到的一些问题的解决方案。</p>
 </blockquote>
 <span id="more"></span>
-<h3 id="插入图片的方法">插入图片的方法：</h3>
-<h4 id="使用markdown语法">使用Markdown语法</h4>
-<p>指令格式：<code>![Description](Path)</code></p>
+
+<h3 id="插入图片的方法："><a href="#插入图片的方法：" class="headerlink" title="插入图片的方法："></a>插入图片的方法：</h3><h4 id="使用Markdown语法"><a href="#使用Markdown语法" class="headerlink" title="使用Markdown语法"></a>使用Markdown语法</h4><p>指令格式：<code>![Description](Path)</code></p>
 <p>其中Description为图片描述，就是贴图后在图片下方写的标注，Path为要使用的图片路径</p>
 <p>举个栗子：<code>![我来自Markdown](img.png)</code>，效果如下：</p>
-<figure>
-<img src="img.png" alt="我来自Markdown" />
-<figcaption aria-hidden="true">我来自Markdown</figcaption>
-</figure>
-<h4 id="使用html语法">使用HTML语法</h4>
-<p>Html插图的指令格式：<code>&lt;img src="Path" [alt="Description"]&gt;</code></p>
-<p>举个栗子：<code>&lt;img src="img.png" alt="我来自Html"&gt;</code>，效果如下：</p>
-<p><img src="img.png" alt="我来自Html"></p>
-<h4 id="使用hexo3的插件-hexo-asset-image">使用Hexo3的插件
-hexo-asset-image</h4>
-<blockquote>
-<p>先 hexo -v 确保所装的hexo是3.0以上的版本</p>
+<p><img src="/img.png" alt="我来自Markdown"></p>
+<h4 id="使用HTML语法"><a href="#使用HTML语法" class="headerlink" title="使用HTML语法"></a>使用HTML语法</h4><p>Html插图的指令格式：<code>&lt;img src=&quot;Path&quot; [alt=&quot;Description&quot;]&gt;</code></p>
+<p>举个栗子：<code>&lt;img src=&quot;img.png&quot; alt=&quot;我来自Html&quot;&gt;</code>，效果如下：</p>
+<img src="img.png" alt="我来自Html">
+
+<h4 id="使用Hexo3的插件-hexo-asset-image"><a href="#使用Hexo3的插件-hexo-asset-image" class="headerlink" title="使用Hexo3的插件 hexo-asset-image"></a>使用Hexo3的插件 hexo-asset-image</h4><blockquote>
+<p>  先 hexo -v 确保所装的hexo是3.0以上的版本</p>
 </blockquote>
-<p>需要先在Hexo根目录下安装插件
-<code>npm install hexo-asset-image --save</code>，然后修改插件内的某个bug，不然会报错。</p>
-<p>打开
-<code>~node_module/hexo-asset-image/index.js</code>，直接清空了然后把下面的代码复制进去保存就行。</p>
+<p>需要先在Hexo根目录下安装插件 <code>npm install hexo-asset-image --save</code>，然后修改插件内的某个bug，不然会报错。</p>
+<p>打开 <code>~node_module/hexo-asset-image/index.js</code>，直接清空了然后把下面的代码复制进去保存就行。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> cheerio = <span class="built_in">require</span>(<span class="string">&#x27;cheerio&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getPosition</span>(<span class="params">str, m, i</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> str.<span class="title function_">split</span>(m, i).<span class="title function_">join</span>(m).<span class="property">length</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> version = <span class="title class_">String</span>(hexo.<span class="property">version</span>).<span class="title function_">split</span>(<span class="string">&#x27;.&#x27;</span>);</span><br><span class="line">hexo.<span class="property">extend</span>.<span class="property">filter</span>.<span class="title function_">register</span>(<span class="string">&#x27;after_post_render&#x27;</span>, <span class="keyword">function</span>(<span class="params">data</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> config = hexo.<span class="property">config</span>;</span><br><span class="line">  <span class="keyword">if</span>(config.<span class="property">post_asset_folder</span>)&#123;</span><br><span class="line">    	<span class="keyword">var</span> link = data.<span class="property">permalink</span>;</span><br><span class="line">	<span class="keyword">if</span>(version.<span class="property">length</span> &gt; <span class="number">0</span> &amp;&amp; <span class="title class_">Number</span>(version[<span class="number">0</span>]) == <span class="number">3</span>)</span><br><span class="line">	   <span class="keyword">var</span> beginPos = <span class="title function_">getPosition</span>(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	   <span class="keyword">var</span> beginPos = <span class="title function_">getPosition</span>(link, <span class="string">&#x27;/&#x27;</span>, <span class="number">3</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// In hexo 3.1.1, the permalink of &quot;about&quot; page is like &quot;.../about/index.html&quot;.</span></span><br><span class="line">	<span class="keyword">var</span> endPos = link.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>;</span><br><span class="line">    link = link.<span class="title function_">substring</span>(beginPos, endPos);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> toprocess = [<span class="string">&#x27;excerpt&#x27;</span>, <span class="string">&#x27;more&#x27;</span>, <span class="string">&#x27;content&#x27;</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; toprocess.<span class="property">length</span>; i++)&#123;</span><br><span class="line">      <span class="keyword">var</span> key = toprocess[i];</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">var</span> $ = cheerio.<span class="title function_">load</span>(data[key], &#123;</span><br><span class="line">        <span class="attr">ignoreWhitespace</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">xmlMode</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">lowerCaseTags</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">decodeEntities</span>: <span class="literal">false</span></span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      $(<span class="string">&#x27;img&#x27;</span>).<span class="title function_">each</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">		<span class="keyword">if</span> ($(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>))&#123;</span><br><span class="line">			<span class="comment">// For windows style path, we replace &#x27;\&#x27; to &#x27;/&#x27;.</span></span><br><span class="line">			<span class="keyword">var</span> src = $(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>).<span class="title function_">replace</span>(<span class="string">&#x27;\\&#x27;</span>, <span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			<span class="keyword">if</span>(!<span class="regexp">/http[s]*.*|\/\/.*/</span>.<span class="title function_">test</span>(src) &amp;&amp;</span><br><span class="line">			   !<span class="regexp">/^\s*\//</span>.<span class="title function_">test</span>(src)) &#123;</span><br><span class="line">			  <span class="comment">// For &quot;about&quot; page, the first part of &quot;src&quot; can&#x27;t be removed.</span></span><br><span class="line">			  <span class="comment">// In addition, to support multi-level local directory.</span></span><br><span class="line">			  <span class="keyword">var</span> linkArray = link.<span class="title function_">split</span>(<span class="string">&#x27;/&#x27;</span>).<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">elem</span>)&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">var</span> srcArray = src.<span class="title function_">split</span>(<span class="string">&#x27;/&#x27;</span>).<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">elem</span>)&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">&#x27;&#x27;</span> &amp;&amp; elem != <span class="string">&#x27;.&#x27;</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">if</span>(srcArray.<span class="property">length</span> &gt; <span class="number">1</span>)</span><br><span class="line">				srcArray.<span class="title function_">shift</span>();</span><br><span class="line">			  src = srcArray.<span class="title function_">join</span>(<span class="string">&#x27;/&#x27;</span>);</span><br><span class="line">			  $(<span class="variable language_">this</span>).<span class="title function_">attr</span>(<span class="string">&#x27;src&#x27;</span>, config.<span class="property">root</span> + link + src);</span><br><span class="line">			  <span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&quot;update link as:--&gt;&quot;</span>+config.<span class="property">root</span> + link + src);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>(<span class="string">&quot;no src attr, skipped...&quot;</span>);</span><br><span class="line">			<span class="variable language_">console</span>.<span class="property">info</span>&amp;&amp;<span class="variable language_">console</span>.<span class="title function_">info</span>($(<span class="variable language_">this</span>));</span><br><span class="line">		&#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      data[key] = $.<span class="title function_">html</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <p>使用该插件插图的指令格式如下：</p>
-<p><strong>ps:</strong>
-我试图用markdown的行内代码来表示这个指令格式，但是居然被它无视了，为了避免显示两次图还没显示格式，我只好用代码段来锁住这个妖怪了！</p>
+<p><strong>ps:</strong> 我试图用markdown的行内代码来表示这个指令格式，但是居然被它无视了，为了避免显示两次图还没显示格式，我只好用代码段来锁住这个妖怪了！	</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img Path [Description] %&#125;  # 格式</span><br><span class="line">&#123;% asset_img img.png 我来自Hexo3 %&#125;  # 栗子</span><br></pre></td></tr></table></figure>
+
 <img src="/archives/eb4f/img.png" class="" title="我来自Hexo3">
-<h3 id="一些可能会碰到的问题">一些可能会碰到的问题</h3>
-<h4 id="图片路径问题">图片路径问题</h4>
-<p>有时候本地写md插入图片显示挺正常的，一进行 <code>hexo g</code>
-生成文章后，不论是用 <code>hexo s</code> 在本地服务器查看，或者是
-<code>hexo d</code>部署后到网站查看，图片都是裂的或者干脆就没有。这时候打开
-<code>~hexo/public</code> 目录查看文章的 <code>index.html</code>
-，我们会发现每个img的路径不对，错误的方式一般有两种：文件夹名称乱码 或者
-永久链接路径错误。</p>
-<h4 id="解决方案">解决方案</h4>
-<p>先到根目录下的 <code>_config.yml</code>
-把永久链接设置好，默认的格式一般是
-<code>permalink: :year/:month/:day/:title/</code>，可以额外设置两个可选项，完整格式如下：</p>
+
+<h3 id="一些可能会碰到的问题"><a href="#一些可能会碰到的问题" class="headerlink" title="一些可能会碰到的问题"></a>一些可能会碰到的问题</h3><h4 id="图片路径问题"><a href="#图片路径问题" class="headerlink" title="图片路径问题"></a>图片路径问题</h4><p>有时候本地写md插入图片显示挺正常的，一进行 <code>hexo g</code> 生成文章后，不论是用 <code>hexo s</code> 在本地服务器查看，或者是 <code>hexo d</code>部署后到网站查看，图片都是裂的或者干脆就没有。这时候打开 <code>~hexo/public</code> 目录查看文章的 <code>index.html</code> ，我们会发现每个img的路径不对，错误的方式一般有两种：文件夹名称乱码 或者 永久链接路径错误。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>先到根目录下的 <code>_config.yml</code> 把永久链接设置好，默认的格式一般是 <code>permalink: :year/:month/:day/:title/</code>，可以额外设置两个可选项，完整格式如下：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">permalink:</span> <span class="string">:year/:month/:day/:title/</span></span><br><span class="line"><span class="attr">permalink_defaults:</span></span><br><span class="line">  <span class="attr">trailing_index:</span> <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;index.html&#x27; from permalinks</span></span><br><span class="line">  <span class="attr">trailing_html:</span> <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;.html&#x27; from permalinks</span></span><br></pre></td></tr></table></figure>
-<p>按照上面的方法安装 <strong>hexo-asset-image</strong>
-插件并修改bug。</p>
-<p>设置根目录下的 <code>_config.yml</code>
-内容：<code>post_asset_folder: true</code>，其功能是在
-<code>hexo new post</code>
-创建新文章时，会在相同路径下生成一个与文章同名的文件夹，把文章需要用到的图片都存放到这个文件夹里，在md中使用时可以使用上面三种方法的任意一种，因为这个插件自动设置了相对路径，所以直接使用图片名作为Path即可(
-上面三个图就是示例)。</p>
+
+<p>按照上面的方法安装 <strong>hexo-asset-image</strong> 插件并修改bug。</p>
+<p>设置根目录下的 <code>_config.yml</code> 内容：<code>post_asset_folder: true </code>，其功能是在 <code>hexo new post</code> 创建新文章时，会在相同路径下生成一个与文章同名的文件夹，把文章需要用到的图片都存放到这个文件夹里，在md中使用时可以使用上面三种方法的任意一种，因为这个插件自动设置了相对路径，所以直接使用图片名作为Path即可( 上面三个图就是示例)。</p>
 <p>需要注意的是，完成了这些步骤之后，按照直接用图片名作为路径的方式插入图片，可能不会显示出来，我写这篇帖子的时候就遇到了这种情况：</p>
-<p><img src="local.png" alt="本地显示找不到图" style="zoom:80%"></p>
-<p>但是不慌，我们打开生成的index的路径
-<code>~hexo/public/2020/01/04/index.html/hexo-issue-img/index.html</code>
-查看在html文件中的图片路径是否为 <code>permalink</code> 的格式：</p>
-<p><img src="path.png" alt="html中的图片路径" style="zoom:80%"></p>
-<p>可以看到，图片路径的格式为
-<code>:year/:month/:day/:title</code>，与<code>permalink</code>的格式一样，说明图片在博客生成之后是可以正常显示的，我们现在用
-<code>hexo s</code> 打开本地服务器，看看图片在博客中的显示情况：</p>
-<p><img src="remote.png" alt="图片在blog中的显示情况" style="zoom:67%"></p>
+<img src="local.png" alt="本地显示找不到图" style="zoom:80%">
+
+<p>但是不慌，我们打开生成的index的路径 <code>~hexo/public/2020/01/04/index.html/hexo-issue-img/index.html</code> 查看在html文件中的图片路径是否为 <code>permalink</code> 的格式：</p>
+<img src="path.png" alt="html中的图片路径" style="zoom:80%">
+
+<p>可以看到，图片路径的格式为 <code>:year/:month/:day/:title</code>，与<code>permalink</code>的格式一样，说明图片在博客生成之后是可以正常显示的，我们现在用 <code>hexo s</code> 打开本地服务器，看看图片在博客中的显示情况：</p>
+<img src="remote.png" alt="图片在blog中的显示情况" style="zoom:67%">
+
 <p>一切正常，现在可以放心地 <code>hexo d</code> 了！</p>
-<h4 id="图片的缩放">图片的缩放</h4>
-<p>我似乎没有找到markdown的图片缩放属性，每次对图片进行缩放就自动变成html的语法了，那我在这里就只介绍html和asset的缩放方式吧，不过其实也就是加个属性而已，大家一看就能懂，这里就不多做解释了。</p>
+<h4 id="图片的缩放"><a href="#图片的缩放" class="headerlink" title="图片的缩放"></a>图片的缩放</h4><p>我似乎没有找到markdown的图片缩放属性，每次对图片进行缩放就自动变成html的语法了，那我在这里就只介绍html和asset的缩放方式吧，不过其实也就是加个属性而已，大家一看就能懂，这里就不多做解释了。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># html</span><br><span class="line">img src=&quot;path&quot; [alt=&quot;Description&quot;] [style=&quot;zoom:80%&quot;]</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># hexo-asset-image</span><br><span class="line">style=<span class="string">&quot;width:80%;margin:auto&quot;</span>&gt;(% asset_img <span class="title class_">Path</span> [<span class="title class_">Description</span>] %)</span><br></pre></td></tr></table></figure>
-<h4
-id="permalink使用hash或abbrlink导致图片无法加载">permalink使用:hash或abbrlink导致图片无法加载</h4>
-<p>abbrlink使用方式:</p>
+
+<h4 id="permalink使用-hash或abbrlink导致图片无法加载"><a href="#permalink使用-hash或abbrlink导致图片无法加载" class="headerlink" title="permalink使用:hash或abbrlink导致图片无法加载"></a>permalink使用:hash或abbrlink导致图片无法加载</h4><p>abbrlink使用方式:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">npm install hexo-abbrlink --save</span><br><span class="line"></span><br><span class="line"><span class="comment"># ._config.yml</span></span><br><span class="line">url: https://lightshaker.cn</span><br><span class="line">permalink: archives/:abbrlink/</span><br><span class="line">abbrlink:</span><br><span class="line">  alg: crc32</span><br><span class="line">  rep: hex</span><br><span class="line">permalink_defaults:</span><br><span class="line">pretty_urls:</span><br><span class="line">  trailing_index: <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;index.html&#x27; from permalinks</span></span><br><span class="line">  trailing_html: <span class="literal">true</span> <span class="comment"># Set to false to remove trailing &#x27;.html&#x27; from permalinks</span></span><br></pre></td></tr></table></figure>
-<p>一开始我希望将文章的url结尾设置为
-<code>xxx.html</code>，于是我将permalink设置为
-<code>archive/:abbrlink.html</code> ，发现图片路径变成了
-<code>abbrlink.html/x.png</code>，由于 hexo-asset-image 插件创建的是与
-<code>.md</code> 文件同名的文件夹，不会带有 <code>html</code>
-后缀，因此图片总是加载失败，我暂时不知道如何实现我的想法，目前的解决方案如上述所示，文章的url以abbrlink结尾，不带有
-<code>.html</code> 后缀，但图片在本地和云端都可正常加载。</p>
+
+<p>一开始我希望将文章的url结尾设置为 <code>xxx.html</code>，于是我将permalink设置为 <code>archive/:abbrlink.html</code> ，发现图片路径变成了 <code>abbrlink.html/x.png</code>，由于 hexo-asset-image 插件创建的是与 <code>.md</code> 文件同名的文件夹，不会带有 <code>html</code> 后缀，因此图片总是加载失败，我暂时不知道如何实现我的想法，目前的解决方案如上述所示，文章的url以abbrlink结尾，不带有 <code>.html</code> 后缀，但图片在本地和云端都可正常加载。</p>
 
     </div>
 
@@ -394,8 +367,7 @@ id="permalink使用hash或abbrlink导致图片无法加载">permalink使用:hash
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">插入图片的方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8markdown%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">使用Markdown语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8html%E8%AF%AD%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">使用HTML语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8hexo3%E7%9A%84%E6%8F%92%E4%BB%B6-hexo-asset-image"><span class="nav-number">1.3.</span> <span class="nav-text">使用Hexo3的插件
-hexo-asset-image</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%A2%B0%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">一些可能会碰到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.</span> <span class="nav-text">图片路径问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E7%9A%84%E7%BC%A9%E6%94%BE"><span class="nav-number">2.3.</span> <span class="nav-text">图片的缩放</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#permalink%E4%BD%BF%E7%94%A8hash%E6%88%96abbrlink%E5%AF%BC%E8%87%B4%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.4.</span> <span class="nav-text">permalink使用:hash或abbrlink导致图片无法加载</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">插入图片的方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Markdown%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">使用Markdown语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8HTML%E8%AF%AD%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">使用HTML语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Hexo3%E7%9A%84%E6%8F%92%E4%BB%B6-hexo-asset-image"><span class="nav-number">1.3.</span> <span class="nav-text">使用Hexo3的插件 hexo-asset-image</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%8F%AF%E8%83%BD%E4%BC%9A%E7%A2%B0%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">一些可能会碰到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.</span> <span class="nav-text">图片路径问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E7%9A%84%E7%BC%A9%E6%94%BE"><span class="nav-number">2.3.</span> <span class="nav-text">图片的缩放</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#permalink%E4%BD%BF%E7%94%A8-hash%E6%88%96abbrlink%E5%AF%BC%E8%87%B4%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.4.</span> <span class="nav-text">permalink使用:hash或abbrlink导致图片无法加载</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

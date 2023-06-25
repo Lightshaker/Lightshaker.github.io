@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Git  一小时Git教程  常用命令 git init：在执行路径内初始化一个 .git&#x2F; 仓库 工作区（Working Directory）：.git&#x2F;文件夹的上级路径，也是实际操作所在的目录 暂存区&#x2F;索引（Staging Area&#x2F;Index）：.git&#x2F;index&#x2F;，用于临时存放即将提交到Git仓库的内容 本地仓库（Local Repository）：.git&#x2F;objects，存储代码和版">
+  <meta name="description" content="Git  一小时Git教程  常用命令git init：在执行路径内初始化一个 .git&#x2F; 仓库 工作区（Working Directory）：.git&#x2F;文件夹的上级路径，也是实际操作所在的目录 暂存区&#x2F;索引（Staging Area&#x2F;Index）：.git&#x2F;index&#x2F;，用于临时存放即将提交到Git仓库的内容 本地仓库（Local Repository）：.git&#x2F;objec">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git 简记">
 <meta property="og:url" content="https://lightshaker.cn/archives/fd90faa3/index.html">
 <meta property="og:site_name" content="Journey">
-<meta property="og:description" content="Git  一小时Git教程  常用命令 git init：在执行路径内初始化一个 .git&#x2F; 仓库 工作区（Working Directory）：.git&#x2F;文件夹的上级路径，也是实际操作所在的目录 暂存区&#x2F;索引（Staging Area&#x2F;Index）：.git&#x2F;index&#x2F;，用于临时存放即将提交到Git仓库的内容 本地仓库（Local Repository）：.git&#x2F;objects，存储代码和版">
+<meta property="og:description" content="Git  一小时Git教程  常用命令git init：在执行路径内初始化一个 .git&#x2F; 仓库 工作区（Working Directory）：.git&#x2F;文件夹的上级路径，也是实际操作所在的目录 暂存区&#x2F;索引（Staging Area&#x2F;Index）：.git&#x2F;index&#x2F;，用于临时存放即将提交到Git仓库的内容 本地仓库（Local Repository）：.git&#x2F;objec">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lightshaker.cn/archives/fd90faa3/1.png">
 <meta property="og:image" content="https://lightshaker.cn/archives/fd90faa3/2.png">
@@ -224,41 +224,36 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="git">Git</h1>
-<blockquote>
-<p><a
-target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1HM411377j">一小时Git教程</a></p>
+        <h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><blockquote>
+<p> <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1HM411377j">一小时Git教程</a></p>
 </blockquote>
-<h3 id="常用命令">常用命令</h3>
-<p><code>git init</code>：在执行路径内初始化一个 <code>.git/</code>
-仓库</p>
-<p><strong>工作区（Working
-Directory）</strong>：<code>.git/</code>文件夹的上级路径，也是实际操作所在的目录</p>
-<p><strong>暂存区/索引（Staging
-Area/Index）</strong>：<code>.git/index/</code>，用于临时存放即将提交到Git仓库的内容</p>
-<p><strong>本地仓库（Local
-Repository）</strong>：<code>.git/objects</code>，存储代码和版本信息的主要位置</p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p><code>git init</code>：在执行路径内初始化一个 <code>.git/</code> 仓库</p>
+<p><strong>工作区（Working Directory）</strong>：<code>.git/</code>文件夹的上级路径，也是实际操作所在的目录</p>
+<p><strong>暂存区&#x2F;索引（Staging Area&#x2F;Index）</strong>：<code>.git/index/</code>，用于临时存放即将提交到Git仓库的内容</p>
+<p><strong>本地仓库（Local Repository）</strong>：<code>.git/objects</code>，存储代码和版本信息的主要位置</p>
 <p><code>git add &lt;file/dir&gt;</code>：将工作区中的文件添加到暂存区</p>
 <p><code>git ls-files</code>：查看位于暂存区中的文件</p>
-<p><code>git commit -m "message"</code>：将暂存区中的文件提交到本地仓库</p>
+<p><code>git commit -m &quot;message&quot;</code>：将暂存区中的文件提交到本地仓库</p>
 <ul>
 <li><code>-a</code>：同时使用该参数可以一并完成暂存和提交两个动作</li>
 </ul>
-<p><code>git status</code>：查看哪些文件在工作中（<strong>Untracked</strong>），哪些在暂存区中（<strong>Changes
-to be committed</strong>）</p>
+<p><code>git status</code>：查看哪些文件在工作中（<strong>Untracked</strong>），哪些在暂存区中（<strong>Changes to be committed</strong>）</p>
 <p><code>git log [--oneline]</code>：查看历史commit记录，包含了每一次提交的<strong>ID</strong></p>
 <span id="more"></span>
+
 <p><code>git reset [--soft/--hard/--mixed] &lt;ID&gt;</code>：回退仓库版本，并选择性保存工作区和暂存区的内容</p>
-<p><img src="1.png"></p>
-<p><img src="2.png"></p>
-<p><img src="3.png"></p>
+<img src="1.png">
+
+<img src="2.png">
+
+<img src="3.png">
+
 <p><code>git diff [HEAD/--cached][area1] [area2] [filename]</code>：比较版本差异</p>
 <ul>
 <li>无参数：默认比较工作区和暂存区的差异</li>
 <li><code>HEAD</code>：比较工作区和版本库的差异</li>
 <li><code>--cached</code>：比较暂存区和版本库的差异</li>
-<li><code>area1</code> 和 <code>area2</code>
-：可设置版本号（提交ID），比较两个版本之间的差异，表示<code>area2</code>相对于<code>area1</code>的变化</li>
+<li><code>area1</code> 和 <code>area2</code> ：可设置版本号（提交ID），比较两个版本之间的差异，表示<code>area2</code>相对于<code>area1</code>的变化</li>
 <li><code>filename</code>：仅比较某一个文件的差异</li>
 <li><code>HEAD</code>：当前版本，<code>HEAD^</code>：当前版本的上一个版本，<code>HEAD~N</code>：当前版本之前的第N个版本</li>
 </ul>
@@ -267,33 +262,31 @@ to be committed</strong>）</p>
 <li><code>--cached</code>：把文件从暂存区中删除，但保留在当前工作区中</li>
 <li><code>rm -r *</code>：递归删除所有子目录和文件</li>
 </ul>
-<h3 id="分支">分支</h3>
-<p><code>git branch &lt;branch-name&gt;</code>：创建一个分支，注意
-<strong>创建不等于切换</strong></p>
+<h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><p><code>git branch &lt;branch-name&gt;</code>：创建一个分支，注意 <strong>创建不等于切换</strong></p>
 <ul>
 <li><code>git branch -d &lt;branch-name&gt;</code>：删除一个分支，注意只有当该分支被合并之后才能成功删除</li>
 </ul>
 <p><code>git switch &lt;branch-name&gt;</code>：切换到一个分支上，该操作改变工作区的内容</p>
 <ul>
-<li><code>git checkout</code>命令也可以用于切换分支，但还用于恢复文件或目录到之前的某一个状态，如果有一个分支名称与该文件或目录名称相同时，会出现歧义，此时checkout命令将默认执行切换分支，而非恢复文件，因此建议使用
-<code>git switch</code> 命令切换分支。</li>
+<li><code>git checkout</code>命令也可以用于切换分支，但还用于恢复文件或目录到之前的某一个状态，如果有一个分支名称与该文件或目录名称相同时，会出现歧义，此时checkout命令将默认执行切换分支，而非恢复文件，因此建议使用 <code>git switch</code> 命令切换分支。</li>
 </ul>
 <p><code>git merge &lt;branch-name&gt;</code>：将指定分支合并到<strong>当前所在</strong>的分支中</p>
 <ul>
-<li><p>merge的结果是指定分支汇合到当前分支上，在graph中仍然能看见另一条分支的路径</p></li>
-<li><p><code>git merge --abort</code>：中止合并</p></li>
+<li><p>merge的结果是指定分支汇合到当前分支上，在graph中仍然能看见另一条分支的路径</p>
+</li>
+<li><p><code>git merge --abort</code>：中止合并</p>
+</li>
 </ul>
 <p><code>git log --graph --oneline --decorate --all</code>：查看分支图</p>
-<h4 id="分支冲突">分支冲突</h4>
-<p>当两个分支修改了同一个文件的同一行代码时，Git无法决定应该保留哪份内容，需要手动解决冲突。</p>
+<h4 id="分支冲突"><a href="#分支冲突" class="headerlink" title="分支冲突"></a>分支冲突</h4><p>当两个分支修改了同一个文件的同一行代码时，Git无法决定应该保留哪份内容，需要手动解决冲突。</p>
 <p>可以使用<code>git status</code>查看冲突文件的列表，使用<code>git diff</code>命令查看冲突的具体内容</p>
-<p><img src="5.png"></p>
-<p><img src="6.png"></p>
-<p>（注意到此时发生内容冲突的文件在工作区中已经被Git添加了冲突注释，而暂存区中仍然保留了上一次执行<code>git add</code>时的文件内容，因此
-<code>git diff</code> 比较工作区和暂存区内容是可以查出来差别的。）</p>
+<img src="5.png">
+
+<img src="6.png">
+
+<p>（注意到此时发生内容冲突的文件在工作区中已经被Git添加了冲突注释，而暂存区中仍然保留了上一次执行<code>git add</code>时的文件内容，因此 <code>git diff</code> 比较工作区和暂存区内容是可以查出来差别的。） </p>
 <p>手动修改冲突文件内容，并重新<code>git add</code>和<code>git commit</code>即可</p>
-<h4 id="rebase变基">Rebase变基</h4>
-<p><code>git rebase &lt;branch-name&gt;</code>：将当前分支<strong>变基</strong>到指定分支上</p>
+<h4 id="Rebase变基"><a href="#Rebase变基" class="headerlink" title="Rebase变基"></a>Rebase变基</h4><p><code>git rebase &lt;branch-name&gt;</code>：将当前分支<strong>变基</strong>到指定分支上</p>
 <ul>
 <li>例如有两个分支分别叫main和dev，如果在dev分支上执行<code>git rebase main</code>，则git将找到dev和main两个分支的分叉点，并把该分叉点往上的所有dev分支提交全部移动到main分支的最近提交上。</li>
 <li>rebase命令的结果是将当前分支在分叉点往上的部分整个移动到指定分支上，合并完在graph中只有一条支干</li>
@@ -301,40 +294,33 @@ to be committed</strong>）</p>
 <p>Rebase和Merge的区别：</p>
 <ul>
 <li>Merge不会破坏原分支的提交历史，方便回溯和查看，但会产生额外的提交节点，导致分支图比较复杂</li>
-<li>Rebase不会新增额外的提交记录，形成线性历史，比较直观干净。但会改变提交历史，改变当前分支branch
-out的节点，因此需要避免在共享分支使用rebase</li>
+<li>Rebase不会新增额外的提交记录，形成线性历史，比较直观干净。但会改变提交历史，改变当前分支branch out的节点，因此需要避免在共享分支使用rebase</li>
 </ul>
-<h4 id="分支管理与工作流模型">分支管理与工作流模型</h4>
-<p><strong>GitFlow</strong></p>
-<p><strong>主线/基线分支
-Main/Master：只接受来自hotfix和release的合并请求，不允许直接push修改</strong></p>
+<h4 id="分支管理与工作流模型"><a href="#分支管理与工作流模型" class="headerlink" title="分支管理与工作流模型"></a>分支管理与工作流模型</h4><p><strong>GitFlow</strong></p>
+<p><strong>主线&#x2F;基线分支 Main&#x2F;Master：只接受来自hotfix和release的合并请求，不允许直接push修改</strong></p>
 <p>使用Git Tag定义版本号（例如1.0.0），规则如下：</p>
 <ul>
-<li><p>主版本（Major Version）：主要的功能变化或重大更新</p></li>
-<li><p>次版本（Minor
-Version）：一些新的功能、改进和更新，通常不会影响现有功能</p></li>
-<li><p>修订版本（Patch
-Version）：一些小的bug修复，安全漏洞补丁等，通常不会更改现有功能和接口</p></li>
+<li><p>主版本（Major Version）：主要的功能变化或重大更新</p>
+</li>
+<li><p>次版本（Minor Version）：一些新的功能、改进和更新，通常不会影响现有功能</p>
+</li>
+<li><p>修订版本（Patch Version）：一些小的bug修复，安全漏洞补丁等，通常不会更改现有功能和接口</p>
+</li>
 </ul>
-<p><strong>开发分支
-Develop：从主线分支中分离出来的长期存在的核心分支，包含项目最新开发代码，用于开发和测试</strong></p>
-<p><strong>功能分支
-Feature：从开发分支中分离出来的分支，用于开发某一个新功能，当该功能稳定后将合并回开发分支</strong></p>
-<p><strong>预发布分支
-Release：包含项目最新预发布版本代码，用于发布前的测试和验证，</strong>该分支一般从开发分支中分离出来，当该分支代码稳定后，会合并回主分支和开发分支中，再将预发布分支删除</p>
+<p><strong>开发分支 Develop：从主线分支中分离出来的长期存在的核心分支，包含项目最新开发代码，用于开发和测试</strong></p>
+<p><strong>功能分支 Feature：从开发分支中分离出来的分支，用于开发某一个新功能，当该功能稳定后将合并回开发分支</strong></p>
+<p><strong>预发布分支 Release：包含项目最新预发布版本代码，用于发布前的测试和验证，</strong>该分支一般从开发分支中分离出来，当该分支代码稳定后，会合并回主分支和开发分支中，再将预发布分支删除</p>
 <p>根据生命周期可以划分两种分支：主要分支（Master和Develop）和辅助分支（Others），主要分支长期存在，辅助分支在完成各自功能后删除</p>
-<p><img src="7.png"></p>
+<img src="7.png">
+
 <p><strong>GitHub Flow</strong></p>
-<p>仅有一个长期存在并可以直接发布的主分支
-Main/Master，禁止直接提交到主分支上</p>
-<p>团队成员从主分支分离出各个功能模块的分支并独立开发测试，在本地分支提交代码，在开发完成时发起一个
-<strong>拉请求/合并请求（PR, Pull
-Request）</strong>，在代码经过Review评审后可以发布该PR并合并到主分支中<strong>（MR,
-Merge Request）</strong></p>
-<p><img src="8.png"></p>
+<p>仅有一个长期存在并可以直接发布的主分支 Main&#x2F;Master，禁止直接提交到主分支上</p>
+<p>团队成员从主分支分离出各个功能模块的分支并独立开发测试，在本地分支提交代码，在开发完成时发起一个 <strong>拉请求&#x2F;合并请求（PR, Pull Request）</strong>，在代码经过Review评审后可以发布该PR并合并到主分支中<strong>（MR, Merge Request）</strong></p>
+<img src="8.png">
+
 <p><strong>分支命名：使用带有意义的描述性名称来命名分支</strong></p>
 <ul>
-<li>版本发布分支/Tag示例：v1.0.0</li>
+<li>版本发布分支&#x2F;Tag示例：v1.0.0</li>
 <li>功能分支示例：feature-login-page</li>
 <li>修复分支示例：hotfix-#issueid-desc</li>
 </ul>
@@ -344,17 +330,15 @@ Merge Request）</strong></p>
 <li>保持合适的分支数量</li>
 <li>为分支设置合适的管理权限</li>
 </ul>
-<h3 id="关联本地仓库和远程仓库">关联本地仓库和远程仓库</h3>
-<p><code>ssh-keygen -t rsa -b 4096</code>：生成大小为4096，协议为rsa的ssh密钥</p>
+<h3 id="关联本地仓库和远程仓库"><a href="#关联本地仓库和远程仓库" class="headerlink" title="关联本地仓库和远程仓库"></a>关联本地仓库和远程仓库</h3><p><code>ssh-keygen -t rsa -b 4096</code>：生成大小为4096，协议为rsa的ssh密钥</p>
 <ul>
-<li><p>添加公钥<code>id_rsa.pub</code>到Github</p></li>
-<li><p>若本地保存了多个不同名SSH密钥，则需要在<code>~/.ssh/</code>路径中添加一个名为
-config的文件，内容如下。表示当需要关联Github时，使用名为test的密钥</p>
+<li><p>添加公钥<code>id_rsa.pub</code>到Github</p>
+</li>
+<li><p>若本地保存了多个不同名SSH密钥，则需要在<code>~/.ssh/</code>路径中添加一个名为 config的文件，内容如下。表示当需要关联Github时，使用名为test的密钥</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># github</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~/.ssh/test</span><br></pre></td></tr></table></figure></li>
 </ul>
 <p><code>git clone &lt;remote-url&gt;</code>：克隆远端仓库到本地</p>
-<p><code>git remote add origin &lt;remote-url&gt;</code>：添加一个远程仓库并起别名
-<code>origin</code>，注意 <strong>添加不等于关联</strong></p>
+<p><code>git remote add origin &lt;remote-url&gt;</code>：添加一个远程仓库并起别名 <code>origin</code>，注意 <strong>添加不等于关联</strong></p>
 <p><code>git remote -v</code>：查看本地仓库关联的远程仓库别名与地址</p>
 <p><code>git push &lt;remote-name&gt; &lt;local-branch&gt;:&lt;remote-branch&gt;</code>：将本地仓库的内容推送到远程仓库</p>
 <ul>
@@ -366,10 +350,10 @@ config的文件，内容如下。表示当需要关联Github时，使用名为te
 <ul>
 <li>远程仓库中的修改内容和本地仓库中的修改内容冲突时，合并失败，需要手动解决冲突</li>
 </ul>
-<p><img src="4.png"></p>
-<h3 id="gitignore文件">.gitignore文件</h3>
-<blockquote>
-<p>https://git-scm.com/docs/gitignore</p>
+<img src="4.png">
+
+<h3 id="gitignore文件"><a href="#gitignore文件" class="headerlink" title=".gitignore文件"></a>.gitignore文件</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://git-scm.com/docs/gitignore">https://git-scm.com/docs/gitignore</a></p>
 </blockquote>
 <p><strong>执行顺序：</strong>从上到下依次执行，后执行的会覆盖先执行的</p>
 <p><strong>提交时需要忽略的文件：</strong></p>
@@ -381,18 +365,15 @@ config的文件，内容如下。表示当需要关联Github时，使用名为te
 </ul>
 <p><strong>匹配规则：</strong></p>
 <ul>
-<li>空行或以 <code>#</code>
-开头的行会被Git忽略，一般空行用于可读性分割，<code>#</code>
-一般用于注释</li>
-<li>正则表达式匹配，例如
-<ul>
+<li>空行或以 <code>#</code> 开头的行会被Git忽略，一般空行用于可读性分割，<code>#</code> 一般用于注释</li>
+<li>正则表达式匹配，例如<ul>
 <li><code>*</code> 匹配任意字符</li>
 <li><code>?</code> 匹配单个字符</li>
-<li><code>[]</code> 表示匹配列表中单个字符，如 <code>[abc]</code> 表示
-<code>a/b/c</code></li>
+<li><code>[]</code> 表示匹配列表中单个字符，如 <code>[abc]</code> 表示 <code>a/b/c</code></li>
 <li><code>[-]</code>表示区间内任意匹配，例如<code>[0-9]</code>、<code>[a-z]</code>、<code>[A-Z]</code></li>
 <li><code>!</code> 表示取反</li>
-</ul></li>
+</ul>
+</li>
 <li>两个星号 <code>**</code> 表示匹配任意的中间目录</li>
 </ul>
 
@@ -476,7 +457,7 @@ config的文件，内容如下。表示当需要关联Github时，使用名为te
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#git"><span class="nav-number">1.</span> <span class="nav-text">Git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">1.0.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%94%AF"><span class="nav-number">1.0.2.</span> <span class="nav-text">分支</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E5%86%B2%E7%AA%81"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">分支冲突</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rebase%E5%8F%98%E5%9F%BA"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">Rebase变基</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">分支管理与工作流模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">1.0.3.</span> <span class="nav-text">关联本地仓库和远程仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gitignore%E6%96%87%E4%BB%B6"><span class="nav-number">1.0.4.</span> <span class="nav-text">.gitignore文件</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">1.</span> <span class="nav-text">Git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">1.0.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%94%AF"><span class="nav-number">1.0.2.</span> <span class="nav-text">分支</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E5%86%B2%E7%AA%81"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">分支冲突</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebase%E5%8F%98%E5%9F%BA"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">Rebase变基</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">分支管理与工作流模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">1.0.3.</span> <span class="nav-text">关联本地仓库和远程仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gitignore%E6%96%87%E4%BB%B6"><span class="nav-number">1.0.4.</span> <span class="nav-text">.gitignore文件</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
