@@ -224,11 +224,14 @@
       
           <blockquote>
 <p>本文的核心内容为使用机械手xacro模型文件配置gazebo+moveit仿真环境</p>
-<p>学习资料来源：古月居 <a target="_blank" rel="noopener" href="https://www.guyuehome.com/">https://www.guyuehome.com/</a></p>
+<p>学习资料来源：古月居 https://www.guyuehome.com/</p>
 </blockquote>
-<h2 id="从xacro模型文件搭建Moveit-Gazebo仿真系统"><a href="#从xacro模型文件搭建Moveit-Gazebo仿真系统" class="headerlink" title="从xacro模型文件搭建Moveit!+Gazebo仿真系统"></a>从xacro模型文件搭建Moveit!+Gazebo仿真系统</h2><h3 id="使用Moveit生成机械臂的配置文件"><a href="#使用Moveit生成机械臂的配置文件" class="headerlink" title="使用Moveit生成机械臂的配置文件"></a>使用Moveit生成机械臂的配置文件</h3><p>创建工作空间并将下载的probot_anno机械臂description文件拷贝至src路径下，编译并添加环境变量</p>
+<h2
+id="从xacro模型文件搭建moveitgazebo仿真系统">从xacro模型文件搭建Moveit!+Gazebo仿真系统</h2>
+<h3
+id="使用moveit生成机械臂的配置文件">使用Moveit生成机械臂的配置文件</h3>
+<p>创建工作空间并将下载的probot_anno机械臂description文件拷贝至src路径下，编译并添加环境变量</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p visionArm_ws/src</span><br><span class="line"><span class="built_in">cp</span> -r /下载/probot_description ./visionArm/src</span><br><span class="line"><span class="built_in">cd</span> visionArm_ws</span><br><span class="line">catkin_make</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;source /home/lightshaker/桌面/visionArm_ws/devel/setup.bash&quot;</span> &gt;&gt; ~/.bashrc</span><br></pre></td></tr></table></figure>
-
 <p>打开moveit_setup_assistant，导入anno机械臂的xacro模型文件，进行配置</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">roscore <span class="comment"># 终端一</span></span><br><span class="line">rosrun moveit_setup_assistant moveit_setup_assistant</span><br></pre></td></tr></table></figure>
           <!--noindex-->
@@ -333,25 +336,27 @@
 
       
           <blockquote>
-<p>学习内容来源：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zt411G7Vn?from=search&seid=968343469818181771">古月居ROS入门21讲</a></p>
+<p>学习内容来源：<a
+target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zt411G7Vn?from=search&amp;seid=968343469818181771">古月居ROS入门21讲</a></p>
 </blockquote>
-<h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><p><strong>通信机制：</strong>松耦合分布式软件框架</p>
+<h3 id="核心概念">核心概念</h3>
+<p><strong>通信机制：</strong>松耦合分布式软件框架</p>
 <p><strong>Node</strong> 节点</p>
-<p><strong>ROS Master</strong> 控制中心&#x2F;节点管理器</p>
-<p><strong>Topic</strong> 话题 – 发布&#x2F;订阅式的单向异步通信   &amp;&amp;  <strong>Message</strong> 话题内数据 .msg   话题通信适用于数据传输</p>
-<p><strong>Service</strong> 服务 – 请求&#x2F;应答式的双向同步通信 .srv  服务通信适用于逻辑处理</p>
-<p><strong>Parameter</strong> 参数 – 全局共享字典服务器，节点使用它来存储和检索运行时的参数，适合存储静态、非二进制的配置参数</p>
+<p><strong>ROS Master</strong> 控制中心/节点管理器</p>
+<p><strong>Topic</strong> 话题 -- 发布/订阅式的单向异步通信 &amp;&amp;
+<strong>Message</strong> 话题内数据 .msg 话题通信适用于数据传输</p>
+<p><strong>Service</strong> 服务 -- 请求/应答式的双向同步通信 .srv
+服务通信适用于逻辑处理</p>
+<p><strong>Parameter</strong> 参数 --
+全局共享字典服务器，节点使用它来存储和检索运行时的参数，适合存储静态、非二进制的配置参数</p>
 <p><strong>文件系统：</strong></p>
 <ul>
 <li><p><strong>Package</strong> 功能包</p>
-<p>ROS软件中的基本单元，包含节点源码、配置文件、数据定义等，完成某个特定的功能如人脸识别等。</p>
-</li>
+<p>ROS软件中的基本单元，包含节点源码、配置文件、数据定义等，完成某个特定的功能如人脸识别等。</p></li>
 <li><p><strong>Package manifest</strong> 功能包清单</p>
-<p>记录功能包的基本信息，包括作者信息、许可信息、依赖选项、编译标志等</p>
-</li>
+<p>记录功能包的基本信息，包括作者信息、许可信息、依赖选项、编译标志等</p></li>
 <li><p><strong>Meta Package</strong> 元功能包</p>
-<p>组织多个用于同一目的的功能包</p>
-</li>
+<p>组织多个用于同一目的的功能包</p></li>
 </ul>
           <!--noindex-->
             <div class="post-button">
@@ -454,23 +459,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="CMake-amp-GCC-基础"><a href="#CMake-amp-GCC-基础" class="headerlink" title="CMake &amp; GCC 基础"></a>CMake &amp; GCC 基础</h1><h2 id="Part-I-GCC"><a href="#Part-I-GCC" class="headerlink" title="Part I GCC"></a>Part I GCC</h2><p><strong>GNU Compiler GCC&#x2F;G++</strong>  执行编译工作时分4步：</p>
-<ol>
-<li>预处理 ，即处理 <code>#define</code> <code>#include</code> <code>#if</code> <code>#ifdef</code> <code>#pragma</code> 等指令，生成 .i 文件</li>
-<li>将预处理后的文件转化为汇编程序，生成 .s 文件 </li>
+          <h1 id="cmake-gcc-基础">CMake &amp; GCC 基础</h1>
+<h2 id="part-i-gcc">Part I GCC</h2>
+<p><strong>GNU Compiler GCC/G++</strong> 执行编译工作时分4步：</p>
+<ol type="1">
+<li>预处理 ，即处理 <code>#define</code> <code>#include</code>
+<code>#if</code> <code>#ifdef</code> <code>#pragma</code> 等指令，生成
+.i 文件</li>
+<li>将预处理后的文件转化为汇编程序，生成 .s 文件</li>
 <li>将汇编程序转化为目标代码（机器语言），生成 .o 文件</li>
 <li>链接目标代码，生成可执行程序</li>
 </ol>
-<p>分别编译至 <strong>.i</strong>&#x2F;<strong>.s</strong>&#x2F;<strong>.o</strong>&#x2F;<strong>可执行</strong> 文件的命令：</p>
+<p>分别编译至
+<strong>.i</strong>/<strong>.s</strong>/<strong>.o</strong>/<strong>可执行</strong>
+文件的命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gcc -E xxx</span><br><span class="line">gcc -S xxx </span><br><span class="line">gcc -c xxx</span><br><span class="line">gcc xxx</span><br></pre></td></tr></table></figure>
-
 <ul>
-<li><p>gcc命令只能编译c和c++程序，c程序以.c为后缀，c++程序以.C或.cpp为后缀</p>
-</li>
-<li><p>用gcc按上述操作编译c++程序时只能编译至生成**.o**文件，不能生成可执行文件，因为gcc在链接时默认链接到C的标准库。</p>
-</li>
-<li><p>链接c++标准库生成可执行文件的方式有两种：</p>
-</li>
+<li><p>gcc命令只能编译c和c++程序，c程序以.c为后缀，c++程序以.C或.cpp为后缀</p></li>
+<li><p>用gcc按上述操作编译c++程序时只能编译至生成<strong>.o</strong>文件，不能生成可执行文件，因为gcc在链接时默认链接到C的标准库。</p></li>
+<li><p>链接c++标准库生成可执行文件的方式有两种：</p></li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc xxx -lstdc++  <span class="comment"># 使用gcc命令时加上 -lstdc++ 编译选项，设定链接到c++标准库</span></span><br><span class="line">g++ xxx  <span class="comment"># 直接使用g++编译</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
@@ -575,11 +582,17 @@
 
       
           <blockquote>
-<p> 本文总结个人使用hexo遇到的warnings与errors及其解决办法</p>
+<p>本文总结个人使用hexo遇到的warnings与errors及其解决办法</p>
 </blockquote>
-<h2 id="Errors-amp-Solutions"><a href="#Errors-amp-Solutions" class="headerlink" title="Errors &amp; Solutions"></a>Errors &amp; Solutions</h2><h3 id="Error-expected-end-of-comment-got-end-of-file"><a href="#Error-expected-end-of-comment-got-end-of-file" class="headerlink" title="Error: expected end of comment, got end of file"></a>Error: expected end of comment, got end of file</h3><ul>
-<li><strong>报错关键句：</strong>expected end of comment, got end of file</li>
-<li><strong>报错场景：</strong>笔者在搬运<a target="_blank" rel="noopener" href="https://www.lightshaker.cn/2020/05/15/mathjax/">MathJax与Latex简介</a>这篇文章时，某一次尝试 <code>hexo g</code> 发生了本错误</li>
+<h2 id="errors-solutions">Errors &amp; Solutions</h2>
+<h3 id="error-expected-end-of-comment-got-end-of-file">Error: expected
+end of comment, got end of file</h3>
+<ul>
+<li><strong>报错关键句：</strong>expected end of comment, got end of
+file</li>
+<li><strong>报错场景：</strong>笔者在搬运<a
+target="_blank" rel="noopener" href="https://www.lightshaker.cn/2020/05/15/mathjax/">MathJax与Latex简介</a>这篇文章时，某一次尝试
+<code>hexo g</code> 发生了本错误</li>
 <li><strong>报错具体内容：</strong>见下图</li>
 </ul>
           <!--noindex-->
@@ -684,9 +697,14 @@
 
       
           <blockquote>
-<p>本文全文转载自：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/linxd/p/4955530.html">https://www.cnblogs.com/linxd/p/4955530.html</a></p>
+<p>本文全文转载自：https://www.cnblogs.com/linxd/p/4955530.html</p>
 </blockquote>
-<h2 id="MathJax与Latex公式简介"><a href="#MathJax与Latex公式简介" class="headerlink" title="MathJax与Latex公式简介"></a>MathJax与Latex公式简介</h2><p>本文从<a target="_blank" rel="noopener" href="http://math.stackexchange.com/">math.stackexchange.com</a>上名为<a target="_blank" rel="noopener" href="http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference/5044">MathJax basic tutorial and quick reference</a>的问题翻译而来，并有所改动。主要讲述了如何使用MathJax和相关的Latex语法。</p>
+<h2 id="mathjax与latex公式简介">MathJax与Latex公式简介</h2>
+<p>本文从<a
+target="_blank" rel="noopener" href="http://math.stackexchange.com/">math.stackexchange.com</a>上名为<a
+target="_blank" rel="noopener" href="http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference/5044">MathJax
+basic tutorial and quick
+reference</a>的问题翻译而来，并有所改动。主要讲述了如何使用MathJax和相关的Latex语法。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/7b6b/#more" rel="contents">
@@ -788,17 +806,27 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Note-amp-Extract-Kalman-Filter-Concepts"><a href="#Note-amp-Extract-Kalman-Filter-Concepts" class="headerlink" title="[Note &amp; Extract] Kalman Filter Concepts"></a>[Note &amp; Extract] Kalman Filter Concepts</h2><blockquote>
-<p><strong>Note Taker：Lightshaker, 2020&#x2F;3&#x2F;4</strong></p>
-<p><strong>Source：</strong><a target="_blank" rel="noopener" href="https://web.archive.org/web/20060420154727/http://www.cs.unc.edu/~welch/media/pdf/maybeck_ch1.pdf">https://web.archive.org/web/20060420154727/http://www.cs.unc.edu/~welch/media/pdf/maybeck_ch1.pdf</a></p>
-<p><strong>Article：Stochastic models, estimation, and control, chapter 1, by Peter Maybeck</strong></p>
+          <h2 id="note-extract-kalman-filter-concepts">[Note &amp; Extract] Kalman
+Filter Concepts</h2>
+<blockquote>
+<p><strong>Note Taker：Lightshaker, 2020/3/4</strong></p>
+<p><strong>Source：</strong>https://web.archive.org/web/20060420154727/http://www.cs.unc.edu/~welch/media/pdf/maybeck_ch1.pdf</p>
+<p><strong>Article：Stochastic models, estimation, and control, chapter
+1, by Peter Maybeck</strong></p>
 </blockquote>
-<h3 id="1-1-Why-stochastic-models-estimation-and-control"><a href="#1-1-Why-stochastic-models-estimation-and-control" class="headerlink" title="1.1 Why stochastic models, estimation, and control ?"></a>1.1 Why stochastic models, estimation, and control ?</h3><p><strong>Q：</strong>Why <strong>deterministic system</strong> and <strong>control theories</strong> do not provide a totally sufficient means of performing system analysis and controller design？</p>
+<h3 id="why-stochastic-models-estimation-and-control">1.1 Why stochastic
+models, estimation, and control ?</h3>
+<p><strong>Q：</strong>Why <strong>deterministic system</strong> and
+<strong>control theories</strong> do not provide a totally sufficient
+means of performing system analysis and controller design？</p>
 <p><strong>Answer：</strong></p>
 <ul>
-<li>Mathematical models depicts only those characteristics of direct interest to the engineer’s purpose.</li>
-<li>Various parameters within a deterministic structure are not determined absolutedly.</li>
-<li>Sensors do not provide perfect and complete data about a system.</li>
+<li>Mathematical models depicts only those characteristics of direct
+interest to the engineer's purpose.</li>
+<li>Various parameters within a deterministic structure are not
+determined absolutedly.</li>
+<li>Sensors do not provide perfect and complete data about a
+system.</li>
 </ul>
           <!--noindex-->
             <div class="post-button">
@@ -902,12 +930,15 @@
 
       
           <blockquote>
-<p>  本文总结了在<strong>CLion的C&#x2F;C++工程中</strong>调用Python脚本的配置与使用方法。</p>
+<p>本文总结了在<strong>CLion的C/C++工程中</strong>调用Python脚本的配置与使用方法。</p>
 </blockquote>
-<h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p><strong>配置CMakeLists</strong></p>
+<h3 id="环境配置">环境配置</h3>
+<p><strong>配置CMakeLists</strong></p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_directories</span>(/usr/<span class="keyword">include</span>/python3.<span class="number">6</span>)</span><br><span class="line"><span class="keyword">link_directories</span>(/usr/lib/python3.<span class="number">6</span>/config-<span class="number">3.6</span>m-x86_64-linux-gnu)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(casual_test libpython3.<span class="number">6</span>.so)</span><br></pre></td></tr></table></figure>
-
-<p><strong>配置CLion环境：</strong>点击CLion右上方的<code>Edit Configurations</code>，点击 <code>Environment variables</code> 右侧按钮添加环境变量，其中 <code>Name</code> 填入<code>PYTHONPATH</code>，<code>Value</code> 填入 <code>.:$PYTHONPATH</code></p>
+<p><strong>配置CLion环境：</strong>点击CLion右上方的<code>Edit Configurations</code>，点击
+<code>Environment variables</code> 右侧按钮添加环境变量，其中
+<code>Name</code> 填入<code>PYTHONPATH</code>，<code>Value</code> 填入
+<code>.:$PYTHONPATH</code></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/2334/#more" rel="contents">
@@ -1010,14 +1041,21 @@
 
       
           <blockquote>
-<p>  本文是个人初学C++基础部分的备忘笔记</p>
+<p>本文是个人初学C++基础部分的备忘笔记</p>
 </blockquote>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>常见整数类型：<code>char</code>，<code>short</code>，<code>int</code>，<code>long</code>，<code>long long(long int)</code>，对应大小：1, 2, 4, 4, 8（byte）</p>
+<h2 id="变量">变量</h2>
+<p>常见整数类型：<code>char</code>，<code>short</code>，<code>int</code>，<code>long</code>，<code>long long(long int)</code>，对应大小：1,
+2, 4, 4, 8（byte）</p>
 <p>定义float类型变量时，编译器可能还是会隐式地设置为double类型，所以最好在数值末尾加上“f”或“F”，如<code>float a = 3.2f</code></p>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><blockquote>
-<p>定义一个明确返回值类型但是函数体内并没有返回值的函数，在外部不调用该函数返回值的情况下，使用Release模式编译能通过，使用Debug模式编译会报错。（“Debug”意义非常鲜明了  ）</p>
+<h2 id="函数">函数</h2>
+<blockquote>
+<p>定义一个明确返回值类型但是函数体内并没有返回值的函数，在外部不调用该函数返回值的情况下，使用Release模式编译能通过，使用Debug模式编译会报错。（“Debug”意义非常鲜明了
+）</p>
 </blockquote>
-<h3 id="从函数中创建并返回多个数据"><a href="#从函数中创建并返回多个数据" class="headerlink" title="从函数中创建并返回多个数据"></a>从函数中创建并返回多个数据</h3><h4 id="数据类型相同"><a href="#数据类型相同" class="headerlink" title="数据类型相同"></a>数据类型相同</h4><p>返回数组或std:::vector或std::array，返回值均可使用索引值与操作符 <code>[]</code> 获取元素；</p>
+<h3 id="从函数中创建并返回多个数据">从函数中创建并返回多个数据</h3>
+<h4 id="数据类型相同">数据类型相同</h4>
+<p>返回数组或std:::vector或std::array，返回值均可使用索引值与操作符
+<code>[]</code> 获取元素；</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回数组</span></span><br><span class="line"><span class="function"><span class="type">int</span>* <span class="title">GetRawArray</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span>* temp = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">5</span>];</span><br><span class="line">	<span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 返回vector</span></span><br><span class="line"><span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">GetVector</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> std::vector&lt;<span class="type">int</span>&gt; &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 返回array</span></span><br><span class="line"><span class="function">std::array&lt;std::string, 2&gt; <span class="title">GetArray</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> std::array&lt;std::string, <span class="number">2</span>&gt; &#123;<span class="string">&quot;name&quot;</span>, <span class="string">&quot;age&quot;</span>&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
@@ -1121,13 +1159,16 @@
 
       
           <blockquote>
-<p>  本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。</p>
+<p>本文总结了最小二乘法针对一元线性方程、多元线性方程与多元非线性方程的回归策略，内容笔记向。</p>
 </blockquote>
-<h3 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h3><blockquote>
-<p><strong>a &#x3D; 0，单变量x，单个未知数 b，求解一元一次方程</strong></p>
+<h3 id="一元线性回归">一元线性回归</h3>
+<blockquote>
+<p><strong>a = 0，单变量x，单个未知数 b，求解一元一次方程</strong></p>
 </blockquote>
-<p><strong>模型</strong>： $y &#x3D; ax + b$</p>
-<p><strong>目标函数：</strong>$y &#x3D; c$</p>
+<p><strong>模型</strong>： <span class="math inline">\(y = ax +
+b\)</span></p>
+<p><strong>目标函数：</strong><span class="math inline">\(y =
+c\)</span></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/1b0d/#more" rel="contents">
@@ -1229,12 +1270,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="一些bash命令"><a href="#一些bash命令" class="headerlink" title="一些bash命令"></a>一些bash命令</h3><h4 id="系统命令"><a href="#系统命令" class="headerlink" title="系统命令"></a>系统命令</h4><p><code>who</code> 查看当前在线的用户</p>
+          <h3 id="一些bash命令">一些bash命令</h3>
+<h4 id="系统命令">系统命令</h4>
+<p><code>who</code> 查看当前在线的用户</p>
 <p><code>netstat -a</code> 查看当前系统联网状态</p>
-<p><code>halt</code> ，<code>poweroff</code>，<code>shutdown now</code> 立即关机</p>
+<p><code>halt</code> ，<code>poweroff</code>，<code>shutdown now</code>
+立即关机</p>
 <p><code>reboot</code> ，<code>shutdown -r now</code> 立即重启</p>
-<p><code>df -h</code> 查看所有分区挂载的目录，<code>df [directory]</code> 查看路径挂载的目录</p>
-<h4 id="解压缩命令-unar、zip"><a href="#解压缩命令-unar、zip" class="headerlink" title="解压缩命令 unar、zip"></a>解压缩命令 unar、zip</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">unar [filename] -o [path] <span class="comment"># 指定解压路径</span></span><br><span class="line">unar -e GBK [filename] <span class="comment"># 指定编码 (乱码时可用GB18030编码)</span></span><br><span class="line">unar -p [password] [filename] <span class="comment"># 指定解压密码</span></span><br><span class="line">zip -r [targetname.zip] [filename1] [filename2] <span class="comment"># 创建zip压缩包</span></span><br></pre></td></tr></table></figure>
+<p><code>df -h</code>
+查看所有分区挂载的目录，<code>df [directory]</code>
+查看路径挂载的目录</p>
+<h4 id="解压缩命令-unarzip">解压缩命令 unar、zip</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">unar [filename] -o [path] <span class="comment"># 指定解压路径</span></span><br><span class="line">unar -e GBK [filename] <span class="comment"># 指定编码 (乱码时可用GB18030编码)</span></span><br><span class="line">unar -p [password] [filename] <span class="comment"># 指定解压密码</span></span><br><span class="line">zip -r [targetname.zip] [filename1] [filename2] <span class="comment"># 创建zip压缩包</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/archives/66275bf6/#more" rel="contents">

@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文介绍了Hexo代码段字体的修改方式。   ps: 偶然发现按照本文的方式改动，如果你安装的字体不是系统自带的，那么只有你自己的电脑能看到效果，别人还是只能看到非等宽的默认字体。经过稍加思考，我发现部署之后读取字体的方式还是从本地读，即使我把ttf一起传上去也没用，看来是需要修改别的东西，挖个坑以后再填。  简要概述点开这篇文章的应该是对非等宽字体深通恶绝的，比如这段代码：">
+  <meta name="description" content="本文介绍了Hexo代码段字体的修改方式。 ps: 偶然发现按照本文的方式改动，如果你安装的字体不是系统自带的，那么只有你自己的电脑能看到效果，别人还是只能看到非等宽的默认字体。经过稍加思考，我发现部署之后读取字体的方式还是从本地读，即使我把ttf一起传上去也没用，看来是需要修改别的东西，挖个坑以后再填。  简要概述 点开这篇文章的应该是对非等宽字体深通恶绝的，比如这段代码：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo代码段等宽字体的设置方法">
 <meta property="og:url" content="https://lightshaker.cn/archives/3c71/index.html">
 <meta property="og:site_name" content="Journey">
-<meta property="og:description" content="本文介绍了Hexo代码段字体的修改方式。   ps: 偶然发现按照本文的方式改动，如果你安装的字体不是系统自带的，那么只有你自己的电脑能看到效果，别人还是只能看到非等宽的默认字体。经过稍加思考，我发现部署之后读取字体的方式还是从本地读，即使我把ttf一起传上去也没用，看来是需要修改别的东西，挖个坑以后再填。  简要概述点开这篇文章的应该是对非等宽字体深通恶绝的，比如这段代码：">
+<meta property="og:description" content="本文介绍了Hexo代码段字体的修改方式。 ps: 偶然发现按照本文的方式改动，如果你安装的字体不是系统自带的，那么只有你自己的电脑能看到效果，别人还是只能看到非等宽的默认字体。经过稍加思考，我发现部署之后读取字体的方式还是从本地读，即使我把ttf一起传上去也没用，看来是需要修改别的东西，挖个坑以后再填。  简要概述 点开这篇文章的应该是对非等宽字体深通恶绝的，比如这段代码：">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lightshaker.cn/archives/3c71/non-monospace.png">
 <meta property="og:image" content="https://lightshaker.cn/archives/3c71/code_attribute.png">
@@ -236,61 +236,61 @@
 
       
         <blockquote>
-<p>  本文介绍了Hexo代码段字体的修改方式。</p>
-<p>  ps: 偶然发现按照本文的方式改动，如果你安装的字体不是系统自带的，那么只有你自己的电脑能看到效果，别人还是只能看到非等宽的默认字体。经过稍加思考，我发现部署之后读取字体的方式还是从本地读，即使我把ttf一起传上去也没用，看来是需要修改别的东西，挖个坑以后再填。</p>
+<p>本文介绍了Hexo代码段字体的修改方式。</p>
+<p>ps:
+偶然发现按照本文的方式改动，如果你安装的字体不是系统自带的，那么只有你自己的电脑能看到效果，别人还是只能看到非等宽的默认字体。经过稍加思考，我发现部署之后读取字体的方式还是从本地读，即使我把ttf一起传上去也没用，看来是需要修改别的东西，挖个坑以后再填。</p>
 </blockquote>
-<h3 id="简要概述"><a href="#简要概述" class="headerlink" title="简要概述"></a>简要概述</h3><p>点开这篇文章的应该是对非等宽字体深通恶绝的，比如这段代码：</p>
+<h3 id="简要概述">简要概述</h3>
+<p>点开这篇文章的应该是对非等宽字体深通恶绝的，比如这段代码：</p>
 <span id="more"></span>
-
-<img src="non-monospace.png" alt="非常和谐的非等宽字体">
-
+<p><img src="non-monospace.png" alt="非常和谐的非等宽字体"></p>
 <p>要是看这样的代码觉得非常舒适，那这篇文章对你的价值就要趋近于零了，建议看看别的！</p>
-<h3 id="基于Matery主题的代码字体修改"><a href="#基于Matery主题的代码字体修改" class="headerlink" title="基于Matery主题的代码字体修改"></a>基于Matery主题的代码字体修改</h3><p>该栏目下的方法介绍基于Matery主题，如果所用主题不是Matery，可以先试一试，或者<strong>直接移步下方栏目</strong>。</p>
-<p>熟悉markdown的朋友都知道，在md中代码的格式有两种，一种是行内代码，如：<code>print(&quot;hello world!&quot;)</code>，一种是代码段：</p>
+<h3 id="基于matery主题的代码字体修改">基于Matery主题的代码字体修改</h3>
+<p>该栏目下的方法介绍基于Matery主题，如果所用主题不是Matery，可以先试一试，或者<strong>直接移步下方栏目</strong>。</p>
+<p>熟悉markdown的朋友都知道，在md中代码的格式有两种，一种是行内代码，如：<code>print("hello world!")</code>，一种是代码段：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">display</span>():</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;hello world!&quot;</span>)</span><br></pre></td></tr></table></figure>
-
 <p>在css中这两种格式的代码属性是分开定义的，意味着我们要修改两处。</p>
-<h4 id="代码段字体："><a href="#代码段字体：" class="headerlink" title="代码段字体："></a>代码段字体：</h4><p>打开 <code>~hexo/node_modules/prismjs/themes/prism_tomorrow.css</code>，找到<code>code</code>属性：</p>
-<img src="code_attribute.png" style="zoom:80%">
-
+<h4 id="代码段字体">代码段字体：</h4>
+<p>打开
+<code>~hexo/node_modules/prismjs/themes/prism_tomorrow.css</code>，找到<code>code</code>属性：</p>
+<p><img src="code_attribute.png" style="zoom:80%"></p>
 <p>这里的所有属性我们都可以按照自己的喜好修改，各个属性的名称也一看就懂。</p>
-<p>为了扣题，我们修改font-family为：<code>&quot;Courier&quot; </code>，或者其他等宽字体的名称。</p>
+<p>为了扣题，我们修改font-family为：<code>"Courier"</code>，或者其他等宽字体的名称。</p>
 <p>如果没有确定的字体，可以直接设置为<code>monospace</code>，css会自动取系统默认的等宽字体</p>
-<h4 id="行内代码字体："><a href="#行内代码字体：" class="headerlink" title="行内代码字体："></a>行内代码字体：</h4><p>打开 <code>~hexo/theme/matery/source/css/matery.css</code>，找到<code>code</code>属性，做类似的改动即可。</p>
-<h3 id="其他主题的修改方式"><a href="#其他主题的修改方式" class="headerlink" title="其他主题的修改方式"></a>其他主题的修改方式</h3><h4 id="代码段字体"><a href="#代码段字体" class="headerlink" title="代码段字体"></a>代码段字体</h4><p>其实不论什么主题，设置代码字体风格的文件都是大同小异的，一般来说都是css文件，所以我们的目的就是找到定义代码字体的那两个css文件进行修改就行。</p>
-<p>先随便敲几个行内代码和代码段，保存下来，然后 <code>hexo g &amp;&amp; hexo</code> 打开本地服务器。</p>
+<h4 id="行内代码字体">行内代码字体：</h4>
+<p>打开
+<code>~hexo/theme/matery/source/css/matery.css</code>，找到<code>code</code>属性，做类似的改动即可。</p>
+<h3 id="其他主题的修改方式">其他主题的修改方式</h3>
+<h4 id="代码段字体-1">代码段字体</h4>
+<p>其实不论什么主题，设置代码字体风格的文件都是大同小异的，一般来说都是css文件，所以我们的目的就是找到定义代码字体的那两个css文件进行修改就行。</p>
+<p>先随便敲几个行内代码和代码段，保存下来，然后
+<code>hexo g &amp;&amp; hexo</code> 打开本地服务器。</p>
 <p>浏览器进入<code>localhost:4000</code>，进入刚生成的文章页面查看代码样式，假设如下：</p>
-<img src="code_block.png" style="zoom:80%">
-
+<p><img src="code_block.png" style="zoom:80%"></p>
 <p>现在我们按<code>F12</code>进入开发者模式，右栏可见html和css样式以及其对应的文件名：</p>
-<img src="after_f12.png"  style="zoom:100%">
-
-<p>右键点击代码块，选择”检查”（ps: 我使用的浏览器是Chrome，其他浏览器大同小异），右栏会自动指向对应代码块的css属性：</p>
-<img src="after_check.png" style="zoom:100%">
-
+<p><img src="after_f12.png"  style="zoom:100%"></p>
+<p>右键点击代码块，选择"检查"（ps:
+我使用的浏览器是Chrome，其他浏览器大同小异），右栏会自动指向对应代码块的css属性：</p>
+<p><img src="after_check.png" style="zoom:100%"></p>
 <p>如图所示，左侧是html的元素，右侧是对应的css属性</p>
-<img src="essential_part.png" style="zoom:80%">
-
+<p><img src="essential_part.png" style="zoom:80%"></p>
 <p>我们更关注右侧的css模块，把鼠标移动到这些属性上，点击左侧的方格可以去掉或者增添该样式，同时能够非常直观地在左侧页面看出每个属性的效果。我们只需找出影响代码字体样式的属性即可：</p>
-<img src="essential_part2.png" style="zoom:100%">
-
-<p>这段就是影响代码段字体风格的css属性了，其中 <code>font-family</code> 就是我们想要的元素，而右上角的 <code>prism-tomorrow.css</code> 就是我们要找的文件，直接顺藤摸瓜，在Hexo路径下搜索该文件打开它（不要选public文件夹下的，clean命令清空它），找到 <code>code</code> 属性：</p>
-<img src="code_attribute.png" style="zoom:80%">
-
-<p>修改font-family为：<code>&quot;Courier&quot; </code>，或者其他等宽字体的名称。</p>
+<p><img src="essential_part2.png" style="zoom:100%"></p>
+<p>这段就是影响代码段字体风格的css属性了，其中 <code>font-family</code>
+就是我们想要的元素，而右上角的 <code>prism-tomorrow.css</code>
+就是我们要找的文件，直接顺藤摸瓜，在Hexo路径下搜索该文件打开它（不要选public文件夹下的，clean命令清空它），找到
+<code>code</code> 属性：</p>
+<p><img src="code_attribute.png" style="zoom:80%"></p>
+<p>修改font-family为：<code>"Courier"</code>，或者其他等宽字体的名称。</p>
 <p>如果没有确定的字体，可以直接设置为<code>monospace</code>，css会自动取系统默认的等宽字体</p>
-<h4 id="行内代码字体"><a href="#行内代码字体" class="headerlink" title="行内代码字体"></a>行内代码字体</h4><p>以同样的方式，右键点击行内代码，一样很容易找到对应的css文件：</p>
-<img src="matery_css.png" style="zoom:100%">
-
+<h4 id="行内代码字体-1">行内代码字体</h4>
+<p>以同样的方式，右键点击行内代码，一样很容易找到对应的css文件：</p>
+<p><img src="matery_css.png" style="zoom:100%"></p>
 <p>找到文件后的操作就基本一样了。</p>
-<p>修改完毕后，<code>hexo cl &amp;&amp; hexo g &amp;&amp; hexo s</code> 看看效果把！</p>
+<p>修改完毕后，<code>hexo cl &amp;&amp; hexo g &amp;&amp; hexo s</code>
+看看效果把！</p>
 <p><code>int thisFunctionNameIsVeryLong (int SoIsThisParameter);</code></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">AnotherLongNameFunction</span> <span class="params">(vector&lt;<span class="type">float</span>&gt; &amp;items)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Twinkle twinkle little star.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">if</span>(items.<span class="built_in">empty</span>()) items.<span class="built_in">emplace_back</span>(<span class="number">3.3</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">vector</span>&lt;<span class="type">float</span>&gt;().<span class="built_in">swap</span>(items);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    vector&lt;<span class="type">float</span>&gt; testVec = &#123;<span class="number">1.1</span>&#125;;</span><br><span class="line">    <span class="built_in">AnotherLongNameFunction</span>(testVec);</span><br><span class="line">    <span class="keyword">if</span>(testVec.<span class="built_in">empty</span>())</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;a is empty.&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">float</span> i : testVec) cout &lt;&lt; i &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
 
     </div>
 
@@ -375,7 +375,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%A6%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">简要概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EMatery%E4%B8%BB%E9%A2%98%E7%9A%84%E4%BB%A3%E7%A0%81%E5%AD%97%E4%BD%93%E4%BF%AE%E6%94%B9"><span class="nav-number">2.</span> <span class="nav-text">基于Matery主题的代码字体修改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B5%E5%AD%97%E4%BD%93%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">代码段字体：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E4%BB%A3%E7%A0%81%E5%AD%97%E4%BD%93%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">行内代码字体：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%B8%BB%E9%A2%98%E7%9A%84%E4%BF%AE%E6%94%B9%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">其他主题的修改方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B5%E5%AD%97%E4%BD%93"><span class="nav-number">3.1.</span> <span class="nav-text">代码段字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E4%BB%A3%E7%A0%81%E5%AD%97%E4%BD%93"><span class="nav-number">3.2.</span> <span class="nav-text">行内代码字体</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%A6%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">简要概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Ematery%E4%B8%BB%E9%A2%98%E7%9A%84%E4%BB%A3%E7%A0%81%E5%AD%97%E4%BD%93%E4%BF%AE%E6%94%B9"><span class="nav-number">2.</span> <span class="nav-text">基于Matery主题的代码字体修改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B5%E5%AD%97%E4%BD%93"><span class="nav-number">2.1.</span> <span class="nav-text">代码段字体：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E4%BB%A3%E7%A0%81%E5%AD%97%E4%BD%93"><span class="nav-number">2.2.</span> <span class="nav-text">行内代码字体：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%B8%BB%E9%A2%98%E7%9A%84%E4%BF%AE%E6%94%B9%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">其他主题的修改方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B5%E5%AD%97%E4%BD%93-1"><span class="nav-number">3.1.</span> <span class="nav-text">代码段字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%8C%E5%86%85%E4%BB%A3%E7%A0%81%E5%AD%97%E4%BD%93-1"><span class="nav-number">3.2.</span> <span class="nav-text">行内代码字体</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

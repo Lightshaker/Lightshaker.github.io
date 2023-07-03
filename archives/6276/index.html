@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文总结个人使用hexo遇到的warnings与errors及其解决办法  Errors &amp; SolutionsError: expected end of comment, got end of file 报错关键句：expected end of comment, got end of file 报错场景：笔者在搬运MathJax与Latex简介这篇文章时，某一次尝试 hexo g">
+  <meta name="description" content="本文总结个人使用hexo遇到的warnings与errors及其解决办法  Errors &amp; Solutions Error: expected end of comment, got end of file  报错关键句：expected end of comment, got end of file 报错场景：笔者在搬运MathJax与Latex简介这篇文章时，某一次尝试 hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo 错误警告与解决办法">
 <meta property="og:url" content="https://lightshaker.cn/archives/6276/index.html">
 <meta property="og:site_name" content="Journey">
-<meta property="og:description" content="本文总结个人使用hexo遇到的warnings与errors及其解决办法  Errors &amp; SolutionsError: expected end of comment, got end of file 报错关键句：expected end of comment, got end of file 报错场景：笔者在搬运MathJax与Latex简介这篇文章时，某一次尝试 hexo g">
+<meta property="og:description" content="本文总结个人使用hexo遇到的warnings与errors及其解决办法  Errors &amp; Solutions Error: expected end of comment, got end of file  报错关键句：expected end of comment, got end of file 报错场景：笔者在搬运MathJax与Latex简介这篇文章时，某一次尝试 hexo">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lightshaker.cn/archives/6276/error1.png">
 <meta property="og:image" content="https://lightshaker.cn/archives/6276/reason1.png">
@@ -229,27 +229,36 @@
 
       
         <blockquote>
-<p> 本文总结个人使用hexo遇到的warnings与errors及其解决办法</p>
+<p>本文总结个人使用hexo遇到的warnings与errors及其解决办法</p>
 </blockquote>
-<h2 id="Errors-amp-Solutions"><a href="#Errors-amp-Solutions" class="headerlink" title="Errors &amp; Solutions"></a>Errors &amp; Solutions</h2><h3 id="Error-expected-end-of-comment-got-end-of-file"><a href="#Error-expected-end-of-comment-got-end-of-file" class="headerlink" title="Error: expected end of comment, got end of file"></a>Error: expected end of comment, got end of file</h3><ul>
-<li><strong>报错关键句：</strong>expected end of comment, got end of file</li>
-<li><strong>报错场景：</strong>笔者在搬运<a target="_blank" rel="noopener" href="https://www.lightshaker.cn/2020/05/15/mathjax/">MathJax与Latex简介</a>这篇文章时，某一次尝试 <code>hexo g</code> 发生了本错误</li>
+<h2 id="errors-solutions">Errors &amp; Solutions</h2>
+<h3 id="error-expected-end-of-comment-got-end-of-file">Error: expected
+end of comment, got end of file</h3>
+<ul>
+<li><strong>报错关键句：</strong>expected end of comment, got end of
+file</li>
+<li><strong>报错场景：</strong>笔者在搬运<a
+target="_blank" rel="noopener" href="https://www.lightshaker.cn/2020/05/15/mathjax/">MathJax与Latex简介</a>这篇文章时，某一次尝试
+<code>hexo g</code> 发生了本错误</li>
 <li><strong>报错具体内容：</strong>见下图</li>
 </ul>
 <span id="more"></span>
-
-<img src="error1.png" style="zoom:80%">
-
+<p><img src="error1.png" style="zoom:80%"></p>
 <ul>
-<li><strong>错误原因：</strong>在hexo中， <code>&#123;&#123;'&#123;#'&#125;&#125;</code> 与其对称符号之间的内容属于注释字段（这里没打出对称符号是因为打出来就全被注释成空白了Orz），而在搬运的文章中恰好有这么一段Latex公式：</li>
+<li><strong>错误原因：</strong>在hexo中，
+<code>&#123;&#123;'&#123;#'&#125;&#125;</code>
+与其对称符号之间的内容属于注释字段（这里没打出对称符号是因为打出来就全被注释成空白了Orz），而在搬运的文章中恰好有这么一段Latex公式：</li>
 </ul>
-<img src="reason1.png">
-
-<p>里面使用了很多 <code>&#123;&#123;'&#123;#'&#125;&#125;</code> 这样的组合，造成了歧义</p>
+<p><img src="reason1.png"></p>
+<p>里面使用了很多 <code>&#123;&#123;'&#123;#'&#125;&#125;</code>
+这样的组合，造成了歧义</p>
 <ul>
-<li><strong>解决办法：</strong>加个花括号，用 <code>&#123;&#39;&#123;&#123;'&#123;#'&#125;&#125;&#39;&#125;</code> 替换所有的 <code>&#123;&#123;'&#123;#'&#125;&#125;</code> ，让它成为字符串</li>
+<li><strong>解决办法：</strong>加个花括号，用
+<code>&#123;'&#123;&#123;'&#123;#'&#125;&#125;'&#125;</code> 替换所有的
+<code>&#123;&#123;'&#123;#'&#125;&#125;</code> ，让它成为字符串</li>
 </ul>
-<h2 id="Warnings-amp-Solutions"><a href="#Warnings-amp-Solutions" class="headerlink" title="Warnings &amp; Solutions"></a>Warnings &amp; Solutions</h2>
+<h2 id="warnings-solutions">Warnings &amp; Solutions</h2>
+
     </div>
 
     
@@ -333,7 +342,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Errors-amp-Solutions"><span class="nav-number">1.</span> <span class="nav-text">Errors &amp; Solutions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Error-expected-end-of-comment-got-end-of-file"><span class="nav-number">1.1.</span> <span class="nav-text">Error: expected end of comment, got end of file</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Warnings-amp-Solutions"><span class="nav-number">2.</span> <span class="nav-text">Warnings &amp; Solutions</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#errors-solutions"><span class="nav-number">1.</span> <span class="nav-text">Errors &amp; Solutions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#error-expected-end-of-comment-got-end-of-file"><span class="nav-number">1.1.</span> <span class="nav-text">Error: expected
+end of comment, got end of file</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#warnings-solutions"><span class="nav-number">2.</span> <span class="nav-text">Warnings &amp; Solutions</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

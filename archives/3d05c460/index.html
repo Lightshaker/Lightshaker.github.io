@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="安装虚拟机增强功能载入增强镜像文件VBox菜单栏点击 设备 -&gt; 安装增强功能，等待查找到匹配的镜像文件，一般名称为VBoxGuestAdditions_5.2.42.iso，查找到之后点击下载； 下载完毕镜像文件默认会保存到 ~&#x2F;.config&#x2F;VirtualBox&#x2F;路径下，如果下载完成时提示是否分配光驱，点是即可，如果忽略了这一步，可以在 设备 -&gt; 分配光驱 -&gt; 选择虚拟">
+  <meta name="description" content="安装虚拟机增强功能 载入增强镜像文件 VBox菜单栏点击 设备 -&gt; 安装增强功能，等待查找到匹配的镜像文件，一般名称为VBoxGuestAdditions_5.2.42.iso，查找到之后点击下载； 下载完毕镜像文件默认会保存到 ~&#x2F;.config&#x2F;VirtualBox&#x2F;路径下，如果下载完成时提示是否分配光驱，点是即可，如果忽略了这一步，可以在 设备 -&gt; 分配光驱 -&gt; 选择">
 <meta property="og:type" content="article">
 <meta property="og:title" content="主机ubuntu与Vbox虚拟机ubuntu-server实现文件共享">
 <meta property="og:url" content="https://lightshaker.cn/archives/3d05c460/index.html">
 <meta property="og:site_name" content="Journey">
-<meta property="og:description" content="安装虚拟机增强功能载入增强镜像文件VBox菜单栏点击 设备 -&gt; 安装增强功能，等待查找到匹配的镜像文件，一般名称为VBoxGuestAdditions_5.2.42.iso，查找到之后点击下载； 下载完毕镜像文件默认会保存到 ~&#x2F;.config&#x2F;VirtualBox&#x2F;路径下，如果下载完成时提示是否分配光驱，点是即可，如果忽略了这一步，可以在 设备 -&gt; 分配光驱 -&gt; 选择虚拟">
+<meta property="og:description" content="安装虚拟机增强功能 载入增强镜像文件 VBox菜单栏点击 设备 -&gt; 安装增强功能，等待查找到匹配的镜像文件，一般名称为VBoxGuestAdditions_5.2.42.iso，查找到之后点击下载； 下载完毕镜像文件默认会保存到 ~&#x2F;.config&#x2F;VirtualBox&#x2F;路径下，如果下载完成时提示是否分配光驱，点是即可，如果忽略了这一步，可以在 设备 -&gt; 分配光驱 -&gt; 选择">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lightshaker.cn/archives/3d05c460/1.png">
 <meta property="og:image" content="https://lightshaker.cn/archives/3d05c460/2.png">
@@ -230,46 +230,61 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="安装虚拟机增强功能"><a href="#安装虚拟机增强功能" class="headerlink" title="安装虚拟机增强功能"></a>安装虚拟机增强功能</h3><h4 id="载入增强镜像文件"><a href="#载入增强镜像文件" class="headerlink" title="载入增强镜像文件"></a>载入增强镜像文件</h4><p>VBox菜单栏点击 <code>设备</code> -&gt; <code>安装增强功能</code>，等待查找到匹配的镜像文件，一般名称为<code>VBoxGuestAdditions_5.2.42.iso</code>，查找到之后点击下载；</p>
-<p>下载完毕镜像文件默认会保存到 <code>~/.config/VirtualBox/</code>路径下，如果下载完成时提示是否分配光驱，点是即可，如果忽略了这一步，可以在 <code>设备</code> -&gt; <code>分配光驱</code> -&gt; <code>选择虚拟盘</code> 中手动分配；</p>
-<p>分配成功时，可在 <code>分配光驱</code> 中看到勾选的增强镜像盘，也可在VBox对应虚拟机的管理界面-存储栏目中查到，另外，虚拟机系统中的 <code>/dev</code> 路径下会出现子目录 <code>cdrom</code>，内容即为增强镜像文件的内容：</p>
+        <h3 id="安装虚拟机增强功能">安装虚拟机增强功能</h3>
+<h4 id="载入增强镜像文件">载入增强镜像文件</h4>
+<p>VBox菜单栏点击 <code>设备</code> -&gt;
+<code>安装增强功能</code>，等待查找到匹配的镜像文件，一般名称为<code>VBoxGuestAdditions_5.2.42.iso</code>，查找到之后点击下载；</p>
+<p>下载完毕镜像文件默认会保存到
+<code>~/.config/VirtualBox/</code>路径下，如果下载完成时提示是否分配光驱，点是即可，如果忽略了这一步，可以在
+<code>设备</code> -&gt; <code>分配光驱</code> -&gt;
+<code>选择虚拟盘</code> 中手动分配；</p>
+<p>分配成功时，可在 <code>分配光驱</code>
+中看到勾选的增强镜像盘，也可在VBox对应虚拟机的管理界面-存储栏目中查到，另外，虚拟机系统中的
+<code>/dev</code> 路径下会出现子目录
+<code>cdrom</code>，内容即为增强镜像文件的内容：</p>
 <span id="more"></span>
-
-<img src="1.png">
-
-<h4 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gcc make perl</span><br></pre></td></tr></table></figure>
-
-<h4 id="安装增强功能"><a href="#安装增强功能" class="headerlink" title="安装增强功能"></a>安装增强功能</h4><p>挂载增强镜像文件到 <code>/mnt/cdrom</code> 路径下，该子文件夹需要手动创建</p>
+<p><img src="1.png"></p>
+<h4 id="安装依赖">安装依赖</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gcc make perl</span><br></pre></td></tr></table></figure>
+<h4 id="安装增强功能">安装增强功能</h4>
+<p>挂载增强镜像文件到 <code>/mnt/cdrom</code>
+路径下，该子文件夹需要手动创建</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /mnt</span><br><span class="line">sudo <span class="built_in">mkdir</span> cdrom</span><br><span class="line">sudo mount /dev/cdrom /mnt/cdrom</span><br><span class="line"><span class="built_in">ls</span> ./cdrom</span><br></pre></td></tr></table></figure>
-
-<img src="2.png">
-
+<p><img src="2.png"></p>
 <p>以root权限执行 <code>VBoxLinuxAdditions.run</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./VBoxLinuxAdditions.run</span><br></pre></td></tr></table></figure>
-
-<img src="3.png" style=zoom:80%>
-
-<h3 id="配置双向共享"><a href="#配置双向共享" class="headerlink" title="配置双向共享"></a>配置双向共享</h3><h4 id="创建主机端共享文件夹"><a href="#创建主机端共享文件夹" class="headerlink" title="创建主机端共享文件夹"></a>创建主机端共享文件夹</h4><p>主机中用于存放共享文件的路径，按个人意愿设定即可，我这里设定为 <code>~/VMshare</code></p>
-<p>在VBox菜单栏点击 <code>设备</code> -&gt; <code>共享文件夹</code>，在固定分配一栏添加主机文件夹路径</p>
-<p>注意这里不能点 <code>自动挂载</code>，否则会导致重启后无法挂载成功</p>
-<img src="4.png" style=zoom:80%>
-
-<h4 id="创建虚拟机端共享文件夹"><a href="#创建虚拟机端共享文件夹" class="headerlink" title="创建虚拟机端共享文件夹"></a>创建虚拟机端共享文件夹</h4><p>个人选择创建为 <code>/mnt/share</code></p>
+<p><img src="3.png" style=zoom:80%></p>
+<h3 id="配置双向共享">配置双向共享</h3>
+<h4 id="创建主机端共享文件夹">创建主机端共享文件夹</h4>
+<p>主机中用于存放共享文件的路径，按个人意愿设定即可，我这里设定为
+<code>~/VMshare</code></p>
+<p>在VBox菜单栏点击 <code>设备</code> -&gt;
+<code>共享文件夹</code>，在固定分配一栏添加主机文件夹路径</p>
+<p>注意这里不能点
+<code>自动挂载</code>，否则会导致重启后无法挂载成功</p>
+<p><img src="4.png" style=zoom:80%></p>
+<h4 id="创建虚拟机端共享文件夹">创建虚拟机端共享文件夹</h4>
+<p>个人选择创建为 <code>/mnt/share</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /mnt/share</span><br></pre></td></tr></table></figure>
-
-<h4 id="挂载主机文件夹到虚拟机中"><a href="#挂载主机文件夹到虚拟机中" class="headerlink" title="挂载主机文件夹到虚拟机中"></a>挂载主机文件夹到虚拟机中</h4><p>通过VBox中介将主机中的共享文件夹挂载到虚拟机中的共享位置，<code>-t</code> 指定文件类型为 <code>vboxsf</code></p>
+<h4 id="挂载主机文件夹到虚拟机中">挂载主机文件夹到虚拟机中</h4>
+<p>通过VBox中介将主机中的共享文件夹挂载到虚拟机中的共享位置，<code>-t</code>
+指定文件类型为 <code>vboxsf</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -t vboxsf VMshare /mnt/share</span><br></pre></td></tr></table></figure>
-
-<p>完成后在主机端往 <code>~/VMshare</code> 路径中随便存一个文件，在虚拟机端的 <code>/mnt/share</code> 路径下就能读写该文件；</p>
-<h4 id="配置自动挂载"><a href="#配置自动挂载" class="headerlink" title="配置自动挂载"></a>配置自动挂载</h4><p>在确保手动挂载成功后，<code>sudo vim /etc/fstab</code> 添加内容，格式为 <code>&lt;共享名称&gt; &lt; Ubuntu共享目录&gt; vboxsf defaults 0 0</code></p>
+<p>完成后在主机端往 <code>~/VMshare</code>
+路径中随便存一个文件，在虚拟机端的 <code>/mnt/share</code>
+路径下就能读写该文件；</p>
+<h4 id="配置自动挂载">配置自动挂载</h4>
+<p>在确保手动挂载成功后，<code>sudo vim /etc/fstab</code>
+添加内容，格式为
+<code>&lt;共享名称&gt; &lt; Ubuntu共享目录&gt; vboxsf defaults 0 0</code></p>
 <p>以下是我个人的例子，编辑完保存退出即可</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VMshare /mnt/share vboxsf defaults 0 0</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="碰到的问题与解决方案"><a href="#碰到的问题与解决方案" class="headerlink" title="碰到的问题与解决方案"></a>碰到的问题与解决方案</h3><h4 id="执行mount命令时警告read-only"><a href="#执行mount命令时警告read-only" class="headerlink" title="执行mount命令时警告read-only"></a>执行mount命令时警告read-only</h4><p>具体警告：<code>mount: /mnt/cdrom: WARNING: device write-protected, mounted read-only</code></p>
+<h3 id="碰到的问题与解决方案">碰到的问题与解决方案</h3>
+<h4 id="执行mount命令时警告read-only">执行mount命令时警告read-only</h4>
+<p>具体警告：<code>mount: /mnt/cdrom: WARNING: device write-protected, mounted read-only</code></p>
 <p>解决方案：由于只需要读取并运行<code>.run</code>文件，因此写操作被保护也无所谓，无视即可；</p>
-<h4 id="移除挂载的方式"><a href="#移除挂载的方式" class="headerlink" title="移除挂载的方式"></a>移除挂载的方式</h4><p><code>sudo umount -f /mnt/share</code></p>
+<h4 id="移除挂载的方式">移除挂载的方式</h4>
+<p><code>sudo umount -f /mnt/share</code></p>
 
     </div>
 
