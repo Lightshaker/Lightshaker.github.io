@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lightshaker.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="C语言实现一个支持动态扩展的状态机  Ref: C语言实现有限状态机FSM  状态模式的定义详见：C++设计模式 动态数组实现详见：C语言实现一个支持任意类型的动态数组 本文内容依赖于上文提供的动态数组类型dynamic_arr 基于Ref一文中设计的有限状态机进行了改进，将状态机与其相关的状态、事件以及动作函数通过绑定的形式关联，实现了一定程度上的解耦。支持以字符串的形式动态扩展状态迁移表，从而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言实现一个支持动态扩展的状态机">
+<meta property="og:url" content="https://lightshaker.cn/archives/b0b26e16/index.html">
+<meta property="og:site_name" content="Journey">
+<meta property="og:description" content="C语言实现一个支持动态扩展的状态机  Ref: C语言实现有限状态机FSM  状态模式的定义详见：C++设计模式 动态数组实现详见：C语言实现一个支持任意类型的动态数组 本文内容依赖于上文提供的动态数组类型dynamic_arr 基于Ref一文中设计的有限状态机进行了改进，将状态机与其相关的状态、事件以及动作函数通过绑定的形式关联，实现了一定程度上的解耦。支持以字符串的形式动态扩展状态迁移表，从而">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lightshaker.cn/archives/b0b26e16/1.png">
+<meta property="article:published_time" content="2023-07-04T07:51:36.000Z">
+<meta property="article:modified_time" content="2023-07-04T08:42:06.654Z">
+<meta property="article:author" content="Lightshaker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lightshaker.cn/archives/b0b26e16/1.png">
+
+<link rel="canonical" href="https://lightshaker.cn/archives/b0b26e16/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C语言实现一个支持动态扩展的状态机 | Journey</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Journey</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lightshaker.cn/archives/b0b26e16/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lightshaker">
+      <meta itemprop="description" content="It is our choices that show what we truly are, far more than our abilities.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Journey">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C语言实现一个支持动态扩展的状态机
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-07-04 15:51:36 / 修改时间：16:42:06" itemprop="dateCreated datePublished" datetime="2023-07-04T15:51:36+08:00">2023-07-04</time>
+            </span>
+
+          
+            <span id="/archives/b0b26e16/" class="post-meta-item leancloud_visitors" data-flag-title="C语言实现一个支持动态扩展的状态机" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/b0b26e16/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/b0b26e16/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1
+id="c语言实现一个支持动态扩展的状态机">C语言实现一个支持动态扩展的状态机</h1>
+<blockquote>
+<p>Ref: <a
+target="_blank" rel="noopener" href="https://blog.csdn.net/jevon_wu/article/details/126310526">C语言实现有限状态机FSM</a></p>
+</blockquote>
+<p>状态模式的定义详见：<a
+target="_blank" rel="noopener" href="https://www.lightshaker.cn/archives/c185f75e/">C++设计模式</a></p>
+<p>动态数组实现详见：<a
+target="_blank" rel="noopener" href="https://www.lightshaker.cn/archives/74088985/">C语言实现一个支持任意类型的动态数组</a></p>
+<p>本文内容依赖于上文提供的动态数组类型<code>dynamic_arr</code></p>
+<p>基于<a
+target="_blank" rel="noopener" href="https://blog.csdn.net/jevon_wu/article/details/126310526">Ref</a>一文中设计的有限状态机进行了改进，将状态机与其相关的状态、事件以及动作函数通过绑定的形式关联，实现了一定程度上的解耦。支持以字符串的形式动态扩展状态迁移表，从而达到用同样的接口创建多个职责不同的状态机且各自互不干扰的目的。（由于”删除“操作在非服务器程序中可以通过注释”新增“操作实现，因此本文暂未添加删除状态或事件的功能函数）</p>
+<p><strong>fsm.h</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @copyright (C) Lightshaker</span></span><br><span class="line"><span class="comment"> * @date 2023/07/03</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _FSM_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _FSM_H_</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stddef.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;darray.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 状态迁移表单元类型</span></span><br><span class="line"><span class="comment"> * @param event 触发事件</span></span><br><span class="line"><span class="comment"> * @param current_state 当前状态</span></span><br><span class="line"><span class="comment"> * @param action_func 动作函数</span></span><br><span class="line"><span class="comment"> * @param next_state 下一个状态</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* current_state; </span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* event;        </span><br><span class="line">    <span class="type">void</span> (*action_func)(<span class="type">void</span> *);</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* next_state;</span><br><span class="line">&#125;fsm_table, *fsm_table_ptr;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 状态机类型</span></span><br><span class="line"><span class="comment"> * @param states 动态存储状态</span></span><br><span class="line"><span class="comment"> * @param events 动态存储事件</span></span><br><span class="line"><span class="comment"> * @param tables 动态存储状态迁移表单元</span></span><br><span class="line"><span class="comment"> * @param register_state 状态注册函数</span></span><br><span class="line"><span class="comment"> * @param register_events 事件注册函数</span></span><br><span class="line"><span class="comment"> * @param register_tables 迁移表单元注册函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="comment">// fsm_table_ptr p_fsm_table;</span></span><br><span class="line">    dynamic_arr states; </span><br><span class="line">    dynamic_arr events;</span><br><span class="line">    dynamic_arr tables;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* current_state; </span><br><span class="line"></span><br><span class="line">&#125;fsm, *fsm_ptr;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 初始化状态机</span></span><br><span class="line"><span class="comment"> * @param p_fsm 状态机指针</span></span><br><span class="line"><span class="comment"> * @param p_table 状态迁移表指针</span></span><br><span class="line"><span class="comment"> * @param max_num 状态迁移表最大个数</span></span><br><span class="line"><span class="comment"> * @param current_state 当前状态</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_init</span><span class="params">(fsm_ptr p_fsm)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 状态迁移与动作执行</span></span><br><span class="line"><span class="comment"> * @param p_fsm 状态机指针</span></span><br><span class="line"><span class="comment"> * @param event 触发事件索引</span></span><br><span class="line"><span class="comment"> * @param param 动作函数参数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_event_handle</span><span class="params">(fsm_ptr p_fsm, <span class="type">const</span> <span class="type">char</span>* event, <span class="type">void</span> *param)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 状态机注册函数</span></span><br><span class="line"><span class="comment"> * @fn fsm_state_register 状态注册函数</span></span><br><span class="line"><span class="comment"> * @fn fsm_event_register 事件注册函数</span></span><br><span class="line"><span class="comment"> * @fn fsm_table_register 迁移表单元注册函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_state_register</span><span class="params">(fsm_ptr p_fsm, <span class="type">const</span> <span class="type">char</span>* state_name)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_event_register</span><span class="params">(fsm_ptr p_fsm, <span class="type">const</span> <span class="type">char</span>* event_name)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_table_register</span><span class="params">(fsm_ptr p_fsm, fsm_table_ptr p_table)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 销毁状态机</span></span><br><span class="line"><span class="comment"> * @param p_fsm 状态机指针</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_destroy</span><span class="params">(fsm_ptr p_fsm)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p><strong>fsm.c</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @copyright (C) Lightshaker</span></span><br><span class="line"><span class="comment"> * @date 2023/07/03</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;fsm.h&quot;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">fsm_state_transfer</span><span class="params">(fsm_ptr p_fsm, <span class="type">const</span> <span class="type">char</span>* state)</span></span><br><span class="line">&#123;</span><br><span class="line">    p_fsm-&gt;current_state = state;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_event_handle</span><span class="params">(fsm_ptr p_fsm, <span class="type">const</span> <span class="type">char</span>* event, <span class="type">void</span> *param)</span></span><br><span class="line">&#123;</span><br><span class="line">    fsm_table table;</span><br><span class="line">    <span class="type">void</span> (*action_func)(<span class="type">void</span> *) = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* next_state;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* current_state = p_fsm-&gt;current_state;</span><br><span class="line">    <span class="type">uint8_t</span> flag = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">uint8_t</span> i = <span class="number">0</span>; i &lt; p_fsm-&gt;tables.listsize_; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        darr_get(&amp;p_fsm-&gt;tables, i, &amp;table);</span><br><span class="line">        <span class="keyword">if</span> (event == table.event &amp;&amp; current_state == table.current_state)</span><br><span class="line">        &#123;</span><br><span class="line">            flag = <span class="number">1</span>;</span><br><span class="line">            action_func = table.action_func;</span><br><span class="line">            next_state = table.next_state;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (flag)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (action_func != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            action_func(param);  </span><br><span class="line">        &#125;</span><br><span class="line">        fsm_state_transfer(p_fsm, next_state); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// do nothing</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> fsm_init(fsm_ptr p_fsm)</span><br><span class="line">&#123;</span><br><span class="line">    p_fsm-&gt;states = darr_initiate(<span class="keyword">sizeof</span>(<span class="type">const</span> <span class="type">char</span>*));</span><br><span class="line">    p_fsm-&gt;events = darr_initiate(<span class="keyword">sizeof</span>(<span class="type">const</span> <span class="type">char</span>*));</span><br><span class="line">    p_fsm-&gt;tables = darr_initiate(<span class="keyword">sizeof</span>(fsm_table));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_state_register</span><span class="params">(fsm_ptr p_fsm, <span class="type">const</span> <span class="type">char</span>* state_name)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint8_t</span> flag = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; p_fsm-&gt;states.listsize_; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span>* existed_state = <span class="literal">NULL</span>;</span><br><span class="line">        darr_get(&amp;p_fsm-&gt;states, i, &amp;existed_state);</span><br><span class="line">        <span class="keyword">if</span> (state_name == existed_state)</span><br><span class="line">        &#123;</span><br><span class="line">            flag = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag)</span><br><span class="line">    &#123;</span><br><span class="line">        darr_push(&amp;p_fsm-&gt;states, &amp;state_name);</span><br><span class="line">        <span class="keyword">if</span>(p_fsm-&gt;states.listsize_ == <span class="number">1</span>)</span><br><span class="line">            p_fsm-&gt;current_state = state_name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_event_register</span><span class="params">(fsm_ptr p_fsm, <span class="type">const</span> <span class="type">char</span>* event_name)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint8_t</span> flag = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">uint8_t</span> i = <span class="number">0</span>; i &lt; p_fsm-&gt;events.listsize_; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span>* existed_event = <span class="literal">NULL</span>;</span><br><span class="line">        darr_get(&amp;p_fsm-&gt;events, i, &amp;existed_event);</span><br><span class="line">        <span class="keyword">if</span> (event_name == existed_event)</span><br><span class="line">        &#123;</span><br><span class="line">            flag = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag)</span><br><span class="line">        darr_push(&amp;p_fsm-&gt;events, &amp;event_name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_table_register</span><span class="params">(fsm_ptr p_fsm, fsm_table_ptr p_table)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">uint8_t</span> flag = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">uint8_t</span> i = <span class="number">0</span>; i &lt; p_fsm-&gt;tables.listsize_; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        fsm_table table;</span><br><span class="line">        darr_get(&amp;p_fsm-&gt;tables, i, &amp;table);</span><br><span class="line">        <span class="keyword">if</span> (p_table-&gt;current_state == table.current_state &amp;&amp; p_table-&gt;next_state == table.next_state)</span><br><span class="line">        &#123;</span><br><span class="line">            flag = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag)</span><br><span class="line">    &#123;</span><br><span class="line">        darr_push(&amp;p_fsm-&gt;tables, p_table);</span><br><span class="line"></span><br><span class="line">        fsm_state_register(p_fsm, p_table-&gt;current_state);</span><br><span class="line">        fsm_state_register(p_fsm, p_table-&gt;next_state);</span><br><span class="line">        fsm_event_register(p_fsm, p_table-&gt;event);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">fsm_destroy</span><span class="params">(fsm_ptr p_fsm)</span></span><br><span class="line">&#123;</span><br><span class="line">    darr_clear(&amp;p_fsm-&gt;states);</span><br><span class="line">    darr_clear(&amp;p_fsm-&gt;events);</span><br><span class="line">    darr_clear(&amp;p_fsm-&gt;tables);</span><br><span class="line">    p_fsm = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>main.c</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @copyright (C) Lightshaker</span></span><br><span class="line"><span class="comment"> * @date 2023/07/03</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;fsm.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 状态名称</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> NONE_STATE <span class="string">&quot;none_state&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> INIT_STATE <span class="string">&quot;init_state&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RUNNING_STATE <span class="string">&quot;running_state&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> STOP_STATE <span class="string">&quot;stop_state&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 触发事件名称</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> INIT_EVENT <span class="string">&quot;init_event&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> START_EVENT <span class="string">&quot;start_event&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> STOP_EVENT <span class="string">&quot;stop_event&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 动作函数</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">init_action</span><span class="params">(<span class="type">void</span> * param)</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;init action complete\n&quot;</span>); &#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">start_action</span><span class="params">(<span class="type">void</span>* param)</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;start action complete.\n&quot;</span>); &#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">stop_action</span><span class="params">(<span class="type">void</span> * param)</span> &#123; <span class="built_in">printf</span>(<span class="string">&quot;stop action complete\n&quot;</span>); &#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 创建状态机</span></span><br><span class="line">    fsm f;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化状态机</span></span><br><span class="line">    fsm_init(&amp;f); </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建状态迁移表</span></span><br><span class="line">    fsm_table table1 = &#123; NONE_STATE, INIT_EVENT, init_action, INIT_STATE &#125;;</span><br><span class="line">    fsm_table table2 = &#123; INIT_STATE, START_EVENT, start_action, RUNNING_STATE&#125;;</span><br><span class="line">    fsm_table table3 = &#123; RUNNING_STATE, STOP_EVENT, stop_action, STOP_STATE&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注册状态迁移表</span></span><br><span class="line">    fsm_table_register(&amp;f, &amp;table1);</span><br><span class="line">    fsm_table_register(&amp;f, &amp;table2);</span><br><span class="line">    fsm_table_register(&amp;f, &amp;table3);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 触发事件</span></span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* events[<span class="number">3</span>] = &#123; INIT_EVENT, START_EVENT, STOP_EVENT &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 触发状态迁移</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        fsm_event_handle(&amp;f, events[i], <span class="literal">NULL</span>);</span><br><span class="line">        sleep(<span class="number">1.0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 销毁状态机</span></span><br><span class="line">    fsm_destroy(&amp;f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="1.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/74088985/" rel="prev" title="C语言实现一个支持任意类型的动态数组">
+      <i class="fa fa-chevron-left"></i> C语言实现一个支持任意类型的动态数组
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E5%8A%A8%E6%80%81%E6%89%A9%E5%B1%95%E7%9A%84%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="nav-number">1.</span> <span class="nav-text">C语言实现一个支持动态扩展的状态机</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lightshaker</p>
+  <div class="site-description" itemprop="description">It is our choices that show what we truly are, far more than our abilities.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lightshaker</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'j3EqSOqSYjPS414YtmiadN5W-gzGzoHsz',
+      appKey     : '429Gb8wTQv1P09Fjbeyd9k5w',
+      placeholder: "Hello",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
